@@ -58,6 +58,8 @@ function render(){
  }
  app.innerHTML=`<div class="stage ${s.kind==="dialogue"?"story-screen":""}" data-screen="${state.scene}" data-scene="${escapeHTML(s.kind)}">${header(s)}<div class="scene-art" aria-hidden="true">${s.art?`<picture>${state.scene==="dialogue"?'<source media="(max-width:767px)" srcset="./assets/corridor-mobile.png">':""}<img src="./assets/${s.art}" alt=""></picture>`:""}</div>${s.character?`<img class="story-character" src="./assets/${s.character}" alt="">`:""}<main class="main" id="main" tabindex="-1">${inner}</main></div>${modalHTML()}`;
  document.querySelector('.logo').innerHTML='<img src="./assets/logo.svg" alt="среда">';
+ // ИИ: оригинальный размытый multiply-слой затемнения 02-02. Запись №17.
+ if(state.scene==="chat")document.querySelector('.scene-art').insertAdjacentHTML('beforeend','<div class="chat-shade" aria-hidden="true"><div class="chat-shade-crop"><img src="./assets/chat-shade-source.png" alt=""></div></div>');
  if(state.scene==="chat"){
   document.querySelector('.stage').dataset.chatStep=state.chatStep||0;
  }

@@ -97,3 +97,9 @@ html{background:#242329}body{background:#242329}
 .hint-tablet,.hint-mobile{display:none}
 @media(min-width:768px) and (max-width:1400px){.hint-desktop{display:none}.hint-tablet{display:inline}}
 @media(max-width:767px){.hint-desktop,.hint-tablet{display:none}.hint-mobile{display:inline}}
+/* ИИ: Figma 02-02 bg/bunny-runs, multiply и размытие, запись №17. */
+.stage[data-scene=chat] .scene-art{isolation:isolate;overflow:hidden}
+.chat-shade{position:absolute;left:-12%;top:-43.1%;width:73.3%;height:185.7%;transform:rotate(-10.91deg);mix-blend-mode:multiply;filter:blur(3.5625cqw);pointer-events:none}
+.chat-shade-crop{position:absolute;inset:0;overflow:hidden;border-radius:7.96875cqw}
+.chat-shade-crop img{position:absolute;max-width:none!important;width:717.09%!important;height:100.05%!important;left:0;top:-.03%;object-fit:fill!important}
+@media(max-width:767px){.chat-shade{left:-150%;top:-31.9%;width:240.58%;height:158.41%;filter:blur(11.6923cqw)}.stage[data-chat-step="0"] .chat-shade{left:-56.64%;filter:blur(4.1923cqw)}.stage[data-chat-step="2"] .chat-shade{left:-246.41%}}
