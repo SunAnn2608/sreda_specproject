@@ -1,0 +1,108 @@
+const imgBgClassroomAfter = "https://www.figma.com/api/mcp/asset/35e7fd99-ec6d-4d06-bc16-9c3efbca117b.png";
+const imgCharBunnyNoHat = "https://www.figma.com/api/mcp/asset/3e4ad378-4019-4178-84e0-bd0729c0fa04.png";
+const imgTail = "https://www.figma.com/api/mcp/asset/856562b1-747b-4825-9697-0c91101c9438.svg";
+const imgArrow = "https://www.figma.com/api/mcp/asset/c7e96914-e2ed-443e-a5d3-e9ebc858aab1.svg";
+const imgPointer = "https://www.figma.com/api/mcp/asset/026dbd30-a32a-477e-a354-2b64743ad0c7.svg";
+const imgLogo = "https://www.figma.com/api/mcp/asset/7d891c24-05f4-4ed0-83bd-338921aa2c16.svg";
+
+type PromptProps = {
+  className?: string;
+  device?: "Desktop";
+  label?: string;
+};
+
+function Prompt({ className, device = "Desktop", label = "что ты скажешь?" }: PromptProps) {
+  return (
+    <div className={className || "bg-[#ffb5dc] border-6 border-[#0d0f10] border-solid content-stretch drop-shadow-[8px_8px_0px_#0d0f10] flex items-start px-[40px] py-[17px] relative rounded-[999px]"} data-node-id="1324:804">
+      <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[48px] lowercase relative shrink-0 text-[#0d0f10] text-[40px] tracking-[-0.8px] whitespace-nowrap" data-node-id="1324:805">
+        {label}
+      </p>
+    </div>
+  );
+}
+
+export default function Component1102() {
+  return (
+    <div className="bg-[#fff9ed] border-2 border-[#e5e4e5] border-solid relative size-full" data-node-id="1318:2669" data-name="11-02">
+      <div className="absolute h-[1440px] left-[-2px] top-[-2px] w-[2560px]" data-node-id="1318:3739" data-name="bg/classroom-after">
+        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgBgClassroomAfter} />
+      </div>
+      <div className="absolute h-[1600px] left-[-183.37px] top-[218px] w-[1402.713px]" data-node-id="1318:3740" data-name="char/bunny-no-hat">
+        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgCharBunnyNoHat} />
+      </div>
+      <div className="absolute content-stretch flex flex-col gap-[56px] items-start left-[calc(41.67%+133px)] top-[407px] w-[1200px]" data-node-id="1325:822" data-name="dialogue">
+        <div className="bg-[#fff9ed] border-6 border-[#0d0f10] border-solid content-stretch drop-shadow-[16px_20px_0px_#0d0f10] flex flex-col items-start min-h-[300px] pb-[80px] pt-[88px] px-[72px] relative rounded-[56px] shrink-0 w-full" data-node-id="1318:2673" data-name="Bubble">
+          <p className="[word-break:break-word] font-['Golos_Text:Regular'] font-normal leading-[64px] min-w-full relative shrink-0 text-[#0d0f10] text-[48px] tracking-[-1.92px] w-[min-content]" data-node-id="I1318:2673;1316:2131">
+            Я не хочу туда завтра. Совсем.
+          </p>
+          <div className="-translate-y-1/2 absolute h-[70px] left-[-60px] top-[calc(50%+35px)] w-[64px]" data-node-id="I1318:2673;1316:2132" data-name="Tail">
+            <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgTail} />
+          </div>
+          <div className="absolute bottom-[42px] h-[32px] right-[66px] w-[44px]" data-node-id="I1318:2673;1316:2135" data-name="Arrow">
+            <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgArrow} />
+          </div>
+          <div className="absolute bg-[#bce3ff] border-6 border-[#0d0f10] border-solid content-stretch drop-shadow-[6px_8px_0px_#0d0f10] flex items-center justify-center left-[50px] pb-[12px] pt-[10px] px-[36px] rounded-[999px] top-[-51px]" data-node-id="I1318:2673;1316:2137" data-name="Name">
+            <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[48px] lowercase relative shrink-0 text-[#0d0f10] text-[40px] tracking-[-0.8px] whitespace-nowrap" data-node-id="I1318:2673;1316:2137;1316:2244">
+              банни
+            </p>
+          </div>
+        </div>
+        <Prompt className="bg-[#ffb5dc] border-6 border-[#0d0f10] border-solid content-stretch drop-shadow-[8px_8px_0px_#0d0f10] flex items-start px-[40px] py-[17px] relative rounded-[999px] shrink-0" label="что ты скажешь?" />
+        <div className="content-stretch flex flex-col gap-[28px] items-start relative shrink-0 w-full" data-node-id="1318:2675" data-name="choices">
+          <div className="bg-[#bce3ff] border-6 border-[#0d0f10] border-solid content-stretch drop-shadow-[0px_16px_0px_#0d0f10] flex gap-[24px] items-center pb-[44px] pt-[40px] px-[72px] relative rounded-[999px] shrink-0 w-full" data-node-id="1318:2676" data-name="Choice">
+            <div className="relative shrink-0 size-[40px]" data-node-id="I1318:2676;1316:2277" data-name="Pointer">
+              <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgPointer} />
+            </div>
+            <p className="[word-break:break-word] flex-[1_0_0] font-['Golos_Text:Regular'] font-normal leading-[48px] min-w-px relative text-[#0d0f10] text-[40px] tracking-[-0.8px]" data-node-id="I1318:2676;1316:2279">
+              Да. Давай расскажем ей вместе.
+            </p>
+          </div>
+          <div className="bg-[#fff9ed] border-6 border-[#0d0f10] border-solid content-stretch drop-shadow-[0px_16px_0px_#0d0f10] flex gap-[24px] items-center pb-[44px] pt-[40px] px-[72px] relative rounded-[999px] shrink-0 w-full" data-node-id="1318:2677" data-name="Choice">
+            <p className="[word-break:break-word] flex-[1_0_0] font-['Golos_Text:Regular'] font-normal leading-[48px] min-w-px relative text-[#0d0f10] text-[40px] tracking-[-0.8px]" data-node-id="I1318:2677;1316:2267">
+              Давай пока не будем рассказывать.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="absolute content-stretch flex h-[160px] items-center justify-between left-[-2px] px-[160px] top-[-2px] w-[2560px]" data-node-id="1318:2671" data-name="Bar">
+        <div className="h-[106.6px] relative shrink-0 w-[196.544px]" data-node-id="I1318:2671;1316:2345" data-name="Logo">
+          <div className="absolute inset-[-1.39%_-0.75%]">
+            <img alt="" className="block max-w-none size-full" src={imgLogo} />
+          </div>
+        </div>
+        <div className="bg-[#fff9ed] border-6 border-[#0d0f10] border-solid content-stretch drop-shadow-[6px_8px_0px_#0d0f10] flex items-center justify-center pb-[12px] pt-[10px] px-[36px] relative rounded-[999px] shrink-0" data-node-id="I1318:2671;1316:2110" data-name="Chapter">
+          <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[48px] lowercase relative shrink-0 text-[#0d0f10] text-[40px] tracking-[-0.8px] whitespace-nowrap" data-node-id="I1318:2671;1316:2110;1316:2244">
+            день 3 · рассказать маме?
+          </p>
+        </div>
+        <div className="content-stretch flex gap-[20px] h-[90px] items-start overflow-clip relative shrink-0 w-[904px]" data-node-id="I1318:2671;1316:2111" data-name="Actions">
+          <div className="bg-[#ffb5dc] border-6 border-[#0d0f10] border-solid content-stretch drop-shadow-[6px_8px_0px_#0d0f10] flex items-center justify-center pb-[12px] pt-[10px] px-[36px] relative rounded-[999px] shrink-0" data-node-id="I1318:2671;1316:2112" data-name="Help">
+            <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[48px] lowercase relative shrink-0 text-[#0d0f10] text-[40px] tracking-[-0.8px] whitespace-nowrap" data-node-id="I1318:2671;1316:2112;1316:2244">
+              Нужна поддержка
+            </p>
+          </div>
+          <div className="bg-[#bce3ff] border-6 border-[#0d0f10] border-solid content-stretch drop-shadow-[6px_8px_0px_#0d0f10] flex items-center justify-center pb-[12px] pt-[10px] px-[36px] relative rounded-[999px] shrink-0" data-node-id="I1318:2671;1316:2113" data-name="Materials">
+            <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[48px] lowercase relative shrink-0 text-[#0d0f10] text-[40px] tracking-[-0.8px] whitespace-nowrap" data-node-id="I1318:2671;1316:2113;1316:2244">
+              Материалы
+            </p>
+          </div>
+          <div className="bg-[#fff9ed] border-6 border-[#0d0f10] border-solid content-stretch flex flex-col gap-[9.02px] h-[82px] items-center justify-center overflow-clip relative rounded-[999px] shadow-[6px_8px_0px_0px_#0d0f10] shrink-0 w-[106.6px]" data-node-id="I1318:2671;1316:2346" data-name="Menu">
+            <div className="bg-[#0d0f10] h-[6.15px] relative rounded-[99px] shrink-0 w-[34.44px]" data-node-id="I1318:2671;1316:2347" data-name="line" />
+            <div className="bg-[#0d0f10] h-[6.15px] relative rounded-[99px] shrink-0 w-[34.44px]" data-node-id="I1318:2671;1316:2348" data-name="line" />
+            <div className="bg-[#0d0f10] h-[6.15px] relative rounded-[99px] shrink-0 w-[34.44px]" data-node-id="I1318:2671;1316:2349" data-name="line" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+SUPER CRITICAL: The generated React+Tailwind code MUST be converted to match the target project's technology stack and styling system.
+1. Analyze the target codebase to identify: technology stack, styling approach, component patterns, and design tokens
+2. Convert React syntax to the target framework/library
+3. Transform all Tailwind classes to the target styling system while preserving exact visual design
+4. Follow the project's existing patterns and conventions
+DO NOT install any Tailwind as a dependency unless the user instructs you to do so.
+
+Node ids have been added to the code as data attributes, e.g. `data-node-id="1:2"`.
+These styles are contained in the design: Content/Black: #0D0F10, Desktop/LargeTitle/Regular: Font(family: "Golos Text", style: Regular, size: 48, weight: 400, lineHeight: 64, letterSpacing: -4), Content/Beige: #FFF9ED, Desktop/Title2/Bold: Font(family: "Golos Text", style: Bold, size: 40, weight: 700, lineHeight: 48, letterSpacing: -2), Accent/Blue: #BCE3FF, Accent/Pink/Dark: #FFB5DC, Desktop/Title2/Regular: Font(family: "Golos Text", style: Regular, size: 40, weight: 400, lineHeight: 48, letterSpacing: -2), Content/Grey/Light: #E5E4E5.
+The generated code contains image and SVG URL constants, e.g. const image = 'https://www.figma.com/api/mcp/asset/550e8400-e29b-41d4-a716-446655440000.png'. These URLs are temporary download sources and expire after 7 days. Download each asset into the project with curl -L, then replace its URL in the generated code with a reference to the downloaded asset. Never use the temporary URLs as runtime image sources.

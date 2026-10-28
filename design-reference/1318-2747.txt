@@ -1,0 +1,167 @@
+const imgNetworkVkDeviceDesktop = "https://www.figma.com/api/mcp/asset/308ab892-29c5-4cfc-8519-1c96cfb60a8d.svg";
+const imgIcon = "https://www.figma.com/api/mcp/asset/5a3aeb50-78b6-4357-ba65-e0986fe05e7a.svg";
+const imgNetworkTiktokDeviceDesktop = "https://www.figma.com/api/mcp/asset/e0188821-73b0-484c-b23c-d2a4b4152d87.svg";
+const imgNetworkDzenDeviceDesktop = "https://www.figma.com/api/mcp/asset/332c2989-3013-41d3-a606-7b0df16f6650.svg";
+const imgNetworkVcDeviceDesktop = "https://www.figma.com/api/mcp/asset/4caace95-c256-460e-a5f5-492b4135a5f9.svg";
+const imgNetworkTaplinkDeviceDesktop = "https://www.figma.com/api/mcp/asset/b8acb368-d4e6-47bf-9a05-92bfeb5e91d8.svg";
+const imgBgFoyerDark = "https://www.figma.com/api/mcp/asset/d3b6c21e-78fa-4833-a8f6-caf488b23afc.png";
+const imgLogo = "https://www.figma.com/api/mcp/asset/f8b1d31e-2cb2-4795-a2bc-cdd37f63b080.svg";
+
+type SocialProps = {
+  className?: string;
+  device?: "Desktop";
+  network?: "vk" | "telegram" | "tiktok" | "dzen" | "vc" | "taplink";
+};
+
+function Social({ className, device = "Desktop", network = "vk" }: SocialProps) {
+  const isDesktopAndIsVcOrTaplink = device === "Desktop" && ["vc", "taplink"].includes(network);
+  const isDzenAndDesktop = network === "dzen" && device === "Desktop";
+  const isTaplinkAndDesktop = network === "taplink" && device === "Desktop";
+  const isTelegramAndDesktop = network === "telegram" && device === "Desktop";
+  const isTiktokAndDesktop = network === "tiktok" && device === "Desktop";
+  const isVcAndDesktop = network === "vc" && device === "Desktop";
+  return (
+    <div className={className || `relative ${isDesktopAndIsVcOrTaplink ? "size-[112px]" : isTelegramAndDesktop ? "bg-[#ff774e] border-[#0d0f10] border-[3.907px] border-solid drop-shadow-[7px_8px_0px_#0d0f10] h-[7.814px] rounded-[23.442px] w-[4486px]" : "h-[7.814px] w-[4486px]"}`} id={isTaplinkAndDesktop ? "node-1500_1704" : isVcAndDesktop ? "node-1500_1700" : isDzenAndDesktop ? "node-1500_1696" : isTiktokAndDesktop ? "node-1500_1692" : isTelegramAndDesktop ? "node-1500_1688" : "node-1500_1683"}>
+      {device === "Desktop" && ["vk", "tiktok", "dzen", "vc", "taplink"].includes(network) && (
+        <div className={`absolute ${isDesktopAndIsVcOrTaplink ? "inset-[0_-6.25%_-7.14%_0]" : isDzenAndDesktop ? "inset-[0_-0.16%_-1277.38%_0]" : isTiktokAndDesktop ? "inset-[0_-0.16%_-1247.98%_0]" : "inset-[0_-0.16%_-1069.05%_0]"}`}>
+          <img alt="" className="block max-w-none size-full" src={isTaplinkAndDesktop ? imgNetworkTaplinkDeviceDesktop : isVcAndDesktop ? imgNetworkVcDeviceDesktop : isDzenAndDesktop ? imgNetworkDzenDeviceDesktop : isTiktokAndDesktop ? imgNetworkTiktokDeviceDesktop : imgNetworkVkDeviceDesktop} />
+        </div>
+      )}
+      {isTelegramAndDesktop && (
+        <>
+          <div className="absolute inset-[calc(21.98%-2.19px)_calc(13.37%-2.86px)_calc(17.31%-2.55px)_calc(13.37%-2.86px)]" data-node-id="1500:1685" data-name="icon">
+            <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgIcon} />
+          </div>
+          <div className="absolute flex inset-[-3.72px_3.91px_-3.91px_3.91px] items-center justify-center" data-node-id="1500:1687" style={{ containerType: "size" }}>
+            <div className="-rotate-180 -scale-x-100 flex-none h-[100cqh] w-[100cqw]">
+              <div className="border-[#0d0f10] border-[1.302px] border-dashed opacity-35 relative rounded-[16.93px] size-full" data-name="stitch" />
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+export default function Component15() {
+  return (
+    <div className="bg-[#fff9ed] border-2 border-[#e5e4e5] border-solid relative size-full" data-node-id="1318:2747" data-name="15">
+      <div className="absolute h-[1440px] left-[-2px] top-[-2px] w-[2560px]" data-node-id="1323:4236" data-name="bg/foyer-dark">
+        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgBgFoyerDark} />
+      </div>
+      <div className="[word-break:break-word] absolute content-stretch flex flex-col gap-[20px] items-start left-[158px] overflow-clip text-[#fff9ed] top-[218px]" data-node-id="1318:2751" data-name="header">
+        <p className="font-['Golos_Text:SemiBold'] font-semibold leading-[80px] lowercase relative shrink-0 text-[96px] tracking-[-3.84px] whitespace-nowrap" data-node-id="1318:2752">
+          Сделай среду безопаснее
+        </p>
+        <p className="font-['Golos_Text:Regular'] font-normal leading-[52px] relative shrink-0 text-[44px] tracking-[-0.88px] w-[1800px]" data-node-id="1318:2753">
+          История закончилась, а у настоящих Банни всё продолжается.
+        </p>
+      </div>
+      <div className="absolute content-stretch flex flex-col gap-[40px] h-[824px] items-start left-[158px] px-[88px] py-[96px] rounded-[56px] top-[494px] w-[1080px]" data-node-id="1318:2754" data-name="panel">
+        <div className="absolute bg-[#fff9ed] border-6 border-[#0d0f10] border-solid drop-shadow-[16px_20px_0px_#0d0f10] inset-0 rounded-[56px]" data-node-id="1318:2755" data-name="Panel">
+          <div className="absolute border-4 border-[#707070] border-dashed inset-[14px] rounded-[40px]" data-node-id="I1318:2755;1316:2215" data-name="Stitch" />
+          <div className="absolute flex h-[89.139px] items-center justify-center left-[66px] top-[-58.19px] w-[208.736px]" data-node-id="I1318:2755;1316:2216">
+            <div className="-rotate-2 flex-none">
+              <div className="bg-[#ff774e] border-6 border-[#0d0f10] border-solid content-stretch drop-shadow-[6px_8px_0px_#0d0f10] flex items-center justify-center pb-[12px] pt-[10px] px-[36px] relative rounded-[999px]" data-name="Tag">
+                <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[48px] lowercase relative shrink-0 text-[#0d0f10] text-[40px] tracking-[-0.8px] whitespace-nowrap" data-node-id="I1318:2755;1316:2216;1316:2244">
+                  петиция
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p className="[word-break:break-word] font-['Golos_Text:SemiBold'] font-semibold leading-[72px] lowercase relative shrink-0 text-[#0d0f10] text-[60px] tracking-[-2.4px] w-[900px]" data-node-id="1318:2756">
+          Поддержи петицию о безопасной среде в школах
+        </p>
+        <p className="[word-break:break-word] font-['Golos_Text:Regular'] font-normal leading-[52px] relative shrink-0 text-[#3d3e3d] text-[44px] tracking-[-0.88px] w-[900px]" data-node-id="1318:2757">
+          Петиция проекта «среда» о безопасной среде в школах. Чем больше подписей, тем сложнее делать вид, что травли нет. Это займёт минуту.
+        </p>
+        <div className="bg-[#ff774e] border-6 border-[#0d0f10] border-solid content-stretch drop-shadow-[0px_12px_0px_#0d0f10] flex items-center justify-center pb-[30px] pt-[26px] px-[64px] relative rounded-[999px] shrink-0" data-node-id="1318:2762" data-name="Button">
+          <a className="[word-break:break-word] block cursor-pointer font-['Golos_Text:Bold'] font-bold leading-[52px] lowercase relative shrink-0 text-[#0d0f10] text-[44px] tracking-[-0.88px] whitespace-nowrap" href="https://vk.cc/d3c6Ry" data-node-id="I1318:2762;1316:2252" target="_blank">
+            подписать петицию
+          </a>
+        </div>
+      </div>
+      <div className="absolute content-stretch flex flex-col gap-[40px] h-[824px] items-start left-[calc(50%+40px)] px-[88px] py-[96px] rounded-[56px] top-[494px] w-[1080px]" data-node-id="1318:2763" data-name="panel">
+        <div className="absolute bg-[#fff9ed] border-6 border-[#0d0f10] border-solid drop-shadow-[16px_20px_0px_#0d0f10] inset-0 rounded-[56px]" data-node-id="1318:2764" data-name="Panel">
+          <div className="absolute border-4 border-[#707070] border-dashed inset-[14px] rounded-[40px]" data-node-id="I1318:2764;1316:2215" data-name="Stitch" />
+          <div className="absolute flex h-[89.139px] items-center justify-center left-[66px] top-[-58.19px] w-[208.736px]" data-node-id="I1318:2764;1316:2216">
+            <div className="-rotate-2 flex-none">
+              <div className="bg-[#ff774e] border-6 border-[#0d0f10] border-solid content-stretch drop-shadow-[6px_8px_0px_#0d0f10] flex items-center justify-center pb-[12px] pt-[10px] px-[36px] relative rounded-[999px]" data-name="Tag">
+                <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[48px] lowercase relative shrink-0 text-[#0d0f10] text-[40px] tracking-[-0.8px] whitespace-nowrap" data-node-id="I1318:2764;1316:2216;1316:2244">
+                  фонд поддержки
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p className="[word-break:break-word] font-['Golos_Text:SemiBold'] font-semibold leading-[72px] lowercase relative shrink-0 text-[#0d0f10] text-[60px] tracking-[-2.4px] w-[900px]" data-node-id="1318:2765">
+          Напиши в фонд «Тебе поверят»
+        </p>
+        <p className="[word-break:break-word] font-['Golos_Text:Regular'] font-normal leading-[52px] relative shrink-0 text-[#3d3e3d] text-[44px] tracking-[-0.88px] w-[900px]" data-node-id="1318:2766">
+          Психологи фонда бесплатно консультируют подростков: онлайн или очно, до восьми встреч. Чтобы записаться, заполни анкету на сайте фонда.
+        </p>
+        <div className="bg-[#ffb5dc] border-6 border-[#0d0f10] border-solid content-stretch drop-shadow-[0px_12px_0px_#0d0f10] flex items-center justify-center pb-[30px] pt-[26px] px-[64px] relative rounded-[999px] shrink-0" data-node-id="1318:2770" data-name="Button">
+          <a className="[word-break:break-word] block cursor-pointer font-['Golos_Text:Bold'] font-bold leading-[52px] lowercase relative shrink-0 text-[#0d0f10] text-[44px] tracking-[-0.88px] whitespace-nowrap" href="https://verimtebe.ru/get-psy-assistance/#anketa" data-node-id="I1318:2770;1374:804" target="_blank">
+            написать в фонд
+          </a>
+        </div>
+        <div className="[word-break:break-word] content-stretch flex font-['Golos_Text:Bold'] font-bold gap-[64px] items-start leading-[48px] lowercase overflow-clip relative shrink-0 text-[#3d3e3d] text-[40px] tracking-[-0.8px] w-full whitespace-nowrap" data-node-id="1318:2767" data-name="contacts">
+          <p className="relative shrink-0" data-node-id="1318:2768">
+            info@verimtebe.ru
+          </p>
+          <p className="relative shrink-0" data-node-id="1318:2769">
+            t.me/tebepoveriat
+          </p>
+        </div>
+      </div>
+      <div className="absolute content-stretch flex gap-[24px] items-start left-[calc(58.33%+115px)] top-[248px]" data-node-id="1320:2540" data-name="socials">
+        <Social className="relative shrink-0 size-[112px]" />
+        <Social className="bg-[#ff774e] border-[#0d0f10] border-[3.907px] border-solid drop-shadow-[7px_8px_0px_#0d0f10] relative rounded-[23.442px] shrink-0 size-[112px]" network="telegram" />
+        <Social className="relative shrink-0 size-[112px]" network="tiktok" />
+        <Social className="relative shrink-0 size-[112px]" network="dzen" />
+        <Social className="relative shrink-0 size-[112px]" network="vc" />
+        <Social className="relative shrink-0 size-[112px]" network="taplink" />
+      </div>
+      <div className="absolute content-stretch flex h-[160px] items-center justify-between left-[-2px] px-[160px] top-[-2px] w-[2560px]" data-node-id="1318:2750" data-name="Bar">
+        <div className="h-[106.6px] relative shrink-0 w-[196.544px]" data-node-id="I1318:2750;1316:2345" data-name="Logo">
+          <div className="absolute inset-[-1.39%_-0.75%]">
+            <img alt="" className="block max-w-none size-full" src={imgLogo} />
+          </div>
+        </div>
+        <div className="bg-[#fff9ed] border-6 border-[#0d0f10] border-solid content-stretch drop-shadow-[6px_8px_0px_#0d0f10] flex items-center justify-center pb-[12px] pt-[10px] px-[36px] relative rounded-[999px] shrink-0" data-node-id="I1318:2750;1316:2110" data-name="Chapter">
+          <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[48px] lowercase relative shrink-0 text-[#0d0f10] text-[40px] tracking-[-0.8px] whitespace-nowrap" data-node-id="I1318:2750;1316:2110;1316:2244">
+            поддержать
+          </p>
+        </div>
+        <div className="content-stretch flex gap-[20px] h-[90px] items-start overflow-clip relative shrink-0 w-[904px]" data-node-id="I1318:2750;1316:2111" data-name="Actions">
+          <div className="bg-[#ffb5dc] border-6 border-[#0d0f10] border-solid content-stretch drop-shadow-[6px_8px_0px_#0d0f10] flex items-center justify-center pb-[12px] pt-[10px] px-[36px] relative rounded-[999px] shrink-0" data-node-id="I1318:2750;1316:2112" data-name="Help">
+            <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[48px] lowercase relative shrink-0 text-[#0d0f10] text-[40px] tracking-[-0.8px] whitespace-nowrap" data-node-id="I1318:2750;1316:2112;1316:2244">
+              Нужна поддержка
+            </p>
+          </div>
+          <div className="bg-[#bce3ff] border-6 border-[#0d0f10] border-solid content-stretch drop-shadow-[6px_8px_0px_#0d0f10] flex items-center justify-center pb-[12px] pt-[10px] px-[36px] relative rounded-[999px] shrink-0" data-node-id="I1318:2750;1316:2113" data-name="Materials">
+            <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[48px] lowercase relative shrink-0 text-[#0d0f10] text-[40px] tracking-[-0.8px] whitespace-nowrap" data-node-id="I1318:2750;1316:2113;1316:2244">
+              Материалы
+            </p>
+          </div>
+          <div className="bg-[#fff9ed] border-6 border-[#0d0f10] border-solid content-stretch flex flex-col gap-[9.02px] h-[82px] items-center justify-center overflow-clip relative rounded-[999px] shadow-[6px_8px_0px_0px_#0d0f10] shrink-0 w-[106.6px]" data-node-id="I1318:2750;1316:2346" data-name="Menu">
+            <div className="bg-[#0d0f10] h-[6.15px] relative rounded-[99px] shrink-0 w-[34.44px]" data-node-id="I1318:2750;1316:2347" data-name="line" />
+            <div className="bg-[#0d0f10] h-[6.15px] relative rounded-[99px] shrink-0 w-[34.44px]" data-node-id="I1318:2750;1316:2348" data-name="line" />
+            <div className="bg-[#0d0f10] h-[6.15px] relative rounded-[99px] shrink-0 w-[34.44px]" data-node-id="I1318:2750;1316:2349" data-name="line" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+SUPER CRITICAL: The generated React+Tailwind code MUST be converted to match the target project's technology stack and styling system.
+1. Analyze the target codebase to identify: technology stack, styling approach, component patterns, and design tokens
+2. Convert React syntax to the target framework/library
+3. Transform all Tailwind classes to the target styling system while preserving exact visual design
+4. Follow the project's existing patterns and conventions
+DO NOT install any Tailwind as a dependency unless the user instructs you to do so.
+
+Node ids have been added to the code as data attributes, e.g. `data-node-id="1:2"`.
+These styles are contained in the design: Content/Beige: #FFF9ED, Desktop/Hero/SemiBold: Font(family: "Golos Text", style: SemiBold, size: 96, weight: 600, lineHeight: 80, letterSpacing: -4), Desktop/Title1/Regular: Font(family: "Golos Text", style: Regular, size: 44, weight: 400, lineHeight: 52, letterSpacing: -2), Content/Grey/Medium: #707070, Content/Black: #0D0F10, Desktop/Title2/Bold: Font(family: "Golos Text", style: Bold, size: 40, weight: 700, lineHeight: 48, letterSpacing: -2), Accent/Red: #FF774E, Desktop/Subheading/SemiBold: Font(family: "Golos Text", style: SemiBold, size: 60, weight: 600, lineHeight: 72, letterSpacing: -4), Content/Grey/Dark: #3D3E3D, Desktop/Title1/Bold: Font(family: "Golos Text", style: Bold, size: 44, weight: 700, lineHeight: 52, letterSpacing: -2), Accent/Pink/Dark: #FFB5DC, Accent/Blue: #BCE3FF, Content/Grey/Light: #E5E4E5, Accent/Pink/Light: #FDD0DB.
+The generated code contains image and SVG URL constants, e.g. const image = 'https://www.figma.com/api/mcp/asset/550e8400-e29b-41d4-a716-446655440000.png'. These URLs are temporary download sources and expire after 7 days. Download each asset into the project with curl -L, then replace its URL in the generated code with a reference to the downloaded asset. Never use the temporary URLs as runtime image sources.

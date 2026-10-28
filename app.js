@@ -11,7 +11,7 @@ const scenes={
  // ИИ: экран 02-01 по Desktop/Tablet/Mobile Figma. Запись №4 в README.
  dialogue:{chapter:"день 1 · коридор",kind:"dialogue",speaker:"банни",text:"Ты сделал алгебру? Я опять ничего не понял в этой теме.",next:"chat",art:"corridor.png",character:"bunny-default.png"},
  chat:{chapter:"день 1 · общий чат",kind:"chat",speaker:"банни",text:"Я просил удалить. Никто не ответил.",next:"choice",art:"corridor-bunny.png"},
- choice:{chapter:"день 2 · что скажешь?",kind:"choice",speaker:"банни",text:"Опять чувствую себя ничтожеством. И все смотрят.",prompt:"что ты скажешь?",options:[
+ choice:{chapter:"день 2 · что скажешь?",kind:"choice",speaker:"банни",art:"corridor.png",character:"bunny-humiliated.png",text:"Опять чувствую себя ничтожеством. И все смотрят.",prompt:"что ты скажешь?",options:[
   {label:"Так оставлять нельзя.",next:"anger"},
   {label:"Давай пока здесь посидим.",next:"closeness"},
   {label:"Я не знаю. Мне надо идти.",next:"withdrawal"}
@@ -42,6 +42,8 @@ function render(){
   inner=`<div class="dialogue-layout">${dialogue}${options}</div>`;
  }
  if(state.scene==="dialogue")inner=`<div class="story-dialogue"><button class="panel bubble" data-action="next"><span class="speaker">банни</span><span>${escapeHTML(s.text)}</span><img class="bubble-tail" src="./assets/tail.svg" alt=""><img class="bubble-arrow" src="./assets/arrow.svg" alt=""></button><button class="story-hint" data-action="next">тапни, чтобы читать дальше</button></div>`;
+ // ИИ: телефон и Кроли экрана 02-02 из Figma 1318:2561. Запись №6.
+ if(state.scene==="chat")inner=`<img class="chat-aura" src="./assets/kroli-glow.svg" alt=""><img class="chat-kroli" src="./assets/kroli.png" alt="Кроли"><section class="chat-phone" aria-label="8 Б — общий чат"><h2>8 «Б» · общий чат</h2><div class="chat-messages"><p>смотрите,<br>кто опять в шапке</p><div class="chat-photo"><img src="./assets/chat-photo.png" alt="Фотография Банни, опубликованная без разрешения"></div><p>ахаха</p><p class="outgoing">Удалите, пожалуйста. Я не разрешал.</p><small>Прочитано: 24 · ответов нет</small></div></section><button class="panel bubble chat-reply" data-action="next"><span class="speaker">банни</span><span>Я просил удалить.<br>Никто не ответил.</span><img class="bubble-tail" src="./assets/tail.svg" alt=""><img class="bubble-arrow" src="./assets/arrow.svg" alt=""></button>`;
  app.innerHTML=`<div class="stage ${state.scene==="dialogue"?"story-screen":""}" data-scene="${escapeHTML(s.kind)}">${header(s)}<div class="scene-art" aria-hidden="true">${s.art?`<picture>${state.scene==="dialogue"?'<source media="(max-width:767px)" srcset="./assets/corridor-mobile.png">':""}<img src="./assets/${s.art}" alt=""></picture>`:""}</div>${s.character?`<img class="story-character" src="./assets/${s.character}" alt="">`:""}<main class="main" id="main" tabindex="-1">${inner}</main><footer class="footer-note">среда · технический прототип · визуальные ассеты и полный сценарий в работе</footer></div>${modalHTML()}`;
  document.querySelector('.logo').innerHTML='<img src="./assets/logo.svg" alt="среда">';
  document.title=`среда · ${s.chapter}`;

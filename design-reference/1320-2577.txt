@@ -1,0 +1,131 @@
+const imgNetworkVkDeviceDesktop = "https://www.figma.com/api/mcp/asset/8b3e23bd-1a32-47c0-8c62-5b8478e2d339.svg";
+const imgIcon = "https://www.figma.com/api/mcp/asset/fe280b39-7f02-484b-b027-9a1e027999d1.svg";
+const imgNetworkTiktokDeviceDesktop = "https://www.figma.com/api/mcp/asset/b98e3429-ea26-46bd-8aa9-79add1005f56.svg";
+const imgNetworkDzenDeviceDesktop = "https://www.figma.com/api/mcp/asset/b91ae53b-5df3-4d27-9d51-7fc4a051d6fc.svg";
+const imgNetworkVcDeviceDesktop = "https://www.figma.com/api/mcp/asset/6eccb47b-1752-4cb2-9170-579d4225f8d4.svg";
+const imgNetworkTaplinkDeviceDesktop = "https://www.figma.com/api/mcp/asset/c9eab7b9-372f-4987-a1bb-aa12f451d33c.svg";
+const imgIconCloseDeviceDesktop = "https://www.figma.com/api/mcp/asset/289d238b-6a18-43be-a8cd-0bf633439b0a.svg";
+const imgBgKeyVisual = "https://www.figma.com/api/mcp/asset/b85cfa29-9b15-45a0-8955-bc2b9f66997c.png";
+
+type SocialProps = {
+  className?: string;
+  device?: "Desktop";
+  network?: "vk" | "telegram" | "tiktok" | "dzen" | "vc" | "taplink";
+};
+
+function Social({ className, device = "Desktop", network = "vk" }: SocialProps) {
+  const isDesktopAndIsVcOrTaplink = device === "Desktop" && ["vc", "taplink"].includes(network);
+  const isDzenAndDesktop = network === "dzen" && device === "Desktop";
+  const isTaplinkAndDesktop = network === "taplink" && device === "Desktop";
+  const isTelegramAndDesktop = network === "telegram" && device === "Desktop";
+  const isTiktokAndDesktop = network === "tiktok" && device === "Desktop";
+  const isVcAndDesktop = network === "vc" && device === "Desktop";
+  return (
+    <div className={className || `relative ${isDesktopAndIsVcOrTaplink ? "size-[112px]" : isTelegramAndDesktop ? "bg-[#ff774e] border-[#0d0f10] border-[3.907px] border-solid drop-shadow-[7px_8px_0px_#0d0f10] h-[7.814px] rounded-[23.442px] w-[4486px]" : "h-[7.814px] w-[4486px]"}`} id={isTaplinkAndDesktop ? "node-1500_1704" : isVcAndDesktop ? "node-1500_1700" : isDzenAndDesktop ? "node-1500_1696" : isTiktokAndDesktop ? "node-1500_1692" : isTelegramAndDesktop ? "node-1500_1688" : "node-1500_1683"}>
+      {device === "Desktop" && ["vk", "tiktok", "dzen", "vc", "taplink"].includes(network) && (
+        <div className={`absolute ${isDesktopAndIsVcOrTaplink ? "inset-[0_-6.25%_-7.14%_0]" : isDzenAndDesktop ? "inset-[0_-0.16%_-1277.38%_0]" : isTiktokAndDesktop ? "inset-[0_-0.16%_-1247.98%_0]" : "inset-[0_-0.16%_-1069.05%_0]"}`}>
+          <img alt="" className="block max-w-none size-full" src={isTaplinkAndDesktop ? imgNetworkTaplinkDeviceDesktop : isVcAndDesktop ? imgNetworkVcDeviceDesktop : isDzenAndDesktop ? imgNetworkDzenDeviceDesktop : isTiktokAndDesktop ? imgNetworkTiktokDeviceDesktop : imgNetworkVkDeviceDesktop} />
+        </div>
+      )}
+      {isTelegramAndDesktop && (
+        <>
+          <div className="absolute inset-[calc(21.98%-2.19px)_calc(13.37%-2.86px)_calc(17.31%-2.55px)_calc(13.37%-2.86px)]" data-node-id="1500:1685" data-name="icon">
+            <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgIcon} />
+          </div>
+          <div className="absolute flex inset-[-3.72px_3.91px_-3.91px_3.91px] items-center justify-center" data-node-id="1500:1687" style={{ containerType: "size" }}>
+            <div className="-rotate-180 -scale-x-100 flex-none h-[100cqh] w-[100cqw]">
+              <div className="border-[#0d0f10] border-[1.302px] border-dashed opacity-35 relative rounded-[16.93px] size-full" data-name="stitch" />
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+type IconButtonProps = {
+  className?: string;
+  device?: "Desktop";
+  icon?: "close";
+};
+
+function IconButton({ className, device = "Desktop", icon = "close" }: IconButtonProps) {
+  return (
+    <div className={className || "h-[82px] relative w-[112px]"} data-node-id="1500:1875">
+      <div className="absolute inset-[0_0_-14.63%_0]">
+        <img alt="" className="block max-w-none size-full" src={imgIconCloseDeviceDesktop} />
+      </div>
+    </div>
+  );
+}
+
+type MenuItemProps = {
+  className?: string;
+  device?: "Desktop";
+  label?: string;
+  state?: "Default" | "Hover";
+};
+
+function MenuItem({ className, device = "Desktop", label = "начать историю", state = "Default" }: MenuItemProps) {
+  const isHoverAndDesktop = state === "Hover" && device === "Desktop";
+  return (
+    <div className={className || `content-stretch flex items-start pb-[14px] pt-[10px] px-[20px] relative rounded-[999px] ${isHoverAndDesktop ? "bg-[#bce3ff] border-6 border-[#0d0f10] border-solid drop-shadow-[8px_8px_0px_#0d0f10]" : ""}`} id={isHoverAndDesktop ? "node-1379_800" : "node-1379_798"}>
+      <p className="[word-break:break-word] font-['Golos_Text:SemiBold'] font-semibold leading-[72px] lowercase relative shrink-0 text-[#0d0f10] text-[60px] tracking-[-2.4px] whitespace-nowrap" data-node-id="1379:799">
+        {label}
+      </p>
+    </div>
+  );
+}
+
+type MenuProps = {
+  className?: string;
+  device?: "Desktop";
+};
+
+function Menu({ className, device = "Desktop" }: MenuProps) {
+  return (
+    <div className={className || "bg-[#fff9ed] border-6 border-[#0d0f10] border-solid content-stretch flex flex-col gap-[48px] items-center overflow-clip px-[96px] py-[32px] relative rounded-[56px] shadow-[16px_16px_0px_0px_#0d0f10] w-[2394px]"} data-node-id="1500:1959">
+      <div className="content-stretch flex items-center justify-between relative shrink-0 w-full" data-node-id="1500:1952" data-name="menu-items">
+        <MenuItem className="content-stretch flex items-start pb-[14px] pt-[10px] px-[20px] relative rounded-[999px] shrink-0" />
+        <MenuItem className="bg-[#bce3ff] border-6 border-[#0d0f10] border-solid content-stretch drop-shadow-[8px_8px_0px_#0d0f10] flex items-start pb-[14px] pt-[10px] px-[20px] relative rounded-[999px] shrink-0" label="материалы" state="Hover" />
+        <MenuItem className="content-stretch flex items-start pb-[14px] pt-[10px] px-[20px] relative rounded-[999px] shrink-0" label="нужна поддержка" />
+        <MenuItem className="content-stretch flex items-start pb-[14px] pt-[10px] px-[20px] relative rounded-[999px] shrink-0" label="поддержать" />
+        <MenuItem className="content-stretch flex items-start pb-[14px] pt-[10px] px-[20px] relative rounded-[999px] shrink-0" label="о проекте" />
+      </div>
+      <div className="-translate-x-1/2 -translate-y-1/2 absolute border-4 border-[#707070] border-dashed h-[156px] left-1/2 rounded-[40px] top-1/2 w-[2366px]" data-node-id="1500:1958" data-name="stitch" />
+    </div>
+  );
+}
+
+export default function Menu1() {
+  return (
+    <div className="bg-[#fff9ed] border-2 border-[#e5e4e5] border-solid relative size-full" data-node-id="1320:2577" data-name="MENU">
+      <div className="absolute h-[1529px] left-[-2px] top-[-58px] w-[2560px]" data-node-id="1323:4240" data-name="bg/key-visual">
+        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgBgKeyVisual} />
+      </div>
+      <div className="-translate-x-1/2 absolute h-[1580px] left-[calc(37.5%+45.5px)] top-[-92px] w-[3108px]" data-node-id="1378:1762" style={{ backgroundImage: "url(\"data:image/svg+xml;utf8,<svg viewBox='0 0 3108 1580' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'><rect x='0' y='0' height='100%' width='100%' fill='url(%23grad)' opacity='1'/><defs><radialGradient id='grad' gradientUnits='userSpaceOnUse' cx='0' cy='0' r='10' gradientTransform='matrix(155.4 0 0 79 1554 790)'><stop stop-color='rgba(13,15,15,0)' offset='0.55'/><stop stop-color='rgba(13,15,15,0.7)' offset='1'/></radialGradient></defs></svg>\")" }} data-name="vignette" />
+      <Menu className="-translate-x-1/2 absolute bg-[#fff9ed] border-6 border-[#0d0f10] border-solid content-stretch flex flex-col gap-[48px] items-center left-1/2 overflow-clip px-[96px] py-[32px] rounded-[56px] shadow-[16px_16px_0px_0px_#0d0f10] top-[1127px] w-[2394px]" />
+      <div className="absolute content-stretch flex flex-col gap-[96px] items-start left-[calc(91.67%+25px)] top-[33px] w-[112px]" data-node-id="1378:1761" data-name="menu-aside">
+        <IconButton className="h-[82px] relative shrink-0 w-[112px]" />
+        <div className="content-stretch flex flex-col gap-[28px] items-start justify-center relative shrink-0 w-full" data-node-id="1378:1728" data-name="socials">
+          <Social className="relative shrink-0 size-[112px]" />
+          <Social className="bg-[#ff774e] border-[#0d0f10] border-[3.907px] border-solid drop-shadow-[7px_8px_0px_#0d0f10] relative rounded-[23.442px] shrink-0 size-[112px]" network="telegram" />
+          <Social className="relative shrink-0 size-[112px]" network="tiktok" />
+          <Social className="relative shrink-0 size-[112px]" network="dzen" />
+          <Social className="relative shrink-0 size-[112px]" network="vc" />
+          <Social className="relative shrink-0 size-[112px]" network="taplink" />
+        </div>
+      </div>
+    </div>
+  );
+}
+SUPER CRITICAL: The generated React+Tailwind code MUST be converted to match the target project's technology stack and styling system.
+1. Analyze the target codebase to identify: technology stack, styling approach, component patterns, and design tokens
+2. Convert React syntax to the target framework/library
+3. Transform all Tailwind classes to the target styling system while preserving exact visual design
+4. Follow the project's existing patterns and conventions
+DO NOT install any Tailwind as a dependency unless the user instructs you to do so.
+
+Node ids have been added to the code as data attributes, e.g. `data-node-id="1:2"`.
+These styles are contained in the design: Content/Black: #0D0F10, Desktop/Subheading/SemiBold: Font(family: "Golos Text", style: SemiBold, size: 60, weight: 600, lineHeight: 72, letterSpacing: -4), Accent/Blue: #BCE3FF, Content/Grey/Medium: #707070, Content/Beige: #FFF9ED, Accent/Red: #FF774E, Content/Grey/Light: #E5E4E5, Accent/Pink/Dark: #FFB5DC, Accent/Pink/Light: #FDD0DB.
+The generated code contains image and SVG URL constants, e.g. const image = 'https://www.figma.com/api/mcp/asset/550e8400-e29b-41d4-a716-446655440000.png'. These URLs are temporary download sources and expire after 7 days. Download each asset into the project with curl -L, then replace its URL in the generated code with a reference to the downloaded asset. Never use the temporary URLs as runtime image sources.

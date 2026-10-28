@@ -1,0 +1,133 @@
+const imgNetworkVkDeviceTablet = "https://www.figma.com/api/mcp/asset/ae6c0060-2689-4c28-b7f0-b411ce4ae429.svg";
+const imgIcon = "https://www.figma.com/api/mcp/asset/559156b4-e63b-4b49-84fc-44c1d5494ae2.svg";
+const imgNetworkTiktokDeviceTablet = "https://www.figma.com/api/mcp/asset/8bd4e92a-de94-450b-a08c-c1661d554b43.svg";
+const imgNetworkDzenDeviceTablet = "https://www.figma.com/api/mcp/asset/12fd9fa8-45bc-4a77-9c7f-e088b8c9697f.svg";
+const imgNetworkVcDeviceTablet = "https://www.figma.com/api/mcp/asset/65983444-134a-4bf4-8cfd-c54ae073effc.svg";
+const imgNetworkTaplinkDeviceTablet = "https://www.figma.com/api/mcp/asset/f94f79b0-cc94-48b5-a8af-b8f6460802da.svg";
+const imgIconCloseDeviceTablet = "https://www.figma.com/api/mcp/asset/cbb1520a-3791-4251-8e4b-da00cd3d75d0.svg";
+const imgBgKeyVisual = "https://www.figma.com/api/mcp/asset/1e57ecd1-dfc0-46fb-85b6-398b81add6db.png";
+
+type SocialProps = {
+  className?: string;
+  device?: "Tablet";
+  network?: "vk" | "telegram" | "tiktok" | "dzen" | "vc" | "taplink";
+};
+
+function Social({ className, device = "Tablet", network = "vk" }: SocialProps) {
+  const isDzenAndTablet = network === "dzen" && device === "Tablet";
+  const isTabletAndIsVcOrTaplink = device === "Tablet" && ["vc", "taplink"].includes(network);
+  const isTaplinkAndTablet = network === "taplink" && device === "Tablet";
+  const isTelegramAndTablet = network === "telegram" && device === "Tablet";
+  const isTiktokAndTablet = network === "tiktok" && device === "Tablet";
+  const isVcAndTablet = network === "vc" && device === "Tablet";
+  return (
+    <div className={className || `relative ${isTabletAndIsVcOrTaplink ? "size-[56px]" : isTelegramAndTablet ? "bg-[#ff774e] border-[#0d0f10] border-[1.953px] border-solid drop-shadow-[3px_4px_0px_#0d0f10] h-[3.907px] rounded-[11.721px] w-[4486px]" : "h-[3.907px] w-[4486px]"}`} id={isTaplinkAndTablet ? "node-1500_1729" : isVcAndTablet ? "node-1500_1725" : isDzenAndTablet ? "node-1500_1721" : isTiktokAndTablet ? "node-1500_1717" : isTelegramAndTablet ? "node-1500_1713" : "node-1500_1708"}>
+      {device === "Tablet" && ["vk", "tiktok", "dzen", "vc", "taplink"].includes(network) && (
+        <div className={`absolute ${isTabletAndIsVcOrTaplink ? "inset-[0_-5.36%_-7.14%_0]" : isDzenAndTablet ? "inset-[0_0_-1277.37%_0]" : isTiktokAndTablet ? "inset-[0_0_-1248%_0]" : "inset-[0_0_-1069.06%_0]"}`}>
+          <img alt="" className="block max-w-none size-full" src={isTaplinkAndTablet ? imgNetworkTaplinkDeviceTablet : isVcAndTablet ? imgNetworkVcDeviceTablet : isDzenAndTablet ? imgNetworkDzenDeviceTablet : isTiktokAndTablet ? imgNetworkTiktokDeviceTablet : imgNetworkVkDeviceTablet} />
+        </div>
+      )}
+      {isTelegramAndTablet && (
+        <>
+          <div className="absolute inset-[calc(22%-1.09px)_calc(13.37%-1.43px)_calc(17.3%-1.28px)_calc(13.37%-1.43px)]" data-node-id="1500:1710" data-name="icon">
+            <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgIcon} />
+          </div>
+          <div className="absolute flex inset-[-1.86px_1.95px_-1.95px_1.95px] items-center justify-center" data-node-id="1500:1712" style={{ containerType: "size" }}>
+            <div className="-rotate-180 -scale-x-100 flex-none h-[100cqh] w-[100cqw]">
+              <div className="border-[#0d0f10] border-[0.651px] border-dashed opacity-35 relative rounded-[8.465px] size-full" data-name="stitch" />
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+type IconButtonProps = {
+  className?: string;
+  device?: "Tablet";
+  icon?: "close";
+};
+
+function IconButton({ className, device = "Tablet", icon = "close" }: IconButtonProps) {
+  return (
+    <div className={className || "h-[41px] relative w-[56px]"} data-node-id="1500:1881">
+      <div className="absolute inset-[0_0_-14.63%_0]">
+        <img alt="" className="block max-w-none size-full" src={imgIconCloseDeviceTablet} />
+      </div>
+    </div>
+  );
+}
+
+type MenuProps = {
+  className?: string;
+  device?: "Tablet";
+};
+
+function Menu({ className, device = "Tablet" }: MenuProps) {
+  return (
+    <div className={className || "bg-[#fff9ed] border-3 border-[#0d0f10] border-solid content-stretch flex flex-col gap-[24px] items-center overflow-clip px-[48px] py-[16px] relative rounded-[28px] shadow-[8px_8px_0px_0px_#0d0f10] w-[1197px]"} data-node-id="1500:1973">
+      <div className="content-stretch flex items-center justify-between relative shrink-0 w-full" data-node-id="1500:1966" data-name="menu-items">
+        <div className="content-stretch flex items-start pb-[7px] pt-[5px] px-[10px] relative rounded-[999px] shrink-0" data-node-id="1500:1967" data-name="menu/start-story">
+          <p className="[word-break:break-word] font-['Golos_Text:SemiBold'] font-semibold leading-[36px] lowercase relative shrink-0 text-[#0d0f10] text-[30px] tracking-[-1.2px] whitespace-nowrap" data-node-id="I1500:1967;1389:812">
+            начать историю
+          </p>
+        </div>
+        <div className="bg-[#bce3ff] border-3 border-[#0d0f10] border-solid content-stretch drop-shadow-[4px_4px_0px_#0d0f10] flex items-start pb-[7px] pt-[5px] px-[10px] relative rounded-[999px] shrink-0" data-node-id="1500:1968" data-name="menu/materials">
+          <p className="[word-break:break-word] font-['Golos_Text:SemiBold'] font-semibold leading-[36px] lowercase relative shrink-0 text-[#0d0f10] text-[30px] tracking-[-1.2px] whitespace-nowrap" data-node-id="I1500:1968;1389:816">
+            материалы
+          </p>
+        </div>
+        <div className="content-stretch flex items-start pb-[7px] pt-[5px] px-[10px] relative rounded-[999px] shrink-0" data-node-id="1500:1969" data-name="menu/need-support">
+          <p className="[word-break:break-word] font-['Golos_Text:SemiBold'] font-semibold leading-[36px] lowercase relative shrink-0 text-[#0d0f10] text-[30px] tracking-[-1.2px] whitespace-nowrap" data-node-id="I1500:1969;1389:812">
+            нужна поддержка
+          </p>
+        </div>
+        <div className="content-stretch flex items-start pb-[7px] pt-[5px] px-[10px] relative rounded-[999px] shrink-0" data-node-id="1500:1970" data-name="menu/support">
+          <p className="[word-break:break-word] font-['Golos_Text:SemiBold'] font-semibold leading-[36px] lowercase relative shrink-0 text-[#0d0f10] text-[30px] tracking-[-1.2px] whitespace-nowrap" data-node-id="I1500:1970;1389:812">
+            поддержать
+          </p>
+        </div>
+        <div className="content-stretch flex items-start pb-[7px] pt-[5px] px-[10px] relative rounded-[999px] shrink-0" data-node-id="1500:1971" data-name="menu/about">
+          <p className="[word-break:break-word] font-['Golos_Text:SemiBold'] font-semibold leading-[36px] lowercase relative shrink-0 text-[#0d0f10] text-[30px] tracking-[-1.2px] whitespace-nowrap" data-node-id="I1500:1971;1389:812">
+            о проекте
+          </p>
+        </div>
+      </div>
+      <div className="-translate-x-1/2 -translate-y-1/2 absolute border-2 border-[#707070] border-dashed h-[78px] left-[calc(50%+0.5px)] rounded-[20px] top-[calc(50%+0.5px)] w-[1183px]" data-node-id="1500:1972" data-name="stitch" />
+    </div>
+  );
+}
+
+export default function Menu1() {
+  return (
+    <div className="bg-[#fff9ed] border border-[#e5e4e5] border-solid relative size-full" data-node-id="1396:1522" data-name="MENU">
+      <div className="-translate-x-1/2 absolute h-[800px] left-1/2 top-[-1px] w-[1280px]" data-node-id="1396:1523" data-name="bg/key-visual">
+        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgBgKeyVisual} />
+      </div>
+      <div className="-translate-x-1/2 absolute h-[843px] left-[calc(29.17%+44.25px)] top-[-44px] w-[1724px]" data-node-id="1396:1524" style={{ backgroundImage: "url(\"data:image/svg+xml;utf8,<svg viewBox='0 0 1724 843' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'><rect x='0' y='0' height='100%' width='100%' fill='url(%23grad)' opacity='1'/><defs><radialGradient id='grad' gradientUnits='userSpaceOnUse' cx='0' cy='0' r='10' gradientTransform='matrix(86.2 0 0 42.15 862 421.5)'><stop stop-color='rgba(13,15,15,0)' offset='0.55'/><stop stop-color='rgba(13,15,15,0.7)' offset='1'/></radialGradient></defs></svg>\")" }} data-name="vignette" />
+      <Menu className="-translate-x-1/2 absolute bg-[#fff9ed] border-3 border-[#0d0f10] border-solid content-stretch flex flex-col gap-[24px] items-center left-1/2 overflow-clip px-[48px] py-[16px] rounded-[28px] shadow-[8px_8px_0px_0px_#0d0f10] top-[603.5px] w-[1197px]" />
+      <div className="absolute content-stretch flex flex-col gap-[48px] items-start left-[calc(91.67%+12.5px)] top-[56.5px] w-[56px]" data-node-id="1396:1533" data-name="menu-aside">
+        <IconButton className="h-[41px] relative shrink-0 w-[56px]" />
+        <div className="content-stretch flex flex-col gap-[14px] items-start justify-center relative shrink-0 w-full" data-node-id="1396:1536" data-name="socials">
+          <Social className="relative shrink-0 size-[56px]" />
+          <Social className="bg-[#ff774e] border-[#0d0f10] border-[1.953px] border-solid drop-shadow-[3px_4px_0px_#0d0f10] relative rounded-[11.721px] shrink-0 size-[56px]" network="telegram" />
+          <Social className="relative shrink-0 size-[56px]" network="tiktok" />
+          <Social className="relative shrink-0 size-[56px]" network="dzen" />
+          <Social className="relative shrink-0 size-[56px]" network="vc" />
+          <Social className="relative shrink-0 size-[56px]" network="taplink" />
+        </div>
+      </div>
+    </div>
+  );
+}
+SUPER CRITICAL: The generated React+Tailwind code MUST be converted to match the target project's technology stack and styling system.
+1. Analyze the target codebase to identify: technology stack, styling approach, component patterns, and design tokens
+2. Convert React syntax to the target framework/library
+3. Transform all Tailwind classes to the target styling system while preserving exact visual design
+4. Follow the project's existing patterns and conventions
+DO NOT install any Tailwind as a dependency unless the user instructs you to do so.
+
+Node ids have been added to the code as data attributes, e.g. `data-node-id="1:2"`.
+These styles are contained in the design: Content/Black: #0D0F10, Tablet/Subheading/SemiBold: Font(family: "Golos Text", style: SemiBold, size: 30, weight: 600, lineHeight: 36, letterSpacing: -4), Accent/Blue: #BCE3FF, Content/Grey/Medium: #707070, Content/Beige: #FFF9ED, Accent/Red: #FF774E, Content/Grey/Light: #E5E4E5, Accent/Pink/Dark: #FFB5DC, Accent/Pink/Light: #FDD0DB.
+The generated code contains image and SVG URL constants, e.g. const image = 'https://www.figma.com/api/mcp/asset/550e8400-e29b-41d4-a716-446655440000.png'. These URLs are temporary download sources and expire after 7 days. Download each asset into the project with curl -L, then replace its URL in the generated code with a reference to the downloaded asset. Never use the temporary URLs as runtime image sources.

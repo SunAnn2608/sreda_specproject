@@ -1,0 +1,144 @@
+const imgNetworkVkDeviceMobile = "https://www.figma.com/api/mcp/asset/b706780c-497d-4804-baaa-1683230c5687.svg";
+const imgIcon = "https://www.figma.com/api/mcp/asset/3cbf7548-63d5-4e0d-bfa3-d3bee0a93114.svg";
+const imgNetworkTiktokDeviceMobile = "https://www.figma.com/api/mcp/asset/b93aece6-df20-4623-91bf-3eb161a497fa.svg";
+const imgNetworkDzenDeviceMobile = "https://www.figma.com/api/mcp/asset/14a2da8a-9f3d-4a65-a70e-5709e0e6963c.svg";
+const imgNetworkVcDeviceMobile = "https://www.figma.com/api/mcp/asset/abac4375-1185-48b0-9f65-d7a8ca54c360.svg";
+const imgNetworkTaplinkDeviceMobile = "https://www.figma.com/api/mcp/asset/4e69ebb2-6426-4a70-9a42-18cafdac38ae.svg";
+const img15 = "https://www.figma.com/api/mcp/asset/9609f00c-a777-46f6-9620-e1f4a585701f.png";
+const imgLogo = "https://www.figma.com/api/mcp/asset/1669b46f-2603-4e89-866d-f4f148620e1c.svg";
+
+type SocialProps = {
+  className?: string;
+  device?: "Mobile";
+  network?: "vk" | "telegram" | "tiktok" | "dzen" | "vc" | "taplink";
+};
+
+function Social({ className, device = "Mobile", network = "vk" }: SocialProps) {
+  const isDzenAndMobile = network === "dzen" && device === "Mobile";
+  const isTaplinkAndMobile = network === "taplink" && device === "Mobile";
+  const isTelegramAndMobile = network === "telegram" && device === "Mobile";
+  const isTiktokAndMobile = network === "tiktok" && device === "Mobile";
+  const isVcAndMobile = network === "vc" && device === "Mobile";
+  return (
+    <div className={className || `relative size-[46px] ${isTelegramAndMobile ? "bg-[#ff774e] border-[#0d0f10] border-[1.605px] border-solid drop-shadow-[3px_3px_0px_#0d0f10] rounded-[9.628px]" : ""}`} id={isTaplinkAndMobile ? "node-1500_1754" : isVcAndMobile ? "node-1500_1750" : isDzenAndMobile ? "node-1500_1746" : isTiktokAndMobile ? "node-1500_1742" : isTelegramAndMobile ? "node-1500_1738" : "node-1500_1733"}>
+      {device === "Mobile" && ["vk", "tiktok", "dzen", "vc", "taplink"].includes(network) && (
+        <div className="absolute inset-[0_-6.52%_-6.52%_0]">
+          <img alt="" className="block max-w-none size-full" src={isTaplinkAndMobile ? imgNetworkTaplinkDeviceMobile : isVcAndMobile ? imgNetworkVcDeviceMobile : isDzenAndMobile ? imgNetworkDzenDeviceMobile : isTiktokAndMobile ? imgNetworkTiktokDeviceMobile : imgNetworkVkDeviceMobile} />
+        </div>
+      )}
+      {isTelegramAndMobile && (
+        <>
+          <div className="absolute inset-[calc(21.97%-0.9px)_calc(13.38%-1.18px)_calc(17.32%-1.05px)_calc(13.37%-1.18px)]" data-node-id="1500:1735" data-name="icon">
+            <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgIcon} />
+          </div>
+          <div className="absolute border-[#0d0f10] border-[0.535px] border-dashed inset-[1.6px] opacity-35 rounded-[6.953px]" data-node-id="1500:1737" data-name="stitch" />
+        </>
+      )}
+    </div>
+  );
+}
+
+export default function Component15() {
+  return (
+    <div className="bg-[#fff9ed] content-stretch flex flex-col gap-[32px] items-start pb-[48px] pt-[104px] px-[24px] relative size-full" data-node-id="1398:1267" data-name="15">
+      <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={img15} />
+      <div className="content-stretch flex flex-col gap-[20px] items-start px-[44px] py-[48px] relative rounded-[28px] shrink-0 w-full" data-node-id="1402:1607" data-name="panel">
+        <div className="absolute bg-[#fff9ed] border-4 border-[#0d0f10] border-solid drop-shadow-[6px_8px_0px_#0d0f10] inset-0 rounded-[24px]" data-node-id="1402:1616" data-name="Panel">
+          <div className="absolute border-2 border-[#707070] border-dashed inset-[4px] rounded-[16px]" data-node-id="I1402:1616;1316:2221" data-name="Stitch" />
+          <div className="absolute flex h-[41.013px] items-center justify-center left-[16px] top-[-28.04px] w-[88.273px]" data-node-id="I1402:1616;1316:2222">
+            <div className="-rotate-2 flex-none">
+              <div className="bg-[#ff774e] border-2 border-[#0d0f10] border-solid content-stretch drop-shadow-[4px_4px_0px_#0d0f10] flex items-center justify-center pb-[6px] pt-[4px] px-[14px] relative rounded-[999px]" data-name="Tag">
+                <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[24px] lowercase relative shrink-0 text-[#0d0f10] text-[18px] tracking-[-0.36px] whitespace-nowrap" data-node-id="I1402:1616;1316:2222;1316:2248">
+                  петиция
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p className="[word-break:break-word] font-['Golos_Text:SemiBold'] font-semibold leading-[32px] lowercase min-w-full relative shrink-0 text-[#0d0f10] text-[24px] tracking-[-0.96px] w-[min-content]" data-node-id="1402:1609">
+          Поддержи петицию о безопасной среде в школах
+        </p>
+        <p className="[word-break:break-word] font-['Golos_Text:Regular'] font-normal leading-[26px] min-w-full relative shrink-0 text-[#3d3e3d] text-[20px] tracking-[-0.4px] w-[min-content]" data-node-id="1402:1610">
+          Петиция проекта «среда» о безопасной среде в школах. Чем больше подписей, тем сложнее делать вид, что травли нет. Это займёт минуту.
+        </p>
+        <div className="bg-[#ff774e] border-4 border-[#0d0f10] border-solid content-stretch drop-shadow-[0px_6px_0px_#0d0f10] flex items-center justify-center pb-[14px] pt-[12px] px-[24px] relative rounded-[999px] shrink-0" data-node-id="1402:1620" data-name="Button">
+          <a className="[word-break:break-word] block cursor-pointer font-['Golos_Text:Bold'] font-bold leading-[26px] lowercase relative shrink-0 text-[#0d0f10] text-[20px] tracking-[-0.4px] whitespace-nowrap" href="https://vk.cc/d3c6Ry" data-node-id="I1402:1620;1316:2256" target="_blank">
+            подписать петицию
+          </a>
+        </div>
+      </div>
+      <div className="content-start flex flex-wrap gap-[12px_10px] items-start justify-center relative shrink-0 w-full" data-node-id="1402:1587" data-name="socials">
+        <Social className="relative shrink-0 size-[46px]" />
+        <Social className="bg-[#ff774e] border-[#0d0f10] border-[1.605px] border-solid drop-shadow-[3px_3px_0px_#0d0f10] relative rounded-[9.628px] shrink-0 size-[46px]" network="telegram" />
+        <Social className="relative shrink-0 size-[46px]" network="tiktok" />
+        <Social className="relative shrink-0 size-[46px]" network="dzen" />
+        <Social className="relative shrink-0 size-[46px]" network="vc" />
+        <Social className="relative shrink-0 size-[46px]" network="taplink" />
+      </div>
+      <div className="content-stretch flex flex-col gap-[20px] items-start px-[44px] py-[48px] relative rounded-[28px] shrink-0 w-full" data-node-id="1402:1622" data-name="panel">
+        <div className="absolute bg-[#fff9ed] border-4 border-[#0d0f10] border-solid drop-shadow-[6px_8px_0px_#0d0f10] inset-0 rounded-[24px]" data-node-id="1402:1634" data-name="Panel">
+          <div className="absolute border-2 border-[#707070] border-dashed inset-[4px] rounded-[16px]" data-node-id="I1402:1634;1316:2221" data-name="Stitch" />
+          <div className="absolute flex h-[41.013px] items-center justify-center left-[16px] top-[-28.04px] w-[88.273px]" data-node-id="I1402:1634;1316:2222">
+            <div className="-rotate-2 flex-none">
+              <div className="bg-[#ff774e] border-2 border-[#0d0f10] border-solid content-stretch drop-shadow-[4px_4px_0px_#0d0f10] flex items-center justify-center pb-[6px] pt-[4px] px-[14px] relative rounded-[999px]" data-name="Tag">
+                <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[24px] lowercase relative shrink-0 text-[#0d0f10] text-[18px] tracking-[-0.36px] whitespace-nowrap" data-node-id="I1402:1634;1316:2222;1316:2248">
+                  фонд поддержки
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p className="[word-break:break-word] font-['Golos_Text:SemiBold'] font-semibold leading-[32px] lowercase min-w-full relative shrink-0 text-[#0d0f10] text-[24px] tracking-[-0.96px] w-[min-content]" data-node-id="1402:1624">
+          Напиши в фонд «Тебе поверят»
+        </p>
+        <p className="[word-break:break-word] font-['Golos_Text:Regular'] font-normal leading-[26px] min-w-full relative shrink-0 text-[#3d3e3d] text-[20px] tracking-[-0.4px] w-[min-content]" data-node-id="1402:1625">
+          Психологи фонда бесплатно консультируют подростков: онлайн или очно, до восьми встреч. Чтобы записаться, заполни анкету на сайте фонда.
+        </p>
+        <div className="bg-[#ffb5dc] border-4 border-[#0d0f10] border-solid content-stretch drop-shadow-[0px_6px_0px_#0d0f10] flex items-center justify-center pb-[14px] pt-[12px] px-[24px] relative rounded-[999px] shrink-0" data-node-id="1402:1638" data-name="Button">
+          <a className="[word-break:break-word] block cursor-pointer font-['Golos_Text:Bold'] font-bold leading-[26px] lowercase relative shrink-0 text-[#0d0f10] text-[20px] tracking-[-0.4px] whitespace-nowrap" href="https://verimtebe.ru/get-psy-assistance/#anketa" data-node-id="I1402:1638;1374:808" target="_blank">
+            написать в фонд
+          </a>
+        </div>
+        <div className="[word-break:break-word] content-stretch flex flex-col font-['Golos_Text:Bold'] font-bold gap-[8px] items-start leading-[24px] lowercase overflow-clip relative shrink-0 text-[#3d3e3d] text-[18px] tracking-[-0.36px] w-full" data-node-id="1402:1627" data-name="contacts">
+          <p className="relative shrink-0 w-full" data-node-id="1402:1628">
+            info@verimtebe.ru
+          </p>
+          <p className="relative shrink-0 w-full" data-node-id="1402:1629">
+            t.me/tebepoveriat
+          </p>
+        </div>
+      </div>
+      <div className="absolute content-stretch flex flex-col gap-[10px] h-[80px] items-start left-0 px-[16px] py-[12px] right-0 top-0" data-node-id="1402:1654" data-name="Bar">
+        <div className="content-stretch flex h-[42px] items-center justify-between relative shrink-0 w-full" data-node-id="I1402:1654;1316:2123" data-name="Top">
+          <div className="h-[49.4px] relative shrink-0 w-[91.081px]" data-node-id="I1402:1654;1316:2355" data-name="Logo">
+            <div className="absolute inset-[-1.39%_-0.75%]">
+              <img alt="" className="block max-w-none size-full" src={imgLogo} />
+            </div>
+          </div>
+          <div className="content-stretch flex gap-[8px] h-[42px] items-start overflow-clip relative shrink-0" data-node-id="I1402:1654;1316:2125" data-name="Actions">
+            <div className="bg-[#ffb5dc] border-2 border-[#0d0f10] border-solid content-stretch drop-shadow-[4px_4px_0px_#0d0f10] flex items-center justify-center pb-[6px] pt-[4px] px-[14px] relative rounded-[999px] shrink-0" data-node-id="I1402:1654;1316:2126" data-name="Help">
+              <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[24px] lowercase relative shrink-0 text-[#0d0f10] text-[18px] tracking-[-0.36px] whitespace-nowrap" data-node-id="I1402:1654;1316:2126;1316:2248">
+                нужна поддержка
+              </p>
+            </div>
+            <div className="bg-[#fff9ed] border-2 border-[#0d0f10] border-solid content-stretch flex flex-col gap-[4.18px] h-[38px] items-center justify-center overflow-clip relative rounded-[999px] shadow-[4px_4px_0px_0px_#0d0f10] shrink-0 w-[49.4px]" data-node-id="I1402:1654;1316:2356" data-name="Menu">
+              <div className="bg-[#0d0f10] h-[2.85px] relative rounded-[99px] shrink-0 w-[15.96px]" data-node-id="I1402:1654;1316:2357" data-name="line" />
+              <div className="bg-[#0d0f10] h-[2.85px] relative rounded-[99px] shrink-0 w-[15.96px]" data-node-id="I1402:1654;1316:2358" data-name="line" />
+              <div className="bg-[#0d0f10] h-[2.85px] relative rounded-[99px] shrink-0 w-[15.96px]" data-node-id="I1402:1654;1316:2359" data-name="line" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+SUPER CRITICAL: The generated React+Tailwind code MUST be converted to match the target project's technology stack and styling system.
+1. Analyze the target codebase to identify: technology stack, styling approach, component patterns, and design tokens
+2. Convert React syntax to the target framework/library
+3. Transform all Tailwind classes to the target styling system while preserving exact visual design
+4. Follow the project's existing patterns and conventions
+DO NOT install any Tailwind as a dependency unless the user instructs you to do so.
+
+Node ids have been added to the code as data attributes, e.g. `data-node-id="1:2"`.
+These styles are contained in the design: Content/Grey/Medium: #707070, Content/Black: #0D0F10, Mobile/Title2/Bold: Font(family: "Golos Text", style: Bold, size: 18, weight: 700, lineHeight: 24, letterSpacing: -2), Accent/Red: #FF774E, Content/Beige: #FFF9ED, Mobile/Subheading/SemiBold: Font(family: "Golos Text", style: SemiBold, size: 24, weight: 600, lineHeight: 32, letterSpacing: -4), Content/Grey/Dark: #3D3E3D, Mobile/Title1/Regular: Font(family: "Golos Text", style: Regular, size: 20, weight: 400, lineHeight: 26, letterSpacing: -2), Mobile/Title1/Bold: Font(family: "Golos Text", style: Bold, size: 20, weight: 700, lineHeight: 26, letterSpacing: -2), Accent/Blue: #BCE3FF, Content/Grey/Light: #E5E4E5, Accent/Pink/Dark: #FFB5DC, Accent/Pink/Light: #FDD0DB.
+The generated code contains image and SVG URL constants, e.g. const image = 'https://www.figma.com/api/mcp/asset/550e8400-e29b-41d4-a716-446655440000.png'. These URLs are temporary download sources and expire after 7 days. Download each asset into the project with curl -L, then replace its URL in the generated code with a reference to the downloaded asset. Never use the temporary URLs as runtime image sources.

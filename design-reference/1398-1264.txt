@@ -1,0 +1,140 @@
+const img14 = "https://www.figma.com/api/mcp/asset/65aa344f-f476-4b7e-802a-a60b9638230b.png";
+const imgLogo = "https://www.figma.com/api/mcp/asset/c4706886-2457-47e8-a733-366e5925c7e3.svg";
+
+export default function Component14() {
+  return (
+    <div className="bg-[#fff9ed] content-stretch flex flex-col gap-[32px] items-start pb-[48px] pt-[104px] px-[24px] relative size-full" data-node-id="1398:1264" data-name="14">
+      <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={img14} />
+      <div className="content-stretch flex flex-col gap-[28px] items-start relative shrink-0 w-full" data-node-id="1402:1486" data-name="cards">
+        <div className="bg-[#fff9ed] border-4 border-[#0d0f10] border-solid content-stretch drop-shadow-[6px_8px_0px_#0d0f10] flex flex-col gap-[8px] items-start pb-[24px] pt-[32px] px-[24px] relative rounded-[24px] shrink-0 w-full" data-node-id="1402:1524" data-name="Card">
+          <p className="[word-break:break-word] font-['Golos_Text:Regular'] font-normal leading-[24px] min-w-full relative shrink-0 text-[#0d0f10] text-[18px] tracking-[-0.36px] w-[min-content]" data-node-id="I1402:1524;1316:2238">
+            Как начать разговор и к кому обратиться
+          </p>
+          <p className="[text-underline-position:from-font] [word-break:break-word] decoration-from-font decoration-solid font-['Golos_Text:SemiBold'] font-semibold leading-[1.2] lowercase min-w-full relative shrink-0 text-[#3d3e3d] text-[14px] underline w-[min-content]" data-node-id="I1402:1524;1316:2239">
+            нужна поддержка
+          </p>
+          <div className="absolute border-2 border-[#707070] border-dashed inset-[4px] rounded-[16px]" data-node-id="I1402:1524;1316:2240" data-name="Stitch" />
+          <div className="absolute flex h-[41.013px] items-center justify-center left-[16px] top-[-28.04px] w-[88.273px]" data-node-id="I1402:1524;1316:2241">
+            <div className="-rotate-2 flex-none">
+              <div className="bg-[#bce3ff] border-2 border-[#0d0f10] border-solid content-stretch drop-shadow-[4px_4px_0px_#0d0f10] flex items-center justify-center pb-[6px] pt-[4px] px-[14px] relative rounded-[999px]" data-name="Tag">
+                <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[24px] lowercase relative shrink-0 text-[#0d0f10] text-[18px] tracking-[-0.36px] whitespace-nowrap" data-node-id="I1402:1524;1316:2241;1316:2248">
+                  если травят тебя
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="bg-[#fff9ed] border-4 border-[#0d0f10] border-solid content-stretch drop-shadow-[6px_8px_0px_#0d0f10] flex flex-col gap-[8px] items-start pb-[24px] pt-[32px] px-[24px] relative rounded-[24px] shrink-0 w-full" data-node-id="1402:1531" data-name="Card">
+          <p className="[word-break:break-word] font-['Golos_Text:Regular'] font-normal leading-[24px] min-w-full relative shrink-0 text-[#0d0f10] text-[18px] tracking-[-0.36px] w-[min-content]" data-node-id="I1402:1531;1316:2238">
+            Если подросток рассказал вам о травле
+          </p>
+          <a className="[text-underline-position:from-font] [word-break:break-word] block cursor-pointer decoration-from-font decoration-solid font-['Golos_Text:SemiBold'] font-semibold leading-[1.2] lowercase min-w-full relative shrink-0 text-[#3d3e3d] text-[14px] underline w-[min-content]" href="https://dzen.ru/sreda_acceptance" data-node-id="I1402:1531;1316:2239" target="_blank">
+            читать
+          </a>
+          <div className="absolute border-2 border-[#707070] border-dashed inset-[4px] rounded-[16px]" data-node-id="I1402:1531;1316:2240" data-name="Stitch" />
+          <div className="absolute flex h-[41.013px] items-center justify-center left-[16px] top-[-28.04px] w-[88.273px]" data-node-id="I1402:1531;1316:2241">
+            <div className="-rotate-2 flex-none">
+              <div className="bg-[#ff774e] border-2 border-[#0d0f10] border-solid content-stretch drop-shadow-[4px_4px_0px_#0d0f10] flex items-center justify-center pb-[6px] pt-[4px] px-[14px] relative rounded-[999px]" data-name="Tag">
+                <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[24px] lowercase relative shrink-0 text-[#0d0f10] text-[18px] tracking-[-0.36px] whitespace-nowrap" data-node-id="I1402:1531;1316:2241;1316:2248">
+                  для взрослых
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="bg-[#fff9ed] border-4 border-[#0d0f10] border-solid content-stretch drop-shadow-[6px_8px_0px_#0d0f10] flex flex-col gap-[8px] items-start pb-[24px] pt-[32px] px-[24px] relative rounded-[24px] shrink-0 w-full" data-node-id="1402:1544" data-name="Card">
+          <p className="[word-break:break-word] font-['Golos_Text:Regular'] font-normal leading-[24px] min-w-full relative shrink-0 text-[#0d0f10] text-[18px] tracking-[-0.36px] w-[min-content]" data-node-id="I1402:1544;1316:2238">
+            Шесть коротких статей: для себя, друзей и взрослых
+          </p>
+          <p className="[text-underline-position:from-font] [word-break:break-word] decoration-from-font decoration-solid font-['Golos_Text:SemiBold'] font-semibold leading-[1.2] lowercase min-w-full relative shrink-0 text-[#3d3e3d] text-[14px] underline w-[min-content]" data-node-id="I1402:1544;1316:2239">
+            материалы
+          </p>
+          <div className="absolute border-2 border-[#707070] border-dashed inset-[4px] rounded-[16px]" data-node-id="I1402:1544;1316:2240" data-name="Stitch" />
+          <div className="absolute flex h-[41.013px] items-center justify-center left-[16px] top-[-28.04px] w-[88.273px]" data-node-id="I1402:1544;1316:2241">
+            <div className="-rotate-2 flex-none">
+              <div className="bg-[#bce3ff] border-2 border-[#0d0f10] border-solid content-stretch drop-shadow-[4px_4px_0px_#0d0f10] flex items-center justify-center pb-[6px] pt-[4px] px-[14px] relative rounded-[999px]" data-name="Tag">
+                <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[24px] lowercase relative shrink-0 text-[#0d0f10] text-[18px] tracking-[-0.36px] whitespace-nowrap" data-node-id="I1402:1544;1316:2241;1316:2248">
+                  материалы
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="bg-[#fff9ed] border-4 border-[#0d0f10] border-solid content-stretch drop-shadow-[6px_8px_0px_#0d0f10] flex flex-col gap-[8px] items-start pb-[24px] pt-[32px] px-[24px] relative rounded-[24px] shrink-0 w-full" data-node-id="1402:1551" data-name="Card">
+          <p className="[word-break:break-word] font-['Golos_Text:Regular'] font-normal leading-[24px] min-w-full relative shrink-0 text-[#0d0f10] text-[18px] tracking-[-0.36px] w-[min-content]" data-node-id="I1402:1551;1316:2238">
+            Как поддержать друга и не выгореть самому
+          </p>
+          <a className="[text-underline-position:from-font] [word-break:break-word] block cursor-pointer decoration-from-font decoration-solid font-['Golos_Text:SemiBold'] font-semibold leading-[1.2] lowercase min-w-full relative shrink-0 text-[#3d3e3d] text-[14px] underline w-[min-content]" href="https://dzen.ru/sreda_acceptance" data-node-id="I1402:1551;1316:2239" target="_blank">
+            читать
+          </a>
+          <div className="absolute border-2 border-[#707070] border-dashed inset-[4px] rounded-[16px]" data-node-id="I1402:1551;1316:2240" data-name="Stitch" />
+          <div className="absolute flex h-[41.013px] items-center justify-center left-[16px] top-[-28.04px] w-[88.273px]" data-node-id="I1402:1551;1316:2241">
+            <div className="-rotate-2 flex-none">
+              <div className="bg-[#fdd0db] border-2 border-[#0d0f10] border-solid content-stretch drop-shadow-[4px_4px_0px_#0d0f10] flex items-center justify-center pb-[6px] pt-[4px] px-[14px] relative rounded-[999px]" data-name="Tag">
+                <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[24px] lowercase relative shrink-0 text-[#0d0f10] text-[18px] tracking-[-0.36px] whitespace-nowrap" data-node-id="I1402:1551;1316:2241;1316:2248">
+                  если ты видишь травлю
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="content-stretch flex flex-col gap-[16px] items-start pb-[28px] pt-[36px] px-[32px] relative rounded-[28px] shrink-0 w-full" data-node-id="1402:1489" data-name="panel/petition-mini">
+          <div className="absolute bg-[#fff9ed] border-4 border-[#0d0f10] border-solid drop-shadow-[6px_8px_0px_#0d0f10] inset-0 rounded-[24px]" data-node-id="1402:1538" data-name="Panel">
+            <div className="absolute border-2 border-[#707070] border-dashed inset-[4px] rounded-[16px]" data-node-id="I1402:1538;1316:2221" data-name="Stitch" />
+            <div className="absolute flex h-[41.013px] items-center justify-center left-[16px] top-[-28.04px] w-[88.273px]" data-node-id="I1402:1538;1316:2222">
+              <div className="-rotate-2 flex-none">
+                <div className="bg-[#ff774e] border-2 border-[#0d0f10] border-solid content-stretch drop-shadow-[4px_4px_0px_#0d0f10] flex items-center justify-center pb-[6px] pt-[4px] px-[14px] relative rounded-[999px]" data-name="Tag">
+                  <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[24px] lowercase relative shrink-0 text-[#0d0f10] text-[18px] tracking-[-0.36px] whitespace-nowrap" data-node-id="I1402:1538;1316:2222;1316:2248">
+                    петиция
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[26px] lowercase min-w-full relative shrink-0 text-[#0d0f10] text-[20px] tracking-[-0.4px] w-[min-content]" data-node-id="1402:1491">
+            Подпиши петицию о безопасной среде в школах
+          </p>
+          <p className="[word-break:break-word] font-['Golos_Text:Regular'] font-normal leading-[24px] min-w-full relative shrink-0 text-[#3d3e3d] text-[18px] tracking-[-0.36px] w-[min-content]" data-node-id="1402:1492">
+            Чем больше подписей, тем сложнее делать вид, что травли нет. Это займёт минуту.
+          </p>
+          <div className="bg-[#ff774e] border-4 border-[#0d0f10] border-solid content-stretch drop-shadow-[0px_6px_0px_#0d0f10] flex items-center justify-center pb-[14px] pt-[12px] px-[24px] relative rounded-[999px] shrink-0 w-full" data-node-id="1402:1542" data-name="Button">
+            <a className="[word-break:break-word] block cursor-pointer font-['Golos_Text:Bold'] font-bold leading-[26px] lowercase relative shrink-0 text-[#0d0f10] text-[20px] tracking-[-0.4px] whitespace-nowrap" href="https://vk.cc/d3c6Ry" data-node-id="I1402:1542;1316:2256" target="_blank">
+              подписать петицию
+            </a>
+          </div>
+        </div>
+      </div>
+      <div className="absolute content-stretch flex flex-col gap-[10px] h-[80px] items-start left-0 px-[16px] py-[12px] right-0 top-0" data-node-id="1402:1572" data-name="Bar">
+        <div className="content-stretch flex h-[42px] items-center justify-between relative shrink-0 w-full" data-node-id="I1402:1572;1316:2123" data-name="Top">
+          <div className="h-[49.4px] relative shrink-0 w-[91.081px]" data-node-id="I1402:1572;1316:2355" data-name="Logo">
+            <div className="absolute inset-[-1.39%_-0.75%]">
+              <img alt="" className="block max-w-none size-full" src={imgLogo} />
+            </div>
+          </div>
+          <div className="content-stretch flex gap-[8px] h-[42px] items-start overflow-clip relative shrink-0" data-node-id="I1402:1572;1316:2125" data-name="Actions">
+            <div className="bg-[#ffb5dc] border-2 border-[#0d0f10] border-solid content-stretch drop-shadow-[4px_4px_0px_#0d0f10] flex items-center justify-center pb-[6px] pt-[4px] px-[14px] relative rounded-[999px] shrink-0" data-node-id="I1402:1572;1316:2126" data-name="Help">
+              <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[24px] lowercase relative shrink-0 text-[#0d0f10] text-[18px] tracking-[-0.36px] whitespace-nowrap" data-node-id="I1402:1572;1316:2126;1316:2248">
+                нужна поддержка
+              </p>
+            </div>
+            <div className="bg-[#fff9ed] border-2 border-[#0d0f10] border-solid content-stretch flex flex-col gap-[4.18px] h-[38px] items-center justify-center overflow-clip relative rounded-[999px] shadow-[4px_4px_0px_0px_#0d0f10] shrink-0 w-[49.4px]" data-node-id="I1402:1572;1316:2356" data-name="Menu">
+              <div className="bg-[#0d0f10] h-[2.85px] relative rounded-[99px] shrink-0 w-[15.96px]" data-node-id="I1402:1572;1316:2357" data-name="line" />
+              <div className="bg-[#0d0f10] h-[2.85px] relative rounded-[99px] shrink-0 w-[15.96px]" data-node-id="I1402:1572;1316:2358" data-name="line" />
+              <div className="bg-[#0d0f10] h-[2.85px] relative rounded-[99px] shrink-0 w-[15.96px]" data-node-id="I1402:1572;1316:2359" data-name="line" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+SUPER CRITICAL: The generated React+Tailwind code MUST be converted to match the target project's technology stack and styling system.
+1. Analyze the target codebase to identify: technology stack, styling approach, component patterns, and design tokens
+2. Convert React syntax to the target framework/library
+3. Transform all Tailwind classes to the target styling system while preserving exact visual design
+4. Follow the project's existing patterns and conventions
+DO NOT install any Tailwind as a dependency unless the user instructs you to do so.
+
+Node ids have been added to the code as data attributes, e.g. `data-node-id="1:2"`.
+These styles are contained in the design: Content/Black: #0D0F10, Mobile/Title2/Regular: Font(family: "Golos Text", style: Regular, size: 18, weight: 400, lineHeight: 24, letterSpacing: -2), Content/Grey/Dark: #3D3E3D, Mobile/Link/SemiBold: Font(family: "Golos Text", style: SemiBold, size: 14, weight: 600, lineHeight: 1.2000000476837158, letterSpacing: 0), Content/Grey/Medium: #707070, Mobile/Title2/Bold: Font(family: "Golos Text", style: Bold, size: 18, weight: 700, lineHeight: 24, letterSpacing: -2), Accent/Blue: #BCE3FF, Content/Beige: #FFF9ED, Accent/Red: #FF774E, Accent/Pink/Light: #FDD0DB, Mobile/Title1/Bold: Font(family: "Golos Text", style: Bold, size: 20, weight: 700, lineHeight: 26, letterSpacing: -2), Accent/Pink/Dark: #FFB5DC.
+The generated code contains image and SVG URL constants, e.g. const image = 'https://www.figma.com/api/mcp/asset/550e8400-e29b-41d4-a716-446655440000.png'. These URLs are temporary download sources and expire after 7 days. Download each asset into the project with curl -L, then replace its URL in the generated code with a reference to the downloaded asset. Never use the temporary URLs as runtime image sources.

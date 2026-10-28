@@ -1,0 +1,76 @@
+const img0202A = "https://www.figma.com/api/mcp/asset/4ab1f1a1-444a-464a-a590-c496d68101ba.png";
+const imgBgBunnyRuns = "https://www.figma.com/api/mcp/asset/1dc7377c-327c-479a-a034-9c17eca810ff.png";
+const imgCharKroli = "https://www.figma.com/api/mcp/asset/1236e9be-5a4b-41dc-bcfa-6b22cf60fa17.png";
+const imgAuraKroliGlow = "https://www.figma.com/api/mcp/asset/646714aa-4edd-4c85-b0be-a8a062dbe193.svg";
+const imgAuraKroliGlow1 = "https://www.figma.com/api/mcp/asset/e70d898c-a541-4eca-8809-54acdf02e1c6.svg";
+const imgLogo = "https://www.figma.com/api/mcp/asset/f4ea43a9-562d-485e-9c1e-83af555f8faa.svg";
+
+export default function Component0202A() {
+  return (
+    <div className="bg-[#fff9ed] relative size-full" data-node-id="1398:1229" data-name="02-02a">
+      <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={img0202A} />
+      <div className="absolute flex h-[1490.385px] items-center justify-center left-[-220.88px] top-[-269.36px] w-[1174.283px]" data-node-id="1499:6013">
+        <div className="flex-none rotate-[-10.91deg]">
+          <div className="blur-[16.35px] h-[1337.016px] opacity-52 relative rounded-[102px] w-[938.272px]" data-name="bg/bunny-runs">
+            <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[102px]">
+              <img alt="" className="absolute h-[100.05%] left-0 max-w-none top-[-0.03%] w-[717.09%]" src={imgBgBunnyRuns} />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="absolute flex h-[1490.385px] items-center justify-center left-[-220.88px] mix-blend-multiply top-[-269.36px] w-[1174.283px]" data-node-id="1499:6036">
+        <div className="flex-none rotate-[-10.91deg]">
+          <div className="blur-[16.35px] h-[1337.016px] relative rounded-[102px] w-[938.272px]" data-name="bg/bunny-runs">
+            <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[102px]">
+              <img alt="" className="absolute h-[100.05%] left-0 max-w-none top-[-0.03%] w-[717.09%]" src={imgBgBunnyRuns} />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="absolute left-[100px] size-[765px] top-[263.5px]" data-node-id="1499:6014" data-name="aura/kroli-glow">
+        <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgAuraKroliGlow} />
+      </div>
+      <div className="absolute left-[-7px] size-[560px] top-[384px]" data-node-id="1401:1547" data-name="aura/kroli-glow">
+        <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgAuraKroliGlow1} />
+      </div>
+      <div className="absolute flex h-[719.446px] items-center justify-center left-[-45px] top-[249px] w-[637.065px]" data-node-id="1401:1548">
+        <div className="flex-none rotate-[-3.83deg]">
+          <div className="h-[681.322px] relative w-[592.824px]" data-name="char/kroli">
+            <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgCharKroli} />
+          </div>
+        </div>
+      </div>
+      <div className="absolute content-stretch flex flex-col gap-[10px] h-[80px] items-start left-0 px-[16px] py-[12px] top-0 w-[390px]" data-node-id="1401:1607" data-name="Bar">
+        <div className="content-stretch flex h-[42px] items-center justify-between relative shrink-0 w-full" data-node-id="I1401:1607;1316:2123" data-name="Top">
+          <div className="h-[49.4px] relative shrink-0 w-[91.081px]" data-node-id="I1401:1607;1316:2355" data-name="Logo">
+            <div className="absolute inset-[-1.39%_-0.75%]">
+              <img alt="" className="block max-w-none size-full" src={imgLogo} />
+            </div>
+          </div>
+          <div className="content-stretch flex gap-[8px] h-[42px] items-start overflow-clip relative shrink-0" data-node-id="I1401:1607;1316:2125" data-name="Actions">
+            <div className="bg-[#ffb5dc] border-2 border-[#0d0f10] border-solid content-stretch drop-shadow-[4px_4px_0px_#0d0f10] flex items-center justify-center pb-[6px] pt-[4px] px-[14px] relative rounded-[999px] shrink-0" data-node-id="I1401:1607;1316:2126" data-name="Help">
+              <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[24px] lowercase relative shrink-0 text-[#0d0f10] text-[18px] tracking-[-0.36px] whitespace-nowrap" data-node-id="I1401:1607;1316:2126;1316:2248">
+                нужна поддержка
+              </p>
+            </div>
+            <div className="bg-[#fff9ed] border-2 border-[#0d0f10] border-solid content-stretch flex flex-col gap-[4.18px] h-[38px] items-center justify-center overflow-clip relative rounded-[999px] shadow-[4px_4px_0px_0px_#0d0f10] shrink-0 w-[49.4px]" data-node-id="I1401:1607;1316:2356" data-name="Menu">
+              <div className="bg-[#0d0f10] h-[2.85px] relative rounded-[99px] shrink-0 w-[15.96px]" data-node-id="I1401:1607;1316:2357" data-name="line" />
+              <div className="bg-[#0d0f10] h-[2.85px] relative rounded-[99px] shrink-0 w-[15.96px]" data-node-id="I1401:1607;1316:2358" data-name="line" />
+              <div className="bg-[#0d0f10] h-[2.85px] relative rounded-[99px] shrink-0 w-[15.96px]" data-node-id="I1401:1607;1316:2359" data-name="line" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+SUPER CRITICAL: The generated React+Tailwind code MUST be converted to match the target project's technology stack and styling system.
+1. Analyze the target codebase to identify: technology stack, styling approach, component patterns, and design tokens
+2. Convert React syntax to the target framework/library
+3. Transform all Tailwind classes to the target styling system while preserving exact visual design
+4. Follow the project's existing patterns and conventions
+DO NOT install any Tailwind as a dependency unless the user instructs you to do so.
+
+Node ids have been added to the code as data attributes, e.g. `data-node-id="1:2"`.
+These styles are contained in the design: Content/Black: #0D0F10, Mobile/Title2/Bold: Font(family: "Golos Text", style: Bold, size: 18, weight: 700, lineHeight: 24, letterSpacing: -2), Accent/Pink/Dark: #FFB5DC, Content/Beige: #FFF9ED.
+The generated code contains image and SVG URL constants, e.g. const image = 'https://www.figma.com/api/mcp/asset/550e8400-e29b-41d4-a716-446655440000.png'. These URLs are temporary download sources and expire after 7 days. Download each asset into the project with curl -L, then replace its URL in the generated code with a reference to the downloaded asset. Never use the temporary URLs as runtime image sources.

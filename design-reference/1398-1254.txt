@@ -1,0 +1,89 @@
+const imgBg12A04 = "https://www.figma.com/api/mcp/asset/687dce01-18d6-41da-a19e-427f529fd81f.png";
+const imgCharMom = "https://www.figma.com/api/mcp/asset/8bf1b13f-d0de-4d26-9342-1a8e372a0f18.png";
+const imgCharBunnyDefault = "https://www.figma.com/api/mcp/asset/cb2d9539-868c-4c07-b1cc-3b34d4ed34dd.png";
+const imgAuraMomWarm = "https://www.figma.com/api/mcp/asset/9ea0ef48-4d72-4a44-9fc7-524654527652.svg";
+const imgTail = "https://www.figma.com/api/mcp/asset/642d9941-9776-44bc-ba39-68adaf08d469.svg";
+const imgArrow = "https://www.figma.com/api/mcp/asset/2c83181a-05ce-4688-ba85-347c2f1212be.svg";
+const imgLogo = "https://www.figma.com/api/mcp/asset/01a39949-d196-4d0d-9c60-02233fc9ae7a.svg";
+
+export default function Component12A04() {
+  return (
+    <div className="bg-[#fff9ed] relative size-full" data-node-id="1398:1254" data-name="12A-04">
+      <div className="absolute inset-[-328px_-133px_-5px_-172px]" data-node-id="1399:1577" data-name="bg/12A-04">
+        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgBg12A04} />
+      </div>
+      <div className="absolute left-[43px] size-[560px] top-[96px]" data-node-id="1399:1609" data-name="aura/mom-warm">
+        <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgAuraMomWarm} />
+      </div>
+      <div className="absolute h-[600px] left-[123px] top-[176px] w-[400px]" data-node-id="1399:1611" data-name="char/mom">
+        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgCharMom} />
+      </div>
+      <div className="absolute h-[451px] left-[-108px] top-[314px] w-[396px]" data-node-id="1399:1610" data-name="char/bunny-default">
+        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgCharBunnyDefault} />
+      </div>
+      <div className="absolute content-stretch flex flex-col gap-[36px] items-start left-[24px] top-[512px] w-[342px]" data-node-id="1399:1578" data-name="dialogue">
+        <div className="bg-[#fff9ed] border-4 border-[#0d0f10] border-solid content-stretch drop-shadow-[6px_8px_0px_#0d0f10] flex flex-col items-start min-h-[96px] px-[20px] py-[28px] relative rounded-[24px] shrink-0 w-full" data-node-id="1399:1594" data-name="Bubble">
+          <div className="[word-break:break-word] font-['Golos_Text:Regular'] font-normal leading-[0] min-w-full relative shrink-0 text-[#0d0f10] text-[22px] tracking-[-0.88px] w-[min-content]" data-node-id="I1399:1594;1316:2186">
+            <p className="leading-[28px] mb-0">Сохраним переписку.</p>
+            <p className="leading-[28px]">Завтра вместе поговорим со школой.</p>
+          </div>
+          <div className="-translate-y-1/2 absolute h-[30px] right-[96px] top-[calc(50%-71px)] w-[36px]" data-node-id="I1399:1594;1316:2187" data-name="Tail">
+            <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgTail} />
+          </div>
+          <div className="absolute bottom-[13px] h-[12px] right-[16px] w-[16px]" data-node-id="I1399:1594;1316:2190" data-name="Arrow">
+            <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgArrow} />
+          </div>
+          <div className="absolute bg-[#ff774e] border-2 border-[#0d0f10] border-solid content-stretch drop-shadow-[4px_4px_0px_#0d0f10] flex items-center justify-center pb-[6px] pt-[4px] px-[14px] right-[12px] rounded-[999px] top-[-25px]" data-node-id="I1399:1594;1316:2192" data-name="Name">
+            <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[24px] lowercase relative shrink-0 text-[#0d0f10] text-[18px] tracking-[-0.36px] whitespace-nowrap" data-node-id="I1399:1594;1316:2192;1316:2248">
+              мама
+            </p>
+          </div>
+        </div>
+        <div className="bg-[#fff9ed] border-4 border-[#0d0f10] border-solid content-stretch drop-shadow-[6px_8px_0px_#0d0f10] flex flex-col items-start min-h-[96px] px-[20px] py-[28px] relative rounded-[24px] shrink-0 w-full" data-node-id="1399:1603" data-name="Bubble">
+          <p className="[word-break:break-word] font-['Golos_Text:Regular'] font-normal leading-[28px] min-w-full relative shrink-0 text-[#0d0f10] text-[22px] tracking-[-0.88px] w-[min-content]" data-node-id="I1399:1603;1316:2165">
+            Я тоже могу рассказать, что видел.
+          </p>
+          <div className="absolute bottom-[13px] h-[12px] right-[16px] w-[16px]" data-node-id="I1399:1603;1316:2166" data-name="Arrow">
+            <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgArrow} />
+          </div>
+          <div className="absolute bg-[#ffb5dc] border-2 border-[#0d0f10] border-solid content-stretch drop-shadow-[4px_4px_0px_#0d0f10] flex items-center justify-center pb-[6px] pt-[4px] px-[14px] right-[12px] rounded-[999px] top-[-25px]" data-node-id="I1399:1603;1316:2168" data-name="Name">
+            <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[24px] lowercase relative shrink-0 text-[#0d0f10] text-[18px] tracking-[-0.36px] whitespace-nowrap" data-node-id="I1399:1603;1316:2168;1316:2248">
+              ты
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="absolute content-stretch flex flex-col gap-[10px] h-[80px] items-start left-0 px-[16px] py-[12px] top-0 w-[390px]" data-node-id="1399:1625" data-name="Bar">
+        <div className="content-stretch flex h-[42px] items-center justify-between relative shrink-0 w-full" data-node-id="I1399:1625;1316:2123" data-name="Top">
+          <div className="h-[49.4px] relative shrink-0 w-[91.081px]" data-node-id="I1399:1625;1316:2355" data-name="Logo">
+            <div className="absolute inset-[-1.39%_-0.75%]">
+              <img alt="" className="block max-w-none size-full" src={imgLogo} />
+            </div>
+          </div>
+          <div className="content-stretch flex gap-[8px] h-[42px] items-start overflow-clip relative shrink-0" data-node-id="I1399:1625;1316:2125" data-name="Actions">
+            <div className="bg-[#ffb5dc] border-2 border-[#0d0f10] border-solid content-stretch drop-shadow-[4px_4px_0px_#0d0f10] flex items-center justify-center pb-[6px] pt-[4px] px-[14px] relative rounded-[999px] shrink-0" data-node-id="I1399:1625;1316:2126" data-name="Help">
+              <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[24px] lowercase relative shrink-0 text-[#0d0f10] text-[18px] tracking-[-0.36px] whitespace-nowrap" data-node-id="I1399:1625;1316:2126;1316:2248">
+                нужна поддержка
+              </p>
+            </div>
+            <div className="bg-[#fff9ed] border-2 border-[#0d0f10] border-solid content-stretch flex flex-col gap-[4.18px] h-[38px] items-center justify-center overflow-clip relative rounded-[999px] shadow-[4px_4px_0px_0px_#0d0f10] shrink-0 w-[49.4px]" data-node-id="I1399:1625;1316:2356" data-name="Menu">
+              <div className="bg-[#0d0f10] h-[2.85px] relative rounded-[99px] shrink-0 w-[15.96px]" data-node-id="I1399:1625;1316:2357" data-name="line" />
+              <div className="bg-[#0d0f10] h-[2.85px] relative rounded-[99px] shrink-0 w-[15.96px]" data-node-id="I1399:1625;1316:2358" data-name="line" />
+              <div className="bg-[#0d0f10] h-[2.85px] relative rounded-[99px] shrink-0 w-[15.96px]" data-node-id="I1399:1625;1316:2359" data-name="line" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+SUPER CRITICAL: The generated React+Tailwind code MUST be converted to match the target project's technology stack and styling system.
+1. Analyze the target codebase to identify: technology stack, styling approach, component patterns, and design tokens
+2. Convert React syntax to the target framework/library
+3. Transform all Tailwind classes to the target styling system while preserving exact visual design
+4. Follow the project's existing patterns and conventions
+DO NOT install any Tailwind as a dependency unless the user instructs you to do so.
+
+Node ids have been added to the code as data attributes, e.g. `data-node-id="1:2"`.
+These styles are contained in the design: Content/Black: #0D0F10, Mobile/LargeTitle/Regular: Font(family: "Golos Text", style: Regular, size: 22, weight: 400, lineHeight: 28, letterSpacing: -4), Content/Beige: #FFF9ED, Mobile/Title2/Bold: Font(family: "Golos Text", style: Bold, size: 18, weight: 700, lineHeight: 24, letterSpacing: -2), Accent/Red: #FF774E, Accent/Pink/Dark: #FFB5DC.
+The generated code contains image and SVG URL constants, e.g. const image = 'https://www.figma.com/api/mcp/asset/550e8400-e29b-41d4-a716-446655440000.png'. These URLs are temporary download sources and expire after 7 days. Download each asset into the project with curl -L, then replace its URL in the generated code with a reference to the downloaded asset. Never use the temporary URLs as runtime image sources.

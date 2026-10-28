@@ -1,0 +1,140 @@
+const imgIconCloseDeviceMobile = "https://www.figma.com/api/mcp/asset/615dd802-4b48-4d12-8dcc-8d318b4e5519.svg";
+const imgNetworkVkDeviceMobile = "https://www.figma.com/api/mcp/asset/5af44cd1-4c3d-4db5-8b5d-33123c8ffc31.svg";
+const imgIcon = "https://www.figma.com/api/mcp/asset/adba3856-a0b1-4993-8f59-6e923d7db4c4.svg";
+const imgNetworkTiktokDeviceMobile = "https://www.figma.com/api/mcp/asset/36407f22-f41a-442b-b3e8-009511a99657.svg";
+const imgNetworkDzenDeviceMobile = "https://www.figma.com/api/mcp/asset/7bd9af3e-cd61-45e7-8412-8f5e654304fc.svg";
+const imgNetworkVcDeviceMobile = "https://www.figma.com/api/mcp/asset/686369cd-0fd2-4c0b-9ed9-35fe2f0427b1.svg";
+const imgNetworkTaplinkDeviceMobile = "https://www.figma.com/api/mcp/asset/0a97be61-4c7d-40bd-badb-0a6ffbe92a51.svg";
+const imgDivider = "https://www.figma.com/api/mcp/asset/019b1dfa-45ee-4a53-8594-43c7eed34440.svg";
+const imgBgKeyVisualVertical = "https://www.figma.com/api/mcp/asset/790835f3-5ac7-4b77-9a7e-0485bb3b031e.png";
+const imgBgBunnyRuns = "https://www.figma.com/api/mcp/asset/c1134ed3-a14f-4a8e-a89f-980a3b0eb85c.png";
+
+type IconButtonProps = {
+  className?: string;
+  device?: "Mobile";
+  icon?: "close";
+};
+
+function IconButton({ className, device = "Mobile", icon = "close" }: IconButtonProps) {
+  return (
+    <div className={className || "h-[41px] relative w-[56px]"} data-node-id="1500:1887">
+      <div className="absolute inset-[0_0_-14.63%_0]">
+        <img alt="" className="block max-w-none size-full" src={imgIconCloseDeviceMobile} />
+      </div>
+    </div>
+  );
+}
+
+type SocialProps = {
+  className?: string;
+  device?: "Mobile";
+  network?: "vk" | "telegram" | "tiktok" | "dzen" | "vc" | "taplink";
+};
+
+function Social({ className, device = "Mobile", network = "vk" }: SocialProps) {
+  const isDzenAndMobile = network === "dzen" && device === "Mobile";
+  const isTaplinkAndMobile = network === "taplink" && device === "Mobile";
+  const isTelegramAndMobile = network === "telegram" && device === "Mobile";
+  const isTiktokAndMobile = network === "tiktok" && device === "Mobile";
+  const isVcAndMobile = network === "vc" && device === "Mobile";
+  return (
+    <div className={className || `relative size-[46px] ${isTelegramAndMobile ? "bg-[#ff774e] border-[#0d0f10] border-[1.605px] border-solid drop-shadow-[3px_3px_0px_#0d0f10] rounded-[9.628px]" : ""}`} id={isTaplinkAndMobile ? "node-1500_1754" : isVcAndMobile ? "node-1500_1750" : isDzenAndMobile ? "node-1500_1746" : isTiktokAndMobile ? "node-1500_1742" : isTelegramAndMobile ? "node-1500_1738" : "node-1500_1733"}>
+      {device === "Mobile" && ["vk", "tiktok", "dzen", "vc", "taplink"].includes(network) && (
+        <div className="absolute inset-[0_-6.52%_-6.52%_0]">
+          <img alt="" className="block max-w-none size-full" src={isTaplinkAndMobile ? imgNetworkTaplinkDeviceMobile : isVcAndMobile ? imgNetworkVcDeviceMobile : isDzenAndMobile ? imgNetworkDzenDeviceMobile : isTiktokAndMobile ? imgNetworkTiktokDeviceMobile : imgNetworkVkDeviceMobile} />
+        </div>
+      )}
+      {isTelegramAndMobile && (
+        <>
+          <div className="absolute inset-[calc(21.97%-0.9px)_calc(13.38%-1.18px)_calc(17.32%-1.05px)_calc(13.37%-1.18px)]" data-node-id="1500:1735" data-name="icon">
+            <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgIcon} />
+          </div>
+          <div className="absolute border-[#0d0f10] border-[0.535px] border-dashed inset-[1.6px] opacity-35 rounded-[6.953px]" data-node-id="1500:1737" data-name="stitch" />
+        </>
+      )}
+    </div>
+  );
+}
+
+type MenuProps = {
+  className?: string;
+  device?: "Mobile";
+};
+
+function Menu({ className, device = "Mobile" }: MenuProps) {
+  return (
+    <div className={className || "bg-[#fff9ed] border-3 border-[#0d0f10] border-solid content-stretch flex flex-col gap-[6px] items-start overflow-clip px-[24px] py-[28px] relative rounded-[28px] shadow-[8px_8px_0px_0px_#0d0f10] w-[358px]"} data-node-id="1500:1994">
+      <div className="content-stretch flex flex-col gap-[18px] items-start overflow-clip pb-[12px] relative shrink-0 w-full" data-node-id="1500:1980" data-name="socials-block">
+        <div className="content-center flex flex-wrap gap-[12px_10px] items-center relative shrink-0 w-full" data-node-id="1500:1981" data-name="socials">
+          <Social className="relative shrink-0 size-[40px]" />
+          <Social className="bg-[#ff774e] border-[#0d0f10] border-[1.605px] border-solid drop-shadow-[3px_3px_0px_#0d0f10] relative rounded-[9.628px] shrink-0 size-[40px]" network="telegram" />
+          <Social className="relative shrink-0 size-[40px]" network="tiktok" />
+          <Social className="relative shrink-0 size-[40px]" network="dzen" />
+          <Social className="relative shrink-0 size-[40px]" network="vc" />
+          <Social className="relative shrink-0 size-[40px]" network="taplink" />
+        </div>
+        <div className="h-0 relative shrink-0 w-full" data-node-id="1500:1988" data-name="divider">
+          <div className="absolute inset-[-2px_0_0_0]">
+            <img alt="" className="block max-w-none size-full" src={imgDivider} />
+          </div>
+        </div>
+      </div>
+      <div className="content-stretch flex items-start pb-[7px] pt-[5px] px-[16px] relative rounded-[999px] shrink-0" data-node-id="1500:1989" data-name="menu/start-story">
+        <p className="[word-break:break-word] font-['Golos_Text:SemiBold'] font-semibold leading-[32px] lowercase relative shrink-0 text-[#0d0f10] text-[24px] tracking-[-0.96px] whitespace-nowrap" data-node-id="I1500:1989;1389:814">
+          начать историю
+        </p>
+      </div>
+      <div className="bg-[#bce3ff] border-3 border-[#0d0f10] border-solid content-stretch drop-shadow-[4px_4px_0px_#0d0f10] flex items-start pb-[7px] pt-[5px] px-[16px] relative rounded-[999px] shrink-0" data-node-id="1500:1990" data-name="menu/materials">
+        <p className="[word-break:break-word] font-['Golos_Text:SemiBold'] font-semibold leading-[32px] lowercase relative shrink-0 text-[#0d0f10] text-[24px] tracking-[-0.96px] whitespace-nowrap" data-node-id="I1500:1990;1389:818">
+          материалы
+        </p>
+      </div>
+      <div className="content-stretch flex items-start pb-[7px] pt-[5px] px-[16px] relative rounded-[999px] shrink-0" data-node-id="1500:1991" data-name="menu/need-support">
+        <p className="[word-break:break-word] font-['Golos_Text:SemiBold'] font-semibold leading-[32px] lowercase relative shrink-0 text-[#0d0f10] text-[24px] tracking-[-0.96px] whitespace-nowrap" data-node-id="I1500:1991;1389:814">
+          нужна поддержка
+        </p>
+      </div>
+      <div className="content-stretch flex items-start pb-[7px] pt-[5px] px-[16px] relative rounded-[999px] shrink-0" data-node-id="1500:1992" data-name="menu/support">
+        <p className="[word-break:break-word] font-['Golos_Text:SemiBold'] font-semibold leading-[32px] lowercase relative shrink-0 text-[#0d0f10] text-[24px] tracking-[-0.96px] whitespace-nowrap" data-node-id="I1500:1992;1389:814">
+          поддержать
+        </p>
+      </div>
+      <div className="content-stretch flex items-start pb-[7px] pt-[5px] px-[16px] relative rounded-[999px] shrink-0" data-node-id="1500:1993" data-name="menu/about">
+        <p className="[word-break:break-word] font-['Golos_Text:SemiBold'] font-semibold leading-[32px] lowercase relative shrink-0 text-[#0d0f10] text-[24px] tracking-[-0.96px] whitespace-nowrap" data-node-id="I1500:1993;1389:814">
+          о проекте
+        </p>
+      </div>
+    </div>
+  );
+}
+
+export default function Menu1() {
+  return (
+    <div className="bg-[#0d0f10] relative size-full" data-node-id="1398:1276" data-name="MENU">
+      <div className="-translate-x-1/2 absolute h-[641px] left-[calc(50%-20px)] top-0 w-[430px]" data-node-id="1414:1647" data-name="bg/key-visual-vertical">
+        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgBgKeyVisualVertical} />
+      </div>
+      <div className="absolute flex h-[1339.692px] items-center justify-center left-[-104.79px] mix-blend-multiply top-[462px] w-[942.09px]" data-node-id="1391:3943">
+        <div className="flex-none rotate-[0.16deg]">
+          <div className="blur-[45.6px] h-[1337.016px] relative rounded-[102px] w-[938.272px]" data-name="bg/bunny-runs">
+            <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[102px]">
+              <img alt="" className="absolute h-[100.05%] left-0 max-w-none top-[-0.03%] w-[717.09%]" src={imgBgBunnyRuns} />
+            </div>
+          </div>
+        </div>
+      </div>
+      <Menu className="absolute bg-[#fff9ed] border-3 border-[#0d0f10] border-solid content-stretch flex flex-col gap-[6px] items-start left-[16px] overflow-clip px-[24px] py-[28px] rounded-[28px] shadow-[8px_8px_0px_0px_#0d0f10] top-[436px] w-[358px]" />
+      <IconButton className="absolute h-[41px] left-[318px] top-[24px] w-[56px]" />
+    </div>
+  );
+}
+SUPER CRITICAL: The generated React+Tailwind code MUST be converted to match the target project's technology stack and styling system.
+1. Analyze the target codebase to identify: technology stack, styling approach, component patterns, and design tokens
+2. Convert React syntax to the target framework/library
+3. Transform all Tailwind classes to the target styling system while preserving exact visual design
+4. Follow the project's existing patterns and conventions
+DO NOT install any Tailwind as a dependency unless the user instructs you to do so.
+
+Node ids have been added to the code as data attributes, e.g. `data-node-id="1:2"`.
+These styles are contained in the design: Content/Black: #0D0F10, Accent/Blue: #BCE3FF, Accent/Red: #FF774E, Content/Beige: #FFF9ED, Content/Grey/Light: #E5E4E5, Accent/Pink/Dark: #FFB5DC, Accent/Pink/Light: #FDD0DB, Mobile/Subheading/SemiBold: Font(family: "Golos Text", style: SemiBold, size: 24, weight: 600, lineHeight: 32, letterSpacing: -4).
+The generated code contains image and SVG URL constants, e.g. const image = 'https://www.figma.com/api/mcp/asset/550e8400-e29b-41d4-a716-446655440000.png'. These URLs are temporary download sources and expire after 7 days. Download each asset into the project with curl -L, then replace its URL in the generated code with a reference to the downloaded asset. Never use the temporary URLs as runtime image sources.

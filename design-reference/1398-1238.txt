@@ -1,0 +1,133 @@
+const img05 = "https://www.figma.com/api/mcp/asset/13378e02-a69b-4e44-a2fb-c68699da766c.png";
+const imgImage = "https://www.figma.com/api/mcp/asset/4bcd7df7-47e4-4b6b-a4b2-8d63701e1b60.png";
+const imgIconPin = "https://www.figma.com/api/mcp/asset/33c0d5c7-c1a3-4c3f-a86b-405056eb51fb.svg";
+const imgLogo = "https://www.figma.com/api/mcp/asset/8e1374b1-cc48-4a15-9717-c9e92b046645.svg";
+
+export default function Component05() {
+  return (
+    <div className="bg-[#fff9ed] relative size-full" data-node-id="1398:1238" data-name="05">
+      <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={img05} />
+      <div className="absolute content-stretch flex flex-col gap-[20px] items-start left-[24px] pb-[44px] pt-[48px] px-[44px] rounded-[28px] top-[154px] w-[342px]" data-node-id="1401:1480" data-name="panel">
+        <div className="absolute bg-[#fff9ed] border-4 border-[#0d0f10] border-solid drop-shadow-[6px_8px_0px_#0d0f10] inset-0 rounded-[24px]" data-node-id="1401:1509" data-name="Panel">
+          <div className="absolute border-2 border-[#707070] border-dashed inset-[4px] rounded-[16px]" data-node-id="I1401:1509;1316:2221" data-name="Stitch" />
+          <div className="absolute flex h-[41.013px] items-center justify-center left-[16px] top-[-28.04px] w-[88.273px]" data-node-id="I1401:1509;1316:2222">
+            <div className="-rotate-2 flex-none">
+              <div className="bg-[#bce3ff] border-2 border-[#0d0f10] border-solid content-stretch drop-shadow-[4px_4px_0px_#0d0f10] flex items-center justify-center pb-[6px] pt-[4px] px-[14px] relative rounded-[999px]" data-name="Tag">
+                <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[24px] lowercase relative shrink-0 text-[#0d0f10] text-[18px] tracking-[-0.36px] whitespace-nowrap" data-node-id="I1401:1509;1316:2222;1316:2248">
+                  тебе не кажется
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="[word-break:break-word] font-['Golos_Text:SemiBold'] font-semibold leading-[0] lowercase min-w-full relative shrink-0 text-[#0d0f10] text-[0px] tracking-[-1.12px] w-[min-content]" data-node-id="1401:1482">
+          <p className="leading-[27px] mb-0 text-[28px]">Когда это</p>
+          <p className="leading-[27px] text-[#ff774e] text-[28px]">не просто ссора</p>
+        </div>
+        <div className="content-stretch flex flex-col gap-[28px] items-start overflow-clip relative shrink-0 w-full" data-node-id="1401:1483" data-name="content">
+          <div className="border-2 border-[#0d0f10] border-solid h-[157px] relative rounded-[16px] shrink-0 w-full" data-node-id="1401:1484" data-name="image">
+            <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[16px] size-full" src={imgImage} />
+          </div>
+          <div className="content-stretch flex flex-col gap-[14px] items-start overflow-clip relative shrink-0 w-full" data-node-id="1401:1485" data-name="theses">
+            <div className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[0] lowercase relative shrink-0 text-[#0d0f10] text-[0px] tracking-[-0.4px] w-full whitespace-pre-wrap" data-node-id="1401:1486">
+              <p className="leading-[26px] mb-0 text-[20px]">{`«Мы же просто шутим»: `}</p>
+              <p className="text-[20px]">
+                <span className="leading-[26px]">{`когда это `}</span>
+                <span className="leading-[26px] text-[#ff774e]">уже травля</span>
+              </p>
+            </div>
+            <div className="content-stretch flex flex-col gap-[12px] items-start relative shrink-0 w-full" data-node-id="1401:1487" data-name="list">
+              <div className="content-stretch flex gap-[10px] items-center relative shrink-0 w-full" data-node-id="1401:1488" data-name="item">
+                <div className="h-[21.565px] relative shrink-0 w-[22px]" data-node-id="1401:1489" data-name="icon/pin">
+                  <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgIconPin} />
+                </div>
+                <p className="[word-break:break-word] flex-[1_0_0] font-['Golos_Text:SemiBold'] font-semibold h-full leading-[0] lowercase min-w-px relative text-[#0d0f10] text-[0px] tracking-[-0.32px]">
+                  <span className="leading-[16px] text-[16px]">{`Повторяется `}</span>
+                  <span className="leading-[16px] text-[#ff774e] text-[16px]">снова и снова</span>
+                  <span className="leading-[16px] text-[16px]">, а не один раз</span>
+                </p>
+              </div>
+              <div className="content-stretch flex gap-[10px] items-center relative shrink-0 w-full" data-node-id="1401:1491" data-name="item">
+                <div className="h-[21.565px] relative shrink-0 w-[22px]" data-node-id="1401:1492" data-name="icon/pin">
+                  <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgIconPin} />
+                </div>
+                <p className="[word-break:break-word] flex-[1_0_0] font-['Golos_Text:SemiBold'] font-semibold h-full leading-[0] lowercase min-w-px relative text-[#0d0f10] text-[0px] tracking-[-0.32px]">
+                  <span className="leading-[16px] text-[16px]">{`Один против нескольких — `}</span>
+                  <span className="leading-[16px] text-[#ff774e] text-[16px]">силы неравны</span>
+                </p>
+              </div>
+              <div className="content-stretch flex gap-[10px] items-center relative shrink-0 w-full" data-node-id="1401:1494" data-name="item">
+                <div className="h-[21.565px] relative shrink-0 w-[22px]" data-node-id="1401:1495" data-name="icon/pin">
+                  <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgIconPin} />
+                </div>
+                <p className="[word-break:break-word] flex-[1_0_0] font-['Golos_Text:SemiBold'] font-semibold h-full leading-[0] lowercase min-w-px relative text-[#0d0f10] text-[0px] tracking-[-0.32px]">
+                  <span className="leading-[16px] text-[16px]">{`Обидно одному, `}</span>
+                  <span className="leading-[16px] text-[#ff774e] text-[16px]">смешно остальным</span>
+                </p>
+              </div>
+              <div className="content-stretch flex gap-[10px] items-center relative shrink-0 w-full" data-node-id="1401:1497" data-name="item">
+                <div className="h-[21.565px] relative shrink-0 w-[22px]" data-node-id="1401:1498" data-name="icon/pin">
+                  <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgIconPin} />
+                </div>
+                <div className="[word-break:break-word] flex-[1_0_0] font-['Golos_Text:SemiBold'] font-semibold h-full leading-[0] lowercase min-w-px relative text-[#0d0f10] text-[0px] tracking-[-0.32px] whitespace-pre-wrap">
+                  <p className="mb-0 text-[16px]">
+                    <span className="leading-[16px]">{`Просьбы прекратить `}</span>
+                    <span className="[word-break:break-word] font-['Golos_Text:SemiBold'] font-semibold leading-[16px] lowercase text-[#ff774e] tracking-[-0.32px]">не слышат</span>
+                    <span className="leading-[16px]">{` `}</span>
+                  </p>
+                  <p className="leading-[16px] text-[16px]">или высмеивают</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="content-stretch flex flex-col gap-[16px] items-center relative shrink-0 w-full" data-node-id="1401:1500" data-name="actions">
+          <div className="bg-[#bce3ff] border-4 border-[#0d0f10] border-solid content-stretch drop-shadow-[0px_6px_0px_#0d0f10] flex items-center justify-center pb-[14px] pt-[12px] px-[24px] relative rounded-[999px] shrink-0 w-full" data-node-id="1401:1513" data-name="Button">
+            <a className="[word-break:break-word] block cursor-pointer font-['Golos_Text:Bold'] font-bold leading-[26px] lowercase relative shrink-0 text-[#0d0f10] text-[20px] tracking-[-0.4px] whitespace-nowrap" href="https://dzen.ru/sreda_acceptance" data-node-id="I1401:1513;1316:2262" target="_blank">
+              читать
+            </a>
+          </div>
+          <div className="bg-[#ff774e] border-4 border-[#0d0f10] border-solid content-stretch drop-shadow-[0px_6px_0px_#0d0f10] flex items-center justify-center pb-[14px] pt-[12px] px-[24px] relative rounded-[999px] shrink-0 w-full" data-node-id="1401:1515" data-name="Button">
+            <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[26px] lowercase relative shrink-0 text-[#0d0f10] text-[20px] tracking-[-0.4px] whitespace-nowrap" data-node-id="I1401:1515;1316:2256">
+              Дальше
+            </p>
+          </div>
+          <p className="[word-break:break-word] font-['Golos_Text:Regular'] font-normal leading-[16px] relative shrink-0 text-[#3d3e3d] text-[12px] text-center tracking-[-0.24px] w-[196px]" data-node-id="1401:1503">
+            Статья откроется в новой вкладке, история подождёт
+          </p>
+        </div>
+      </div>
+      <div className="absolute content-stretch flex flex-col gap-[10px] h-[80px] items-start left-0 px-[16px] py-[12px] top-0 w-[390px]" data-node-id="1401:1530" data-name="Bar">
+        <div className="content-stretch flex h-[42px] items-center justify-between relative shrink-0 w-full" data-node-id="I1401:1530;1316:2123" data-name="Top">
+          <div className="h-[49.4px] relative shrink-0 w-[91.081px]" data-node-id="I1401:1530;1316:2355" data-name="Logo">
+            <div className="absolute inset-[-1.39%_-0.75%]">
+              <img alt="" className="block max-w-none size-full" src={imgLogo} />
+            </div>
+          </div>
+          <div className="content-stretch flex gap-[8px] h-[42px] items-start overflow-clip relative shrink-0" data-node-id="I1401:1530;1316:2125" data-name="Actions">
+            <div className="bg-[#ffb5dc] border-2 border-[#0d0f10] border-solid content-stretch drop-shadow-[4px_4px_0px_#0d0f10] flex items-center justify-center pb-[6px] pt-[4px] px-[14px] relative rounded-[999px] shrink-0" data-node-id="I1401:1530;1316:2126" data-name="Help">
+              <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[24px] lowercase relative shrink-0 text-[#0d0f10] text-[18px] tracking-[-0.36px] whitespace-nowrap" data-node-id="I1401:1530;1316:2126;1316:2248">
+                нужна поддержка
+              </p>
+            </div>
+            <div className="bg-[#fff9ed] border-2 border-[#0d0f10] border-solid content-stretch flex flex-col gap-[4.18px] h-[38px] items-center justify-center overflow-clip relative rounded-[999px] shadow-[4px_4px_0px_0px_#0d0f10] shrink-0 w-[49.4px]" data-node-id="I1401:1530;1316:2356" data-name="Menu">
+              <div className="bg-[#0d0f10] h-[2.85px] relative rounded-[99px] shrink-0 w-[15.96px]" data-node-id="I1401:1530;1316:2357" data-name="line" />
+              <div className="bg-[#0d0f10] h-[2.85px] relative rounded-[99px] shrink-0 w-[15.96px]" data-node-id="I1401:1530;1316:2358" data-name="line" />
+              <div className="bg-[#0d0f10] h-[2.85px] relative rounded-[99px] shrink-0 w-[15.96px]" data-node-id="I1401:1530;1316:2359" data-name="line" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+SUPER CRITICAL: The generated React+Tailwind code MUST be converted to match the target project's technology stack and styling system.
+1. Analyze the target codebase to identify: technology stack, styling approach, component patterns, and design tokens
+2. Convert React syntax to the target framework/library
+3. Transform all Tailwind classes to the target styling system while preserving exact visual design
+4. Follow the project's existing patterns and conventions
+DO NOT install any Tailwind as a dependency unless the user instructs you to do so.
+
+Node ids have been added to the code as data attributes, e.g. `data-node-id="1:2"`.
+These styles are contained in the design: Content/Grey/Medium: #707070, Content/Black: #0D0F10, Mobile/Title2/Bold: Font(family: "Golos Text", style: Bold, size: 18, weight: 700, lineHeight: 24, letterSpacing: -2), Accent/Blue: #BCE3FF, Content/Beige: #FFF9ED, Mobile/Heading/SemiBold: Font(family: "Golos Text", style: SemiBold, size: 28, weight: 600, lineHeight: 27, letterSpacing: -4), Mobile/Title1/Bold: Font(family: "Golos Text", style: Bold, size: 20, weight: 700, lineHeight: 26, letterSpacing: -2), Accent/Red: #FF774E, Mobile/Headline/SemiBold: Font(family: "Golos Text", style: SemiBold, size: 16, weight: 600, lineHeight: 16, letterSpacing: -2), Content/Grey/Dark: #3D3E3D, Mobile/Callout/Regular: Font(family: "Golos Text", style: Regular, size: 12, weight: 400, lineHeight: 16, letterSpacing: -2), Accent/Pink/Dark: #FFB5DC.
+The generated code contains image and SVG URL constants, e.g. const image = 'https://www.figma.com/api/mcp/asset/550e8400-e29b-41d4-a716-446655440000.png'. These URLs are temporary download sources and expire after 7 days. Download each asset into the project with curl -L, then replace its URL in the generated code with a reference to the downloaded asset. Never use the temporary URLs as runtime image sources.

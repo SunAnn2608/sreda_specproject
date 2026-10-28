@@ -1,0 +1,142 @@
+const imgBgCorridorBunny = "https://www.figma.com/api/mcp/asset/64e921c2-58f8-4b35-affe-ab5558d6f6a3.png";
+const imgBgBunnyRuns = "https://www.figma.com/api/mcp/asset/09ea8681-be9b-472e-8a79-2b2b30734550.png";
+const imgImage = "https://www.figma.com/api/mcp/asset/a2c21204-332a-4030-b0cb-6377f9967895.png";
+const imgCharKroli = "https://www.figma.com/api/mcp/asset/7018d64c-463d-4a48-9f8d-d5bfb448b818.png";
+const imgTail = "https://www.figma.com/api/mcp/asset/8bc6970f-52c5-4070-9984-21c68c88fde0.svg";
+const imgArrow = "https://www.figma.com/api/mcp/asset/3cf3e990-6546-43a8-8e76-1591bcf92883.svg";
+const imgAuraKroliGlow = "https://www.figma.com/api/mcp/asset/b16e1a71-ce33-4ac9-a36a-11b08721f208.svg";
+const imgLogo = "https://www.figma.com/api/mcp/asset/03d0593e-9f0c-4ae4-b67b-c14a16acb895.svg";
+
+type ChatMessageProps = {
+  className?: string;
+  device?: "Tablet";
+  direction?: "In" | "Out";
+  text?: string;
+};
+
+function ChatMessage({ className, device = "Tablet", direction = "In", text = "ты где?" }: ChatMessageProps) {
+  const isTabletAndOut = device === "Tablet" && direction === "Out";
+  return (
+    <div className={className || `border-2 border-[#0d0f10] border-solid content-stretch flex items-start pb-[12px] pt-[10px] px-[16px] relative rounded-[18px] ${isTabletAndOut ? "bg-[#bce3ff]" : "bg-[#fff9ed]"}`} id={isTabletAndOut ? "node-1316_2297" : "node-1316_2291"}>
+      <p className="[word-break:break-word] font-['Golos_Text:Regular'] font-normal leading-[22px] relative shrink-0 text-[#0d0f10] text-[20px] tracking-[-0.4px] w-[250px]" data-node-id="1316:2292">
+        {text}
+      </p>
+    </div>
+  );
+}
+
+export default function Component0202() {
+  return (
+    <div className="bg-[#fff9ed] border border-[#e5e4e5] border-solid relative size-full" data-node-id="1396:1252" data-name="02-02">
+      <div className="absolute h-[936px] right-[-135px] top-[-104px] w-[1497px]" data-node-id="1396:1253" data-name="bg/corridor-bunny">
+        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgBgCorridorBunny} />
+      </div>
+      <div className="absolute flex h-[1490.385px] items-center justify-center left-[-221.88px] mix-blend-multiply top-[-270.36px] w-[1174.283px]" data-node-id="1396:1254">
+        <div className="flex-none rotate-[-10.91deg]">
+          <div className="blur-[45.6px] h-[1337.016px] relative rounded-[102px] w-[938.272px]" data-name="bg/bunny-runs">
+            <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[102px]">
+              <img alt="" className="absolute h-[100.05%] left-0 max-w-none top-[-0.03%] w-[717.09%]" src={imgBgBunnyRuns} />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="absolute bg-[#fff9ed] border-4 border-[#0d0f10] border-solid content-stretch drop-shadow-[8px_10px_0px_#0d0f10] flex flex-col h-[154px] items-start left-[calc(66.67%+37px)] min-h-[150px] pb-[40px] pt-[44px] px-[36px] rounded-[28px] top-[510.5px] w-[310px]" data-node-id="1396:2018" data-name="Bubble">
+        <p className="[word-break:break-word] font-['Golos_Text:Regular'] font-normal leading-[32px] min-w-full relative shrink-0 text-[#0d0f10] text-[24px] tracking-[-0.96px] w-[min-content]" data-node-id="I1396:2018;1316:2139">
+          Я просил удалить. Никто не ответил.
+        </p>
+        <div className="-translate-y-1/2 absolute h-[35px] left-[-31px] top-[calc(50%+17.5px)] w-[32px]" data-node-id="I1396:2018;1316:2140" data-name="Tail">
+          <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgTail} />
+        </div>
+        <div className="absolute bottom-[20px] h-[16px] right-[32px] w-[22px]" data-node-id="I1396:2018;1316:2143" data-name="Arrow">
+          <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgArrow} />
+        </div>
+        <div className="absolute bg-[#bce3ff] border-4 border-[#0d0f10] border-solid content-stretch drop-shadow-[4px_4px_0px_#0d0f10] flex items-center justify-center left-[24px] px-[18px] py-[6px] rounded-[999px] top-[-27px]" data-node-id="I1396:2018;1316:2145" data-name="Name">
+          <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[22px] lowercase relative shrink-0 text-[#0d0f10] text-[20px] tracking-[-0.4px] whitespace-nowrap" data-node-id="I1396:2018;1316:2145;1316:2246">
+            банни
+          </p>
+        </div>
+      </div>
+      <div className="absolute left-[-152px] size-[765px] top-[262.5px]" data-node-id="1396:1256" data-name="aura/kroli-glow">
+        <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgAuraKroliGlow} />
+      </div>
+      <div className="absolute content-stretch flex flex-col h-[580px] items-start left-[calc(16.67%+87.5px)] overflow-clip pt-[66px] rounded-[44px] top-[119px] w-[390px]" data-node-id="1396:1257" data-name="phone">
+        <div className="absolute bg-[#fff9ed] border-4 border-[#0d0f10] border-solid inset-0 overflow-clip rounded-[44px] shadow-[8px_10px_0px_0px_#0d0f10]" data-node-id="1396:2027" data-name="Phone">
+          <div className="absolute bg-[#bce3ff] content-stretch flex items-start left-[-4px] overflow-clip pb-[16px] pt-[24px] px-[24px] right-[-4px] top-[-4px]" data-node-id="I1396:2027;1316:2207" data-name="Header">
+            <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[26px] lowercase relative shrink-0 text-[#0d0f10] text-[22px] tracking-[-0.44px] whitespace-nowrap" data-node-id="I1396:2027;1316:2208">
+              8 «Б» · общий чат
+            </p>
+          </div>
+        </div>
+        <div className="content-stretch flex flex-col gap-[10px] items-start overflow-clip pt-[18px] px-[20px] relative shrink-0 w-full" data-node-id="1396:1259" data-name="messages">
+          <div className="content-stretch flex items-start relative shrink-0 w-full" data-node-id="1396:1260" data-name="row/incoming">
+            <ChatMessage className="bg-[#fff9ed] border-2 border-[#0d0f10] border-solid content-stretch flex items-start pb-[12px] pt-[10px] px-[16px] relative rounded-[18px] shrink-0" text="смотрите, кто опять в шапке" />
+          </div>
+          <div className="content-stretch flex items-start relative shrink-0 w-[370px]" data-node-id="1396:1262" data-name="row/incoming">
+            <div className="border-2 border-[#0d0f10] border-solid h-[194.5px] relative rounded-[12px] shrink-0 w-[286px]" data-node-id="1396:1263" data-name="image">
+              <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[12px]">
+                <img alt="" className="absolute h-[275.48%] left-[-135%] max-w-none top-[-27.55%] w-[333.33%]" src={imgImage} />
+              </div>
+            </div>
+          </div>
+          <div className="content-stretch flex items-start relative shrink-0 w-full" data-node-id="1396:1264" data-name="row/incoming">
+            <ChatMessage className="bg-[#fff9ed] border-2 border-[#0d0f10] border-solid content-stretch flex items-start pb-[12px] pt-[10px] px-[16px] relative rounded-[18px] shrink-0" text="ахаха" />
+          </div>
+          <div className="content-stretch flex items-start justify-end relative shrink-0 w-full" data-node-id="1396:1266" data-name="row/outgoing">
+            <ChatMessage className="bg-[#bce3ff] border-2 border-[#0d0f10] border-solid content-stretch flex items-start pb-[12px] pt-[10px] px-[16px] relative rounded-[18px] shrink-0" direction="Out" text="Удалите, пожалуйста. Я не разрешал." />
+          </div>
+          <div className="content-stretch flex items-start justify-end relative shrink-0 w-full" data-node-id="1396:1268" data-name="row/outgoing">
+            <p className="[word-break:break-word] font-['Golos_Text:Regular'] font-normal leading-[16px] relative shrink-0 text-[#3d3e3d] text-[12px] tracking-[-0.24px] whitespace-nowrap" data-node-id="1396:1269">
+              Прочитано: 24 · ответов нет
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="absolute content-stretch flex h-[80px] items-center justify-between left-[-1px] px-[32px] top-[-1px] w-[1280px]" data-node-id="1396:2036" data-name="Bar">
+        <div className="h-[54.6px] relative shrink-0 w-[100.669px]" data-node-id="I1396:2036;1316:2350" data-name="Logo">
+          <div className="absolute inset-[-1.39%_-0.75%]">
+            <img alt="" className="block max-w-none size-full" src={imgLogo} />
+          </div>
+        </div>
+        <div className="bg-[#fff9ed] border-4 border-[#0d0f10] border-solid content-stretch drop-shadow-[4px_4px_0px_#0d0f10] flex items-center justify-center px-[18px] py-[6px] relative rounded-[999px] shrink-0" data-node-id="I1396:2036;1316:2117" data-name="Chapter">
+          <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[22px] lowercase relative shrink-0 text-[#0d0f10] text-[20px] tracking-[-0.4px] whitespace-nowrap" data-node-id="I1396:2036;1316:2117;1316:2246">
+            день 1 · общий чат
+          </p>
+        </div>
+        <div className="content-stretch flex gap-[10px] h-[46px] items-start overflow-clip relative shrink-0 w-[460px]" data-node-id="I1396:2036;1316:2118" data-name="Actions">
+          <div className="bg-[#ffb5dc] border-4 border-[#0d0f10] border-solid content-stretch drop-shadow-[4px_4px_0px_#0d0f10] flex items-center justify-center px-[18px] py-[6px] relative rounded-[999px] shrink-0" data-node-id="I1396:2036;1316:2119" data-name="Help">
+            <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[22px] lowercase relative shrink-0 text-[#0d0f10] text-[20px] tracking-[-0.4px] whitespace-nowrap" data-node-id="I1396:2036;1316:2119;1316:2246">
+              Нужна поддержка
+            </p>
+          </div>
+          <div className="bg-[#bce3ff] border-4 border-[#0d0f10] border-solid content-stretch drop-shadow-[4px_4px_0px_#0d0f10] flex items-center justify-center px-[18px] py-[6px] relative rounded-[999px] shrink-0" data-node-id="I1396:2036;1316:2120" data-name="Materials">
+            <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[22px] lowercase relative shrink-0 text-[#0d0f10] text-[20px] tracking-[-0.4px] whitespace-nowrap" data-node-id="I1396:2036;1316:2120;1316:2246">
+              Материалы
+            </p>
+          </div>
+          <div className="bg-[#fff9ed] border-4 border-[#0d0f10] border-solid content-stretch flex flex-col gap-[4.62px] h-[42px] items-center justify-center overflow-clip relative rounded-[999px] shadow-[4px_4px_0px_0px_#0d0f10] shrink-0 w-[54.6px]" data-node-id="I1396:2036;1316:2351" data-name="Menu">
+            <div className="bg-[#0d0f10] h-[3.15px] relative rounded-[99px] shrink-0 w-[17.64px]" data-node-id="I1396:2036;1316:2352" data-name="line" />
+            <div className="bg-[#0d0f10] h-[3.15px] relative rounded-[99px] shrink-0 w-[17.64px]" data-node-id="I1396:2036;1316:2353" data-name="line" />
+            <div className="bg-[#0d0f10] h-[3.15px] relative rounded-[99px] shrink-0 w-[17.64px]" data-node-id="I1396:2036;1316:2354" data-name="line" />
+          </div>
+        </div>
+      </div>
+      <div className="absolute flex h-[821.889px] items-center justify-center left-[-270.5px] top-[199.5px] w-[767.592px]" data-node-id="1396:1271">
+        <div className="flex-none rotate-[20.62deg]">
+          <div className="h-[663.5px] relative w-[570.5px]" data-name="char/kroli">
+            <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgCharKroli} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+SUPER CRITICAL: The generated React+Tailwind code MUST be converted to match the target project's technology stack and styling system.
+1. Analyze the target codebase to identify: technology stack, styling approach, component patterns, and design tokens
+2. Convert React syntax to the target framework/library
+3. Transform all Tailwind classes to the target styling system while preserving exact visual design
+4. Follow the project's existing patterns and conventions
+DO NOT install any Tailwind as a dependency unless the user instructs you to do so.
+
+Node ids have been added to the code as data attributes, e.g. `data-node-id="1:2"`.
+These styles are contained in the design: Content/Black: #0D0F10, Tablet/LargeTitle/Regular: Font(family: "Golos Text", style: Regular, size: 24, weight: 400, lineHeight: 32, letterSpacing: -4), Content/Beige: #FFF9ED, Tablet/Title2/Bold: Font(family: "Golos Text", style: Bold, size: 20, weight: 700, lineHeight: 22, letterSpacing: -2), Accent/Blue: #BCE3FF, Tablet/Title1/Bold: Font(family: "Golos Text", style: Bold, size: 22, weight: 700, lineHeight: 26, letterSpacing: -2), Tablet/Title2/Regular: Font(family: "Golos Text", style: Regular, size: 20, weight: 400, lineHeight: 22, letterSpacing: -2), Content/Grey/Dark: #3D3E3D, Tablet/Callout/Regular: Font(family: "Golos Text", style: Regular, size: 12, weight: 400, lineHeight: 16, letterSpacing: -2), Accent/Pink/Dark: #FFB5DC, Content/Grey/Light: #E5E4E5.
+The generated code contains image and SVG URL constants, e.g. const image = 'https://www.figma.com/api/mcp/asset/550e8400-e29b-41d4-a716-446655440000.png'. These URLs are temporary download sources and expire after 7 days. Download each asset into the project with curl -L, then replace its URL in the generated code with a reference to the downloaded asset. Never use the temporary URLs as runtime image sources.

@@ -1,0 +1,160 @@
+const imgBgFoyerDark = "https://www.figma.com/api/mcp/asset/aad4fea2-70a1-4b80-a0cc-385d3c27d5f0.png";
+const imgEmojiGuide = "https://www.figma.com/api/mcp/asset/a0c29ecc-6a75-4b60-a757-0518c0996353.svg";
+const imgEmojiGuide1 = "https://www.figma.com/api/mcp/asset/6b5cacef-7304-4e5c-ae27-0691bbce53ac.svg";
+const imgEmojiGuide2 = "https://www.figma.com/api/mcp/asset/d7fffecf-17ee-4025-b0ea-3acc5be7e451.svg";
+const imgLogo = "https://www.figma.com/api/mcp/asset/7fd1741d-c637-416e-9d2a-05a4f5829484.svg";
+
+export default function Help() {
+  return (
+    <div className="bg-[#fff9ed] border-2 border-[#e5e4e5] border-solid relative size-full" data-node-id="1318:2792" data-name="HELP">
+      <div className="absolute h-[1440px] left-[-2px] top-[-2px] w-[2560px]" data-node-id="1323:4238" data-name="bg/foyer-dark">
+        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgBgFoyerDark} />
+      </div>
+      <p className="[word-break:break-word] absolute font-['Golos_Text:SemiBold'] font-semibold leading-[80px] left-[158px] lowercase text-[#fff9ed] text-[96px] top-[218px] tracking-[-3.84px] whitespace-nowrap" data-node-id="1318:2796">
+        Нужна поддержка
+      </p>
+      <div className="absolute content-stretch flex gap-[56px] items-start left-[158px] top-[508px]" data-node-id="1318:2797" data-name="steps">
+        <div className="bg-[#fff9ed] border-6 border-[#0d0f10] border-solid content-stretch drop-shadow-[16px_20px_0px_#0d0f10] flex flex-col gap-[20px] items-start pb-[48px] pt-[80px] px-[64px] relative rounded-[56px] shrink-0 w-[704px]" data-node-id="1318:2798" data-name="Card">
+          <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[52px] lowercase min-w-full relative shrink-0 text-[#0d0f10] text-[44px] tracking-[-0.88px] w-[min-content]" data-node-id="I1318:2798;1316:2225">
+            Выбери взрослого
+          </p>
+          <p className="[word-break:break-word] font-['Golos_Text:Regular'] font-normal leading-[48px] min-w-full relative shrink-0 text-[#0d0f10] text-[40px] tracking-[-0.8px] w-[min-content]" data-node-id="I1318:2798;1316:2226">
+            Родитель, классный руководитель, психолог, тренер — тот, кому доверяешь.
+          </p>
+          <div className="absolute border-4 border-[#707070] border-dashed inset-[14px] rounded-[40px]" data-node-id="I1318:2798;1316:2228" data-name="Stitch" />
+          <div className="absolute flex h-[89.139px] items-center justify-center left-[66px] top-[-58.19px] w-[208.736px]" data-node-id="I1318:2798;1316:2229">
+            <div className="-rotate-2 flex-none">
+              <div className="bg-[#ffb5dc] border-6 border-[#0d0f10] border-solid content-stretch drop-shadow-[6px_8px_0px_#0d0f10] flex items-center justify-center pb-[12px] pt-[10px] px-[36px] relative rounded-[999px]" data-name="Tag">
+                <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[48px] lowercase relative shrink-0 text-[#0d0f10] text-[40px] tracking-[-0.8px] whitespace-nowrap" data-node-id="I1318:2798;1316:2229;1316:2244">
+                  шаг 1
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="bg-[#fff9ed] border-6 border-[#0d0f10] border-solid content-stretch drop-shadow-[16px_20px_0px_#0d0f10] flex flex-col gap-[20px] items-start pb-[48px] pt-[80px] px-[64px] relative rounded-[56px] shrink-0 w-[704px]" data-node-id="1318:2799" data-name="Card">
+          <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[52px] lowercase min-w-full relative shrink-0 text-[#0d0f10] text-[44px] tracking-[-0.88px] w-[min-content]" data-node-id="I1318:2799;1316:2225">
+            Начни с факта
+          </p>
+          <p className="[word-break:break-word] font-['Golos_Text:Regular'] font-normal leading-[48px] min-w-full relative shrink-0 text-[#0d0f10] text-[40px] tracking-[-0.8px] w-[min-content]" data-node-id="I1318:2799;1316:2226">
+            «Меня снимают без разрешения и выкладывают в чат». Можно показать переписку.
+          </p>
+          <div className="absolute border-4 border-[#707070] border-dashed inset-[14px] rounded-[40px]" data-node-id="I1318:2799;1316:2228" data-name="Stitch" />
+          <div className="absolute flex h-[89.139px] items-center justify-center left-[66px] top-[-58.19px] w-[208.736px]" data-node-id="I1318:2799;1316:2229">
+            <div className="-rotate-2 flex-none">
+              <div className="bg-[#ffb5dc] border-6 border-[#0d0f10] border-solid content-stretch drop-shadow-[6px_8px_0px_#0d0f10] flex items-center justify-center pb-[12px] pt-[10px] px-[36px] relative rounded-[999px]" data-name="Tag">
+                <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[48px] lowercase relative shrink-0 text-[#0d0f10] text-[40px] tracking-[-0.8px] whitespace-nowrap" data-node-id="I1318:2799;1316:2229;1316:2244">
+                  шаг 2
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="bg-[#fff9ed] border-6 border-[#0d0f10] border-solid content-stretch drop-shadow-[16px_20px_0px_#0d0f10] flex flex-col gap-[20px] items-start pb-[48px] pt-[80px] px-[64px] relative rounded-[56px] shrink-0 w-[704px]" data-node-id="1318:2800" data-name="Card">
+          <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[52px] lowercase min-w-full relative shrink-0 text-[#0d0f10] text-[44px] tracking-[-0.88px] w-[min-content]" data-node-id="I1318:2800;1316:2225">
+            Скажи, что нужно
+          </p>
+          <p className="[word-break:break-word] font-['Golos_Text:Regular'] font-normal leading-[48px] min-w-full relative shrink-0 text-[#0d0f10] text-[40px] tracking-[-0.8px] w-[min-content]" data-node-id="I1318:2800;1316:2226">
+            Чтобы выслушали, чтобы помогли поговорить со школой, чтобы не делали без тебя.
+          </p>
+          <div className="absolute border-4 border-[#707070] border-dashed inset-[14px] rounded-[40px]" data-node-id="I1318:2800;1316:2228" data-name="Stitch" />
+          <div className="absolute flex h-[89.139px] items-center justify-center left-[66px] top-[-58.19px] w-[208.736px]" data-node-id="I1318:2800;1316:2229">
+            <div className="-rotate-2 flex-none">
+              <div className="bg-[#ffb5dc] border-6 border-[#0d0f10] border-solid content-stretch drop-shadow-[6px_8px_0px_#0d0f10] flex items-center justify-center pb-[12px] pt-[10px] px-[36px] relative rounded-[999px]" data-name="Tag">
+                <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[48px] lowercase relative shrink-0 text-[#0d0f10] text-[40px] tracking-[-0.8px] whitespace-nowrap" data-node-id="I1318:2800;1316:2229;1316:2244">
+                  шаг 3
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="absolute content-stretch flex gap-[32px] items-center left-[158px] top-[1012px]" data-node-id="1318:2801" data-name="actions">
+        <div className="bg-[#ffb5dc] border-6 border-[#0d0f10] border-solid content-stretch drop-shadow-[0px_12px_0px_#0d0f10] flex items-center justify-center pb-[30px] pt-[26px] px-[64px] relative rounded-[999px] shrink-0" data-node-id="1318:2802" data-name="Button">
+          <a className="[word-break:break-word] block cursor-pointer font-['Golos_Text:Bold'] font-bold leading-[52px] lowercase relative shrink-0 text-[#0d0f10] text-[44px] tracking-[-0.88px] whitespace-nowrap" href="https://verimtebe.ru/get-psy-assistance/#anketa" data-node-id="I1318:2802;1374:804" target="_blank">
+            написать в фонд
+          </a>
+        </div>
+        <div className="bg-[#bce3ff] border-6 border-[#0d0f10] border-solid content-stretch drop-shadow-[0px_12px_0px_#0d0f10] flex items-center justify-center pb-[30px] pt-[26px] px-[64px] relative rounded-[999px] shrink-0" data-node-id="1318:2803" data-name="Button">
+          <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[52px] lowercase relative shrink-0 text-[#0d0f10] text-[44px] tracking-[-0.88px] whitespace-nowrap" data-node-id="I1318:2803;1316:2258">
+            материалы
+          </p>
+        </div>
+      </div>
+      <p className="[word-break:break-word] absolute font-['Golos_Text:Regular'] font-normal leading-[48px] left-[158px] text-[#fff9ed] text-[40px] top-[318px] tracking-[-0.8px] whitespace-nowrap" data-node-id="1320:2569">
+        Как начать разговор и к кому обратиться, если тебя травят или ты видишь травлю.
+      </p>
+      <div className="absolute flex h-[189.349px] items-center justify-center left-[calc(25%+85.2px)] top-[423.33px] w-[195.6px]" data-node-id="1328:852">
+        <div className="-rotate-10 flex-none">
+          <div className="h-[162.295px] relative w-[170px]" data-name="emoji/guide">
+            <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgEmojiGuide} />
+          </div>
+        </div>
+      </div>
+      <div className="absolute flex h-[183.193px] items-center justify-center left-[calc(58.33%+26.35px)] top-[426.4px] w-[129.306px]" data-node-id="1328:853">
+        <div className="flex-none rotate-8">
+          <div className="h-[170px] relative w-[106.685px]" data-name="emoji/guide">
+            <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgEmojiGuide1} />
+          </div>
+        </div>
+      </div>
+      <div className="absolute flex h-[195.594px] items-center justify-center left-[calc(91.67%-95.66px)] top-[420.2px] w-[189.32px]" data-node-id="1328:854">
+        <div className="-rotate-10 flex-none">
+          <div className="h-[170px] relative w-[162.265px]" data-name="emoji/guide">
+            <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgEmojiGuide2} />
+          </div>
+        </div>
+      </div>
+      <div className="absolute bg-[#fdd0db] border-4 border-[#0d0f10] border-dashed content-stretch flex items-start left-[calc(41.67%+119px)] overflow-clip px-[40px] py-[28px] rounded-[32px] top-[1012px] w-[1159px]" data-node-id="1500:1913" data-name="note/emergency">
+        <div className="[word-break:break-word] flex-[1_0_0] font-['Golos_Text:Regular'] font-normal leading-[0] min-w-px relative text-[#0d0f10] text-[0px] tracking-[-0.72px]" data-node-id="I1500:1913;1500:1902">
+          <p className="mb-0 text-[36px]">
+            <span className="font-['Golos_Text:Regular'] font-normal leading-[40px]">{`Если опасно прямо сейчас — `}</span>
+            <span className="font-['Golos_Text:SemiBold'] font-semibold leading-[40px] lowercase">звони 112</span>
+            <span className="font-['Golos_Text:Regular'] font-normal leading-[40px]">.</span>
+          </p>
+          <p className="leading-[40px] mb-0 text-[36px]">Поговорить анонимно и бесплатно:</p>
+          <p className="font-['Golos_Text:SemiBold'] font-semibold leading-[40px] lowercase text-[36px]">детский телефон доверия 8 800 2000-122.</p>
+        </div>
+      </div>
+      <div className="absolute content-stretch flex h-[160px] items-center justify-between left-[-2px] px-[160px] top-[-2px] w-[2560px]" data-node-id="1318:2795" data-name="Bar">
+        <div className="h-[106.6px] relative shrink-0 w-[196.544px]" data-node-id="I1318:2795;1316:2345" data-name="Logo">
+          <div className="absolute inset-[-1.39%_-0.75%]">
+            <img alt="" className="block max-w-none size-full" src={imgLogo} />
+          </div>
+        </div>
+        <div className="bg-[#fff9ed] border-6 border-[#0d0f10] border-solid content-stretch drop-shadow-[6px_8px_0px_#0d0f10] flex items-center justify-center pb-[12px] pt-[10px] px-[36px] relative rounded-[999px] shrink-0" data-node-id="I1318:2795;1316:2110" data-name="Chapter">
+          <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[48px] lowercase relative shrink-0 text-[#0d0f10] text-[40px] tracking-[-0.8px] whitespace-nowrap" data-node-id="I1318:2795;1316:2110;1316:2244">
+            нужна поддержка
+          </p>
+        </div>
+        <div className="content-stretch flex gap-[20px] h-[90px] items-start overflow-clip relative shrink-0 w-[904px]" data-node-id="I1318:2795;1316:2111" data-name="Actions">
+          <div className="bg-[#ffb5dc] border-6 border-[#0d0f10] border-solid content-stretch drop-shadow-[6px_8px_0px_#0d0f10] flex items-center justify-center pb-[12px] pt-[10px] px-[36px] relative rounded-[999px] shrink-0" data-node-id="I1318:2795;1316:2112" data-name="Help">
+            <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[48px] lowercase relative shrink-0 text-[#0d0f10] text-[40px] tracking-[-0.8px] whitespace-nowrap" data-node-id="I1318:2795;1316:2112;1316:2244">
+              Нужна поддержка
+            </p>
+          </div>
+          <div className="bg-[#bce3ff] border-6 border-[#0d0f10] border-solid content-stretch drop-shadow-[6px_8px_0px_#0d0f10] flex items-center justify-center pb-[12px] pt-[10px] px-[36px] relative rounded-[999px] shrink-0" data-node-id="I1318:2795;1316:2113" data-name="Materials">
+            <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[48px] lowercase relative shrink-0 text-[#0d0f10] text-[40px] tracking-[-0.8px] whitespace-nowrap" data-node-id="I1318:2795;1316:2113;1316:2244">
+              Материалы
+            </p>
+          </div>
+          <div className="bg-[#fff9ed] border-6 border-[#0d0f10] border-solid content-stretch flex flex-col gap-[9.02px] h-[82px] items-center justify-center overflow-clip relative rounded-[999px] shadow-[6px_8px_0px_0px_#0d0f10] shrink-0 w-[106.6px]" data-node-id="I1318:2795;1316:2346" data-name="Menu">
+            <div className="bg-[#0d0f10] h-[6.15px] relative rounded-[99px] shrink-0 w-[34.44px]" data-node-id="I1318:2795;1316:2347" data-name="line" />
+            <div className="bg-[#0d0f10] h-[6.15px] relative rounded-[99px] shrink-0 w-[34.44px]" data-node-id="I1318:2795;1316:2348" data-name="line" />
+            <div className="bg-[#0d0f10] h-[6.15px] relative rounded-[99px] shrink-0 w-[34.44px]" data-node-id="I1318:2795;1316:2349" data-name="line" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+SUPER CRITICAL: The generated React+Tailwind code MUST be converted to match the target project's technology stack and styling system.
+1. Analyze the target codebase to identify: technology stack, styling approach, component patterns, and design tokens
+2. Convert React syntax to the target framework/library
+3. Transform all Tailwind classes to the target styling system while preserving exact visual design
+4. Follow the project's existing patterns and conventions
+DO NOT install any Tailwind as a dependency unless the user instructs you to do so.
+
+Node ids have been added to the code as data attributes, e.g. `data-node-id="1:2"`.
+These styles are contained in the design: Content/Beige: #FFF9ED, Desktop/Hero/SemiBold: Font(family: "Golos Text", style: SemiBold, size: 96, weight: 600, lineHeight: 80, letterSpacing: -4), Content/Black: #0D0F10, Desktop/Title1/Bold: Font(family: "Golos Text", style: Bold, size: 44, weight: 700, lineHeight: 52, letterSpacing: -2), Desktop/Title2/Regular: Font(family: "Golos Text", style: Regular, size: 40, weight: 400, lineHeight: 48, letterSpacing: -2), Content/Grey/Medium: #707070, Desktop/Title2/Bold: Font(family: "Golos Text", style: Bold, size: 40, weight: 700, lineHeight: 48, letterSpacing: -2), Accent/Pink/Dark: #FFB5DC, Accent/Blue: #BCE3FF, Accent/Red: #FF774E, Desktop/Title3/Regular: Font(family: "Golos Text", style: Regular, size: 36, weight: 400, lineHeight: 40, letterSpacing: -2), Accent/Pink/Light: #FDD0DB, Content/Grey/Light: #E5E4E5.
+The generated code contains image and SVG URL constants, e.g. const image = 'https://www.figma.com/api/mcp/asset/550e8400-e29b-41d4-a716-446655440000.png'. These URLs are temporary download sources and expire after 7 days. Download each asset into the project with curl -L, then replace its URL in the generated code with a reference to the downloaded asset. Never use the temporary URLs as runtime image sources.

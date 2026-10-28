@@ -1,0 +1,199 @@
+const imgBgFoyerDark = "https://www.figma.com/api/mcp/asset/2d669367-2653-4d23-a6d6-a08aab9806fb.png";
+const imgLogo = "https://www.figma.com/api/mcp/asset/ed5fa879-5201-435c-a506-b597f501f57a.svg";
+
+export default function Materials() {
+  return (
+    <div className="bg-[#fff9ed] border border-[#e5e4e5] border-solid relative size-full" data-node-id="1396:1483" data-name="MATERIALS">
+      <div className="absolute h-[800px] left-[-1px] top-[-1px] w-[1280px]" data-node-id="1396:1484" data-name="bg/foyer-dark">
+        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgBgFoyerDark} />
+      </div>
+      <div className="absolute content-stretch flex items-center justify-between left-[79px] top-[87px] w-[1110.5px]" data-node-id="1396:1485" data-name="header">
+        <p className="[word-break:break-word] font-['Golos_Text:SemiBold'] font-semibold leading-[56px] lowercase relative shrink-0 text-[#fff9ed] text-[48px] tracking-[-1.92px] whitespace-nowrap" data-node-id="1396:1486">
+          материалы
+        </p>
+        <div className="bg-[#ff774e] border-4 border-[#0d0f10] border-solid content-stretch drop-shadow-[0px_6px_0px_#0d0f10] flex items-center justify-center pb-[16px] pt-[14px] px-[32px] relative rounded-[999px] shrink-0" data-node-id="1396:2370" data-name="Button">
+          <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[26px] lowercase relative shrink-0 text-[#0d0f10] text-[22px] tracking-[-0.44px] whitespace-nowrap" data-node-id="I1396:2370;1316:2254">
+            Начать историю
+          </p>
+        </div>
+      </div>
+      <div className="absolute content-stretch flex flex-col gap-[26px] items-start left-[79px] top-[185px] w-[1120px]" data-node-id="1396:1488" data-name="articles">
+        <div className="content-stretch flex gap-[20px] items-start relative shrink-0 w-full" data-node-id="1396:1489" data-name="cards-row">
+          <div className="bg-[#fff9ed] border-4 border-[#0d0f10] border-solid content-stretch drop-shadow-[8px_10px_0px_#0d0f10] flex flex-[1_0_0] flex-col gap-[10px] items-start min-w-px pb-[24px] pt-[40px] px-[32px] relative rounded-[28px] self-stretch" data-node-id="1396:2372" data-name="Card">
+            <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[26px] lowercase min-w-full relative shrink-0 text-[#0d0f10] text-[22px] tracking-[-0.44px] w-[min-content]" data-node-id="I1396:2372;1316:2231">
+              «Мы же просто шутим»: когда это уже травля
+            </p>
+            <p className="[word-break:break-word] font-['Golos_Text:Regular'] font-normal leading-[22px] min-w-full relative shrink-0 text-[#0d0f10] text-[20px] tracking-[-0.4px] w-[min-content]" data-node-id="I1396:2372;1316:2232">
+              Шутка перестаёт быть шуткой, когда смеются не все и это повторяется.
+            </p>
+            <a className="[text-underline-position:from-font] [word-break:break-word] block cursor-pointer decoration-from-font decoration-solid font-['Golos_Text:SemiBold'] font-semibold leading-[1.2] lowercase min-w-full relative shrink-0 text-[#0d0f10] text-[14px] underline w-[min-content]" href="https://dzen.ru/sreda_acceptance" data-node-id="I1396:2372;1316:2233" target="_blank">
+              читать
+            </a>
+            <div className="absolute border-2 border-[#707070] border-dashed inset-[6px] rounded-[20px]" data-node-id="I1396:2372;1316:2234" data-name="Stitch" />
+            <div className="absolute flex h-[45.639px] items-center justify-center left-[32px] top-[-30.66px] w-[106.402px]" data-node-id="I1396:2372;1316:2235">
+              <div className="-rotate-2 flex-none">
+                <div className="bg-[#bce3ff] border-4 border-[#0d0f10] border-solid content-stretch drop-shadow-[4px_4px_0px_#0d0f10] flex items-center justify-center px-[18px] py-[6px] relative rounded-[999px]" data-name="Tag">
+                  <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[22px] lowercase relative shrink-0 text-[#0d0f10] text-[20px] tracking-[-0.4px] whitespace-nowrap" data-node-id="I1396:2372;1316:2235;1316:2246">
+                    для себя
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="bg-[#fff9ed] border-4 border-[#0d0f10] border-solid content-stretch drop-shadow-[8px_10px_0px_#0d0f10] flex flex-[1_0_0] flex-col gap-[10px] items-start min-w-px pb-[24px] pt-[40px] px-[32px] relative rounded-[28px] self-stretch" data-node-id="1396:2379" data-name="Card">
+            <div className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[0] lowercase min-w-full relative shrink-0 text-[#0d0f10] text-[22px] tracking-[-0.44px] w-[min-content] whitespace-pre-wrap" data-node-id="I1396:2379;1316:2231">
+              <p className="leading-[26px] mb-0">{`Когда хочется ответить `}</p>
+              <p className="leading-[26px]">в общий чат</p>
+            </div>
+            <p className="[word-break:break-word] font-['Golos_Text:Regular'] font-normal leading-[22px] min-w-full relative shrink-0 text-[#0d0f10] text-[20px] tracking-[-0.4px] w-[min-content]" data-node-id="I1396:2379;1316:2232">
+              Ответ сгоряча часто только разгоняет чат. Сохрани скрины и напиши тому, кто поддержит.
+            </p>
+            <a className="[text-underline-position:from-font] [word-break:break-word] block cursor-pointer decoration-from-font decoration-solid font-['Golos_Text:SemiBold'] font-semibold leading-[1.2] lowercase min-w-full relative shrink-0 text-[#0d0f10] text-[14px] underline w-[min-content]" href="https://dzen.ru/sreda_acceptance" data-node-id="I1396:2379;1316:2233" target="_blank">
+              читать
+            </a>
+            <div className="absolute border-2 border-[#707070] border-dashed inset-[6px] rounded-[20px]" data-node-id="I1396:2379;1316:2234" data-name="Stitch" />
+            <div className="absolute flex h-[45.639px] items-center justify-center left-[32px] top-[-30.66px] w-[106.402px]" data-node-id="I1396:2379;1316:2235">
+              <div className="-rotate-2 flex-none">
+                <div className="bg-[#bce3ff] border-4 border-[#0d0f10] border-solid content-stretch drop-shadow-[4px_4px_0px_#0d0f10] flex items-center justify-center px-[18px] py-[6px] relative rounded-[999px]" data-name="Tag">
+                  <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[22px] lowercase relative shrink-0 text-[#0d0f10] text-[20px] tracking-[-0.4px] whitespace-nowrap" data-node-id="I1396:2379;1316:2235;1316:2246">
+                    для себя
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="bg-[#fff9ed] border-4 border-[#0d0f10] border-solid content-stretch drop-shadow-[8px_10px_0px_#0d0f10] flex flex-[1_0_0] flex-col gap-[10px] items-start min-w-px pb-[24px] pt-[40px] px-[32px] relative rounded-[28px] self-stretch" data-node-id="1396:2386" data-name="Card">
+            <div className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[0] lowercase min-w-full relative shrink-0 text-[#0d0f10] text-[22px] tracking-[-0.44px] w-[min-content] whitespace-pre-wrap" data-node-id="I1396:2386;1316:2231">
+              <p className="leading-[26px] mb-0">{`Нельзя всё время `}</p>
+              <p className="leading-[26px]">быть рядом</p>
+            </div>
+            <p className="[word-break:break-word] font-['Golos_Text:Regular'] font-normal leading-[22px] min-w-full relative shrink-0 text-[#0d0f10] text-[20px] tracking-[-0.4px] w-[min-content]" data-node-id="I1396:2386;1316:2232">
+              Поддерживать не значит спасать в одиночку. Обратись взрослого и береги себя.
+            </p>
+            <a className="[text-underline-position:from-font] [word-break:break-word] block cursor-pointer decoration-from-font decoration-solid font-['Golos_Text:SemiBold'] font-semibold leading-[1.2] lowercase min-w-full relative shrink-0 text-[#0d0f10] text-[14px] underline w-[min-content]" href="https://dzen.ru/sreda_acceptance" data-node-id="I1396:2386;1316:2233" target="_blank">
+              читать
+            </a>
+            <div className="absolute border-2 border-[#707070] border-dashed inset-[6px] rounded-[20px]" data-node-id="I1396:2386;1316:2234" data-name="Stitch" />
+            <div className="absolute flex h-[45.639px] items-center justify-center left-[32px] top-[-30.66px] w-[106.402px]" data-node-id="I1396:2386;1316:2235">
+              <div className="-rotate-2 flex-none">
+                <div className="bg-[#fdd0db] border-4 border-[#0d0f10] border-solid content-stretch drop-shadow-[4px_4px_0px_#0d0f10] flex items-center justify-center px-[18px] py-[6px] relative rounded-[999px]" data-name="Tag">
+                  <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[22px] lowercase relative shrink-0 text-[#0d0f10] text-[20px] tracking-[-0.4px] whitespace-nowrap" data-node-id="I1396:2386;1316:2235;1316:2246">
+                    для друзей
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="content-stretch flex gap-[20px] items-start relative shrink-0 w-full" data-node-id="1396:1493" data-name="cards-row">
+          <div className="bg-[#fff9ed] border-4 border-[#0d0f10] border-solid content-stretch drop-shadow-[8px_10px_0px_#0d0f10] flex flex-[1_0_0] flex-col gap-[10px] items-start min-w-px pb-[24px] pt-[40px] px-[32px] relative rounded-[28px] self-stretch" data-node-id="1396:2393" data-name="Card">
+            <div className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[0] lowercase min-w-full relative shrink-0 text-[#0d0f10] text-[22px] tracking-[-0.44px] w-[min-content]" data-node-id="I1396:2393;1316:2231">
+              <p className="leading-[26px] mb-0">Если разговор</p>
+              <p className="leading-[26px]">не получился</p>
+            </div>
+            <p className="[word-break:break-word] font-['Golos_Text:Regular'] font-normal leading-[22px] min-w-full relative shrink-0 text-[#0d0f10] text-[20px] tracking-[-0.4px] w-[min-content]" data-node-id="I1396:2393;1316:2232">
+              Неудачный разговор — не конец. Можно вернуться к нему позже или найти другого взрослого.
+            </p>
+            <a className="[text-underline-position:from-font] [word-break:break-word] block cursor-pointer decoration-from-font decoration-solid font-['Golos_Text:SemiBold'] font-semibold leading-[1.2] lowercase min-w-full relative shrink-0 text-[#0d0f10] text-[14px] underline w-[min-content]" href="https://dzen.ru/sreda_acceptance" data-node-id="I1396:2393;1316:2233" target="_blank">
+              читать
+            </a>
+            <div className="absolute border-2 border-[#707070] border-dashed inset-[6px] rounded-[20px]" data-node-id="I1396:2393;1316:2234" data-name="Stitch" />
+            <div className="absolute flex h-[45.639px] items-center justify-center left-[32px] top-[-30.66px] w-[106.402px]" data-node-id="I1396:2393;1316:2235">
+              <div className="-rotate-2 flex-none">
+                <div className="bg-[#fdd0db] border-4 border-[#0d0f10] border-solid content-stretch drop-shadow-[4px_4px_0px_#0d0f10] flex items-center justify-center px-[18px] py-[6px] relative rounded-[999px]" data-name="Tag">
+                  <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[22px] lowercase relative shrink-0 text-[#0d0f10] text-[20px] tracking-[-0.4px] whitespace-nowrap" data-node-id="I1396:2393;1316:2235;1316:2246">
+                    для друзей
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="bg-[#fff9ed] border-4 border-[#0d0f10] border-solid content-stretch drop-shadow-[8px_10px_0px_#0d0f10] flex flex-[1_0_0] flex-col gap-[10px] items-start min-w-px pb-[24px] pt-[40px] px-[32px] relative rounded-[28px] self-stretch" data-node-id="1396:2400" data-name="Card">
+            <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[26px] lowercase min-w-full relative shrink-0 text-[#0d0f10] text-[22px] tracking-[-0.44px] w-[min-content]" data-node-id="I1396:2400;1316:2231">
+              «А если после разговора станет хуже?»
+            </p>
+            <p className="[word-break:break-word] font-['Golos_Text:Regular'] font-normal leading-[22px] min-w-full relative shrink-0 text-[#0d0f10] text-[20px] tracking-[-0.4px] w-[min-content]" data-node-id="I1396:2400;1316:2232">
+              Обсуди со взрослым, что будет дальше, чтобы не остаться один на один с последствиями.
+            </p>
+            <a className="[text-underline-position:from-font] [word-break:break-word] block cursor-pointer decoration-from-font decoration-solid font-['Golos_Text:SemiBold'] font-semibold leading-[1.2] lowercase min-w-full relative shrink-0 text-[#0d0f10] text-[14px] underline w-[min-content]" href="https://dzen.ru/sreda_acceptance" data-node-id="I1396:2400;1316:2233" target="_blank">
+              читать
+            </a>
+            <div className="absolute border-2 border-[#707070] border-dashed inset-[6px] rounded-[20px]" data-node-id="I1396:2400;1316:2234" data-name="Stitch" />
+            <div className="absolute flex h-[45.639px] items-center justify-center left-[32px] top-[-30.66px] w-[106.402px]" data-node-id="I1396:2400;1316:2235">
+              <div className="-rotate-2 flex-none">
+                <div className="bg-[#bce3ff] border-4 border-[#0d0f10] border-solid content-stretch drop-shadow-[4px_4px_0px_#0d0f10] flex items-center justify-center px-[18px] py-[6px] relative rounded-[999px]" data-name="Tag">
+                  <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[22px] lowercase relative shrink-0 text-[#0d0f10] text-[20px] tracking-[-0.4px] whitespace-nowrap" data-node-id="I1396:2400;1316:2235;1316:2246">
+                    для себя
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="bg-[#fff9ed] border-4 border-[#0d0f10] border-solid content-stretch drop-shadow-[8px_10px_0px_#0d0f10] flex flex-[1_0_0] flex-col gap-[10px] items-start min-w-px pb-[24px] pt-[40px] px-[32px] relative rounded-[28px] self-stretch" data-node-id="1396:2407" data-name="Card">
+            <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[26px] lowercase min-w-full relative shrink-0 text-[#0d0f10] text-[22px] tracking-[-0.44px] w-[min-content]" data-node-id="I1396:2407;1316:2231">
+              Если подросток рассказал вам о травле
+            </p>
+            <p className="[word-break:break-word] font-['Golos_Text:Regular'] font-normal leading-[22px] min-w-full relative shrink-0 text-[#0d0f10] text-[20px] tracking-[-0.4px] w-[min-content]" data-node-id="I1396:2407;1316:2232">
+              Выслушайте без обесценивания, сохраните доказательства и решайте вместе с подростком.
+            </p>
+            <a className="[text-underline-position:from-font] [word-break:break-word] block cursor-pointer decoration-from-font decoration-solid font-['Golos_Text:SemiBold'] font-semibold leading-[1.2] lowercase min-w-full relative shrink-0 text-[#0d0f10] text-[14px] underline w-[min-content]" href="https://dzen.ru/sreda_acceptance" data-node-id="I1396:2407;1316:2233" target="_blank">
+              читать
+            </a>
+            <div className="absolute border-2 border-[#707070] border-dashed inset-[6px] rounded-[20px]" data-node-id="I1396:2407;1316:2234" data-name="Stitch" />
+            <div className="absolute flex h-[45.639px] items-center justify-center left-[32px] top-[-30.66px] w-[106.402px]" data-node-id="I1396:2407;1316:2235">
+              <div className="-rotate-2 flex-none">
+                <div className="bg-[#ff774e] border-4 border-[#0d0f10] border-solid content-stretch drop-shadow-[4px_4px_0px_#0d0f10] flex items-center justify-center px-[18px] py-[6px] relative rounded-[999px]" data-name="Tag">
+                  <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[22px] lowercase relative shrink-0 text-[#0d0f10] text-[20px] tracking-[-0.4px] whitespace-nowrap" data-node-id="I1396:2407;1316:2235;1316:2246">
+                    для взрослых
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p className="[word-break:break-word] absolute font-['Golos_Text:Regular'] font-normal leading-[22px] left-[calc(33.33%+13px)] text-[#fff9ed] text-[20px] top-[119px] tracking-[-0.4px] whitespace-nowrap" data-node-id="1396:1497">
+        полные статьи — в дзене
+      </p>
+      <div className="absolute content-stretch flex h-[80px] items-center justify-between left-[-1px] px-[32px] top-[-1px] w-[1280px]" data-node-id="1396:2414" data-name="Bar">
+        <div className="h-[54.6px] relative shrink-0 w-[100.669px]" data-node-id="I1396:2414;1316:2350" data-name="Logo">
+          <div className="absolute inset-[-1.39%_-0.75%]">
+            <img alt="" className="block max-w-none size-full" src={imgLogo} />
+          </div>
+        </div>
+        <div className="bg-[#fff9ed] border-4 border-[#0d0f10] border-solid content-stretch drop-shadow-[4px_4px_0px_#0d0f10] flex items-center justify-center px-[18px] py-[6px] relative rounded-[999px] shrink-0" data-node-id="I1396:2414;1316:2117" data-name="Chapter">
+          <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[22px] lowercase relative shrink-0 text-[#0d0f10] text-[20px] tracking-[-0.4px] whitespace-nowrap" data-node-id="I1396:2414;1316:2117;1316:2246">
+            материалы
+          </p>
+        </div>
+        <div className="content-stretch flex gap-[10px] h-[46px] items-start overflow-clip relative shrink-0 w-[460px]" data-node-id="I1396:2414;1316:2118" data-name="Actions">
+          <div className="bg-[#ffb5dc] border-4 border-[#0d0f10] border-solid content-stretch drop-shadow-[4px_4px_0px_#0d0f10] flex items-center justify-center px-[18px] py-[6px] relative rounded-[999px] shrink-0" data-node-id="I1396:2414;1316:2119" data-name="Help">
+            <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[22px] lowercase relative shrink-0 text-[#0d0f10] text-[20px] tracking-[-0.4px] whitespace-nowrap" data-node-id="I1396:2414;1316:2119;1316:2246">
+              Нужна поддержка
+            </p>
+          </div>
+          <div className="bg-[#bce3ff] border-4 border-[#0d0f10] border-solid content-stretch drop-shadow-[4px_4px_0px_#0d0f10] flex items-center justify-center px-[18px] py-[6px] relative rounded-[999px] shrink-0" data-node-id="I1396:2414;1316:2120" data-name="Materials">
+            <p className="[word-break:break-word] font-['Golos_Text:Bold'] font-bold leading-[22px] lowercase relative shrink-0 text-[#0d0f10] text-[20px] tracking-[-0.4px] whitespace-nowrap" data-node-id="I1396:2414;1316:2120;1316:2246">
+              Материалы
+            </p>
+          </div>
+          <div className="bg-[#fff9ed] border-4 border-[#0d0f10] border-solid content-stretch flex flex-col gap-[4.62px] h-[42px] items-center justify-center overflow-clip relative rounded-[999px] shadow-[4px_4px_0px_0px_#0d0f10] shrink-0 w-[54.6px]" data-node-id="I1396:2414;1316:2351" data-name="Menu">
+            <div className="bg-[#0d0f10] h-[3.15px] relative rounded-[99px] shrink-0 w-[17.64px]" data-node-id="I1396:2414;1316:2352" data-name="line" />
+            <div className="bg-[#0d0f10] h-[3.15px] relative rounded-[99px] shrink-0 w-[17.64px]" data-node-id="I1396:2414;1316:2353" data-name="line" />
+            <div className="bg-[#0d0f10] h-[3.15px] relative rounded-[99px] shrink-0 w-[17.64px]" data-node-id="I1396:2414;1316:2354" data-name="line" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+SUPER CRITICAL: The generated React+Tailwind code MUST be converted to match the target project's technology stack and styling system.
+1. Analyze the target codebase to identify: technology stack, styling approach, component patterns, and design tokens
+2. Convert React syntax to the target framework/library
+3. Transform all Tailwind classes to the target styling system while preserving exact visual design
+4. Follow the project's existing patterns and conventions
+DO NOT install any Tailwind as a dependency unless the user instructs you to do so.
+
+Node ids have been added to the code as data attributes, e.g. `data-node-id="1:2"`.
+These styles are contained in the design: Content/Beige: #FFF9ED, Tablet/Hero/SemiBold: Font(family: "Golos Text", style: SemiBold, size: 48, weight: 600, lineHeight: 56, letterSpacing: -4), Content/Black: #0D0F10, Tablet/Title1/Bold: Font(family: "Golos Text", style: Bold, size: 22, weight: 700, lineHeight: 26, letterSpacing: -2), Accent/Red: #FF774E, Tablet/Title2/Regular: Font(family: "Golos Text", style: Regular, size: 20, weight: 400, lineHeight: 22, letterSpacing: -2), Tablet/Link/SemiBold: Font(family: "Golos Text", style: SemiBold, size: 14, weight: 600, lineHeight: 1.2000000476837158, letterSpacing: 0), Content/Grey/Medium: #707070, Tablet/Title2/Bold: Font(family: "Golos Text", style: Bold, size: 20, weight: 700, lineHeight: 22, letterSpacing: -2), Accent/Blue: #BCE3FF, Accent/Pink/Light: #FDD0DB, Accent/Pink/Dark: #FFB5DC, Content/Grey/Light: #E5E4E5.
+The generated code contains image and SVG URL constants, e.g. const image = 'https://www.figma.com/api/mcp/asset/550e8400-e29b-41d4-a716-446655440000.png'. These URLs are temporary download sources and expire after 7 days. Download each asset into the project with curl -L, then replace its URL in the generated code with a reference to the downloaded asset. Never use the temporary URLs as runtime image sources.
