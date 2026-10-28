@@ -1,7 +1,7 @@
 // ИИ: проверка навигации и изменения ветки. Запись №13.
 const vm=require('node:vm'),fs=require('node:fs'),assert=require('node:assert/strict');
 const listeners={};const element={innerHTML:'',dataset:{},insertAdjacentHTML(){},focus(){}};
-const context=vm.createContext({document:{querySelector:()=>element,addEventListener:(name,fn)=>(listeners[name]??=[]).push(fn)},MutationObserver:class{observe(){}},matchMedia:()=>({matches:true}),Element:class{}});
+const context=vm.createContext({document:{querySelector:selector=>selector===".figma-viewport"?null:element,addEventListener:(name,fn)=>(listeners[name]??=[]).push(fn)},MutationObserver:class{observe(){}},matchMedia:()=>({matches:true}),Element:class{}});
 vm.runInContext(fs.readFileSync('story.js','utf8')+'\n'+fs.readFileSync('app.js','utf8'),context);
 const run=code=>vm.runInContext(code,context);
 run('handleAction("start");handleAction("next");handleAction("next")');

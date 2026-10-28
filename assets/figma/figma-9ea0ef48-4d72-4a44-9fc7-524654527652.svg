@@ -1,0 +1,12 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="560" height="560" viewBox="0 0 560 560" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle id="aura/mom-warm" cx="280" cy="280" r="280" fill="url(#paint0_radial_0_38)"/>
+<defs>
+<radialGradient id="paint0_radial_0_38" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(280 280) scale(280)">
+<stop stop-color="#FFF9ED"/>
+<stop offset="0.22" stop-color="#FFECCD"/>
+<stop offset="0.42" stop-color="#FFBE78" stop-opacity="0.9"/>
+<stop offset="0.62" stop-color="#FF9650" stop-opacity="0.55"/>
+<stop offset="1" stop-color="#FF8C46" stop-opacity="0"/>
+</radialGradient>
+</defs>
+</svg>

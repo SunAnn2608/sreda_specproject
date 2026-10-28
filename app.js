@@ -34,6 +34,7 @@ const escapeHTML=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">"
 const btn=(label,action,cls="")=>`<button type="button" class="${cls}" data-action="${action}">${escapeHTML(label)}</button>`;
 const header=(s)=>`<header class="topbar"><a href="#prologue" class="logo" aria-label="среда — в начало">среда</a><span class="pill chapter">${escapeHTML(s.chapter)}</span><nav class="header-actions" aria-label="Главное меню">${btn("нужна поддержка","help","pill help")}${btn("материалы","materials","pill materials")}${btn('<span></span>','menu','pill menu-button') .replace("&lt;span&gt;&lt;/span&gt;","<span></span><span></span><span></span>")}</nav></header>`;
 function render(){
+ if(typeof renderExactScreen==='function'&&renderExactScreen())return;
  const s=scenes[state.scene]||scenes.prologue;
  let inner="";
  if(s.kind==="prologue"){
@@ -95,10 +96,11 @@ function modalHTML(){
  else {title="материалы";body=`<div class="modal-cards">${articles.map(([h,p],i)=>`<article><h3>${h}</h3><p>${p}</p>${btn("читать","article:"+i,"action secondary")}</article>`).join("")}</div>`;}
  return `<div class="modal-backdrop" data-overlay="true"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><button class="pill modal-close" data-action="close" aria-label="Закрыть">×</button><h2 id="modal-title">${escapeHTML(title)}</h2>${body}<div class="actions">${btn("к истории","close","action secondary")}${btn("начать сначала","restart","action")}</div></section></div>`;
 }
-function go(id){if(id==="branch")id=state.branch;if(id==="hard")id="hard"+state.branch+state.second;if(id==="friendOrAdults")id=state.branch==="B"?"friendHelp":"adults";if(!scenes[id])return;state.history.push(state.scene);state.scene=id;state.modal=null;render();document.querySelector("#main")?.focus?.()}
+function go(id){if(id==="branch")id=state.branch;if(id==="hard")id="hard"+state.branch+state.second;if(id==="friendOrAdults")id=state.branch==="B"?"friendHelp":"adults";if(!scenes[id])return;state.history.push(state.scene);state.scene=id;state.frameStep=0;state.modal=null;render();document.querySelector("#main")?.focus?.()}
 function handleAction(action){
+ if(action==="frame-next"){state.frameStep=(state.frameStep||0)+1;render();return}
  if(action==="start"){state.branch=null;state.second=null;state.answers=[];state.history=[];go("dialogue");return}
- if(action==="next"){if(state.scene==="chat"&&matchMedia('(max-width:767px)').matches&&(state.chatStep||0)<2){state.chatStep=(state.chatStep||0)+1;render();return}state.chatStep=0;go(scenes[state.scene].next||"resources");return}
+ if(action==="next"){if(state.scene==="chat"&&!document.querySelector(".figma-viewport")&&matchMedia('(max-width:767px)').matches&&(state.chatStep||0)<2){state.chatStep=(state.chatStep||0)+1;render();return}state.chatStep=0;go(scenes[state.scene].next||"resources");return}
  if(action==="restart"){state={scene:"prologue",history:[],answers:[],modal:null};render();return}
  if(action==="supportPage"){go("supportPage");return}
  if(["help","materials","menu","about"].includes(action)||action.startsWith("article:")){state.modal=action;render();document.querySelector(".modal-close")?.focus();return}
@@ -106,13 +108,13 @@ function handleAction(action){
  if(action.startsWith("choice:")){const i=Number(action.split(":")[1]);const option=scenes[state.scene].options?.[i];if(option){if(state.scene==="choice")state.branch=["A","B","C"][i];if(["A","B","C"].includes(state.scene))state.second=i+1;state.answers.push({scene:state.scene,index:i});go(option.next)}}
 }
 // ИИ: диалоги листаются кликом по сцене, элементы управления не листают её. Запись №9.
-const canAdvanceScene=()=>!state.modal&&["dialogue","chat","momchat"].includes(scenes[state.scene].kind);
+const canAdvanceScene=()=>!state.modal&&(["dialogue","chat","momchat"].includes(scenes[state.scene].kind)||(typeof exactHasNextFrame==='function'&&exactHasNextFrame()));
 // ИИ: история навигации восстанавливает ответы и мобильный подэкран. Запись №13.
 const navigationPast=[],navigationFuture=[];
 const navigationSnapshot=()=>JSON.parse(JSON.stringify(state));
-const navigationKey=s=>JSON.stringify([s.scene,s.chatStep||0,s.answers,s.branch,s.second]);
+const navigationKey=s=>JSON.stringify([s.scene,s.chatStep||0,s.frameStep||0,s.answers,s.branch,s.second]);
 function navigateBack(){if(state.modal||!navigationPast.length)return;navigationFuture.push(navigationSnapshot());state=navigationPast.pop();state.modal=null;render();}
-function navigateForward(){if(state.modal)return;if(navigationFuture.length){navigationPast.push(navigationSnapshot());state=navigationFuture.pop();state.modal=null;render();return;}if(canAdvanceScene())handleAction("next");}
+function navigateForward(){if(state.modal)return;if(navigationFuture.length){navigationPast.push(navigationSnapshot());state=navigationFuture.pop();state.modal=null;render();return;}if(typeof exactHasNextFrame==='function'&&exactHasNextFrame()){handleAction('frame-next');return;}if(canAdvanceScene())handleAction("next");}
 const originalHandleAction=handleAction;
 handleAction=function(action){const before=navigationSnapshot();originalHandleAction(action);if(action==="start"||action==="restart"){navigationPast.length=0;navigationFuture.length=0;return;}if(navigationKey(before)!==navigationKey(state)){navigationPast.push(before);navigationFuture.length=0;}};
 const editableTarget=target=>target instanceof Element&&target.closest('input,textarea,select,[contenteditable="true"]');

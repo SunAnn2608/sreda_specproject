@@ -1,0 +1,11 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="985" height="956" viewBox="0 0 985 956" fill="none" xmlns="http://www.w3.org/2000/svg">
+<ellipse id="aura/kroli-glow" cx="492.5" cy="478" rx="492.5" ry="478" fill="url(#paint0_radial_0_32)"/>
+<defs>
+<radialGradient id="paint0_radial_0_32" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(492.5 478) scale(492.5 478)">
+<stop stop-color="#FF784F" stop-opacity="0.95"/>
+<stop offset="0.35" stop-color="#CC401A" stop-opacity="0.8"/>
+<stop offset="0.6" stop-color="#0D0F0F" stop-opacity="0.85"/>
+<stop offset="1" stop-color="#0D0F0F" stop-opacity="0.6"/>
+</radialGradient>
+</defs>
+</svg>

@@ -1,0 +1,17 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="88.7917" height="56.0833" viewBox="0 0 88.7917 56.0833" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="IconButton" filter="url(#filter0_d_0_48)">
+<rect width="88.7917" height="50.0833" rx="25.0417" fill="#FF774E"/>
+<rect x="2" y="2" width="84.7917" height="46.0833" rx="23.0417" stroke="#0D0F10" stroke-width="4"/>
+<path id="icon" d="M36 24.0417H52.25M45.75 17L52.7917 24.0417L45.75 31.0833" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round" stroke="#0D0F10"/>
+</g>
+<defs>
+<filter id="filter0_d_0_48" x="0" y="0" width="88.7917" height="56.0833" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="6"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.0509804 0 0 0 0 0.0588235 0 0 0 0 0.0627451 0 0 0 1 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_48"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_48" result="shape"/>
+</filter>
+</defs>
+</svg>

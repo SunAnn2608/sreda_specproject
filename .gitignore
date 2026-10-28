@@ -1,0 +1,10 @@
+# Локальные инструменты сборки и доказательства визуальной проверки
+build-typescript.cjs
+node_modules/
+qa/reference/
+qa/rendered/
+qa/*.jpg
+qa/*comparison.png
+figma-asset-downloads.json
+# В Git сохраняются только уникальные оригинальные файлы assets/figma.
+assets/figma/

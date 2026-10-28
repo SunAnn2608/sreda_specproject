@@ -1,0 +1,10 @@
+{
+  "name": "sreda-specproject",
+  "private": true,
+  "scripts": {
+    "dev": "node preview.cjs",
+    "build:screens": "node build-screens.cjs",
+    "test": "node check-routes.cjs && node check-navigation.cjs"
+  },
+  "devDependencies": { "typescript": "5.9.3" }
+}

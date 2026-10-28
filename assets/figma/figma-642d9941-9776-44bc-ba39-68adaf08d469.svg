@@ -1,0 +1,11 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="36" height="30" viewBox="0 0 36 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Tail" clip-path="url(#clip0_0_35)">
+<path id="tail" d="M0 30L18 0L36 30H0Z" fill="#FFF9ED"/>
+<path id="tail_2" d="M3 29L18 3L33 29" stroke-width="4" stroke-linejoin="round" stroke="#0D0F10"/>
+</g>
+<defs>
+<clipPath id="clip0_0_35">
+<rect width="36" height="30" fill="white"/>
+</clipPath>
+</defs>
+</svg>
