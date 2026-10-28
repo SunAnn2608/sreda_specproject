@@ -13,3 +13,12 @@
 /* ИИ: реакция исходных элементов управления без изменения их геометрии. */
 .figma-canvas [data-exact-action]{transition:filter 120ms ease,transform 120ms ease}
 .figma-canvas [data-exact-action]:active{transform:translateY(2px)}
+
+/* ИИ: состояния выбора ответа, только ПК с мышью. Запись №20. */
+.figma-canvas .dialogue-choice{background-color:#fff9ed!important}
+.choice-hover-pointer{display:none;flex:none;width:calc(40 * var(--frame-unit));height:calc(40 * var(--frame-unit))}
+.choice-hover-pointer img{position:static!important;width:100%!important;height:100%!important}
+@media (hover:hover) and (pointer:fine){
+ .figma-viewport[data-exact-device=desktop] .dialogue-choice:hover{background-color:#bce3ff!important}
+ .figma-viewport[data-exact-device=desktop] .dialogue-choice:hover .choice-hover-pointer{display:block}
+}

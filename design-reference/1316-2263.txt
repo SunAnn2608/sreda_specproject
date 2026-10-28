@@ -1,0 +1,52 @@
+const imgPointer = "https://www.figma.com/api/mcp/asset/e3271891-b870-4a80-a0bc-8cfe2ef9df71.svg";
+const imgPointer1 = "https://www.figma.com/api/mcp/asset/2746eaff-cb51-4772-a5f4-efd2bcde73b4.svg";
+const imgPointer2 = "https://www.figma.com/api/mcp/asset/6ae0dec4-a9d4-4f56-9107-4fa21247996f.svg";
+
+type ChoiceProps = {
+  className?: string;
+  device?: "Desktop" | "Tablet" | "Mobile";
+  label?: string;
+  state?: "Default" | "Selected";
+};
+
+export default function Choice({ className, device = "Desktop", label = "Давай пока здесь посидим.", state = "Default" }: ChoiceProps) {
+  const isDesktopAndSelected = device === "Desktop" && state === "Selected";
+  const isMobileAndDefault = device === "Mobile" && state === "Default";
+  const isMobileAndSelected = device === "Mobile" && state === "Selected";
+  const isTabletAndDefault = device === "Tablet" && state === "Default";
+  const isTabletAndSelected = device === "Tablet" && state === "Selected";
+  return (
+    <div className={className || `border-[#0d0f10] border-solid content-stretch flex items-center relative rounded-[999px] ${isMobileAndSelected ? "bg-[#bce3ff] border-4 drop-shadow-[0px_6px_0px_#0d0f10] gap-[10px] pb-[18px] pt-[16px] px-[20px] w-[342px]" : isTabletAndSelected ? "bg-[#bce3ff] border-4 drop-shadow-[0px_8px_0px_#0d0f10] gap-[12px] pb-[22px] pt-[20px] px-[36px] w-[560px]" : isDesktopAndSelected ? "bg-[#bce3ff] border-6 drop-shadow-[0px_16px_0px_#0d0f10] gap-[24px] pb-[44px] pt-[40px] px-[72px] w-[1120px]" : isMobileAndDefault ? "bg-[#fff9ed] border-4 drop-shadow-[0px_6px_0px_#0d0f10] gap-[10px] pb-[18px] pt-[16px] px-[20px] w-[342px]" : isTabletAndDefault ? "bg-[#fff9ed] border-4 drop-shadow-[0px_8px_0px_#0d0f10] gap-[12px] pb-[22px] pt-[20px] px-[36px] w-[560px]" : "bg-[#fff9ed] border-6 drop-shadow-[0px_16px_0px_#0d0f10] gap-[24px] pb-[44px] pt-[40px] px-[72px] w-[1120px]"}`} id={isMobileAndSelected ? "node-1316_2284" : isTabletAndSelected ? "node-1316_2280" : isDesktopAndSelected ? "node-1316_2276" : isMobileAndDefault ? "node-1316_2272" : isTabletAndDefault ? "node-1316_2268" : "node-1316_2264"}>
+      {state === "Selected" && (
+        <div className={`relative shrink-0 ${isMobileAndSelected ? "size-[16px]" : isTabletAndSelected ? "size-[20px]" : "size-[40px]"}`} id={isMobileAndSelected ? "node-1316_2285" : isTabletAndSelected ? "node-1316_2281" : "node-1316_2277"} data-name="Pointer">
+          <img alt="" className="absolute block inset-0 max-w-none size-full" src={isMobileAndSelected ? imgPointer2 : isTabletAndSelected ? imgPointer1 : imgPointer} />
+        </div>
+      )}
+      {device === "Desktop" && (
+        <p className="[word-break:break-word] flex-[1_0_0] font-['Golos_Text:Regular'] font-normal leading-[48px] min-w-px relative text-[#0d0f10] text-[40px] tracking-[-0.8px]" data-node-id="1316:2267">
+          {label}
+        </p>
+      )}
+      {device === "Tablet" && (
+        <p className="[word-break:break-word] flex-[1_0_0] font-['Golos_Text:Regular'] font-normal leading-[22px] min-w-px relative text-[#0d0f10] text-[20px] tracking-[-0.4px]" data-node-id="1316:2271">
+          {label}
+        </p>
+      )}
+      {device === "Mobile" && (
+        <p className="[word-break:break-word] flex-[1_0_0] font-['Golos_Text:Regular'] font-normal leading-[24px] min-w-px relative text-[#0d0f10] text-[18px] tracking-[-0.36px]" data-node-id="1316:2275">
+          {label}
+        </p>
+      )}
+    </div>
+  );
+}
+SUPER CRITICAL: The generated React+Tailwind code MUST be converted to match the target project's technology stack and styling system.
+1. Analyze the target codebase to identify: technology stack, styling approach, component patterns, and design tokens
+2. Convert React syntax to the target framework/library
+3. Transform all Tailwind classes to the target styling system while preserving exact visual design
+4. Follow the project's existing patterns and conventions
+DO NOT install any Tailwind as a dependency unless the user instructs you to do so.
+
+Node ids have been added to the code as data attributes, e.g. `data-node-id="1:2"`.
+These styles are contained in the design: Content/Black: #0D0F10, Desktop/Title2/Regular: Font(family: "Golos Text", style: Regular, size: 40, weight: 400, lineHeight: 48, letterSpacing: -2), Content/Beige: #FFF9ED, Tablet/Title2/Regular: Font(family: "Golos Text", style: Regular, size: 20, weight: 400, lineHeight: 22, letterSpacing: -2), Mobile/Title2/Regular: Font(family: "Golos Text", style: Regular, size: 18, weight: 400, lineHeight: 24, letterSpacing: -2), Accent/Blue: #BCE3FF, Content/Grey/Medium: #707070.
+The generated code contains image and SVG URL constants, e.g. const image = 'https://www.figma.com/api/mcp/asset/550e8400-e29b-41d4-a716-446655440000.png'. These URLs are temporary download sources and expire after 7 days. Download each asset into the project with curl -L, then replace its URL in the generated code with a reference to the downloaded asset. Never use the temporary URLs as runtime image sources.

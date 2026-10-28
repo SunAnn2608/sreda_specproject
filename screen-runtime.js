@@ -55,6 +55,16 @@ function applyExactGeometry(host,rootId){
 function assignExactAction(node,action,label){node.dataset.exactAction=action;node.setAttribute('role','button');node.setAttribute('tabindex','0');node.setAttribute('aria-label',label||normalizedLabel(node));node.style.cursor='pointer';}
 function wireExactScreen(host,name){
  const canvas=host.querySelector('.figma-canvas');
+ // ИИ: макет показывает hover как пример; в покое все ответы нейтральные. Запись №20.
+ const originalPointer=canvas.querySelector('[data-name="Choice"] [data-name="Pointer"] img');
+ for(const choice of canvas.querySelectorAll('[data-name="Choice"]')){
+  choice.querySelectorAll('[data-name="Pointer"]').forEach(n=>n.remove());
+  choice.classList.add('dialogue-choice');
+  const label=choice.querySelector('p');
+  if(label)Object.assign(label.style,{position:'relative',inset:'auto',width:'auto',height:'auto',maxWidth:'none',flex:'1 1 0',minWidth:'0'});
+  if(originalPointer){const pointer=document.createElement('span');pointer.className='choice-hover-pointer';pointer.setAttribute('aria-hidden','true');const image=originalPointer.cloneNode();image.removeAttribute('style');pointer.append(image);choice.prepend(pointer);}
+ }
+
  for(const social of canvas.querySelectorAll('[data-social-network]')){const net=social.dataset.socialNetwork;social.innerHTML=`<img alt="${net}" src="./assets/social-${net}.png" style="position:absolute;left:0;top:0;width:106.25%;height:107.142857%;max-width:none">`;social.style.background='none';social.style.borderWidth='0';social.style.filter='none';}
  for(const node of canvas.querySelectorAll('[data-name],[data-component="Button"],[data-component="MenuItem"],[data-component="IconButton"]')){
   const kind=node.dataset.name||node.dataset.component,text=normalizedLabel(node);
