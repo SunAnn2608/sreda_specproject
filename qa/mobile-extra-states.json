@@ -1,0 +1,38 @@
+[
+  {
+    "broken": 0,
+    "overflow": false,
+    "screen": "prologue",
+    "step": "1"
+  },
+  {
+    "broken": 0,
+    "overflow": false,
+    "screen": "chat",
+    "step": "1"
+  },
+  {
+    "broken": 0,
+    "overflow": false,
+    "screen": "chat",
+    "step": "2"
+  },
+  {
+    "broken": 0,
+    "overflow": false,
+    "screen": "choice",
+    "step": "1"
+  },
+  {
+    "broken": 0,
+    "overflow": false,
+    "screen": "messageMom",
+    "step": "1"
+  },
+  {
+    "broken": 0,
+    "overflow": false,
+    "screen": "openEnding",
+    "step": "1"
+  }
+]
