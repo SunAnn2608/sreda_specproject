@@ -8,7 +8,9 @@ const app=document.querySelector("#app");
 const figma="https://www.figma.com/design/Dh9CU2f4N47sWnTVCKPgVH/среда?node-id=400-688";
 const scenes={
  prologue:{chapter:"пролог",kind:"prologue"},
- dialogue:{chapter:"день 2 · коридор",kind:"dialogue",speaker:"банни",text:"Ты тоже видел, что они отправили в чат?",next:"choice"},
+ // ИИ: экран 02-01 по Desktop/Tablet/Mobile Figma. Запись №4 в README.
+ dialogue:{chapter:"день 1 · коридор",kind:"dialogue",speaker:"банни",text:"Ты сделал алгебру? Я опять ничего не понял в этой теме.",next:"chat",art:"corridor.png",character:"bunny-default.png"},
+ chat:{chapter:"день 1 · общий чат",kind:"chat",speaker:"банни",text:"Я просил удалить. Никто не ответил.",next:"choice",art:"corridor-bunny.png"},
  choice:{chapter:"день 2 · что скажешь?",kind:"choice",speaker:"банни",text:"Опять чувствую себя ничтожеством. И все смотрят.",prompt:"что ты скажешь?",options:[
   {label:"Так оставлять нельзя.",next:"anger"},
   {label:"Давай пока здесь посидим.",next:"closeness"},
@@ -39,7 +41,9 @@ function render(){
   const options=s.options?`<div class="prompt">${escapeHTML(s.prompt)}</div><div class="choices">${s.options.map((o,i)=>btn(o.label,"choice:"+i,"choice")).join("")}</div>`:`<div class="actions">${btn(s.kind==="end"?"начать сначала":"продолжить",s.kind==="end"?"restart":"next","action")}</div>`;
   inner=`<div class="dialogue-layout">${dialogue}${options}${s.kind==="end"?"":'<p class="hint">Нажимай на кнопки, чтобы продолжить историю.</p>'}</div>`;
  }
- app.innerHTML=`<div class="stage" data-scene="${escapeHTML(s.kind)}">${header(s)}<div class="scene-art" aria-hidden="true"><!-- TODO: Exact original image exports from Figma. Never substitute generated graphics. --></div><main class="main" id="main">${inner}</main><footer class="footer-note">среда · технический прототип · визуальные ассеты и полный сценарий в работе</footer></div>${modalHTML()}`;
+ if(state.scene==="dialogue")inner=`<div class="story-dialogue"><button class="panel bubble" data-action="next"><span class="speaker">банни</span><span>${escapeHTML(s.text)}</span><img class="bubble-tail" src="./assets/tail.svg" alt=""><img class="bubble-arrow" src="./assets/arrow.svg" alt=""></button><button class="story-hint" data-action="next">тапни, чтобы читать дальше</button></div>`;
+ app.innerHTML=`<div class="stage ${state.scene==="dialogue"?"story-screen":""}" data-scene="${escapeHTML(s.kind)}">${header(s)}<div class="scene-art" aria-hidden="true">${s.art?`<picture>${state.scene==="dialogue"?'<source media="(max-width:767px)" srcset="./assets/corridor-mobile.png">':""}<img src="./assets/${s.art}" alt=""></picture>`:""}</div>${s.character?`<img class="story-character" src="./assets/${s.character}" alt="">`:""}<main class="main" id="main" tabindex="-1">${inner}</main><footer class="footer-note">среда · технический прототип · визуальные ассеты и полный сценарий в работе</footer></div>${modalHTML()}`;
+ document.querySelector('.logo').innerHTML='<img src="./assets/logo.svg" alt="среда">';
  document.title=`среда · ${s.chapter}`;
 }
 function modalHTML(){if(!state.modal)return "";const help=state.modal==="help";return `<div class="modal-backdrop" data-overlay="true"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><button class="pill modal-close" data-action="close" aria-label="Закрыть">×</button><h2 id="modal-title">${help?"нужна поддержка":"материалы и навигация"}</h2>${help?'<p>Если тебе небезопасно, обратись к взрослому, которому доверяешь, или в местную службу экстренной помощи. Ты не обязан(а) справляться с травлей в одиночку.</p><p>Контакты специализированных служб добавим после проверки актуальности.</p>':'<p>Здесь появятся проверенные материалы о травле, поддержке и действиях свидетеля.</p><p><a href="'+figma+'" target="_blank" rel="noopener noreferrer">Макеты проекта в Figma</a></p>'}<div class="actions">${btn("к истории","close","action secondary")}${btn("начать сначала","restart","action")}</div></section></div>`}
@@ -54,4 +58,5 @@ function handleAction(action){
 }
 document.addEventListener("click",e=>{const el=e.target.closest("[data-action]");if(el){handleAction(el.dataset.action);return}if(e.target.matches("[data-overlay]"))handleAction("close")});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&state.modal)handleAction("close")});
+document.addEventListener("keydown",e=>{if(e.code==="Space"&&!state.modal&&state.scene==="dialogue"&&e.target===document.body){e.preventDefault();handleAction("next")}});
 render();
