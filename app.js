@@ -54,7 +54,7 @@ function render(){
  if(s.other)inner=`<img class="story-other" src="./assets/${s.other}" alt="">`+inner;
  if(s.reply){
   const reply=`<article class="panel bubble player-reply"><span class="speaker">ты</span><p>${escapeHTML(s.reply)}</p><img class="bubble-arrow" src="./assets/arrow.svg" alt=""></article>`;
-  inner=inner.replace('<div class="dialogue-layout">','<div class="dialogue-layout">'+reply);
+  inner=state.scene==="adults"?inner.replace('</div>',reply+'</div>'):inner.replace('<div class="dialogue-layout">','<div class="dialogue-layout">'+reply);
  }
  app.innerHTML=`<div class="stage ${s.kind==="dialogue"?"story-screen":""}" data-screen="${state.scene}" data-scene="${escapeHTML(s.kind)}">${header(s)}<div class="scene-art" aria-hidden="true">${s.art?`<picture>${state.scene==="dialogue"?'<source media="(max-width:767px)" srcset="./assets/corridor-mobile.png">':""}<img src="./assets/${s.art}" alt=""></picture>`:""}</div>${s.character?`<img class="story-character" src="./assets/${s.character}" alt="">`:""}<main class="main" id="main" tabindex="-1">${inner}</main></div>${modalHTML()}`;
  document.querySelector('.logo').innerHTML='<img src="./assets/logo.svg" alt="среда">';

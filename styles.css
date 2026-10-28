@@ -72,3 +72,16 @@
 @media(max-width:767px){.stage[data-screen=closeness] .main{padding:110vw 24px 28px}.stage[data-screen=closeness] .dialogue-layout{gap:36px}.stage[data-screen=closeness] .bubble{font-size:22px;line-height:28px;padding:28px 20px;border-radius:24px;box-shadow:6px 8px var(--ink)}.stage[data-screen=closeness] .speaker{font-size:18px;top:-25px;left:12px;padding:4px 14px}.stage[data-screen=closeness] .player-reply .speaker{right:12px}.stage[data-screen=closeness] .story-character{width:125%;left:-45%;top:90px}.stage[data-screen=closeness] .story-other{width:90%;right:-35%;top:160px}}
 .stage[data-scene=momchat] .mom-message>.actions{display:none}
 .stage[data-scene=dialogue] .bubble{cursor:pointer}
+/* ИИ: индивидуальные constraints 12A-04, Figma 1318:2698 / 1396:1385 / 1398:1254. Запись №11. */
+.stage[data-screen=adults]{min-height:max(100svh,56.25vw)}
+.stage[data-screen=adults] .main{position:absolute;inset:0;width:100%;min-height:0;padding:17.34375vw 25.78125% 4vw 39.0625%;display:block;z-index:1}
+.stage[data-screen=adults] .dialogue-layout{display:flex;flex-direction:column;gap:2.8125vw;width:100%;margin:0}
+.stage[data-screen=adults] .bubble{width:100%;min-height:11.71875vw;padding:3.4375vw 2.8125vw 3.125vw;font-size:1.875vw;line-height:1.333333;letter-spacing:-.04em;border: .234375vw solid var(--ink);border-radius:2.1875vw;box-shadow:.625vw .78125vw var(--ink)}
+.stage[data-screen=adults] .bubble p{margin:0}
+.stage[data-screen=adults] .player-reply{position:relative;inset:auto;margin:0;background:var(--cream)}
+.stage[data-screen=adults] .speaker{left:auto;right:1.953125vw;top:-1.9921875vw;font-size:1.5625vw;line-height:1.2;padding:.39vw 1.40625vw;background:var(--orange)}
+.stage[data-screen=adults] .player-reply .speaker{background:var(--pink)}
+.stage[data-screen=adults] .story-character{width:51.342%;height:auto;max-width:none;left:-9.2578%;top:10.15625vw}
+.stage[data-screen=adults] .story-other{position:absolute;width:46.875%;height:auto;max-width:none;left:68.359375%;right:auto;top:7.8125vw;bottom:auto;z-index:-1}
+@media(min-width:768px) and (max-width:1400px){.stage[data-screen=adults]{min-height:max(100svh,62.5vw)}.stage[data-screen=adults] .main{padding-top:20.46875vw}.stage[data-screen=adults] .story-character{top:16.40625vw}.stage[data-screen=adults] .story-other{top:14.0625vw}.stage[data-screen=adults] .bubble{border-width:.3125vw}}
+@media(max-width:767px){.stage[data-screen=adults]{min-height:max(100svh,216.41vw)}.stage[data-screen=adults] .main{position:relative;inset:auto;min-height:0;padding:110.77vw 24px 28px}.stage[data-screen=adults] .dialogue-layout{gap:36px}.stage[data-screen=adults] .bubble{font-size:22px;line-height:28px;padding:28px 20px;min-height:120px;border:4px solid var(--ink);border-radius:24px;box-shadow:6px 8px var(--ink)}.stage[data-screen=adults] .speaker{font-size:18px;line-height:24px;top:-25px;right:12px;padding:4px 14px}.stage[data-screen=adults] .story-character{width:101.538%;left:-27.6923%;top:80.5128vw}.stage[data-screen=adults] .story-other{width:102.564%;left:31.538%;top:24.615vw}}
