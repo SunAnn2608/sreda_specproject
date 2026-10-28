@@ -15,6 +15,17 @@ const scenes={
   {label:"Давай пока здесь посидим.",next:"closeness"},
   {label:"Я не знаю. Мне надо идти.",next:"withdrawal"}
  ]},
+ // ИИ: сохранённые ориентиры для авторского наполнения. Запись №15.
+ anger:{chapter:"после разговора",kind:"dialogue",speaker:"история",text:"В этой ветке будет реакция на первый выбор. Текст и графика уточняются по Figma.",next:"info"},
+ closeness:{chapter:"после разговора",kind:"dialogue",speaker:"история",text:"В этой ветке будет сцена сближения. Текст и графика уточняются по Figma.",next:"info"},
+ withdrawal:{chapter:"после разговора",kind:"dialogue",speaker:"история",text:"В этой ветке будет сцена замыкания. Текст и графика уточняются по Figma.",next:"info"},
+ info:{chapter:"передышка",kind:"info",speaker:"важно",text:"Травля — не то же самое, что разовый конфликт. Если ситуация повторяется и есть неравенство сил, важно искать поддержку.",next:"choice2"},
+ choice2:{chapter:"выбор 2",kind:"choice",speaker:"история",text:"Что делать дальше?",prompt:"как поступишь?",options:[
+  {label:"Найти взрослого, которому можно доверять.",next:"support"},
+  {label:"Попробовать поговорить с другом.",next:"support"}
+ ]},
+ support:{chapter:"продолжение",kind:"dialogue",speaker:"история",text:"Продолжение этой ветки будет перенесено из утверждённого user flow. Пока здесь техническая остановка.",next:"end"},
+ end:{chapter:"продолжение следует",kind:"end",speaker:"среда",text:"Это первый технический прототип. Полная история: 3 выбора, 12 маршрутов и 2 финала. Они ещё не реализованы."}
 };
 Object.assign(scenes,storyRoutes);
 scenes.chat.next="afterChat";
