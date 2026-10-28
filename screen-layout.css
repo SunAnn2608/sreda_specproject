@@ -37,3 +37,5 @@
 .figma-viewport[data-layout=document]:not([data-exact-device=mobile]) .figma-canvas>div{height:auto!important;min-height:max(100svh,var(--document-min-height,0px))}
 .figma-viewport[data-layout=document] [data-name=cards-row],.figma-viewport[data-layout=document] [data-name=steps]{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(min(100%,var(--card-min)),1fr));align-items:start}.figma-viewport[data-layout=document] [data-name=cards-row]>[data-name=Card],.figma-viewport[data-layout=document] [data-name=steps]>[data-name=Card]{width:100%!important;min-width:0}
 html,body{min-width:0}.figma-viewport[data-layout=document]{overflow-x:clip}
+/* ИИ: декоративные слои не перехватывают клики по кнопкам. Запись №23. */
+.figma-canvas [data-name="stitch" i],.figma-canvas [data-name="vignette"],.figma-canvas [data-name^="aura/"]{pointer-events:none}

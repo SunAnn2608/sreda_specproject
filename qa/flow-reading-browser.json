@@ -1,0 +1,38 @@
+{
+  "visited": [
+    "dialogue",
+    "chat",
+    "afterChat",
+    "bench",
+    "hat",
+    "choice",
+    "closeness",
+    "info",
+    "B",
+    "B2",
+    "pauseB",
+    "hardB2",
+    "momUnknown",
+    "tellMom",
+    "messageMom",
+    "momListens",
+    "friendHelp",
+    "adults",
+    "newSchool",
+    "weeksLater",
+    "silent",
+    "resources"
+  ],
+  "reads": [
+    [
+      "«Мы же просто шутим»: когда это уже травля"
+    ],
+    "info",
+    [
+      "Нельзя всё время быть рядом",
+      "Поддерживать не значит спасать в одиночку. Обратись к взрослому и береги себя.",
+      "Нельзя всё время быть рядом"
+    ],
+    "pauseB"
+  ]
+}

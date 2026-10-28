@@ -13,3 +13,8 @@ run('navigateBack()');assert.equal(run('state.scene'),'choice');assert.equal(run
 run('handleAction("choice:1")');assert.equal(run('state.branch'),'B');assert.equal(run('navigationFuture.length'),0);
 run('handleAction("menu");navigateBack()');assert.equal(run('state.scene'),'closeness');
 console.log('Назад/вперёд, подэкран, смена ветки и блокировка меню: OK');
+// ИИ: вложенные окна и реальные клавиатурные обработчики. Запись №23.
+run('handleAction("menu");handleAction("materials");handleAction("close")');assert.equal(run('state.modal'),'menu');
+listeners.keydown.forEach(fn=>fn({key:'ArrowLeft',target:{},preventDefault(){}}));assert.equal(run('state.modal'),null);
+const beforeDown=run('navigationKey(state)');listeners.keydown.forEach(fn=>fn({key:'ArrowDown',target:{},preventDefault(){}}));assert.equal(run('navigationKey(state)'),beforeDown);
+console.log('Вложенные окна, возврат стрелкой влево и свободная стрелка вниз: OK');

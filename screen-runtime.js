@@ -16,10 +16,11 @@ function renderExactScreen(){
  const template=steps[exactStep];
  const host=document.querySelector('#app');host.classList.add('figma-mode');
  host.innerHTML=`<div class="figma-viewport" data-exact-screen="${screenName}" data-exact-device="${device}" data-exact-step="${exactStep}" style="--frame-width:${template.width};--frame-height:${template.height};--frame-ratio:${template.width/template.height}"><div class="figma-canvas" style="--frame-unit:calc(100cqw / ${template.width})">${template.html}</div></div>`;
- if(state.modal&&!figmaScreens[state.modal])host.insertAdjacentHTML('beforeend',modalHTML());
+ if(state.modal&&!figmaScreens[state.modal]){host.insertAdjacentHTML('beforeend',modalHTML());const background=host.querySelector('.figma-viewport');background.inert=true;background.setAttribute('aria-hidden','true');}
  applyExactGeometry(host,template.id);
  wireExactScreen(host,screenName);
  applyFluidConstraints(host,template,device,screenName);
+ if(typeof animateNovelFrame==='function')animateNovelFrame(host,screenName);
  document.title='среда · '+(scenes[state.scene]?.chapter||screenName);
  return true;
 }
@@ -81,16 +82,24 @@ function wireExactScreen(host,name){
   else if(kind==='Choice'){
    const choiceNodes=[...canvas.querySelectorAll('[data-name="Choice"]')];assignExactAction(node,'choice:'+choiceNodes.indexOf(node));
   }
+  else if((kind==='IconButton'||kind==='button/send')&&name==='messageMom')assignExactAction(node,'exact-next','отправить сообщение маме');
   else if(kind==='IconButton'&&name==='menu')assignExactAction(node,'close','закрыть');
   else if(kind==='Button'||kind==='MenuItem'||kind==='button/next'||kind==='button/close'){
-   let action=kind==='button/close'?'close':kind==='button/next'?'exact-next':text.includes('отмотать')||text.includes('начать истор')?'start':text.includes('материал')?'materials':text.includes('нужна поддержка')?'help':text==='поддержать'?'supportPage':text.includes('о проекте')?'about':text.includes('пройти заново')?'restart':text==='дальше'?'exact-next':null;
+   let action=kind==='button/close'?'close':kind==='button/next'?'exact-next':text.includes('отмотать')?'start':text.includes('начать истор')?'restart':text.includes('материал')?'materials':text.includes('нужна поддержка')?'help':text==='поддержать'?'supportPage':text.includes('о проекте')?'about':text.includes('пройти заново')?'restart':text==='дальше'?'exact-next':null;
+   if(name==='openEnding'&&action==='help')action='resources';
    if(action)assignExactAction(node,action);
   }
  }
+ // ИИ: чтение доступного авторского анонса поверх истории; внешние URL сохранены.
+ for(const link of canvas.querySelectorAll('a[href*="dzen.ru/sreda_acceptance"]')){
+  const card=link.closest('[data-name="Card"]');const text=card?normalizedLabel(card):'';
+  const index=name==='info'?0:text.includes('шутим')?0:text.includes('хочется ответить')?1:text.includes('выгореть')||text.includes('всё время')?2:text.includes('получился')?3:text.includes('станет хуже')?4:text.includes('подросток рассказал')?5:null;
+  if(index!==null)assignExactAction(link,'article:'+index,'читать: '+(card?.querySelector('p')?.textContent||'когда это уже травля'));
+ }
  // В MENU пункты могут быть компонентами с именем item; используем их видимый текст.
- if(name==='menu')for(const node of canvas.querySelectorAll('[data-name="item"],[data-name^="menu/"],[data-menu-label]')){const t=normalizedLabel(node);const action=t.includes('начать')?'start':t.includes('материал')?'materials':t.includes('нужна поддержка')?'help':t.includes('поддержать')?'supportPage':t.includes('о проекте')?'about':null;if(action)assignExactAction(node,action);}
+ if(name==='menu')for(const node of canvas.querySelectorAll('[data-name="item"],[data-name^="menu/"],[data-menu-label]')){const t=normalizedLabel(node);const action=t.includes('начать')?'restart':t.includes('материал')?'materials':t.includes('нужна поддержка')?'help':t.includes('поддержать')?'supportPage':t.includes('о проекте')?'about':null;if(action)assignExactAction(node,action);}
  if(name==='menu'){
-  for(const node of canvas.querySelectorAll('[id^="node-1379_"]')){const t=normalizedLabel(node);const action=t.includes('начать')?'start':t.includes('материал')?'materials':t.includes('нужна поддержка')?'help':t.includes('поддержать')?'supportPage':t.includes('о проекте')?'about':null;if(action)assignExactAction(node,action);}
+  for(const node of canvas.querySelectorAll('[id^="node-1379_"]')){const t=normalizedLabel(node);const action=t.includes('начать')?'restart':t.includes('материал')?'materials':t.includes('нужна поддержка')?'help':t.includes('поддержать')?'supportPage':t.includes('о проекте')?'about':null;if(action)assignExactAction(node,action);}
   const close=canvas.querySelector('[data-node-id="1500:1875"]');if(close)assignExactAction(close,'close','закрыть');
  }
 }

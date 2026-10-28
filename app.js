@@ -47,7 +47,7 @@ function render(){
  if(state.scene==="dialogue")inner=`<div class="story-dialogue"><button class="panel bubble" data-action="next"><span class="speaker">банни</span><span>${escapeHTML(s.text)}</span><img class="bubble-tail" src="./assets/tail.svg" alt=""><img class="bubble-arrow" src="./assets/arrow.svg" alt=""></button><div class="story-hint"><span class="hint-desktop">клик или пробел — дальше · стрелка вверх — журнал реплик</span><span class="hint-tablet">тап по экрану — дальше · свайп вниз — журнал реплик</span><span class="hint-mobile">тапни, чтобы читать дальше</span></div></div>`;
  // ИИ: телефон и Кроли экрана 02-02 из Figma 1318:2561. Запись №6.
  if(state.scene==="chat")inner=`<img class="chat-aura" src="./assets/kroli-glow.svg" alt=""><img class="chat-kroli" src="./assets/kroli.png" alt="Кроли"><section class="chat-phone" aria-label="8 Б — общий чат"><h2>8 «Б» · общий чат</h2><div class="chat-messages"><p>смотрите,<br>кто опять в шапке</p><div class="chat-photo"><img src="./assets/chat-photo.png" alt="Фотография Банни, опубликованная без разрешения"></div><p>ахаха</p><p class="outgoing">Удалите, пожалуйста. Я не разрешал.</p><small>Прочитано: 24 · ответов нет</small></div></section><button class="panel bubble chat-reply" data-action="next"><span class="speaker">банни</span><span>Я просил удалить.<br>Никто не ответил.</span><img class="bubble-tail" src="./assets/tail.svg" alt=""><img class="bubble-arrow" src="./assets/arrow.svg" alt=""></button>`;
- if(s.kind==="info")inner=`<article class="panel stitched info-panel"><h1>${escapeHTML(s.title)}</h1><div class="info-content">${s.image?`<img class="info-image" src="./assets/${s.image}" alt="">`:""}<div><h2>${escapeHTML(s.text)}</h2>${s.points?`<ul>${s.points.map(p=>`<li>${escapeHTML(p)}</li>`).join("")}</ul>`:""}</div></div><div class="actions">${btn("материалы","materials","action secondary")}${btn("дальше","next","action")}</div></article>`;
+ if(s.kind==="info")inner=`<article class="panel stitched info-panel"><h1>${escapeHTML(s.title)}</h1><div class="info-content">${s.image?`<img class="info-image" src="./assets/${s.image}" alt="">`:""}<div><h2>${escapeHTML(s.text)}</h2>${s.points?`<ul>${s.points.map(p=>`<li>${escapeHTML(p)}</li>`).join("")}</ul>`:""}</div></div><div class="actions">${btn("читать", "article:"+({info:0,pauseA:1,pauseB:2,pauseC:3}[state.scene]??0),"action secondary")}${btn("дальше","next","action")}</div></article>`;
  if(s.kind==="ending")inner=`<article class="panel stitched"><span class="tag">сегодня</span><h1>${escapeHTML(s.title)}</h1><p>${escapeHTML(s.text)}</p><div class="actions">${btn("отмотать время","start","action")}${btn("нужна поддержка","help","action secondary")}${btn("что дальше","next","action secondary")}</div></article>`;
  if(s.kind==="silent")inner=`<div class="silent-next">${btn("дальше","next","action")}</div>`;
  if(s.kind==="momchat")inner=`<div class="mom-message"><article class="panel bubble"><span class="speaker">банни</span><p>${escapeHTML(s.text)}</p></article><section class="chat-phone"><h2>мама</h2><div class="chat-messages"><p class="outgoing">Мам, можно поговорить? Это важно. Про школу.</p><small>печатает…</small></div></section><div class="actions">${btn("дальше","next","action")}</div></div>`;
@@ -69,7 +69,9 @@ function render(){
  if(state.scene==="chat"){
   document.querySelector('.stage').dataset.chatStep=state.chatStep||0;
  }
+ if(state.modal){const stage=document.querySelector('.stage');if(stage?.setAttribute){stage.inert=true;stage.setAttribute('aria-hidden','true');}}
  document.title=`среда · ${s.chapter}`;
+ if(typeof animateNovelFrame==='function')animateNovelFrame(app,state.scene);
 }
 // ИИ: чтение и меню поверх истории с сохранением позиции. Запись №8.
 const articles=[
@@ -92,19 +94,20 @@ function modalHTML(){
  if(state.modal==="help"){title="нужна поддержка";body=`<p>Как начать разговор и к кому обратиться, если тебя травят или ты видишь травлю.</p><div class="modal-cards">${[['Выбери взрослого','Родитель, классный руководитель, психолог, тренер — тот, кому доверяешь.'],['Начни с факта','«Меня снимают без разрешения и выкладывают в чат». Можно показать переписку.'],['Скажи, что нужно','Чтобы выслушали, чтобы помогли поговорить со школой, чтобы не делали без тебя.']].map(([h,p],i)=>`<article><span>шаг ${i+1}</span><h3>${h}</h3><p>${p}</p></article>`).join("")}</div>`;}
  else if(state.modal==="menu"){title="меню";body=`<nav class="menu-links" aria-label="Разделы проекта">${btn("материалы","materials","action secondary")}${btn("нужна поддержка","help","action")}${btn("поддержать","supportPage","action secondary")}${btn("о проекте","about","action secondary")}</nav>`;}
  else if(state.modal==="about"){title="о проекте";body='<p>«среда» — социальный спецпроект о травле в образовательной среде. Ты не управляешь травящей толпой. Но можешь выбрать, как быть рядом.</p><p>Три выбора, 12 маршрутов и два финала. За безопасность отвечают взрослые.</p>';}
- else if(state.modal.startsWith("article:")){const a=articles[Number(state.modal.split(":")[1])];title=a[0];body=`<p>${a[1]}</p>${btn("все материалы","materials","action secondary")}`;}
+ else if(state.modal.startsWith("article:")){const a=articles[Number(state.modal.split(":")[1])];title=a[0];body=`<p class="article-preview-label">Коротко о главном</p><p>${a[1]}</p><p><a href="https://dzen.ru/sreda_acceptance" target="_blank" rel="noopener noreferrer">Канал проекта в Дзене</a></p>${({2:3,5:4}[Number(state.modal.split(":")[1])]!==undefined)?btn("следующий материал","article:"+({2:3,5:4}[Number(state.modal.split(":")[1])]),"action secondary"):""}${btn("все материалы","materials","action secondary")}`;}
  else {title="материалы";body=`<div class="modal-cards">${articles.map(([h,p],i)=>`<article><h3>${h}</h3><p>${p}</p>${btn("читать","article:"+i,"action secondary")}</article>`).join("")}</div>`;}
  return `<div class="modal-backdrop" data-overlay="true"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><button class="pill modal-close" data-action="close" aria-label="Закрыть">×</button><h2 id="modal-title">${escapeHTML(title)}</h2>${body}<div class="actions">${btn("к истории","close","action secondary")}${btn("начать сначала","restart","action")}</div></section></div>`;
 }
-function go(id){if(id==="branch")id=state.branch;if(id==="hard")id="hard"+state.branch+state.second;if(id==="friendOrAdults")id=state.branch==="B"?"friendHelp":"adults";if(!scenes[id])return;state.history.push(state.scene);state.scene=id;state.frameStep=0;state.modal=null;render();document.querySelector("#main")?.focus?.()}
+function go(id){if(id==="branch")id=state.branch;if(id==="hard")id="hard"+state.branch+state.second;if(id==="friendOrAdults")id=state.branch==="B"?"friendHelp":"adults";if(!scenes[id])return;state.history.push(state.scene);state.scene=id;state.frameStep=0;state.modal=null;state.modalTrail=[];render();document.querySelector("#main")?.focus?.()}
 function handleAction(action){
  if(action==="frame-next"){state.frameStep=(state.frameStep||0)+1;render();return}
  if(action==="start"){state.branch=null;state.second=null;state.answers=[];state.history=[];go("dialogue");return}
  if(action==="next"){if(state.scene==="chat"&&!document.querySelector(".figma-viewport")&&matchMedia('(max-width:1023px)').matches&&(state.chatStep||0)<2){state.chatStep=(state.chatStep||0)+1;render();return}state.chatStep=0;go(scenes[state.scene].next||"resources");return}
  if(action==="restart"){state={scene:"prologue",history:[],answers:[],modal:null};render();return}
  if(action==="supportPage"){go("supportPage");return}
- if(["help","materials","menu","about"].includes(action)||action.startsWith("article:")){state.modal=action;render();document.querySelector(".modal-close")?.focus();return}
- if(action==="close"){state.modal=null;render();return}
+ if(action==="resources"){go("resources");return}
+ if(["help","materials","menu","about"].includes(action)||action.startsWith("article:")){if(state.modal!==action){if(!state.modal)state.modalTrail=[];else (state.modalTrail??=[]).push(state.modal);}state.modal=action;render();document.querySelector(".modal-close")?.focus();return}
+ if(action==="close"){const closed=state.modal;state.modal=state.modalTrail?.pop()||null;render();document.querySelector(`[data-exact-action="${closed}"],[data-action="${closed}"]`)?.focus?.();return}
  if(action.startsWith("choice:")){const i=Number(action.split(":")[1]);const option=scenes[state.scene].options?.[i];if(option){if(state.scene==="choice")state.branch=["A","B","C"][i];if(["A","B","C"].includes(state.scene))state.second=i+1;state.answers.push({scene:state.scene,index:i});go(option.next)}}
 }
 // ИИ: диалоги листаются кликом по сцене, элементы управления не листают её. Запись №9.
@@ -113,7 +116,7 @@ const canAdvanceScene=()=>!state.modal&&(["dialogue","chat","momchat"].includes(
 const navigationPast=[],navigationFuture=[];
 const navigationSnapshot=()=>JSON.parse(JSON.stringify(state));
 const navigationKey=s=>JSON.stringify([s.scene,s.chatStep||0,s.frameStep||0,s.answers,s.branch,s.second]);
-function navigateBack(){if(state.modal||!navigationPast.length)return;navigationFuture.push(navigationSnapshot());state=navigationPast.pop();state.modal=null;render();}
+function navigateBack(){if(state.modal){handleAction("close");return;}if(!navigationPast.length)return;navigationFuture.push(navigationSnapshot());state=navigationPast.pop();state.modal=null;render();}
 function navigateForward(){if(state.modal)return;if(navigationFuture.length){navigationPast.push(navigationSnapshot());state=navigationFuture.pop();state.modal=null;render();return;}if(typeof exactHasNextFrame==='function'&&exactHasNextFrame()){handleAction('frame-next');return;}if(canAdvanceScene())handleAction("next");}
 const originalHandleAction=handleAction;
 handleAction=function(action){const before=navigationSnapshot();originalHandleAction(action);if(action==="start"||action==="restart"){navigationPast.length=0;navigationFuture.length=0;return;}if(navigationKey(before)!==navigationKey(state)){navigationPast.push(before);navigationFuture.length=0;}};
@@ -124,10 +127,18 @@ document.addEventListener("keydown",e=>{if(e.key==="ArrowUp"&&!e.repeat&&!e.altK
 let logTouchStart=null;
 document.addEventListener("touchstart",e=>{if(!state.modal&&e.touches.length===1&&!e.target.closest('header,button,a'))logTouchStart={x:e.touches[0].clientX,y:e.touches[0].clientY};else logTouchStart=null;},{passive:true});
 document.addEventListener("touchend",e=>{if(logTouchStart&&e.changedTouches.length){const t=e.changedTouches[0];if(t.clientY-logTouchStart.y>90&&Math.abs(t.clientX-logTouchStart.x)<50)openDialogueLog();}logTouchStart=null;},{passive:true});
-document.addEventListener("keydown",e=>{if(e.repeat||e.altKey||e.ctrlKey||e.metaKey||editableTarget(e.target)||state.modal)return;if(e.key==="ArrowLeft"){e.preventDefault();navigateBack();}else if(e.key==="ArrowRight"){e.preventDefault();navigateForward();}});
-function mouseNavigation(e){if(![3,4].includes(e.button)||state.modal||editableTarget(e.target))return;e.preventDefault();e.stopPropagation();if(e.type==="mouseup"){if(e.button===3)navigateBack();else navigateForward();}}
+document.addEventListener("keydown",e=>{if(e.repeat||e.altKey||e.ctrlKey||e.metaKey||editableTarget(e.target))return;if(e.key==="ArrowLeft"){e.preventDefault();navigateBack();}else if(e.key==="ArrowRight"){e.preventDefault();navigateForward();}});
+function mouseNavigation(e){if(![3,4].includes(e.button)||editableTarget(e.target))return;e.preventDefault();e.stopPropagation();if(e.type==="mouseup"){if(e.button===3)navigateBack();else navigateForward();}}
 for(const eventName of ["mousedown","mouseup","auxclick"])document.addEventListener(eventName,mouseNavigation,{capture:true});
-document.addEventListener("click",e=>{const el=e.target.closest("[data-action]");if(el){handleAction(el.dataset.action);return}if(e.target.matches("[data-overlay]")){handleAction("close");return}if(canAdvanceScene()&&e.target.closest(".stage")&&!e.target.closest("header,a,button,input,select,textarea"))handleAction("next")});
+document.addEventListener("click",e=>{const el=e.target.closest("[data-action]");if(e.target.closest("a.logo")){e.preventDefault();handleAction("restart");return}if(el){handleAction(el.dataset.action);return}if(e.target.matches("[data-overlay]")){handleAction("close");return}if(canAdvanceScene()&&e.target.closest(".stage")&&!e.target.closest("header,a,button,input,select,textarea"))handleAction("next")});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&state.modal)handleAction("close")});
 document.addEventListener("keydown",e=>{if(e.code==="Space"&&canAdvanceScene()&&!e.target.closest("a,button,input,select,textarea")){e.preventDefault();handleAction("next")}});
 render();
+
+// ИИ: фокус остаётся внутри открытого окна чтения/журнала. Запись №23.
+document.addEventListener('keydown',e=>{
+ if(e.key!=='Tab')return;const modal=document.querySelector('.modal[aria-modal="true"]');if(!modal)return;
+ const controls=[...modal.querySelectorAll('button,a[href],input,select,textarea,[tabindex="0"]')];if(!controls.length)return;
+ if(e.shiftKey&&document.activeElement===controls[0]){e.preventDefault();controls.at(-1).focus();}
+ else if(!e.shiftKey&&document.activeElement===controls.at(-1)){e.preventDefault();controls[0].focus();}
+});

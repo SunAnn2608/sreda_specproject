@@ -1,0 +1,90 @@
+[
+  {
+    "picks": [
+      0,
+      1,
+      0
+    ],
+    "chosen": 3,
+    "visited": [
+      "dialogue",
+      "chat",
+      "afterChat",
+      "bench",
+      "hat",
+      "choice",
+      "anger",
+      "info",
+      "A",
+      "A2",
+      "pauseA",
+      "hardA2",
+      "momUnknown",
+      "tellMom",
+      "messageMom",
+      "momListens",
+      "adults",
+      "newSchool",
+      "weeksLater",
+      "silent",
+      "resources"
+    ]
+  },
+  {
+    "picks": [
+      1,
+      0,
+      1
+    ],
+    "chosen": 3,
+    "visited": [
+      "dialogue",
+      "chat",
+      "afterChat",
+      "bench",
+      "hat",
+      "choice",
+      "closeness",
+      "info",
+      "B",
+      "B1",
+      "pauseB",
+      "hardB1",
+      "momUnknown",
+      "tellMom",
+      "openEnding",
+      "resources"
+    ]
+  },
+  {
+    "picks": [
+      2,
+      1,
+      0
+    ],
+    "chosen": 3,
+    "visited": [
+      "dialogue",
+      "chat",
+      "afterChat",
+      "bench",
+      "hat",
+      "choice",
+      "withdrawal",
+      "info",
+      "C",
+      "C2",
+      "pauseC",
+      "hardC2",
+      "momUnknown",
+      "tellMom",
+      "messageMom",
+      "momListens",
+      "adults",
+      "newSchool",
+      "weeksLater",
+      "silent",
+      "resources"
+    ]
+  }
+]
