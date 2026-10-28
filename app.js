@@ -40,7 +40,7 @@ function render(){
   inner=`<article class="panel stitched"><span class="tag">спецпроект о травле</span><p class="poem">Под дождем остался зайка.<br>Со скамейки слезть не мог,<br>Весь до ниточки промок.</p><div class="notice">В истории есть сцены травли. Если тебе сейчас тяжело, кнопка «нужна поддержка» всегда наверху.</div><div class="actions">${btn("отмотать время","start","action")}${btn("материалы","materials","action secondary")}</div></article>`;
  }else{
   const dialogue=`<article class="panel bubble"><span class="speaker">${escapeHTML(s.speaker||"среда")}</span><p>${escapeHTML(s.text||"")}</p></article>`;
-  const options=s.options?`<div class="prompt">${escapeHTML(s.prompt)}</div><div class="choices">${s.options.map((o,i)=>btn(o.label,"choice:"+i,"choice")).join("")}</div>`:`<div class="actions">${btn(s.kind==="end"?"начать сначала":"продолжить",s.kind==="end"?"restart":"next","action")}</div>`;
+  const options=s.options?`<div class="prompt">${escapeHTML(s.prompt)}</div><div class="choices">${s.options.map((o,i)=>btn(o.label,"choice:"+i,"choice")).join("")}</div>`:"";
   inner=`<div class="dialogue-layout">${dialogue}${options}</div>`;
  }
  if(state.scene==="dialogue")inner=`<div class="story-dialogue"><button class="panel bubble" data-action="next"><span class="speaker">банни</span><span>${escapeHTML(s.text)}</span><img class="bubble-tail" src="./assets/tail.svg" alt=""><img class="bubble-arrow" src="./assets/arrow.svg" alt=""></button><button class="story-hint" data-action="next">тапни, чтобы читать дальше</button></div>`;
@@ -52,12 +52,14 @@ function render(){
  if(s.kind==="momchat")inner=`<div class="mom-message"><article class="panel bubble"><span class="speaker">банни</span><p>${escapeHTML(s.text)}</p></article><section class="chat-phone"><h2>мама</h2><div class="chat-messages"><p class="outgoing">Мам, можно поговорить? Это важно. Про школу.</p><small>печатает…</small></div></section><div class="actions">${btn("дальше","next","action")}</div></div>`;
  if(s.kind==="resources"||s.kind==="supportpage")inner=`<section class="resource-page"><h1>${escapeHTML(s.title)}</h1><div class="resource-grid">${s.kind==="resources"?[['если травят тебя','Как начать разговор и к кому обратиться','help'],['если ты видишь травлю','Как поддержать друга и не выгореть самому','materials'],['для взрослых','Если подросток рассказал вам о травле','materials'],['материалы','Шесть коротких статей: для себя, друзей и взрослых','materials']].map(([title,text,action])=>`<article class="panel"><h2>${title}</h2><p>${text}</p>${btn("открыть",action,"action secondary")}</article>`).join(""):'<article class="panel"><h2>фонд поддержки</h2><p>Напиши в фонд «Тебе поверят»</p><p>info@verimtebe.ru · t.me/tebepoveriat</p></article>'}</div><div class="actions">${btn("начать историю","start","action")}${s.next?btn("дальше","next","action secondary"):""}</div></section>`;
  if(s.other)inner=`<img class="story-other" src="./assets/${s.other}" alt="">`+inner;
- if(s.reply)inner=`<div class="player-reply panel"><span>ты</span><p>${escapeHTML(s.reply)}</p></div>`+inner;
+ if(s.reply){
+  const reply=`<article class="panel bubble player-reply"><span class="speaker">ты</span><p>${escapeHTML(s.reply)}</p><img class="bubble-arrow" src="./assets/arrow.svg" alt=""></article>`;
+  inner=inner.replace('<div class="dialogue-layout">','<div class="dialogue-layout">'+reply);
+ }
  app.innerHTML=`<div class="stage ${s.kind==="dialogue"?"story-screen":""}" data-screen="${state.scene}" data-scene="${escapeHTML(s.kind)}">${header(s)}<div class="scene-art" aria-hidden="true">${s.art?`<picture>${state.scene==="dialogue"?'<source media="(max-width:767px)" srcset="./assets/corridor-mobile.png">':""}<img src="./assets/${s.art}" alt=""></picture>`:""}</div>${s.character?`<img class="story-character" src="./assets/${s.character}" alt="">`:""}<main class="main" id="main" tabindex="-1">${inner}</main></div>${modalHTML()}`;
  document.querySelector('.logo').innerHTML='<img src="./assets/logo.svg" alt="среда">';
  if(state.scene==="chat"){
   document.querySelector('.stage').dataset.chatStep=state.chatStep||0;
-  document.querySelector('#main').insertAdjacentHTML('beforeend',btn("дальше","next","action chat-mobile-next"));
  }
  document.title=`среда · ${s.chapter}`;
 }
@@ -90,7 +92,9 @@ function handleAction(action){
  if(action==="close"){state.modal=null;render();return}
  if(action.startsWith("choice:")){const i=Number(action.split(":")[1]);const option=scenes[state.scene].options?.[i];if(option){if(state.scene==="choice")state.branch=["A","B","C"][i];if(["A","B","C"].includes(state.scene))state.second=i+1;state.answers.push({scene:state.scene,index:i});go(option.next)}}
 }
-document.addEventListener("click",e=>{const el=e.target.closest("[data-action]");if(el){handleAction(el.dataset.action);return}if(e.target.matches("[data-overlay]"))handleAction("close")});
+// ИИ: диалоги листаются кликом по сцене, элементы управления не листают её. Запись №9.
+const canAdvanceScene=()=>!state.modal&&["dialogue","chat","momchat"].includes(scenes[state.scene].kind);
+document.addEventListener("click",e=>{const el=e.target.closest("[data-action]");if(el){handleAction(el.dataset.action);return}if(e.target.matches("[data-overlay]")){handleAction("close");return}if(canAdvanceScene()&&e.target.closest(".stage")&&!e.target.closest("header,a,button,input,select,textarea"))handleAction("next")});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&state.modal)handleAction("close")});
-document.addEventListener("keydown",e=>{if(e.code==="Space"&&!state.modal&&state.scene==="dialogue"&&e.target===document.body){e.preventDefault();handleAction("next")}});
+document.addEventListener("keydown",e=>{if(e.code==="Space"&&canAdvanceScene()&&!e.target.closest("a,button,input,select,textarea")){e.preventDefault();handleAction("next")}});
 render();

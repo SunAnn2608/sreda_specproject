@@ -59,3 +59,16 @@
 /* ИИ: мобильные 02-02a → 02-02b → 02-02c, запись №8. */
 .chat-mobile-next{display:none}
 @media(max-width:767px){.stage[data-scene=chat]{min-height:100svh}.stage[data-scene=chat] .main{min-height:calc(100svh - 80px);padding-bottom:100px}.chat-mobile-next{display:block;position:absolute;bottom:28px;right:24px;z-index:5}.stage[data-chat-step="0"] .chat-phone,.stage[data-chat-step="0"] .chat-reply{display:none}.stage[data-chat-step="0"] .chat-kroli{width:130%;left:-48%;top:10vh}.stage[data-chat-step="1"] .chat-reply{display:none}.stage[data-chat-step="1"] .chat-phone{width:100%;max-width:358px;margin:0 auto}.stage[data-chat-step="1"] .chat-kroli{z-index:0;opacity:.5}.stage[data-chat-step="2"] .chat-phone,.stage[data-chat-step="2"] .chat-kroli,.stage[data-chat-step="2"] .chat-aura{display:none}.stage[data-chat-step="2"] .main{justify-content:flex-end}.stage[data-chat-step="2"] .chat-reply{width:100%;margin-bottom:30px}.stage[data-chat-step="2"] .chat-mobile-next{display:none}}
+/* ИИ: 04B — два бабла в потоке, геометрия Desktop/Tablet/Mobile Figma. Запись №9. */
+.stage[data-screen=closeness] .main{padding:12.8vw 23.4375% 8vw 39.0625%;align-items:flex-start;z-index:1}
+.stage[data-screen=closeness] .dialogue-layout{display:grid;gap:2.1875vw}
+.stage[data-screen=closeness] .bubble{width:100%;padding:3.4375vw 2.8125vw 3.125vw;font-size:1.875vw;line-height:1.333;border-radius:2.1875vw;box-shadow:.625vw .78125vw var(--ink)}
+.stage[data-screen=closeness] .player-reply{position:relative;right:auto;top:auto;margin:0;background:var(--cream)}
+.stage[data-screen=closeness] .player-reply .speaker{left:auto;right:1.953125vw;background:var(--pink)}
+.stage[data-screen=closeness] .speaker{top:-1.992vw;left:1.953125vw;font-size:1.5625vw;padding:.39vw 1.40625vw}
+.stage[data-screen=closeness] .story-character{width:53.08%;left:-7.77%;top:9.375vw}
+.stage[data-screen=closeness] .story-other{width:45.96%;right:-14.02%;top:16.40625vw;bottom:auto;z-index:-1}
+@media(min-width:768px) and (max-width:1400px){.stage[data-screen=closeness] .main{padding-top:16.4vw}.stage[data-screen=closeness] .story-character{top:15.625vw}.stage[data-screen=closeness] .story-other{top:22.65625vw}}
+@media(max-width:767px){.stage[data-screen=closeness] .main{padding:110vw 24px 28px}.stage[data-screen=closeness] .dialogue-layout{gap:36px}.stage[data-screen=closeness] .bubble{font-size:22px;line-height:28px;padding:28px 20px;border-radius:24px;box-shadow:6px 8px var(--ink)}.stage[data-screen=closeness] .speaker{font-size:18px;top:-25px;left:12px;padding:4px 14px}.stage[data-screen=closeness] .player-reply .speaker{right:12px}.stage[data-screen=closeness] .story-character{width:125%;left:-45%;top:90px}.stage[data-screen=closeness] .story-other{width:90%;right:-35%;top:160px}}
+.stage[data-scene=momchat] .mom-message>.actions{display:none}
+.stage[data-scene=dialogue] .bubble{cursor:pointer}
