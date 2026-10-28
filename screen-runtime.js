@@ -2,7 +2,7 @@
 "use strict";
 let exactStep=0,exactScene=null,exactVariant=null;
 const exactActions={};
-function exactDevice(){const forced=location.pathname.endsWith('/verify.html')?new URLSearchParams(location.search).get('device'):null;return ['desktop','tablet','mobile'].includes(forced)?forced:window.innerWidth<768?'mobile':window.innerWidth<=1400?'tablet':'desktop';}
+function exactDevice(){const forced=location.pathname.endsWith('/verify.html')?new URLSearchParams(location.search).get('device'):null;return ['desktop','tablet','mobile'].includes(forced)?forced:window.innerWidth<1024?'mobile':window.innerWidth<1440?'tablet':'desktop';}
 function renderExactScreen(){
  const verification=location.pathname.endsWith('/verify.html')?new URLSearchParams(location.search):null;
  const requested=verification?.get('screen');
@@ -19,6 +19,7 @@ function renderExactScreen(){
  if(state.modal&&!figmaScreens[state.modal])host.insertAdjacentHTML('beforeend',modalHTML());
  applyExactGeometry(host,template.id);
  wireExactScreen(host,screenName);
+ applyFluidConstraints(host,template,device,screenName);
  document.title='среда · '+(scenes[state.scene]?.chapter||screenName);
  return true;
 }
@@ -40,12 +41,17 @@ function applyExactGeometry(host,rootId){
  }
  const unit=n=>'calc('+n+' * var(--frame-unit))';
  for(const node of nodes){const g=subset[mapped.get(node)];if(!g)continue;for(const tag of node.querySelectorAll('[data-name="Tag"]')){if(!tag.hasAttribute('data-node-id')&&g.n==='Tag'){tag.style.width=unit(g.w);tag.style.height=unit(g.h);tag.style.flex='none';}}}
- for(const node of nodes){const id=mapped.get(node),g=subset[id];if(!g||id===rootId)continue;
+ for(const node of nodes){const id=mapped.get(node),g=subset[id];if(!g)continue;node.dataset.geometryId=id;if(id===rootId)continue;
   let parent=node.parentElement;while(parent&&parent!==host&&!mapped.has(parent))parent=parent.parentElement;
   if(!parent||mapped.get(parent)!==g.p)continue;
-  const parentStyle=getComputedStyle(parent),bx=parseFloat(parentStyle.borderLeftWidth)||0,by=parseFloat(parentStyle.borderTopWidth)||0;
-  Object.assign(node.style,{position:'absolute',inset:'auto',left:'calc('+g.x+' * var(--frame-unit) - '+bx+'px)',top:'calc('+g.y+' * var(--frame-unit) - '+by+'px)',width:unit(g.w),height:unit(g.h),minWidth:'0',minHeight:'0',maxWidth:'none',flex:'none',margin:'0',translate:'none'});
-  if(node.offsetParent&&node.offsetParent!==parent&&!mapped.has(node.offsetParent)){const effective=getComputedStyle(node.offsetParent);node.style.left='calc('+g.x+' * var(--frame-unit) - '+(parseFloat(effective.borderLeftWidth)||0)+'px)';node.style.top='calc('+g.y+' * var(--frame-unit) - '+(parseFloat(effective.borderTopWidth)||0)+'px)';}
+  const parentStyle=getComputedStyle(parent);
+  const flows=parentStyle.display.includes('flex')&&node.style.position!=='absolute';
+  const stretches=node.style.inset&&!node.style.width&&!node.style.height;
+  const autoHeight=getComputedStyle(node).display.includes('flex')&&!node.style.height;
+  const bx=parseFloat(parentStyle.borderLeftWidth)||0,by=parseFloat(parentStyle.borderTopWidth)||0;
+  if(!flows&&!stretches)Object.assign(node.style,{position:'absolute',inset:'auto',left:'calc('+g.x+' * var(--frame-unit) - '+bx+'px)',top:'calc('+g.y+' * var(--frame-unit) - '+by+'px)',width:unit(g.w),height:unit(g.h),minWidth:'0',minHeight:'0',maxWidth:'none',flex:'none',margin:'0',translate:'none'});
+  if(autoHeight&&!stretches)node.style.height='auto';
+  if(!flows&&!stretches&&node.offsetParent&&node.offsetParent!==parent&&!mapped.has(node.offsetParent)){const effective=getComputedStyle(node.offsetParent);node.style.left='calc('+g.x+' * var(--frame-unit) - '+(parseFloat(effective.borderLeftWidth)||0)+'px)';node.style.top='calc('+g.y+' * var(--frame-unit) - '+(parseFloat(effective.borderTopWidth)||0)+'px)';}
   if(g.r){node.style.rotate=(-g.r)+'deg';node.style.transformOrigin='0 0';for(const el of node.querySelectorAll('[style]')){if(el.hasAttribute('data-node-id'))continue;let p=el.parentElement;while(p&&p!==node&&!p.hasAttribute('data-node-id'))p=p.parentElement;if(p===node&&el.style.rotate)el.style.rotate='none';}}
   if(g.t==='TEXT'&&g.fs){node.style.fontSize=unit(g.fs);if(g.lh?.unit==='PIXELS')node.style.lineHeight=unit(g.lh.value);if(g.ls?.unit==='PERCENT')node.style.letterSpacing=unit(g.fs*g.ls.value/100);}
   // Экспорт растровой заливки MENU уже обрезан исходным фреймом 2560×1440.
