@@ -1,6 +1,9 @@
 /* ИИ: прототип сценарного движка и обработчиков интерфейса. Запись №1 в README.
    ВАЖНО: сцены после первого выбора являются техническим черновиком, а не утверждённым сценарием. */
 "use strict";
+// ИИ: оригинальные ассеты пролога из Figma. Запись №2 в README.
+const originalRenderHook = new MutationObserver(()=>{const stage=document.querySelector('[data-scene="prologue"]');if(!stage)return;const art=stage.querySelector('.scene-art');if(!art.querySelector('img'))art.innerHTML='<img src="./assets/prologue-park.png" alt="">';const logo=stage.querySelector('.logo');if(!logo.querySelector('img'))logo.innerHTML='<img src="./assets/logo.svg" alt="среда">';const panel=stage.querySelector('.panel');if(!panel.querySelector('.prologue-doodle'))panel.insertAdjacentHTML('afterbegin','<img class="prologue-doodle" src="./assets/doodle.svg" alt="среда">');});
+originalRenderHook.observe(document.querySelector('#app'),{childList:true,subtree:true});
 const app=document.querySelector("#app");
 const figma="https://www.figma.com/design/Dh9CU2f4N47sWnTVCKPgVH/среда?node-id=400-688";
 const scenes={
