@@ -65,7 +65,7 @@ function wireExactScreen(host,name){
   if(originalPointer){const pointer=document.createElement('span');pointer.className='choice-hover-pointer';pointer.setAttribute('aria-hidden','true');const image=originalPointer.cloneNode();image.removeAttribute('style');pointer.append(image);choice.prepend(pointer);}
  }
 
- for(const social of canvas.querySelectorAll('[data-social-network]')){const net=social.dataset.socialNetwork;social.innerHTML=`<img alt="${net}" src="./assets/social-${net}.png" style="position:absolute;left:0;top:0;width:106.25%;height:107.142857%;max-width:none">`;social.style.background='none';social.style.borderWidth='0';social.style.filter='none';}
+ for(const social of canvas.querySelectorAll('[data-social-network]')){const net=social.dataset.socialNetwork;social.innerHTML=`<img alt="${net}" src="./assets/social-${net}.svg" style="position:absolute;left:0;top:0;width:106.25%;height:107.142857%;max-width:none">`;social.style.background='none';social.style.borderWidth='0';social.style.filter='none';}
  for(const node of canvas.querySelectorAll('[data-name],[data-component="Button"],[data-component="MenuItem"],[data-component="IconButton"]')){
   const kind=node.dataset.name||node.dataset.component,text=normalizedLabel(node);
   if(kind==='Help')assignExactAction(node,'help');

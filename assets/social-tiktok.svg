@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="119" height="120" viewBox="0 0 119 120" fill="none"><g id="social/tiktok" filter="url(#filter0_d_0_1)">
+<rect width="112" height="112" rx="23.4419" fill="#FFF9ED" />
+<rect x="1.95349" y="1.95349" width="108.093" height="108.093" rx="21.4884" stroke="#0D0F10" stroke-width="3.90698" />
+<g id="icon">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M70.6012 21.3551C70.5872 20.9702 70.587 20.5834 70.6008 20.1952L70.6012 21.3551Z" fill="#0D0F10" />
+<path fill-rule="evenodd" clip-rule="evenodd" d="M49.438 48.0618C44.4254 47.3681 39.394 48.3442 34.7888 50.8313C29.084 53.9123 24.7976 59.1386 22.8632 65.3722C20.9288 71.6057 21.503 78.3415 24.4608 84.1128C27.4186 89.8841 32.5203 94.2233 38.6551 96.1856C44.7898 98.1479 51.4606 97.5743 57.2148 94.5896C62.969 91.605 67.3405 86.4511 69.3773 80.2503C70.2987 77.4454 70.7086 74.529 70.6163 71.6371L70.6086 45.9162C77.363 50.2189 81.191 51.3288 89.159 51.7766L89.159 38.7534C78.2009 37.7116 70.916 30.0097 70.6012 21.3551C70.5872 20.9702 70.587 20.5834 70.6008 20.1952L57.2114 20.1952L57.2114 50.4743C57.2114 50.4743 57.5052 73.4422 56.6008 76.1952C55.6965 78.9483 53.6358 81.046 51.081 82.3711C48.5262 83.6962 45.5645 83.9509 42.8408 83.0797C40.117 82.2085 37.8519 80.2819 36.5387 77.7196C35.2255 75.1572 34.9706 72.1666 35.8294 69.399C36.6883 66.6314 38.5914 64.311 41.1242 62.9431C43.6571 61.5752 46.6145 61.2706 49.3526 62.0956L49.438 48.0618Z" fill="#0D0F10" />
+</g>
+<rect id="stitch" opacity="0.35" x="0.651163" y="-0.651163" width="95.0697" height="110.326" rx="16.2791" transform="matrix(1 0 0 -1 7.8125 110.51)" stroke="#0D0F10" stroke-width="1.30233" stroke-dasharray="6.51 5.21" />
+</g>
+<defs>
+<filter id="filter0_d_0_1" x="0" y="0" width="119" height="120" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix" />
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+<feOffset dx="7" dy="8" />
+<feColorMatrix type="matrix" values="0 0 0 0 0.0509804 0 0 0 0 0.0588235 0 0 0 0 0.0627451 0 0 0 1 0" />
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_1" />
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_1" result="shape" />
+</filter>
+</defs>
+</svg>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="119" height="120" viewBox="0 0 119 120" fill="none"><g id="social/taplink" filter="url(#filter0_d_0_1)">
+<rect width="112" height="112" rx="23.4419" fill="#FDD0DB" />
+<rect x="1.95349" y="1.95349" width="108.093" height="108.093" rx="21.4884" stroke="#0D0F10" stroke-width="3.90698" />
+<g id="icon">
+<path d="M40.4842 44.0617H71.523H40.4842ZM40.4842 55.9997H71.523H40.4842ZM40.4842 67.9377H71.523H40.4842Z" fill="black" />
+<path d="M40.4842 44.0617H71.523M40.4842 55.9997H71.523M40.4842 67.9377H71.523M87.0424 55.9997C87.0424 73.1419 73.1458 87.0385 56.0036 87.0385C38.8614 87.0385 24.9648 73.1419 24.9648 55.9997C24.9648 38.8575 38.8614 24.9609 56.0036 24.9609C73.1458 24.9609 87.0424 38.8575 87.0424 55.9997Z" stroke="#0D0F10" stroke-width="7.75969" stroke-linecap="round" />
+</g>
+<rect id="stitch" opacity="0.35" x="8.46366" y="8.46366" width="95.0698" height="95.0698" rx="16.2791" stroke="#0D0F10" stroke-width="1.30233" stroke-dasharray="6.51 5.21" />
+</g>
+<defs>
+<filter id="filter0_d_0_1" x="0" y="0" width="119" height="120" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix" />
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+<feOffset dx="7" dy="8" />
+<feColorMatrix type="matrix" values="0 0 0 0 0.0509804 0 0 0 0 0.0588235 0 0 0 0 0.0627451 0 0 0 1 0" />
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_1" />
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_1" result="shape" />
+</filter>
+</defs>
+</svg>
