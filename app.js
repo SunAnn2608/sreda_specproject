@@ -43,7 +43,7 @@ function render(){
   const options=s.options?`<div class="prompt">${escapeHTML(s.prompt)}</div><div class="choices">${s.options.map((o,i)=>btn(o.label,"choice:"+i,"choice")).join("")}</div>`:"";
   inner=`<div class="dialogue-layout">${dialogue}${options}</div>`;
  }
- if(state.scene==="dialogue")inner=`<div class="story-dialogue"><button class="panel bubble" data-action="next"><span class="speaker">банни</span><span>${escapeHTML(s.text)}</span><img class="bubble-tail" src="./assets/tail.svg" alt=""><img class="bubble-arrow" src="./assets/arrow.svg" alt=""></button><button class="story-hint" data-action="next">тапни, чтобы читать дальше</button></div>`;
+ if(state.scene==="dialogue")inner=`<div class="story-dialogue"><button class="panel bubble" data-action="next"><span class="speaker">банни</span><span>${escapeHTML(s.text)}</span><img class="bubble-tail" src="./assets/tail.svg" alt=""><img class="bubble-arrow" src="./assets/arrow.svg" alt=""></button><div class="story-hint"><span class="hint-desktop">клик или пробел — дальше · стрелка вверх — журнал реплик</span><span class="hint-tablet">тап по экрану — дальше · свайп вниз — журнал реплик</span><span class="hint-mobile">тапни, чтобы читать дальше</span></div></div>`;
  // ИИ: телефон и Кроли экрана 02-02 из Figma 1318:2561. Запись №6.
  if(state.scene==="chat")inner=`<img class="chat-aura" src="./assets/kroli-glow.svg" alt=""><img class="chat-kroli" src="./assets/kroli.png" alt="Кроли"><section class="chat-phone" aria-label="8 Б — общий чат"><h2>8 «Б» · общий чат</h2><div class="chat-messages"><p>смотрите,<br>кто опять в шапке</p><div class="chat-photo"><img src="./assets/chat-photo.png" alt="Фотография Банни, опубликованная без разрешения"></div><p>ахаха</p><p class="outgoing">Удалите, пожалуйста. Я не разрешал.</p><small>Прочитано: 24 · ответов нет</small></div></section><button class="panel bubble chat-reply" data-action="next"><span class="speaker">банни</span><span>Я просил удалить.<br>Никто не ответил.</span><img class="bubble-tail" src="./assets/tail.svg" alt=""><img class="bubble-arrow" src="./assets/arrow.svg" alt=""></button>`;
  if(s.kind==="info")inner=`<article class="panel stitched info-panel"><h1>${escapeHTML(s.title)}</h1><div class="info-content">${s.image?`<img class="info-image" src="./assets/${s.image}" alt="">`:""}<div><h2>${escapeHTML(s.text)}</h2>${s.points?`<ul>${s.points.map(p=>`<li>${escapeHTML(p)}</li>`).join("")}</ul>`:""}</div></div><div class="actions">${btn("материалы","materials","action secondary")}${btn("дальше","next","action")}</div></article>`;
@@ -75,6 +75,12 @@ const articles=[
 function modalHTML(){
  if(!state.modal)return "";
  let title="",body="";
+ if(state.modal==="log"){
+  title="журнал реплик";
+  const ids=[...state.history,state.scene];
+  body=ids.map(id=>scenes[id]).filter(s=>s&&s.text&&["dialogue","chat","momchat","choice"].includes(s.kind)).map(s=>`${s.reply?`<article><strong>ты</strong><p>${escapeHTML(s.reply)}</p></article>`:""}<article><strong>${escapeHTML(s.speaker||"банни")}</strong><p>${escapeHTML(s.text)}</p></article>`).join("")||'<p>Пока нет реплик.</p>';
+  return `<div class="modal-backdrop" data-overlay="true"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><button class="pill modal-close" data-action="close" aria-label="Закрыть">×</button><h2 id="modal-title">${title}</h2>${body}</section></div>`;
+ }
  if(state.modal==="help"){title="нужна поддержка";body=`<p>Как начать разговор и к кому обратиться, если тебя травят или ты видишь травлю.</p><div class="modal-cards">${[['Выбери взрослого','Родитель, классный руководитель, психолог, тренер — тот, кому доверяешь.'],['Начни с факта','«Меня снимают без разрешения и выкладывают в чат». Можно показать переписку.'],['Скажи, что нужно','Чтобы выслушали, чтобы помогли поговорить со школой, чтобы не делали без тебя.']].map(([h,p],i)=>`<article><span>шаг ${i+1}</span><h3>${h}</h3><p>${p}</p></article>`).join("")}</div>`;}
  else if(state.modal==="menu"){title="меню";body=`<nav class="menu-links" aria-label="Разделы проекта">${btn("материалы","materials","action secondary")}${btn("нужна поддержка","help","action")}${btn("поддержать","supportPage","action secondary")}${btn("о проекте","about","action secondary")}</nav>`;}
  else if(state.modal==="about"){title="о проекте";body='<p>«среда» — социальный спецпроект о травле в образовательной среде. Ты не управляешь травящей толпой. Но можешь выбрать, как быть рядом.</p><p>Три выбора, 12 маршрутов и два финала. За безопасность отвечают взрослые.</p>';}
@@ -103,6 +109,12 @@ function navigateForward(){if(state.modal)return;if(navigationFuture.length){nav
 const originalHandleAction=handleAction;
 handleAction=function(action){const before=navigationSnapshot();originalHandleAction(action);if(action==="start"||action==="restart"){navigationPast.length=0;navigationFuture.length=0;return;}if(navigationKey(before)!==navigationKey(state)){navigationPast.push(before);navigationFuture.length=0;}};
 const editableTarget=target=>target instanceof Element&&target.closest('input,textarea,select,[contenteditable="true"]');
+// ИИ: ↑ открывает журнал, ↓ не задействована. Запись №16.
+function openDialogueLog(){if(state.modal||state.scene==="prologue")return;state.modal="log";render();document.querySelector('.modal-close')?.focus();}
+document.addEventListener("keydown",e=>{if(e.key==="ArrowUp"&&!e.repeat&&!e.altKey&&!e.ctrlKey&&!e.metaKey&&!editableTarget(e.target)&&!state.modal&&state.scene!=="prologue"){e.preventDefault();openDialogueLog();}});
+let logTouchStart=null;
+document.addEventListener("touchstart",e=>{if(!state.modal&&e.touches.length===1&&!e.target.closest('header,button,a'))logTouchStart={x:e.touches[0].clientX,y:e.touches[0].clientY};else logTouchStart=null;},{passive:true});
+document.addEventListener("touchend",e=>{if(logTouchStart&&e.changedTouches.length){const t=e.changedTouches[0];if(t.clientY-logTouchStart.y>90&&Math.abs(t.clientX-logTouchStart.x)<50)openDialogueLog();}logTouchStart=null;},{passive:true});
 document.addEventListener("keydown",e=>{if(e.repeat||e.altKey||e.ctrlKey||e.metaKey||editableTarget(e.target)||state.modal)return;if(e.key==="ArrowLeft"){e.preventDefault();navigateBack();}else if(e.key==="ArrowRight"){e.preventDefault();navigateForward();}});
 function mouseNavigation(e){if(![3,4].includes(e.button)||state.modal||editableTarget(e.target))return;e.preventDefault();e.stopPropagation();if(e.type==="mouseup"){if(e.button===3)navigateBack();else navigateForward();}}
 for(const eventName of ["mousedown","mouseup","auxclick"])document.addEventListener(eventName,mouseNavigation,{capture:true});

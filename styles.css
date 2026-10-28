@@ -93,3 +93,7 @@ html{background:#242329}body{background:#242329}
 @media(max-width:767px){.app{width:100%;min-height:100svh}.stage{height:auto}.modal-backdrop{padding:16px}}
 /* ИИ: сверка 04B Mobile 1398:1235 — без произвольного увеличения персонажей. Запись №14. */
 @media(max-width:767px){.stage[data-screen=closeness]{min-height:max(100svh,216.4103cqw)}.stage[data-screen=closeness] .main{padding-top:126.1538cqw}.stage[data-screen=closeness] .dialogue-layout{gap:28px}.stage[data-screen=closeness] .story-character{width:110.2564%;left:-27.6923%;top:75.8974cqw}.stage[data-screen=closeness] .story-other{width:76.9231%;left:38.7179%;right:auto;top:56.6667cqw}}
+/* ИИ: точные тексты подсказок Desktop / Tablet / Mobile из Figma. Запись №16. */
+.hint-tablet,.hint-mobile{display:none}
+@media(min-width:768px) and (max-width:1400px){.hint-desktop{display:none}.hint-tablet{display:inline}}
+@media(max-width:767px){.hint-desktop,.hint-tablet{display:none}.hint-mobile{display:inline}}
