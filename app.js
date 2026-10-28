@@ -94,6 +94,18 @@ function handleAction(action){
 }
 // ИИ: диалоги листаются кликом по сцене, элементы управления не листают её. Запись №9.
 const canAdvanceScene=()=>!state.modal&&["dialogue","chat","momchat"].includes(scenes[state.scene].kind);
+// ИИ: история навигации восстанавливает ответы и мобильный подэкран. Запись №13.
+const navigationPast=[],navigationFuture=[];
+const navigationSnapshot=()=>JSON.parse(JSON.stringify(state));
+const navigationKey=s=>JSON.stringify([s.scene,s.chatStep||0,s.answers,s.branch,s.second]);
+function navigateBack(){if(state.modal||!navigationPast.length)return;navigationFuture.push(navigationSnapshot());state=navigationPast.pop();state.modal=null;render();}
+function navigateForward(){if(state.modal)return;if(navigationFuture.length){navigationPast.push(navigationSnapshot());state=navigationFuture.pop();state.modal=null;render();return;}if(canAdvanceScene())handleAction("next");}
+const originalHandleAction=handleAction;
+handleAction=function(action){const before=navigationSnapshot();originalHandleAction(action);if(action==="start"||action==="restart"){navigationPast.length=0;navigationFuture.length=0;return;}if(navigationKey(before)!==navigationKey(state)){navigationPast.push(before);navigationFuture.length=0;}};
+const editableTarget=target=>target instanceof Element&&target.closest('input,textarea,select,[contenteditable="true"]');
+document.addEventListener("keydown",e=>{if(e.repeat||e.altKey||e.ctrlKey||e.metaKey||editableTarget(e.target)||state.modal)return;if(e.key==="ArrowLeft"){e.preventDefault();navigateBack();}else if(e.key==="ArrowRight"){e.preventDefault();navigateForward();}});
+function mouseNavigation(e){if(![3,4].includes(e.button)||state.modal||editableTarget(e.target))return;e.preventDefault();e.stopPropagation();if(e.type==="mouseup"){if(e.button===3)navigateBack();else navigateForward();}}
+for(const eventName of ["mousedown","mouseup","auxclick"])document.addEventListener(eventName,mouseNavigation,{capture:true});
 document.addEventListener("click",e=>{const el=e.target.closest("[data-action]");if(el){handleAction(el.dataset.action);return}if(e.target.matches("[data-overlay]")){handleAction("close");return}if(canAdvanceScene()&&e.target.closest(".stage")&&!e.target.closest("header,a,button,input,select,textarea"))handleAction("next")});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&state.modal)handleAction("close")});
 document.addEventListener("keydown",e=>{if(e.code==="Space"&&canAdvanceScene()&&!e.target.closest("a,button,input,select,textarea")){e.preventDefault();handleAction("next")}});
