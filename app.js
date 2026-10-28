@@ -39,7 +39,7 @@ function render(){
  }else{
   const dialogue=`<article class="panel bubble"><span class="speaker">${escapeHTML(s.speaker||"среда")}</span><p>${escapeHTML(s.text||"")}</p></article>`;
   const options=s.options?`<div class="prompt">${escapeHTML(s.prompt)}</div><div class="choices">${s.options.map((o,i)=>btn(o.label,"choice:"+i,"choice")).join("")}</div>`:`<div class="actions">${btn(s.kind==="end"?"начать сначала":"продолжить",s.kind==="end"?"restart":"next","action")}</div>`;
-  inner=`<div class="dialogue-layout">${dialogue}${options}${s.kind==="end"?"":'<p class="hint">Нажимай на кнопки, чтобы продолжить историю.</p>'}</div>`;
+  inner=`<div class="dialogue-layout">${dialogue}${options}</div>`;
  }
  if(state.scene==="dialogue")inner=`<div class="story-dialogue"><button class="panel bubble" data-action="next"><span class="speaker">банни</span><span>${escapeHTML(s.text)}</span><img class="bubble-tail" src="./assets/tail.svg" alt=""><img class="bubble-arrow" src="./assets/arrow.svg" alt=""></button><button class="story-hint" data-action="next">тапни, чтобы читать дальше</button></div>`;
  app.innerHTML=`<div class="stage ${state.scene==="dialogue"?"story-screen":""}" data-scene="${escapeHTML(s.kind)}">${header(s)}<div class="scene-art" aria-hidden="true">${s.art?`<picture>${state.scene==="dialogue"?'<source media="(max-width:767px)" srcset="./assets/corridor-mobile.png">':""}<img src="./assets/${s.art}" alt=""></picture>`:""}</div>${s.character?`<img class="story-character" src="./assets/${s.character}" alt="">`:""}<main class="main" id="main" tabindex="-1">${inner}</main><footer class="footer-note">среда · технический прототип · визуальные ассеты и полный сценарий в работе</footer></div>${modalHTML()}`;
