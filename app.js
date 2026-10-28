@@ -1,0 +1,54 @@
+/* ИИ: прототип сценарного движка и обработчиков интерфейса. Запись №1 в README.
+   ВАЖНО: сцены после первого выбора являются техническим черновиком, а не утверждённым сценарием. */
+"use strict";
+const app=document.querySelector("#app");
+const figma="https://www.figma.com/design/Dh9CU2f4N47sWnTVCKPgVH/среда?node-id=400-688";
+const scenes={
+ prologue:{chapter:"пролог",kind:"prologue"},
+ dialogue:{chapter:"день 2 · коридор",kind:"dialogue",speaker:"банни",text:"Ты тоже видел, что они отправили в чат?",next:"choice"},
+ choice:{chapter:"день 2 · что скажешь?",kind:"choice",speaker:"банни",text:"Опять чувствую себя ничтожеством. И все смотрят.",prompt:"что ты скажешь?",options:[
+  {label:"Так оставлять нельзя.",next:"anger"},
+  {label:"Давай пока здесь посидим.",next:"closeness"},
+  {label:"Я не знаю. Мне надо идти.",next:"withdrawal"}
+ ]},
+ anger:{chapter:"после разговора",kind:"dialogue",speaker:"история",text:"В этой ветке будет реакция на первый выбор. Текст и графика уточняются по Figma.",next:"info"},
+ closeness:{chapter:"после разговора",kind:"dialogue",speaker:"история",text:"В этой ветке будет сцена сближения. Текст и графика уточняются по Figma.",next:"info"},
+ withdrawal:{chapter:"после разговора",kind:"dialogue",speaker:"история",text:"В этой ветке будет сцена замыкания. Текст и графика уточняются по Figma.",next:"info"},
+ info:{chapter:"передышка",kind:"info",speaker:"важно",text:"Травля — не то же самое, что разовый конфликт. Если ситуация повторяется и есть неравенство сил, важно искать поддержку.",next:"choice2"},
+ choice2:{chapter:"выбор 2",kind:"choice",speaker:"история",text:"Что делать дальше?",prompt:"как поступишь?",options:[
+  {label:"Найти взрослого, которому можно доверять.",next:"support"},
+  {label:"Попробовать поговорить с другом.",next:"support"}
+ ]},
+ support:{chapter:"продолжение",kind:"dialogue",speaker:"история",text:"Продолжение этой ветки будет перенесено из утверждённого user flow. Пока здесь техническая остановка.",next:"end"},
+ end:{chapter:"продолжение следует",kind:"end",speaker:"среда",text:"Это первый технический прототип. Полная история: 3 выбора, 12 маршрутов и 2 финала. Они ещё не реализованы."}
+};
+let state={scene:"prologue",history:[],answers:[],modal:null};
+const escapeHTML=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const btn=(label,action,cls="")=>`<button type="button" class="${cls}" data-action="${action}">${escapeHTML(label)}</button>`;
+const header=(s)=>`<header class="topbar"><a href="#prologue" class="logo" aria-label="среда — в начало">среда</a><span class="pill chapter">${escapeHTML(s.chapter)}</span><nav class="header-actions" aria-label="Главное меню">${btn("нужна поддержка","help","pill help")}${btn("материалы","materials","pill materials")}${btn('<span></span>','menu','pill menu-button') .replace("&lt;span&gt;&lt;/span&gt;","<span></span><span></span><span></span>")}</nav></header>`;
+function render(){
+ const s=scenes[state.scene]||scenes.prologue;
+ let inner="";
+ if(s.kind==="prologue"){
+  inner=`<article class="panel stitched"><span class="tag">спецпроект о травле</span><p class="poem">Под дождем остался зайка.<br>Со скамейки слезть не мог,<br>Весь до ниточки промок.</p><div class="notice">В истории есть сцены травли. Если тебе сейчас тяжело, кнопка «нужна поддержка» всегда наверху.</div><div class="actions">${btn("отмотать время","start","action")}${btn("материалы","materials","action secondary")}</div></article>`;
+ }else{
+  const dialogue=`<article class="panel bubble"><span class="speaker">${escapeHTML(s.speaker||"среда")}</span><p>${escapeHTML(s.text||"")}</p></article>`;
+  const options=s.options?`<div class="prompt">${escapeHTML(s.prompt)}</div><div class="choices">${s.options.map((o,i)=>btn(o.label,"choice:"+i,"choice")).join("")}</div>`:`<div class="actions">${btn(s.kind==="end"?"начать сначала":"продолжить",s.kind==="end"?"restart":"next","action")}</div>`;
+  inner=`<div class="dialogue-layout">${dialogue}${options}${s.kind==="end"?"":'<p class="hint">Нажимай на кнопки, чтобы продолжить историю.</p>'}</div>`;
+ }
+ app.innerHTML=`<div class="stage" data-scene="${escapeHTML(s.kind)}">${header(s)}<div class="scene-art" aria-hidden="true"><!-- TODO: Exact original image exports from Figma. Never substitute generated graphics. --></div><main class="main" id="main">${inner}</main><footer class="footer-note">среда · технический прототип · визуальные ассеты и полный сценарий в работе</footer></div>${modalHTML()}`;
+ document.title=`среда · ${s.chapter}`;
+}
+function modalHTML(){if(!state.modal)return "";const help=state.modal==="help";return `<div class="modal-backdrop" data-overlay="true"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><button class="pill modal-close" data-action="close" aria-label="Закрыть">×</button><h2 id="modal-title">${help?"нужна поддержка":"материалы и навигация"}</h2>${help?'<p>Если тебе небезопасно, обратись к взрослому, которому доверяешь, или в местную службу экстренной помощи. Ты не обязан(а) справляться с травлей в одиночку.</p><p>Контакты специализированных служб добавим после проверки актуальности.</p>':'<p>Здесь появятся проверенные материалы о травле, поддержке и действиях свидетеля.</p><p><a href="'+figma+'" target="_blank" rel="noopener noreferrer">Макеты проекта в Figma</a></p>'}<div class="actions">${btn("к истории","close","action secondary")}${btn("начать сначала","restart","action")}</div></section></div>`}
+function go(id){if(!scenes[id])return;state.history.push(state.scene);state.scene=id;state.modal=null;render();document.querySelector("#main")?.focus?.()}
+function handleAction(action){
+ if(action==="start"){go("dialogue");return}
+ if(action==="next"){go(scenes[state.scene].next||"end");return}
+ if(action==="restart"){state={scene:"prologue",history:[],answers:[],modal:null};render();return}
+ if(action==="help"||action==="materials"||action==="menu"){state.modal=action==="help"?"help":"materials";render();document.querySelector(".modal-close")?.focus();return}
+ if(action==="close"){state.modal=null;render();return}
+ if(action.startsWith("choice:")){const i=Number(action.split(":")[1]);const option=scenes[state.scene].options?.[i];if(option){state.answers.push({scene:state.scene,index:i});go(option.next)}}
+}
+document.addEventListener("click",e=>{const el=e.target.closest("[data-action]");if(el){handleAction(el.dataset.action);return}if(e.target.matches("[data-overlay]"))handleAction("close")});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&state.modal)handleAction("close")});
+render();
