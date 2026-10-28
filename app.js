@@ -55,15 +55,38 @@ function render(){
  if(s.reply)inner=`<div class="player-reply panel"><span>ты</span><p>${escapeHTML(s.reply)}</p></div>`+inner;
  app.innerHTML=`<div class="stage ${s.kind==="dialogue"?"story-screen":""}" data-screen="${state.scene}" data-scene="${escapeHTML(s.kind)}">${header(s)}<div class="scene-art" aria-hidden="true">${s.art?`<picture>${state.scene==="dialogue"?'<source media="(max-width:767px)" srcset="./assets/corridor-mobile.png">':""}<img src="./assets/${s.art}" alt=""></picture>`:""}</div>${s.character?`<img class="story-character" src="./assets/${s.character}" alt="">`:""}<main class="main" id="main" tabindex="-1">${inner}</main></div>${modalHTML()}`;
  document.querySelector('.logo').innerHTML='<img src="./assets/logo.svg" alt="среда">';
+ if(state.scene==="chat"){
+  document.querySelector('.stage').dataset.chatStep=state.chatStep||0;
+  document.querySelector('#main').insertAdjacentHTML('beforeend',btn("дальше","next","action chat-mobile-next"));
+ }
  document.title=`среда · ${s.chapter}`;
 }
-function modalHTML(){if(!state.modal)return "";const help=state.modal==="help";return `<div class="modal-backdrop" data-overlay="true"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><button class="pill modal-close" data-action="close" aria-label="Закрыть">×</button><h2 id="modal-title">${help?"нужна поддержка":"материалы и навигация"}</h2>${help?'<p>Если тебе небезопасно, обратись к взрослому, которому доверяешь, или в местную службу экстренной помощи. Ты не обязан(а) справляться с травлей в одиночку.</p><p>Контакты специализированных служб добавим после проверки актуальности.</p>':'<p>Здесь появятся проверенные материалы о травле, поддержке и действиях свидетеля.</p><p><a href="'+figma+'" target="_blank" rel="noopener noreferrer">Макеты проекта в Figma</a></p>'}<div class="actions">${btn("к истории","close","action secondary")}${btn("начать сначала","restart","action")}</div></section></div>`}
+// ИИ: чтение и меню поверх истории с сохранением позиции. Запись №8.
+const articles=[
+ ['«Мы же просто шутим»: когда это уже травля','Шутка перестаёт быть шуткой, когда смеются не все и это повторяется.'],
+ ['Когда хочется ответить в общий чат','Ответ сгоряча часто только разгоняет чат. Сохрани скрины и напиши тому, кто поддержит.'],
+ ['Нельзя всё время быть рядом','Поддерживать не значит спасать в одиночку. Обратись к взрослому и береги себя.'],
+ ['Если разговор не получился','Неудачный разговор — не конец. Можно вернуться к нему позже или найти другого взрослого.'],
+ ['«А если после разговора станет хуже?»','Обсуди со взрослым, что будет дальше, чтобы не остаться один на один с последствиями.'],
+ ['Если подросток рассказал вам о травле','Выслушайте без обесценивания, сохраните доказательства и решайте вместе с подростком.']
+];
+function modalHTML(){
+ if(!state.modal)return "";
+ let title="",body="";
+ if(state.modal==="help"){title="нужна поддержка";body=`<p>Как начать разговор и к кому обратиться, если тебя травят или ты видишь травлю.</p><div class="modal-cards">${[['Выбери взрослого','Родитель, классный руководитель, психолог, тренер — тот, кому доверяешь.'],['Начни с факта','«Меня снимают без разрешения и выкладывают в чат». Можно показать переписку.'],['Скажи, что нужно','Чтобы выслушали, чтобы помогли поговорить со школой, чтобы не делали без тебя.']].map(([h,p],i)=>`<article><span>шаг ${i+1}</span><h3>${h}</h3><p>${p}</p></article>`).join("")}</div>`;}
+ else if(state.modal==="menu"){title="меню";body=`<nav class="menu-links" aria-label="Разделы проекта">${btn("материалы","materials","action secondary")}${btn("нужна поддержка","help","action")}${btn("поддержать","supportPage","action secondary")}${btn("о проекте","about","action secondary")}</nav>`;}
+ else if(state.modal==="about"){title="о проекте";body='<p>«среда» — социальный спецпроект о травле в образовательной среде. Ты не управляешь травящей толпой. Но можешь выбрать, как быть рядом.</p><p>Три выбора, 12 маршрутов и два финала. За безопасность отвечают взрослые.</p>';}
+ else if(state.modal.startsWith("article:")){const a=articles[Number(state.modal.split(":")[1])];title=a[0];body=`<p>${a[1]}</p>${btn("все материалы","materials","action secondary")}`;}
+ else {title="материалы";body=`<div class="modal-cards">${articles.map(([h,p],i)=>`<article><h3>${h}</h3><p>${p}</p>${btn("читать","article:"+i,"action secondary")}</article>`).join("")}</div>`;}
+ return `<div class="modal-backdrop" data-overlay="true"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><button class="pill modal-close" data-action="close" aria-label="Закрыть">×</button><h2 id="modal-title">${escapeHTML(title)}</h2>${body}<div class="actions">${btn("к истории","close","action secondary")}${btn("начать сначала","restart","action")}</div></section></div>`;
+}
 function go(id){if(id==="branch")id=state.branch;if(id==="hard")id="hard"+state.branch+state.second;if(id==="friendOrAdults")id=state.branch==="B"?"friendHelp":"adults";if(!scenes[id])return;state.history.push(state.scene);state.scene=id;state.modal=null;render();document.querySelector("#main")?.focus?.()}
 function handleAction(action){
  if(action==="start"){state.branch=null;state.second=null;state.answers=[];state.history=[];go("dialogue");return}
- if(action==="next"){go(scenes[state.scene].next||"resources");return}
+ if(action==="next"){if(state.scene==="chat"&&matchMedia('(max-width:767px)').matches&&(state.chatStep||0)<2){state.chatStep=(state.chatStep||0)+1;render();return}state.chatStep=0;go(scenes[state.scene].next||"resources");return}
  if(action==="restart"){state={scene:"prologue",history:[],answers:[],modal:null};render();return}
- if(action==="help"||action==="materials"||action==="menu"){state.modal=action==="help"?"help":"materials";render();document.querySelector(".modal-close")?.focus();return}
+ if(action==="supportPage"){go("supportPage");return}
+ if(["help","materials","menu","about"].includes(action)||action.startsWith("article:")){state.modal=action;render();document.querySelector(".modal-close")?.focus();return}
  if(action==="close"){state.modal=null;render();return}
  if(action.startsWith("choice:")){const i=Number(action.split(":")[1]);const option=scenes[state.scene].options?.[i];if(option){if(state.scene==="choice")state.branch=["A","B","C"][i];if(["A","B","C"].includes(state.scene))state.second=i+1;state.answers.push({scene:state.scene,index:i});go(option.next)}}
 }
