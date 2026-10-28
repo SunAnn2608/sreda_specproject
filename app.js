@@ -1,5 +1,4 @@
-/* ИИ: прототип сценарного движка и обработчиков интерфейса. Запись №1 в README.
-   ВАЖНО: сцены после первого выбора являются техническим черновиком, а не утверждённым сценарием. */
+/* ИИ: интерфейс новеллы. Журнал и незавершённые расхождения — в README и FIGMA-AUDIT.md. */
 "use strict";
 // ИИ: оригинальные ассеты пролога из Figma. Запись №2 в README.
 const originalRenderHook = new MutationObserver(()=>{const stage=document.querySelector('[data-scene="prologue"]');if(!stage)return;const art=stage.querySelector('.scene-art');if(!art.querySelector('img'))art.innerHTML='<img src="./assets/prologue-park.png" alt="">';const logo=stage.querySelector('.logo');if(!logo.querySelector('img'))logo.innerHTML='<img src="./assets/logo.svg" alt="среда">';const panel=stage.querySelector('.panel');if(!panel.querySelector('.prologue-doodle'))panel.insertAdjacentHTML('afterbegin','<img class="prologue-doodle" src="./assets/doodle.svg" alt="среда">');});
@@ -16,16 +15,6 @@ const scenes={
   {label:"Давай пока здесь посидим.",next:"closeness"},
   {label:"Я не знаю. Мне надо идти.",next:"withdrawal"}
  ]},
- anger:{chapter:"после разговора",kind:"dialogue",speaker:"история",text:"В этой ветке будет реакция на первый выбор. Текст и графика уточняются по Figma.",next:"info"},
- closeness:{chapter:"после разговора",kind:"dialogue",speaker:"история",text:"В этой ветке будет сцена сближения. Текст и графика уточняются по Figma.",next:"info"},
- withdrawal:{chapter:"после разговора",kind:"dialogue",speaker:"история",text:"В этой ветке будет сцена замыкания. Текст и графика уточняются по Figma.",next:"info"},
- info:{chapter:"передышка",kind:"info",speaker:"важно",text:"Травля — не то же самое, что разовый конфликт. Если ситуация повторяется и есть неравенство сил, важно искать поддержку.",next:"choice2"},
- choice2:{chapter:"выбор 2",kind:"choice",speaker:"история",text:"Что делать дальше?",prompt:"как поступишь?",options:[
-  {label:"Найти взрослого, которому можно доверять.",next:"support"},
-  {label:"Попробовать поговорить с другом.",next:"support"}
- ]},
- support:{chapter:"продолжение",kind:"dialogue",speaker:"история",text:"Продолжение этой ветки будет перенесено из утверждённого user flow. Пока здесь техническая остановка.",next:"end"},
- end:{chapter:"продолжение следует",kind:"end",speaker:"среда",text:"Это первый технический прототип. Полная история: 3 выбора, 12 маршрутов и 2 финала. Они ещё не реализованы."}
 };
 Object.assign(scenes,storyRoutes);
 scenes.chat.next="afterChat";
