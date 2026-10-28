@@ -96,7 +96,7 @@ function modalHTML(){
  else if(state.modal==="about"){title="о проекте";body='<p>«среда» — социальный спецпроект о травле в образовательной среде. Ты не управляешь травящей толпой. Но можешь выбрать, как быть рядом.</p><p>Три выбора, 12 маршрутов и два финала. За безопасность отвечают взрослые.</p>';}
  else if(state.modal.startsWith("article:")){const a=articles[Number(state.modal.split(":")[1])];title=a[0];body=`<p class="article-preview-label">Коротко о главном</p><p>${a[1]}</p><p><a href="https://dzen.ru/sreda_acceptance" target="_blank" rel="noopener noreferrer">Канал проекта в Дзене</a></p>${({2:3,5:4}[Number(state.modal.split(":")[1])]!==undefined)?btn("следующий материал","article:"+({2:3,5:4}[Number(state.modal.split(":")[1])]),"action secondary"):""}${btn("все материалы","materials","action secondary")}`;}
  else {title="материалы";body=`<div class="modal-cards">${articles.map(([h,p],i)=>`<article><h3>${h}</h3><p>${p}</p>${btn("читать","article:"+i,"action secondary")}</article>`).join("")}</div>`;}
- return `<div class="modal-backdrop" data-overlay="true"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><button class="pill modal-close" data-action="close" aria-label="Закрыть">×</button><h2 id="modal-title">${escapeHTML(title)}</h2>${body}<div class="actions">${btn("к истории","close","action secondary")}${btn("начать сначала","restart","action")}</div></section></div>`;
+ return `<div class="modal-backdrop" data-overlay="true"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><button class="pill modal-close" data-action="close" aria-label="Закрыть">×</button><h2 id="modal-title">${escapeHTML(title)}</h2>${body}<div class="actions">${btn("к истории","resume","action secondary")}${btn("начать сначала","restart","action")}</div></section></div>`;
 }
 function go(id){if(id==="branch")id=state.branch;if(id==="hard")id="hard"+state.branch+state.second;if(id==="friendOrAdults")id=state.branch==="B"?"friendHelp":"adults";if(!scenes[id])return;state.history.push(state.scene);state.scene=id;state.frameStep=0;state.modal=null;state.modalTrail=[];render();document.querySelector("#main")?.focus?.()}
 function handleAction(action){
@@ -106,6 +106,7 @@ function handleAction(action){
  if(action==="restart"){state={scene:"prologue",history:[],answers:[],modal:null};render();return}
  if(action==="supportPage"){go("supportPage");return}
  if(action==="resources"){go("resources");return}
+ if(action==="resume"){state.modal=null;state.modalTrail=[];render();return}
  if(["help","materials","menu","about"].includes(action)||action.startsWith("article:")){if(state.modal!==action){if(!state.modal)state.modalTrail=[];else (state.modalTrail??=[]).push(state.modal);}state.modal=action;render();document.querySelector(".modal-close")?.focus();return}
  if(action==="close"){const closed=state.modal;state.modal=state.modalTrail?.pop()||null;render();document.querySelector(`[data-exact-action="${closed}"],[data-action="${closed}"]`)?.focus?.();return}
  if(action.startsWith("choice:")){const i=Number(action.split(":")[1]);const option=scenes[state.scene].options?.[i];if(option){if(state.scene==="choice")state.branch=["A","B","C"][i];if(["A","B","C"].includes(state.scene))state.second=i+1;state.answers.push({scene:state.scene,index:i});go(option.next)}}
