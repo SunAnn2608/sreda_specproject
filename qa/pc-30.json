@@ -1,0 +1,386 @@
+[
+  {
+    "device": "desktop",
+    "h": 768,
+    "outside": [],
+    "screen": "prologue",
+    "scroll": false,
+    "w": 1084
+  },
+  {
+    "device": "desktop",
+    "h": 768,
+    "outside": [],
+    "screen": "dialogue",
+    "scroll": false,
+    "w": 1084
+  },
+  {
+    "device": "desktop",
+    "h": 768,
+    "outside": [],
+    "screen": "chat",
+    "scroll": false,
+    "w": 1084
+  },
+  {
+    "device": "desktop",
+    "h": 768,
+    "outside": [],
+    "screen": "choice",
+    "scroll": false,
+    "w": 1084
+  },
+  {
+    "device": "desktop",
+    "h": 768,
+    "outside": [],
+    "screen": "closeness",
+    "scroll": false,
+    "w": 1084
+  },
+  {
+    "device": "desktop",
+    "h": 768,
+    "outside": [],
+    "screen": "info",
+    "scroll": false,
+    "w": 1084
+  },
+  {
+    "device": "desktop",
+    "h": 768,
+    "outside": [],
+    "screen": "A",
+    "scroll": false,
+    "w": 1084
+  },
+  {
+    "device": "desktop",
+    "h": 768,
+    "outside": [],
+    "screen": "momUnknown",
+    "scroll": false,
+    "w": 1084
+  },
+  {
+    "device": "desktop",
+    "h": 768,
+    "outside": [],
+    "screen": "tellMom",
+    "scroll": false,
+    "w": 1084
+  },
+  {
+    "device": "desktop",
+    "h": 768,
+    "outside": [],
+    "screen": "messageMom",
+    "scroll": false,
+    "w": 1084
+  },
+  {
+    "device": "desktop",
+    "h": 768,
+    "outside": [],
+    "screen": "adults",
+    "scroll": false,
+    "w": 1084
+  },
+  {
+    "device": "desktop",
+    "h": 768,
+    "outside": [],
+    "screen": "openEnding",
+    "scroll": false,
+    "w": 1084
+  },
+  {
+    "device": "desktop",
+    "h": 768,
+    "outside": [],
+    "screen": "silent",
+    "scroll": false,
+    "w": 1084
+  },
+  {
+    "device": "desktop",
+    "h": 768,
+    "outside": [],
+    "screen": "resources",
+    "scroll": false,
+    "w": 1084
+  },
+  {
+    "device": "desktop",
+    "h": 768,
+    "outside": [],
+    "screen": "supportPage",
+    "scroll": false,
+    "w": 1084
+  },
+  {
+    "device": "desktop",
+    "h": 768,
+    "outside": [],
+    "screen": "menu",
+    "scroll": false,
+    "w": 1084
+  },
+  {
+    "device": "desktop",
+    "h": 720,
+    "outside": [],
+    "screen": "prologue",
+    "scroll": false,
+    "w": 1280
+  },
+  {
+    "device": "desktop",
+    "h": 720,
+    "outside": [],
+    "screen": "dialogue",
+    "scroll": false,
+    "w": 1280
+  },
+  {
+    "device": "desktop",
+    "h": 720,
+    "outside": [],
+    "screen": "chat",
+    "scroll": false,
+    "w": 1280
+  },
+  {
+    "device": "desktop",
+    "h": 720,
+    "outside": [],
+    "screen": "choice",
+    "scroll": false,
+    "w": 1280
+  },
+  {
+    "device": "desktop",
+    "h": 720,
+    "outside": [],
+    "screen": "closeness",
+    "scroll": false,
+    "w": 1280
+  },
+  {
+    "device": "desktop",
+    "h": 720,
+    "outside": [],
+    "screen": "info",
+    "scroll": false,
+    "w": 1280
+  },
+  {
+    "device": "desktop",
+    "h": 720,
+    "outside": [],
+    "screen": "A",
+    "scroll": false,
+    "w": 1280
+  },
+  {
+    "device": "desktop",
+    "h": 720,
+    "outside": [],
+    "screen": "momUnknown",
+    "scroll": false,
+    "w": 1280
+  },
+  {
+    "device": "desktop",
+    "h": 720,
+    "outside": [],
+    "screen": "tellMom",
+    "scroll": false,
+    "w": 1280
+  },
+  {
+    "device": "desktop",
+    "h": 720,
+    "outside": [],
+    "screen": "messageMom",
+    "scroll": false,
+    "w": 1280
+  },
+  {
+    "device": "desktop",
+    "h": 720,
+    "outside": [],
+    "screen": "adults",
+    "scroll": false,
+    "w": 1280
+  },
+  {
+    "device": "desktop",
+    "h": 720,
+    "outside": [],
+    "screen": "openEnding",
+    "scroll": false,
+    "w": 1280
+  },
+  {
+    "device": "desktop",
+    "h": 720,
+    "outside": [],
+    "screen": "silent",
+    "scroll": false,
+    "w": 1280
+  },
+  {
+    "device": "desktop",
+    "h": 720,
+    "outside": [],
+    "screen": "resources",
+    "scroll": false,
+    "w": 1280
+  },
+  {
+    "device": "desktop",
+    "h": 720,
+    "outside": [],
+    "screen": "supportPage",
+    "scroll": false,
+    "w": 1280
+  },
+  {
+    "device": "desktop",
+    "h": 720,
+    "outside": [],
+    "screen": "menu",
+    "scroll": false,
+    "w": 1280
+  },
+  {
+    "device": "desktop",
+    "h": 768,
+    "outside": [],
+    "screen": "prologue",
+    "scroll": false,
+    "w": 1366
+  },
+  {
+    "device": "desktop",
+    "h": 768,
+    "outside": [],
+    "screen": "dialogue",
+    "scroll": false,
+    "w": 1366
+  },
+  {
+    "device": "desktop",
+    "h": 768,
+    "outside": [],
+    "screen": "chat",
+    "scroll": false,
+    "w": 1366
+  },
+  {
+    "device": "desktop",
+    "h": 768,
+    "outside": [],
+    "screen": "choice",
+    "scroll": false,
+    "w": 1366
+  },
+  {
+    "device": "desktop",
+    "h": 768,
+    "outside": [],
+    "screen": "closeness",
+    "scroll": false,
+    "w": 1366
+  },
+  {
+    "device": "desktop",
+    "h": 768,
+    "outside": [],
+    "screen": "info",
+    "scroll": false,
+    "w": 1366
+  },
+  {
+    "device": "desktop",
+    "h": 768,
+    "outside": [],
+    "screen": "A",
+    "scroll": false,
+    "w": 1366
+  },
+  {
+    "device": "desktop",
+    "h": 768,
+    "outside": [],
+    "screen": "momUnknown",
+    "scroll": false,
+    "w": 1366
+  },
+  {
+    "device": "desktop",
+    "h": 768,
+    "outside": [],
+    "screen": "tellMom",
+    "scroll": false,
+    "w": 1366
+  },
+  {
+    "device": "desktop",
+    "h": 768,
+    "outside": [],
+    "screen": "messageMom",
+    "scroll": false,
+    "w": 1366
+  },
+  {
+    "device": "desktop",
+    "h": 768,
+    "outside": [],
+    "screen": "adults",
+    "scroll": false,
+    "w": 1366
+  },
+  {
+    "device": "desktop",
+    "h": 768,
+    "outside": [],
+    "screen": "openEnding",
+    "scroll": false,
+    "w": 1366
+  },
+  {
+    "device": "desktop",
+    "h": 768,
+    "outside": [],
+    "screen": "silent",
+    "scroll": false,
+    "w": 1366
+  },
+  {
+    "device": "desktop",
+    "h": 768,
+    "outside": [],
+    "screen": "resources",
+    "scroll": false,
+    "w": 1366
+  },
+  {
+    "device": "desktop",
+    "h": 768,
+    "outside": [],
+    "screen": "supportPage",
+    "scroll": false,
+    "w": 1366
+  },
+  {
+    "device": "desktop",
+    "h": 768,
+    "outside": [],
+    "screen": "menu",
+    "scroll": false,
+    "w": 1366
+  }
+]

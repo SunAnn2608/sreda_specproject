@@ -115,3 +115,13 @@ html{background:#242329}body{background:#242329}
 
 /* ИИ №29: убрать синюю обводку закрытия журнала по правке автора. */
 .modal[data-modal="log"] .modal-close:focus-visible{outline:none}
+
+/* ИИ №30: оставшиеся сценарные выборы ПК также занимают одно окно. */
+@media(min-width:1024px) and (hover:hover) and (pointer:fine){
+ .stage[data-scene="choice"]{height:100svh;min-height:0}
+ .stage[data-scene="choice"] .main{min-height:0;padding-block:clamp(12px,2svh,24px)}
+ .stage[data-scene="choice"] .bubble{padding:clamp(18px,3svh,40px);font-size:clamp(18px,2.5svh,30px)}
+ .stage[data-scene="choice"] .choices{gap:clamp(8px,1.5svh,18px);margin-top:clamp(8px,1.5svh,18px)}
+ .stage[data-scene="choice"] .choice{padding-block:clamp(10px,2svh,24px)}
+ .stage[data-scene="choice"] .prompt{margin-top:clamp(8px,1.5svh,18px)}
+}

@@ -11,7 +11,7 @@ const socialLinks=Object.freeze({
  vc:'https://vc.ru/id5658605?utm_source=taplink&utm_medium=referral&utm_campaign=sreda_media&utm_content=vc_ru',
  taplink:'https://sredaacceptance.taplink.ws/'
 });
-function exactDevice(){const forced=location.pathname.endsWith('/verify.html')?new URLSearchParams(location.search).get('device'):null;return ['desktop','tablet','mobile'].includes(forced)?forced:window.innerWidth<1024?'mobile':window.innerWidth<1440?'tablet':'desktop';}
+function exactDevice(){const forced=location.pathname.endsWith('/verify.html')?new URLSearchParams(location.search).get('device'):null;return ['desktop','tablet','mobile'].includes(forced)?forced:window.innerWidth<1024?'mobile':matchMedia('(hover:hover) and (pointer:fine)').matches?'desktop':window.innerWidth<1440?'tablet':'desktop';}
 function renderExactScreen(){
  const verification=location.pathname.endsWith('/verify.html')?new URLSearchParams(location.search):null;
  const requested=verification?.get('screen');
