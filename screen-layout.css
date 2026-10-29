@@ -48,8 +48,3 @@ html,body{min-width:0}.figma-viewport[data-layout=document]{overflow-x:clip}
 .figma-viewport[data-exact-device=tablet]{width:100%;max-width:none}
 .figma-viewport[data-exact-device=tablet][data-layout=scene]{height:100svh;min-height:0}
 
-/* ИИ №36: целый key visual с запасом под параллакс; фон заполняет края. */
-.menu-artwork{overflow:hidden;background:#0d0f10}
-.menu-artwork::before{content:"";position:absolute;inset:-20px;background-image:var(--menu-image);background-size:cover;background-position:center;filter:blur(14px) brightness(.55)}
-.figma-canvas .menu-artwork>img{inset:3%!important;width:94%!important;height:94%!important;object-fit:contain!important;object-position:left top!important;transform-origin:left top;transform:translate(var(--menu-x,0px),var(--menu-y,0px)) scale(var(--menu-zoom,1));transition:transform 600ms cubic-bezier(.2,.8,.2,1);will-change:transform}
-@media(prefers-reduced-motion:reduce){.figma-canvas .menu-artwork>img{transform:none!important;transition:none!important;will-change:auto}}

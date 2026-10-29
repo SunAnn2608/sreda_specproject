@@ -22,11 +22,7 @@ function applyFluidConstraints(host,template,device,screenName){
   for(const {node,g} of children){
    if(node===background){
     Object.assign(node.style,{left:'0',top:'0',width:'100%',height:'100%'});
-    if(screenName==='menu'){
-     node.classList.add('menu-artwork');
-     const image=node.querySelector('img');
-     if(image)node.style.setProperty('--menu-image',`url("${image.getAttribute('src')}")`);
-    }
+    if(screenName==='menu')for(const image of node.querySelectorAll('img'))image.style.objectPosition='left top';
    }else if(g.n==='Bar'){
     node.style.left='0';node.style.width='100%';
    }else{
@@ -35,6 +31,10 @@ function applyFluidConstraints(host,template,device,screenName){
   }
  }
 
+ // ИИ №37: виньетка привязана к окну, без смещения и параллакса.
+ if(screenName==='menu')for(const shade of canvas.querySelectorAll('[data-name="vignette"]')){
+  Object.assign(shade.style,{position:'absolute',inset:'0',left:'0',top:'0',width:'100%',height:'100%',translate:'none',transform:'none',backgroundSize:'100% 100%',backgroundPosition:'center',pointerEvents:'none'});
+ }
  const artwork=({g})=>/^(bg\/|char\/|aura\/)/.test(g.n);
  // Читаемый размер — отдельное ограничение, а не масштаб всей иллюстрации.
  for(const node of canvas.querySelectorAll('[style]')){

@@ -39,15 +39,3 @@ function pressNovelControl(target){
 document.addEventListener('pointerdown',e=>{if(e.button===0)pressNovelControl(e.target);},{passive:true});
 document.addEventListener('keydown',e=>{if(!e.repeat&&(e.key==='Enter'||e.key===' '))pressNovelControl(e.target);},{capture:true});
 
-// ИИ №36: параллакс приближения key visual меню, интерфейс остаётся неподвижным.
-document.addEventListener('pointermove',e=>{
- if(novelMotionPreference.matches||e.pointerType==='touch')return;
- const art=document.querySelector('.menu-artwork');if(!art)return;
- const r=art.getBoundingClientRect(),x=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)),y=Math.max(0,Math.min(1,(e.clientY-r.top)/r.height));
- art.style.setProperty('--menu-x',`${x*6}px`);art.style.setProperty('--menu-y',`${y*4}px`);
- art.style.setProperty('--menu-zoom',String(1+.025*(1-Math.min(1,Math.hypot(x-.5,y-.5)*1.414))));
-},{passive:true});
-document.addEventListener('pointerout',e=>{
- if(e.relatedTarget)return;const art=document.querySelector('.menu-artwork');if(!art)return;
- for(const key of ['--menu-x','--menu-y','--menu-zoom'])art.style.removeProperty(key);
-},{passive:true});
