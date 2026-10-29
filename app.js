@@ -98,7 +98,19 @@ function modalHTML(){
  else {title="материалы";body=`<div class="modal-cards">${articles.map(([h,p],i)=>`<article><h3>${h}</h3><p>${p}</p>${btn("читать","article:"+i,"action secondary")}</article>`).join("")}</div>`;}
  return `<div class="modal-backdrop" data-overlay="true"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><button class="pill modal-close" data-action="close" aria-label="Закрыть">×</button><h2 id="modal-title">${escapeHTML(title)}</h2>${body}<div class="actions">${btn("к истории","resume","action secondary")}${btn("начать сначала","restart","action")}</div></section></div>`;
 }
-function go(id){if(id==="branch")id=state.branch;if(id==="hard")id="hard"+state.branch+state.second;if(id==="friendOrAdults")id=state.branch==="B"?"friendHelp":"adults";if(!scenes[id])return;state.history.push(state.scene);state.scene=id;state.frameStep=0;state.modal=null;state.modalTrail=[];render();document.querySelector("#main")?.focus?.()}
+function go(id){if(id==="branch")id=state.branch;if(id==="hard")id="hard"+state.branch+state.second;if(id==="friendOrAdults")id=state.branch==="B"?"friendHelp":"adults";// ИИ №24: показываем только сцены с самостоятельным макетом Figma.
+const visited=new Set();
+while(typeof figmaScreens!=='undefined'&&!figmaScreens[id]){
+ if(visited.has(id)||!scenes[id])return;visited.add(id);
+ const scene=scenes[id];
+ // Нельзя молча выбирать ответ вместо игрока.
+ if(scene.options)break;
+ id=scene.next;
+ if(id==="branch")id=state.branch;
+ if(id==="hard")id="hard"+state.branch+state.second;
+ if(id==="friendOrAdults")id=state.branch==="B"?"friendHelp":"adults";
+}
+if(!scenes[id])return;state.history.push(state.scene);state.scene=id;state.frameStep=0;state.modal=null;state.modalTrail=[];render();document.querySelector("#main")?.focus?.()}
 function handleAction(action){
  if(action==="frame-next"){state.frameStep=(state.frameStep||0)+1;render();return}
  if(action==="start"){state.branch=null;state.second=null;state.answers=[];state.history=[];go("dialogue");return}

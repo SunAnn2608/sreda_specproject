@@ -90,11 +90,9 @@ function wireExactScreen(host,name){
    if(action)assignExactAction(node,action);
   }
  }
- // ИИ: чтение доступного авторского анонса поверх истории; внешние URL сохранены.
+ // ИИ №24: до отдельных статей все материалы открывают канал автора.
  for(const link of canvas.querySelectorAll('a[href*="dzen.ru/sreda_acceptance"]')){
-  const card=link.closest('[data-name="Card"]');const text=card?normalizedLabel(card):'';
-  const index=name==='info'?0:text.includes('шутим')?0:text.includes('хочется ответить')?1:text.includes('выгореть')||text.includes('всё время')?2:text.includes('получился')?3:text.includes('станет хуже')?4:text.includes('подросток рассказал')?5:null;
-  if(index!==null)assignExactAction(link,'article:'+index,'читать: '+(card?.querySelector('p')?.textContent||'когда это уже травля'));
+  link.href='https://dzen.ru/sreda_acceptance';link.target='_blank';link.rel='noopener noreferrer';
  }
  // В MENU пункты могут быть компонентами с именем item; используем их видимый текст.
  if(name==='menu')for(const node of canvas.querySelectorAll('[data-name="item"],[data-name^="menu/"],[data-menu-label]')){const t=normalizedLabel(node);const action=t.includes('начать')?'restart':t.includes('материал')?'materials':t.includes('нужна поддержка')?'help':t.includes('поддержать')?'supportPage':t.includes('о проекте')?'about':null;if(action)assignExactAction(node,action);}
