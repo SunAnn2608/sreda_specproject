@@ -11,7 +11,7 @@ const socialLinks=Object.freeze({
  vc:'https://vc.ru/id5658605?utm_source=taplink&utm_medium=referral&utm_campaign=sreda_media&utm_content=vc_ru',
  taplink:'https://sredaacceptance.taplink.ws/'
 });
-function exactDevice(){const forced=location.pathname.endsWith('/verify.html')?new URLSearchParams(location.search).get('device'):null;return ['desktop','tablet','mobile'].includes(forced)?forced:window.innerWidth<1024?'mobile':matchMedia('(hover:hover) and (pointer:fine)').matches?'desktop':window.innerWidth<1440?'tablet':'desktop';}
+function exactDevice(){const forced=location.pathname.endsWith('/verify.html')?new URLSearchParams(location.search).get('device'):null;return ['desktop','tablet','mobile'].includes(forced)?forced:window.innerWidth<768?'mobile':matchMedia('(hover:hover) and (pointer:fine)').matches?(window.innerWidth<1024?'mobile':'desktop'):window.innerWidth<1440?'tablet':'desktop';}
 function renderExactScreen(){
  const verification=location.pathname.endsWith('/verify.html')?new URLSearchParams(location.search):null;
  const requested=verification?.get('screen');
@@ -27,9 +27,10 @@ function renderExactScreen(){
  host.innerHTML=`<div class="figma-viewport" data-exact-screen="${screenName}" data-exact-device="${device}" data-exact-step="${exactStep}" style="--frame-width:${template.width};--frame-height:${template.height};--frame-ratio:${template.width/template.height}"><div class="figma-canvas" style="--frame-unit:calc(100cqw / ${template.width})">${template.html}</div></div>`;
  if(state.modal&&!figmaScreens[state.modal]){host.insertAdjacentHTML('beforeend',modalHTML());const background=host.querySelector('.figma-viewport');background.inert=true;background.setAttribute('aria-hidden','true');}
  applyExactGeometry(host,template.id);
- if(device==='mobile'&&typeof mobileTextRuns!=='undefined'){
+ const textRuns=device==='mobile'&&typeof mobileTextRuns!=='undefined'?mobileTextRuns:device==='tablet'&&typeof tabletTextRuns!=='undefined'?tabletTextRuns:null;
+ if(textRuns){
   for(const node of host.querySelectorAll('[data-geometry-id]')){
-   const runs=mobileTextRuns[node.dataset.geometryId];if(!runs)continue;
+   const runs=textRuns[node.dataset.geometryId];if(!runs)continue;
    node.innerHTML=runs.map(run=>`<span style="font-weight:${run.weight}">${escapeHTML(run.text)}</span>`).join('');
    node.style.whiteSpace='pre-line';
   }

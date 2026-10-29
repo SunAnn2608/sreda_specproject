@@ -43,3 +43,7 @@ html,body{min-width:0}.figma-viewport[data-layout=document]{overflow-x:clip}
 /* ИИ №28: ПК без внешних полей; прокрутка только у длинных документов. */
 .figma-viewport[data-exact-device=desktop]{width:100%;max-width:none}
 .figma-viewport[data-exact-device=desktop][data-layout=scene]{height:100svh;min-height:0}
+
+/* ИИ №32: обычные планшетные сцены вписаны в окно, документы сохраняют длину. */
+.figma-viewport[data-exact-device=tablet]{width:100%;max-width:none}
+.figma-viewport[data-exact-device=tablet][data-layout=scene]{height:100svh;min-height:0}
