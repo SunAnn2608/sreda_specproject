@@ -2,6 +2,15 @@
 "use strict";
 let exactStep=0,exactScene=null,exactVariant=null;
 const exactActions={};
+// ИИ №25: официальные ссылки, предоставленные автором 29.10.2026.
+const socialLinks=Object.freeze({
+ vk:'https://m.vk.ru/sreda_acceptance?utm_source=taplink&utm_medium=referral&utm_campaign=sreda_media&utm_content=vk_group',
+ telegram:'https://t.me/sreda_acceptance',
+ tiktok:'https://www.tiktok.com/@sreda_acceptance?_r=1&_t=ZS-9AmbAOqvCA1',
+ dzen:'https://dzen.ru/sreda_acceptance?utm_source=taplink&utm_medium=referral&utm_campaign=sreda_media&utm_content=dzen',
+ vc:'https://vc.ru/id5658605?utm_source=taplink&utm_medium=referral&utm_campaign=sreda_media&utm_content=vc_ru',
+ taplink:'https://sredaacceptance.taplink.ws/'
+});
 function exactDevice(){const forced=location.pathname.endsWith('/verify.html')?new URLSearchParams(location.search).get('device'):null;return ['desktop','tablet','mobile'].includes(forced)?forced:window.innerWidth<1024?'mobile':window.innerWidth<1440?'tablet':'desktop';}
 function renderExactScreen(){
  const verification=location.pathname.endsWith('/verify.html')?new URLSearchParams(location.search):null;
@@ -72,7 +81,7 @@ function wireExactScreen(host,name){
   if(originalPointer){const pointer=document.createElement('span');pointer.className='choice-hover-pointer';pointer.setAttribute('aria-hidden','true');const image=originalPointer.cloneNode();image.removeAttribute('style');pointer.append(image);choice.prepend(pointer);}
  }
 
- for(const social of canvas.querySelectorAll('[data-social-network]')){const net=social.dataset.socialNetwork;social.innerHTML=`<img alt="${net}" src="./assets/social-${net}.svg" style="position:absolute;left:0;top:0;width:106.25%;height:107.142857%;max-width:none">`;social.style.background='none';social.style.borderWidth='0';social.style.filter='none';}
+ for(const social of canvas.querySelectorAll('[data-social-network]')){const net=social.dataset.socialNetwork;social.innerHTML=`<a href="${socialLinks[net]}" target="_blank" rel="noopener noreferrer" aria-label="${net} — среда" style="position:absolute;inset:0;display:block"><img alt="" src="./assets/social-${net}.svg" style="position:absolute;left:0;top:0;width:106.25%;height:107.142857%;max-width:none"></a>`;social.style.background='none';social.style.borderWidth='0';social.style.filter='none';}
  for(const node of canvas.querySelectorAll('[data-name],[data-component="Button"],[data-component="MenuItem"],[data-component="IconButton"]')){
   const kind=node.dataset.name||node.dataset.component,text=normalizedLabel(node);
   if(kind==='Help')assignExactAction(node,'help');
@@ -92,7 +101,7 @@ function wireExactScreen(host,name){
  }
  // ИИ №24: до отдельных статей все материалы открывают канал автора.
  for(const link of canvas.querySelectorAll('a[href*="dzen.ru/sreda_acceptance"]')){
-  link.href='https://dzen.ru/sreda_acceptance';link.target='_blank';link.rel='noopener noreferrer';
+  link.href=socialLinks.dzen;link.target='_blank';link.rel='noopener noreferrer';
  }
  // В MENU пункты могут быть компонентами с именем item; используем их видимый текст.
  if(name==='menu')for(const node of canvas.querySelectorAll('[data-name="item"],[data-name^="menu/"],[data-menu-label]')){const t=normalizedLabel(node);const action=t.includes('начать')?'restart':t.includes('материал')?'materials':t.includes('нужна поддержка')?'help':t.includes('поддержать')?'supportPage':t.includes('о проекте')?'about':null;if(action)assignExactAction(node,action);}
