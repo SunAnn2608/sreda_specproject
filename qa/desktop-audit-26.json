@@ -1,0 +1,380 @@
+[
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "prologue",
+    "width": 1084
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "dialogue",
+    "width": 1084
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "chat",
+    "width": 1084
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "choice",
+    "width": 1084
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "closeness",
+    "width": 1084
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "info",
+    "width": 1084
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "A",
+    "width": 1084
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "momUnknown",
+    "width": 1084
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "tellMom",
+    "width": 1084
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "messageMom",
+    "width": 1084
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "adults",
+    "width": 1084
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "openEnding",
+    "width": 1084
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "silent",
+    "width": 1084
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "resources",
+    "width": 1084
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "supportPage",
+    "width": 1084
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "materials",
+    "width": 1084
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "help",
+    "width": 1084
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "menu",
+    "width": 1084
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "prologue",
+    "width": 1440
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "dialogue",
+    "width": 1440
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "chat",
+    "width": 1440
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "choice",
+    "width": 1440
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "closeness",
+    "width": 1440
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "info",
+    "width": 1440
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "A",
+    "width": 1440
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "momUnknown",
+    "width": 1440
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "tellMom",
+    "width": 1440
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "messageMom",
+    "width": 1440
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "adults",
+    "width": 1440
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "openEnding",
+    "width": 1440
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "silent",
+    "width": 1440
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "resources",
+    "width": 1440
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "supportPage",
+    "width": 1440
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "materials",
+    "width": 1440
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "help",
+    "width": 1440
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "menu",
+    "width": 1440
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "prologue",
+    "width": 1920
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "dialogue",
+    "width": 1920
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "chat",
+    "width": 1920
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "choice",
+    "width": 1920
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "closeness",
+    "width": 1920
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "info",
+    "width": 1920
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "A",
+    "width": 1920
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "momUnknown",
+    "width": 1920
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "tellMom",
+    "width": 1920
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "messageMom",
+    "width": 1920
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "adults",
+    "width": 1920
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "openEnding",
+    "width": 1920
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "silent",
+    "width": 1920
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "resources",
+    "width": 1920
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "supportPage",
+    "width": 1920
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "materials",
+    "width": 1920
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "help",
+    "width": 1920
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "offscreenControls": [],
+    "screen": "menu",
+    "width": 1920
+  }
+]

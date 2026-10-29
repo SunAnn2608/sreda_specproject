@@ -63,7 +63,7 @@ function applyFluidConstraints(host,template,device,screenName){
   }
   for(const {node,g} of groups){
    if(screenName==='prologue'&&device!=='mobile'&&g.n==='panel'){
-    node.style.setProperty('--frame-unit',`min(var(--layout-unit),calc((100svh - ${(bar?.g.h||0)} * var(--layout-unit) - 64px) / ${g.h+240}))`);
+    node.style.setProperty('--frame-unit',`min(var(--layout-unit),calc(100svh / ${template.height}))`);
     node.style.left='auto';node.style.right=`calc(${template.width-g.x-g.w} * var(--layout-unit))`;
    }
    node.style.top='auto';
