@@ -22,6 +22,7 @@ function applyFluidConstraints(host,template,device,screenName){
   for(const {node,g} of children){
    if(node===background){
     Object.assign(node.style,{left:'0',top:'0',width:'100%',height:'100%'});
+    if(screenName==='menu')for(const image of node.querySelectorAll('img'))image.style.objectPosition='left top';
    }else if(g.n==='Bar'){
     node.style.left='0';node.style.width='100%';
    }else{
