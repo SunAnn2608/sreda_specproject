@@ -27,6 +27,14 @@ function renderExactScreen(){
  host.innerHTML=`<div class="figma-viewport" data-exact-screen="${screenName}" data-exact-device="${device}" data-exact-step="${exactStep}" style="--frame-width:${template.width};--frame-height:${template.height};--frame-ratio:${template.width/template.height}"><div class="figma-canvas" style="--frame-unit:calc(100cqw / ${template.width})">${template.html}</div></div>`;
  if(state.modal&&!figmaScreens[state.modal]){host.insertAdjacentHTML('beforeend',modalHTML());const background=host.querySelector('.figma-viewport');background.inert=true;background.setAttribute('aria-hidden','true');}
  applyExactGeometry(host,template.id);
+ if(device==='mobile'&&typeof mobileTextRuns!=='undefined'){
+  for(const node of host.querySelectorAll('[data-geometry-id]')){
+   const runs=mobileTextRuns[node.dataset.geometryId];if(!runs)continue;
+   node.innerHTML=runs.map(run=>`<span style="font-weight:${run.weight}">${escapeHTML(run.text)}</span>`).join('');
+   node.style.whiteSpace='pre-line';
+  }
+ }
+
  wireExactScreen(host,screenName);
  applyFluidConstraints(host,template,device,screenName);
  if(typeof animateNovelFrame==='function')animateNovelFrame(host,screenName);
@@ -130,6 +138,7 @@ function exactAdvance(){
 function exactHasNextFrame(){return !state.modal&&exactDevice()==='mobile'&&figmaScreens[state.scene]&&Number(state.frameStep||0)<figmaScreens[state.scene].mobile.length-1;}
 document.addEventListener('click',e=>{
  const host=e.target.closest('.figma-viewport');if(!host)return;
+ if(e.target.closest('a[href]'))return;
  const control=e.target.closest('[data-exact-action]');
  if(control){e.preventDefault();e.stopImmediatePropagation();if(control.dataset.exactAction==='exact-next')exactAdvance();else handleAction(control.dataset.exactAction);return;}
  if(!state.modal&&(exactHasNextFrame()||['dialogue','chat','momchat'].includes(scenes[state.scene]?.kind))){e.preventDefault();e.stopImmediatePropagation();exactAdvance();}
