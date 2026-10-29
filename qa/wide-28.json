@@ -1,0 +1,514 @@
+[
+  {
+    "h": 1080,
+    "outside": [],
+    "overflow": false,
+    "screen": "prologue",
+    "scroll": false,
+    "w": 2560
+  },
+  {
+    "h": 1080,
+    "outside": [],
+    "overflow": false,
+    "screen": "dialogue",
+    "scroll": false,
+    "w": 2560
+  },
+  {
+    "h": 1080,
+    "outside": [],
+    "overflow": false,
+    "screen": "chat",
+    "scroll": false,
+    "w": 2560
+  },
+  {
+    "h": 1080,
+    "outside": [],
+    "overflow": false,
+    "screen": "choice",
+    "scroll": false,
+    "w": 2560
+  },
+  {
+    "h": 1080,
+    "outside": [],
+    "overflow": false,
+    "screen": "closeness",
+    "scroll": false,
+    "w": 2560
+  },
+  {
+    "h": 1080,
+    "outside": [],
+    "overflow": false,
+    "screen": "info",
+    "scroll": false,
+    "w": 2560
+  },
+  {
+    "h": 1080,
+    "outside": [],
+    "overflow": false,
+    "screen": "A",
+    "scroll": false,
+    "w": 2560
+  },
+  {
+    "h": 1080,
+    "outside": [],
+    "overflow": false,
+    "screen": "momUnknown",
+    "scroll": false,
+    "w": 2560
+  },
+  {
+    "h": 1080,
+    "outside": [],
+    "overflow": false,
+    "screen": "tellMom",
+    "scroll": false,
+    "w": 2560
+  },
+  {
+    "h": 1080,
+    "outside": [],
+    "overflow": false,
+    "screen": "messageMom",
+    "scroll": false,
+    "w": 2560
+  },
+  {
+    "h": 1080,
+    "outside": [],
+    "overflow": false,
+    "screen": "adults",
+    "scroll": false,
+    "w": 2560
+  },
+  {
+    "h": 1080,
+    "outside": [],
+    "overflow": false,
+    "screen": "openEnding",
+    "scroll": false,
+    "w": 2560
+  },
+  {
+    "h": 1080,
+    "outside": [],
+    "overflow": false,
+    "screen": "silent",
+    "scroll": false,
+    "w": 2560
+  },
+  {
+    "h": 1080,
+    "outside": [],
+    "overflow": false,
+    "screen": "resources",
+    "scroll": false,
+    "w": 2560
+  },
+  {
+    "h": 1080,
+    "outside": [],
+    "overflow": false,
+    "screen": "supportPage",
+    "scroll": false,
+    "w": 2560
+  },
+  {
+    "h": 1080,
+    "outside": [],
+    "overflow": false,
+    "screen": "menu",
+    "scroll": false,
+    "w": 2560
+  },
+  {
+    "h": 1440,
+    "outside": [],
+    "overflow": false,
+    "screen": "prologue",
+    "scroll": false,
+    "w": 3440
+  },
+  {
+    "h": 1440,
+    "outside": [],
+    "overflow": false,
+    "screen": "dialogue",
+    "scroll": false,
+    "w": 3440
+  },
+  {
+    "h": 1440,
+    "outside": [],
+    "overflow": false,
+    "screen": "chat",
+    "scroll": false,
+    "w": 3440
+  },
+  {
+    "h": 1440,
+    "outside": [],
+    "overflow": false,
+    "screen": "choice",
+    "scroll": false,
+    "w": 3440
+  },
+  {
+    "h": 1440,
+    "outside": [],
+    "overflow": false,
+    "screen": "closeness",
+    "scroll": false,
+    "w": 3440
+  },
+  {
+    "h": 1440,
+    "outside": [],
+    "overflow": false,
+    "screen": "info",
+    "scroll": false,
+    "w": 3440
+  },
+  {
+    "h": 1440,
+    "outside": [],
+    "overflow": false,
+    "screen": "A",
+    "scroll": false,
+    "w": 3440
+  },
+  {
+    "h": 1440,
+    "outside": [],
+    "overflow": false,
+    "screen": "momUnknown",
+    "scroll": false,
+    "w": 3440
+  },
+  {
+    "h": 1440,
+    "outside": [],
+    "overflow": false,
+    "screen": "tellMom",
+    "scroll": false,
+    "w": 3440
+  },
+  {
+    "h": 1440,
+    "outside": [],
+    "overflow": false,
+    "screen": "messageMom",
+    "scroll": false,
+    "w": 3440
+  },
+  {
+    "h": 1440,
+    "outside": [],
+    "overflow": false,
+    "screen": "adults",
+    "scroll": false,
+    "w": 3440
+  },
+  {
+    "h": 1440,
+    "outside": [],
+    "overflow": false,
+    "screen": "openEnding",
+    "scroll": false,
+    "w": 3440
+  },
+  {
+    "h": 1440,
+    "outside": [],
+    "overflow": false,
+    "screen": "silent",
+    "scroll": false,
+    "w": 3440
+  },
+  {
+    "h": 1440,
+    "outside": [],
+    "overflow": false,
+    "screen": "resources",
+    "scroll": false,
+    "w": 3440
+  },
+  {
+    "h": 1440,
+    "outside": [],
+    "overflow": false,
+    "screen": "supportPage",
+    "scroll": false,
+    "w": 3440
+  },
+  {
+    "h": 1440,
+    "outside": [],
+    "overflow": false,
+    "screen": "menu",
+    "scroll": false,
+    "w": 3440
+  },
+  {
+    "h": 800,
+    "outside": [],
+    "overflow": false,
+    "screen": "prologue",
+    "scroll": false,
+    "w": 1920
+  },
+  {
+    "h": 800,
+    "outside": [],
+    "overflow": false,
+    "screen": "dialogue",
+    "scroll": false,
+    "w": 1920
+  },
+  {
+    "h": 800,
+    "outside": [],
+    "overflow": false,
+    "screen": "chat",
+    "scroll": false,
+    "w": 1920
+  },
+  {
+    "h": 800,
+    "outside": [],
+    "overflow": false,
+    "screen": "choice",
+    "scroll": false,
+    "w": 1920
+  },
+  {
+    "h": 800,
+    "outside": [],
+    "overflow": false,
+    "screen": "closeness",
+    "scroll": false,
+    "w": 1920
+  },
+  {
+    "h": 800,
+    "outside": [],
+    "overflow": false,
+    "screen": "info",
+    "scroll": false,
+    "w": 1920
+  },
+  {
+    "h": 800,
+    "outside": [],
+    "overflow": false,
+    "screen": "A",
+    "scroll": false,
+    "w": 1920
+  },
+  {
+    "h": 800,
+    "outside": [],
+    "overflow": false,
+    "screen": "momUnknown",
+    "scroll": false,
+    "w": 1920
+  },
+  {
+    "h": 800,
+    "outside": [],
+    "overflow": false,
+    "screen": "tellMom",
+    "scroll": false,
+    "w": 1920
+  },
+  {
+    "h": 800,
+    "outside": [],
+    "overflow": false,
+    "screen": "messageMom",
+    "scroll": false,
+    "w": 1920
+  },
+  {
+    "h": 800,
+    "outside": [],
+    "overflow": false,
+    "screen": "adults",
+    "scroll": false,
+    "w": 1920
+  },
+  {
+    "h": 800,
+    "outside": [],
+    "overflow": false,
+    "screen": "openEnding",
+    "scroll": false,
+    "w": 1920
+  },
+  {
+    "h": 800,
+    "outside": [],
+    "overflow": false,
+    "screen": "silent",
+    "scroll": false,
+    "w": 1920
+  },
+  {
+    "h": 800,
+    "outside": [],
+    "overflow": false,
+    "screen": "resources",
+    "scroll": false,
+    "w": 1920
+  },
+  {
+    "h": 800,
+    "outside": [],
+    "overflow": false,
+    "screen": "supportPage",
+    "scroll": false,
+    "w": 1920
+  },
+  {
+    "h": 800,
+    "outside": [],
+    "overflow": false,
+    "screen": "menu",
+    "scroll": false,
+    "w": 1920
+  },
+  {
+    "h": 900,
+    "outside": [],
+    "overflow": false,
+    "screen": "prologue",
+    "scroll": false,
+    "w": 1440
+  },
+  {
+    "h": 900,
+    "outside": [],
+    "overflow": false,
+    "screen": "dialogue",
+    "scroll": false,
+    "w": 1440
+  },
+  {
+    "h": 900,
+    "outside": [],
+    "overflow": false,
+    "screen": "chat",
+    "scroll": false,
+    "w": 1440
+  },
+  {
+    "h": 900,
+    "outside": [],
+    "overflow": false,
+    "screen": "choice",
+    "scroll": false,
+    "w": 1440
+  },
+  {
+    "h": 900,
+    "outside": [],
+    "overflow": false,
+    "screen": "closeness",
+    "scroll": false,
+    "w": 1440
+  },
+  {
+    "h": 900,
+    "outside": [],
+    "overflow": false,
+    "screen": "info",
+    "scroll": false,
+    "w": 1440
+  },
+  {
+    "h": 900,
+    "outside": [],
+    "overflow": false,
+    "screen": "A",
+    "scroll": false,
+    "w": 1440
+  },
+  {
+    "h": 900,
+    "outside": [],
+    "overflow": false,
+    "screen": "momUnknown",
+    "scroll": false,
+    "w": 1440
+  },
+  {
+    "h": 900,
+    "outside": [],
+    "overflow": false,
+    "screen": "tellMom",
+    "scroll": false,
+    "w": 1440
+  },
+  {
+    "h": 900,
+    "outside": [],
+    "overflow": false,
+    "screen": "messageMom",
+    "scroll": false,
+    "w": 1440
+  },
+  {
+    "h": 900,
+    "outside": [],
+    "overflow": false,
+    "screen": "adults",
+    "scroll": false,
+    "w": 1440
+  },
+  {
+    "h": 900,
+    "outside": [],
+    "overflow": false,
+    "screen": "openEnding",
+    "scroll": false,
+    "w": 1440
+  },
+  {
+    "h": 900,
+    "outside": [],
+    "overflow": false,
+    "screen": "silent",
+    "scroll": false,
+    "w": 1440
+  },
+  {
+    "h": 900,
+    "outside": [],
+    "overflow": false,
+    "screen": "resources",
+    "scroll": false,
+    "w": 1440
+  },
+  {
+    "h": 900,
+    "outside": [],
+    "overflow": false,
+    "screen": "supportPage",
+    "scroll": false,
+    "w": 1440
+  },
+  {
+    "h": 900,
+    "outside": [],
+    "overflow": false,
+    "screen": "menu",
+    "scroll": false,
+    "w": 1440
+  }
+]

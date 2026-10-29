@@ -39,3 +39,7 @@
 html,body{min-width:0}.figma-viewport[data-layout=document]{overflow-x:clip}
 /* ИИ: декоративные слои не перехватывают клики по кнопкам. Запись №23. */
 .figma-canvas [data-name="stitch" i],.figma-canvas [data-name="vignette"],.figma-canvas [data-name^="aura/"]{pointer-events:none}
+
+/* ИИ №28: ПК без внешних полей; прокрутка только у длинных документов. */
+.figma-viewport[data-exact-device=desktop]{width:100%;max-width:none}
+.figma-viewport[data-exact-device=desktop][data-layout=scene]{height:100svh;min-height:0}

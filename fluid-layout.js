@@ -4,7 +4,7 @@ function applyFluidConstraints(host,template,device,screenName){
  fluidObserver?.disconnect();
  const viewport=host.querySelector('.figma-viewport'),canvas=host.querySelector('.figma-canvas');
  const root=canvas.firstElementChild,unit=n=>`calc(${n} * var(--frame-unit))`;
- const isDocument=['info','resources','materials','help','supportPage'].includes(screenName);
+ const isDocument=(device==='desktop'?['materials','help']:['info','resources','materials','help','supportPage']).includes(screenName);
  viewport.dataset.layout=isDocument?'document':'scene';
  canvas.style.setProperty('--card-min',unit(device==='desktop'?704:device==='tablet'?352:342));
  canvas.style.setProperty('--layout-unit',`calc(100cqw / ${template.width})`);
@@ -12,6 +12,23 @@ function applyFluidConstraints(host,template,device,screenName){
  const geometry=typeof figmaGeometry==='undefined'?{}:figmaGeometry;
  const children=[...root.children].map(node=>({node,g:geometry[node.dataset.geometryId||node.dataset.nodeId]})).filter(item=>item.g);
  const bar=children.find(({g})=>g.n==='Bar');
+ // ИИ №28: сцены ПК вписываются по обеим осям, фон заполняет окно.
+ if(device==='desktop'&&!isDocument){
+  const fitted=`min(calc(100cqw / ${template.width}),calc(100svh / ${template.height}))`;
+  canvas.style.setProperty('--frame-unit',fitted);
+  canvas.style.setProperty('--layout-unit',fitted);
+  canvas.style.setProperty('--height-shortfall','0px');
+  for(const {node,g} of children){
+   if(g.n.startsWith('bg/')){
+    Object.assign(node.style,{left:'0',top:'0',width:'100%',height:'100%'});
+   }else if(g.n==='Bar'){
+    node.style.left='0';node.style.width='100%';
+   }else{
+    node.style.left=`calc(50% + ${g.x-template.width/2} * var(--frame-unit))`;
+   }
+  }
+ }
+
  const artwork=({g})=>/^(bg\/|char\/|aura\/)/.test(g.n);
  // Читаемый размер — отдельное ограничение, а не масштаб всей иллюстрации.
  for(const node of canvas.querySelectorAll('[style]')){
@@ -27,7 +44,7 @@ function applyFluidConstraints(host,template,device,screenName){
  }
  // Фон заполняет поле; внутри него изображение сохраняет пропорции через cover.
  for(const {node,g} of children.filter(artwork)){
-  if(g.n.startsWith('bg/')&&g.h>=template.height*.95){
+  if(!(device==='desktop'&&!isDocument)&&g.n.startsWith('bg/')&&g.h>=template.height*.95){
    node.style.height=`calc(100% + ${g.h-template.height} * var(--frame-unit))`;
   }
   if(device==='mobile'&&/^(char\/|aura\/)/.test(g.n)){
@@ -62,7 +79,7 @@ function applyFluidConstraints(host,template,device,screenName){
    const gap=node.style.gap;if(gap&&gap!=='0px')node.style.gap=`clamp(12px,calc(${gap} - var(--height-shortfall) * .12),${gap})`;
   }
   for(const {node,g} of groups){
-   if(screenName==='prologue'&&device!=='mobile'&&g.n==='panel'){
+   if(screenName==='prologue'&&device==='tablet'&&g.n==='panel'){
     node.style.setProperty('--frame-unit',`min(var(--layout-unit),calc(100svh / ${template.height}))`);
     node.style.left='auto';node.style.right=`calc(${template.width-g.x-g.w} * var(--layout-unit))`;
    }
@@ -80,6 +97,7 @@ function applyFluidConstraints(host,template,device,screenName){
    const value=Math.ceil(minimum)+'px';
    if(viewport.style.getPropertyValue('--scene-min-height')!==value)viewport.style.setProperty('--scene-min-height',value);
   };
+  if(device==='desktop'){viewport.style.setProperty('--scene-min-height','0px');return;}
   measure();
   fluidObserver=new ResizeObserver(measure);
   groups.forEach(({node})=>fluidObserver.observe(node));
