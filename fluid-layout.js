@@ -18,8 +18,9 @@ function applyFluidConstraints(host,template,device,screenName){
   canvas.style.setProperty('--frame-unit',fitted);
   canvas.style.setProperty('--layout-unit',fitted);
   canvas.style.setProperty('--height-shortfall','0px');
+  const background=children.find(({g})=>g.n.startsWith('bg/'))?.node;
   for(const {node,g} of children){
-   if(g.n.startsWith('bg/')){
+   if(node===background){
     Object.assign(node.style,{left:'0',top:'0',width:'100%',height:'100%'});
    }else if(g.n==='Bar'){
     node.style.left='0';node.style.width='100%';
