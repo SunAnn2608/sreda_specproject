@@ -108,6 +108,12 @@ function wireExactScreen(host,name){
    if(action)assignExactAction(node,action);
   }
  }
+ // ИИ №33: ссылка в карточке «если травят тебя» открывает тот же HELP, что и шапка.
+ if(name==='resources')for(const card of canvas.querySelectorAll('[data-name="Card"]')){
+  if(!normalizedLabel(card).includes('если травят тебя'))continue;
+  const link=[...card.querySelectorAll('p,a')].find(node=>normalizedLabel(node)==='нужна поддержка');
+  if(link)assignExactAction(link,'help','нужна поддержка');
+ }
  // ИИ №27: публичные ссылки петиции и фонда, предоставленные автором.
  for(const link of canvas.querySelectorAll('a[href="https://vk.cc/d3c6Ry"],a[href*="change.org/p/"]')){
   link.href='https://www.change.org/p/'+encodeURIComponent('среда-солидарности-классные-часы-против-травли-2a6a5db9-5c1e-4364-8212-c7b6de7e8e19');
