@@ -112,3 +112,6 @@ html{background:#242329}body{background:#242329}
 
 /* ИИ: те же состояния в сохранённых промежуточных ветках. Запись №20. */
 @media(min-width:1440px) and (hover:hover) and (pointer:fine){.choice:hover::before{content:"";display:inline-block;width:1em;height:1em;margin-right:.6em;vertical-align:-.08em;background:url("./assets/figma/figma-026dbd30-a32a-477e-a354-2b64743ad0c7.svg") center/contain no-repeat}}
+
+/* ИИ №29: убрать синюю обводку закрытия журнала по правке автора. */
+.modal[data-modal="log"] .modal-close:focus-visible{outline:none}
