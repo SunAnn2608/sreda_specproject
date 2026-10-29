@@ -99,6 +99,14 @@ function wireExactScreen(host,name){
    if(action)assignExactAction(node,action);
   }
  }
+ // ИИ №27: публичные ссылки петиции и фонда, предоставленные автором.
+ for(const link of canvas.querySelectorAll('a[href="https://vk.cc/d3c6Ry"],a[href*="change.org/p/"]')){
+  link.href='https://www.change.org/p/'+encodeURIComponent('среда-солидарности-классные-часы-против-травли-2a6a5db9-5c1e-4364-8212-c7b6de7e8e19');
+  link.target='_blank';link.rel='noopener noreferrer';
+ }
+ if(name==='supportPage')for(const link of canvas.querySelectorAll('a[href*="verimtebe.ru"]')){
+  link.href='https://verimtebe.ru/';link.target='_blank';link.rel='noopener noreferrer';
+ }
  // ИИ №24: до отдельных статей все материалы открывают канал автора.
  for(const link of canvas.querySelectorAll('a[href*="dzen.ru/sreda_acceptance"]')){
   link.href=socialLinks.dzen;link.target='_blank';link.rel='noopener noreferrer';
