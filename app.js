@@ -52,12 +52,13 @@ function render(){
  if(s.kind==="silent")inner=`<div class="silent-next">${btn("дальше","next","action")}</div>`;
  if(s.kind==="momchat")inner=`<div class="mom-message"><article class="panel bubble"><span class="speaker">банни</span><p>${escapeHTML(s.text)}</p></article><section class="chat-phone"><h2>мама</h2><div class="chat-messages"><p class="outgoing">Мам, можно поговорить? Это важно. Про школу.</p><small>печатает…</small></div></section><div class="actions">${btn("дальше","next","action")}</div></div>`;
  if(s.kind==="resources"||s.kind==="supportpage")inner=`<section class="resource-page"><h1>${escapeHTML(s.title)}</h1><div class="resource-grid">${s.kind==="resources"?[['если травят тебя','Как начать разговор и к кому обратиться','help'],['если ты видишь травлю','Как поддержать друга и не выгореть самому','materials'],['для взрослых','Если подросток рассказал вам о травле','materials'],['материалы','Шесть коротких статей: для себя, друзей и взрослых','materials']].map(([title,text,action])=>`<article class="panel"><h2>${title}</h2><p>${text}</p>${btn("открыть",action,"action secondary")}</article>`).join(""):'<article class="panel"><h2>фонд поддержки</h2><p>Напиши в фонд «Тебе поверят»</p><p>info@verimtebe.ru · t.me/tebepoveriat</p></article>'}</div><div class="actions">${btn("начать историю","start","action")}${s.next?btn("дальше","next","action secondary"):""}</div></section>`;
- if(s.other)inner=`<img class="story-other" src="./assets/${s.other}" alt="">`+inner;
+
  if(s.reply){
   const reply=`<article class="panel bubble player-reply"><span class="speaker">ты</span><p>${escapeHTML(s.reply)}</p><img class="bubble-arrow" src="./assets/arrow.svg" alt=""></article>`;
   inner=state.scene==="adults"?inner.replace('</div>',reply+'</div>'):inner.replace('<div class="dialogue-layout">','<div class="dialogue-layout">'+reply);
  }
- app.innerHTML=`<div class="stage ${s.kind==="dialogue"?"story-screen":""}" data-screen="${state.scene}" data-scene="${escapeHTML(s.kind)}">${header(s)}<div class="scene-art" aria-hidden="true">${s.art?`<picture>${state.scene==="dialogue"?'<source media="(max-width:1023px)" srcset="./assets/corridor-mobile.png">':""}<img src="./assets/${s.art}" alt=""></picture>`:""}</div>${s.character?`<img class="story-character" src="./assets/${s.character}" alt="">`:""}<main class="main" id="main" tabindex="-1">${inner}</main></div>${modalHTML()}`;
+ const markup=`<div class="stage ${s.kind==="dialogue"?"story-screen":""}" data-screen="${state.scene}" data-scene="${escapeHTML(s.kind)}">${header(s)}<div class="scene-art" aria-hidden="true">${s.art?`<picture>${state.scene==="dialogue"?'<source media="(max-width:1023px)" srcset="./assets/corridor-mobile.png">':""}<img src="./assets/${s.art}" alt=""></picture>`:""}</div>${s.other?`<img class="story-other" src="./assets/${s.other}" alt="">`:""}${s.character?`<img class="story-character" src="./assets/${s.character}" alt="">`:""}<main class="main" id="main" tabindex="-1">${inner}</main></div>${modalHTML()}`;
+ app.innerHTML=typeof optimizedScreenHTML==='function'?optimizedScreenHTML(markup):markup;
  document.querySelector('.logo').innerHTML='<img src="./assets/logo.svg" alt="среда">';
  if(state.scene==="adults"){
   document.querySelector('.scene-art').insertAdjacentHTML('beforeend','<img class="mom-warm-aura" src="./assets/mom-warm.svg" alt="">');
@@ -86,7 +87,7 @@ function modalHTML(){
  if(!state.modal)return "";
  let title="",body="";
  if(state.modal==="help"){title="нужна поддержка";body=`<p>Как начать разговор и к кому обратиться, если тебя травят или ты видишь травлю.</p><div class="modal-cards">${[['Выбери взрослого','Родитель, классный руководитель, психолог, тренер — тот, кому доверяешь.'],['Начни с факта','«Меня снимают без разрешения и выкладывают в чат». Можно показать переписку.'],['Скажи, что нужно','Чтобы выслушали, чтобы помогли поговорить со школой, чтобы не делали без тебя.']].map(([h,p],i)=>`<article><span>шаг ${i+1}</span><h3>${h}</h3><p>${p}</p></article>`).join("")}</div>`;}
- else if(state.modal==="menu"){title="меню";body=`<nav class="menu-links" aria-label="Разделы проекта">${btn("материалы","materials","action secondary")}${btn("нужна поддержка","help","action")}${btn("поддержать","supportPage","action secondary")}${btn("о проекте","about","action secondary")}</nav>`;}
+ else if(state.modal==="menu"){title="меню";body=`<nav class="menu-links" aria-label="Разделы проекта">${btn("материалы","materials","action secondary")}${btn("нужна поддержка","help","action")}${btn("поддержать","supportPage","action secondary")}</nav>`;}
  else if(state.modal==="about"){title="о проекте";body='<p>«среда» — социальный спецпроект о травле в образовательной среде. Ты не управляешь травящей толпой. Но можешь выбрать, как быть рядом.</p><p>Три выбора, 12 маршрутов и два финала. За безопасность отвечают взрослые.</p>';}
  else if(state.modal.startsWith("article:")){const a=articles[Number(state.modal.split(":")[1])];title=a[0];body=`<p class="article-preview-label">Коротко о главном</p><p>${a[1]}</p><p><a href="https://dzen.ru/sreda_acceptance" target="_blank" rel="noopener noreferrer">Канал проекта в Дзене</a></p>${({2:3,5:4}[Number(state.modal.split(":")[1])]!==undefined)?btn("следующий материал","article:"+({2:3,5:4}[Number(state.modal.split(":")[1])]),"action secondary"):""}${btn("все материалы","materials","action secondary")}`;}
  else {title="материалы";body=`<div class="modal-cards">${articles.map(([h,p],i)=>`<article><h3>${h}</h3><p>${p}</p>${btn("читать","article:"+i,"action secondary")}</article>`).join("")}</div>`;}
@@ -118,7 +119,7 @@ function handleAction(action){
  if(action.startsWith("choice:")){const i=Number(action.split(":")[1]);const option=scenes[state.scene].options?.[i];if(option){if(state.scene==="choice")state.branch=["A","B","C"][i];if(["A","B","C"].includes(state.scene))state.second=i+1;state.answers.push({scene:state.scene,index:i});go(option.next)}}
 }
 // ИИ: диалоги листаются кликом по сцене, элементы управления не листают её. Запись №9.
-const canAdvanceScene=()=>!state.modal&&(["dialogue","chat","momchat"].includes(scenes[state.scene].kind)||(typeof exactHasNextFrame==='function'&&exactHasNextFrame()));
+const canAdvanceScene=()=>!state.modal&&!document.querySelector(".stage")?.hasAttribute?.("data-scene-loading")&&(["dialogue","chat","momchat"].includes(scenes[state.scene].kind)||(typeof exactHasNextFrame==='function'&&exactHasNextFrame()));
 // ИИ: история навигации восстанавливает ответы и мобильный подэкран. Запись №13.
 const navigationPast=[],navigationFuture=[];
 const navigationSnapshot=()=>JSON.parse(JSON.stringify(state));

@@ -3,6 +3,10 @@
 let exactStep=0,exactScene=null,exactVariant=null;
 const exactActions={};
 const optimizedImages=new Set([
+ "./assets/figma/figma-3c85cdb7-bb5a-4daa-bbb6-5cbd81f9d143.png",
+ "./assets/figma/figma-09473015-692e-437b-ac60-125159ec2727.png",
+ "./assets/figma/figma-0364d448-fd4d-4907-b3e5-c91548006a44.png",
+
  "./assets/menu-background.png",
  "./assets/figma/figma-23f06a34-faa4-40bc-8154-5f06be957d44.png",
  "./assets/figma/figma-13378e02-a69b-4e44-a2fb-c68699da766c.png",
@@ -24,9 +28,30 @@ const optimizedImages=new Set([
  "./assets/figma/figma-790835f3-5ac7-4b77-9a7e-0485bb3b031e.png",
  "./assets/figma/figma-826fb7d9-1c77-4d0a-8e38-59a8efe5431b.png",
 ]);
+const optimizedImageAliases={
+ "assets/bunny-default.png": "assets/figma/figma-23f06a34-faa4-40bc-8154-5f06be957d44.webp",
+ "assets/chat-shade-source.png": "assets/figma/figma-09ea8681-be9b-472e-8a79-2b2b30734550.webp",
+ "assets/prologue-park.png": "assets/figma/figma-64ed97d7-30a0-487a-a95c-269629642056.webp",
+ "assets/kitchen.png": "assets/figma/figma-33609187-4b11-437c-9986-af010003f06d.webp",
+ "assets/info-image.png": "assets/figma/figma-0364d448-fd4d-4907-b3e5-c91548006a44.webp",
+ "assets/corridor.png": "assets/figma/figma-0c5346b7-4354-465d-8cd0-6bd621d61053.webp",
+ "assets/mom.png": "assets/figma/figma-8bf1b13f-d0de-4d26-9342-1a8e372a0f18.webp",
+ "assets/classroom-after.png": "assets/figma/figma-2ce8633b-e7ae-42d3-91a3-ec6c3c6d58cd.webp",
+ "assets/bunny-no-hat.png": "assets/figma/figma-09473015-692e-437b-ac60-125159ec2727.webp",
+ "assets/corridor-mobile.png": "assets/figma/figma-4ab1f1a1-444a-464a-a590-c496d68101ba.webp",
+ "assets/corridor-bunny.png": "assets/figma/figma-64e921c2-58f8-4b35-affe-ab5558d6f6a3.webp",
+ "assets/final.png": "assets/figma/figma-826fb7d9-1c77-4d0a-8e38-59a8efe5431b.webp",
+ "assets/classroom.png": "assets/figma/figma-2ce8633b-e7ae-42d3-91a3-ec6c3c6d58cd.webp",
+ "assets/bunny-humiliated.png": "assets/figma/figma-3c85cdb7-bb5a-4daa-bbb6-5cbd81f9d143.webp",
+ "assets/foyer-dark.png": "assets/figma/figma-1b62ae9a-4d0f-47b4-a962-06daa2e02491.webp",
+ "assets/bunny-runs.png": "assets/figma/figma-09ea8681-be9b-472e-8a79-2b2b30734550.webp"
+};
 function optimizedScreenHTML(html){
- return html.replace(/src="([^"]+\.png)"/g,(original,path)=>
-  optimizedImages.has(path)?'src="'+path.replace(/\.png$/,'.webp')+'"':original);
+ return html.replace(/(src|srcset)="([^"]+\.png)"/g,(original,attribute,path)=>{
+  const alias=optimizedImageAliases[path.slice(2)];
+  if(alias)return attribute+'="./'+alias+'"';
+  return optimizedImages.has(path)?attribute+'="'+path.replace(/\.png$/,'.webp')+'"':original;
+ });
 }
 
 // ИИ №25: официальные ссылки, предоставленные автором 29.10.2026.
@@ -93,7 +118,7 @@ function applyExactGeometry(host,rootId){
   let parent=node.parentElement;while(parent&&parent!==host&&!mapped.has(parent))parent=parent.parentElement;
   if(!parent||mapped.get(parent)!==g.p)continue;
   const parentStyle=getComputedStyle(parent);
-  const flows=parentStyle.display.includes('flex')&&node.style.position!=='absolute';
+  const flows=/flex|grid/.test(parentStyle.display)&&node.style.position!=='absolute';
   const stretches=node.style.inset&&!node.style.width&&!node.style.height;
   const autoHeight=getComputedStyle(node).display.includes('flex')&&!node.style.height;
   const bx=parseFloat(parentStyle.borderLeftWidth)||0,by=parseFloat(parentStyle.borderTopWidth)||0;
@@ -119,7 +144,20 @@ function wireExactScreen(host,name){
   if(originalPointer){const pointer=document.createElement('span');pointer.className='choice-hover-pointer';pointer.setAttribute('aria-hidden','true');const image=originalPointer.cloneNode();image.removeAttribute('style');pointer.append(image);choice.prepend(pointer);}
  }
 
- for(const social of canvas.querySelectorAll('[data-social-network]')){const net=social.dataset.socialNetwork;social.innerHTML=`<a href="${socialLinks[net]}" target="_blank" rel="noopener noreferrer" aria-label="${net} — среда" style="position:absolute;inset:0;display:block"><img alt="" src="./assets/social-${net}.svg" style="position:absolute;left:0;top:0;width:106.25%;height:107.142857%;max-width:none"></a>`;social.style.background='none';social.style.borderWidth='0';social.style.filter='none';}
+ for(const social of canvas.querySelectorAll('[data-social-network]')){
+  const net=social.dataset.socialNetwork;
+  social.innerHTML=`<a class="social-link" href="${socialLinks[net]}" target="_blank" rel="noopener noreferrer" aria-label="${net} — среда"><img alt="" src="./assets/social-${net}.svg" width="119" height="120"></a>`;
+ }
+ if(name==='menu'){
+  const actions={'начать историю':'restart','материалы':'materials','нужна поддержка':'help','поддержать':'supportPage'};
+  for(const node of canvas.querySelectorAll('[data-component="MenuItem"],[data-name^="menu/"]')){
+   const label=normalizedLabel(node);
+   if(label==='о проекте'){node.remove();continue;}
+   const action=actions[label];
+   if(action){node.classList.add('menu-item');assignExactAction(node,action,label);}
+  }
+ }
+
  for(const node of canvas.querySelectorAll('[data-name],[data-component="Button"],[data-component="MenuItem"],[data-component="IconButton"]')){
   const kind=node.dataset.name||node.dataset.component,text=normalizedLabel(node);
   if(kind==='Help')assignExactAction(node,'help');
@@ -155,10 +193,7 @@ function wireExactScreen(host,name){
  for(const link of canvas.querySelectorAll('a[href*="dzen.ru/sreda_acceptance"]')){
   link.href=socialLinks.dzen;link.target='_blank';link.rel='noopener noreferrer';
  }
- // В MENU пункты могут быть компонентами с именем item; используем их видимый текст.
- if(name==='menu')for(const node of canvas.querySelectorAll('[data-name="item"],[data-name^="menu/"],[data-menu-label]')){const t=normalizedLabel(node);const action=t.includes('начать')?'restart':t.includes('материал')?'materials':t.includes('нужна поддержка')?'help':t.includes('поддержать')?'supportPage':t.includes('о проекте')?'about':null;if(action)assignExactAction(node,action);}
  if(name==='menu'){
-  for(const node of canvas.querySelectorAll('[id^="node-1379_"]')){const t=normalizedLabel(node);const action=t.includes('начать')?'restart':t.includes('материал')?'materials':t.includes('нужна поддержка')?'help':t.includes('поддержать')?'supportPage':t.includes('о проекте')?'about':null;if(action)assignExactAction(node,action);}
   const close=canvas.querySelector('[data-node-id="1500:1875"]');if(close)assignExactAction(close,'close','закрыть');
  }
 }
@@ -175,6 +210,7 @@ function exactHasNextFrame(){return !state.modal&&exactDevice()==='mobile'&&figm
 document.addEventListener('click',e=>{
  const host=e.target.closest('.figma-viewport');if(!host)return;
  if(e.target.closest('a[href]'))return;
+ if(host.hasAttribute('data-scene-loading')&&!e.target.closest('[data-name="Bar"]'))return;
  const control=e.target.closest('[data-exact-action]');
  if(control){e.preventDefault();e.stopImmediatePropagation();if(control.dataset.exactAction==='exact-next')exactAdvance();else handleAction(control.dataset.exactAction);return;}
  if(!state.modal&&(exactHasNextFrame()||['dialogue','chat','momchat'].includes(scenes[state.scene]?.kind))){e.preventDefault();e.stopImmediatePropagation();exactAdvance();}
@@ -182,6 +218,6 @@ document.addEventListener('click',e=>{
 document.addEventListener('keydown',e=>{
  if(!document.querySelector('.figma-viewport'))return;
  if((e.key==='Enter'||e.key===' ')&&e.target.matches('[data-exact-action]')){e.preventDefault();e.stopImmediatePropagation();e.target.click();return;}
- if(e.code==='Space'&&!state.modal&&!e.target.closest('input,textarea,button,a')){e.preventDefault();e.stopImmediatePropagation();if(['dialogue','chat','momchat'].includes(scenes[state.scene]?.kind))exactAdvance();}
+ if(e.code==='Space'&&!document.querySelector('[data-scene-loading]')&&!state.modal&&!e.target.closest('input,textarea,button,a')){e.preventDefault();e.stopImmediatePropagation();if(['dialogue','chat','momchat'].includes(scenes[state.scene]?.kind))exactAdvance();}
 },{capture:true});
 window.addEventListener('resize',()=>{if(typeof state!=='undefined'&&exactDevice()!==exactVariant)render();});

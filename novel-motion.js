@@ -1,47 +1,52 @@
 /* ИИ: короткие анимации интерфейса, без непрерывного движения. Запись №23. */
 const novelMotionPreference=matchMedia('(prefers-reduced-motion: reduce)');
-const novelAnimations=new Set();
-let previousMotionFrame='';
-function playNovelMotion(node,frames,options){
- if(!node||novelMotionPreference.matches||typeof node.animate!=='function')return;
- const animation=node.animate(frames,{duration:240,easing:'cubic-bezier(.2,.8,.2,1)',...options});
- novelAnimations.add(animation);
- const clear=()=>novelAnimations.delete(animation);
- animation.addEventListener('finish',clear,{once:true});animation.addEventListener('cancel',clear,{once:true});
- return animation;
+function sceneImageReady(image){
+ if(image.complete)return Promise.resolve();
+ return new Promise(resolve=>{
+  const done=()=>{clearTimeout(timer);image.removeEventListener('load',done);image.removeEventListener('error',done);resolve();};
+  const timer=setTimeout(done,2500);
+  image.addEventListener('load',done);
+  image.addEventListener('error',done);
+ });
 }
-novelMotionPreference.addEventListener('change',()=>{
- if(novelMotionPreference.matches){resetNovelParallax();for(const animation of novelAnimations)animation.cancel();novelAnimations.clear();}
-});
+
+function revealSceneLayers(surface,subject,content,background){
+ surface.setAttribute('data-scene-loading','');
+ for(const layer of [...subject,...content])layer.setAttribute('data-scene-wait','');
+ for(const group of content)group.inert=true;
+ const ready=Promise.all(subject.flatMap(layer=>[...layer.querySelectorAll('img'),...(layer.matches('img')?[layer]:[])]).map(sceneImageReady));
+ const reveal=async()=>{
+  await Promise.all(background.map(sceneImageReady));
+  if(!surface.isConnected)return;
+  if(subject.length&&!novelMotionPreference.matches)await new Promise(resolve=>setTimeout(resolve,34));
+  await ready;
+  if(!surface.isConnected)return;
+  for(const layer of subject)layer.removeAttribute('data-scene-wait');
+  if(subject.length&&!novelMotionPreference.matches)await new Promise(resolve=>setTimeout(resolve,90));
+  if(!surface.isConnected)return;
+  for(const group of content){group.removeAttribute('data-scene-wait');group.inert=false;}
+  surface.removeAttribute('data-scene-loading');
+ };
+ void reveal();
+}
+
 function animateNovelFrame(host,screenName){
- const key=JSON.stringify([screenName,state.scene,state.modal,state.frameStep||0,state.chatStep||0]);
- if(key===previousMotionFrame)return;previousMotionFrame=key;
- for(const animation of novelAnimations)animation.cancel();novelAnimations.clear();
- if(novelMotionPreference.matches)return;
- const canvas=host.querySelector('.figma-canvas')||host.querySelector('.stage');
- playNovelMotion(canvas,[{opacity:.55},{opacity:1}],{duration:180});
- const dialogues=[...host.querySelectorAll('[data-name="Bubble"],.story-dialogue .bubble')];
- dialogues.slice(0,2).forEach((node,i)=>playNovelMotion(node,[
-  {opacity:0,transform:'translateY(10px) scale(.985)'},
-  {opacity:1,transform:'translateY(-1px) scale(1.004)',offset:.78},
-  {opacity:1,transform:'none'}
- ],{duration:280,delay:i*45}));
- for(const node of host.querySelectorAll('[data-name^="char/"],.story-character')){
-  playNovelMotion(node,[{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'none'}],{duration:300});
- }
- const modal=host.querySelector('.modal');
- playNovelMotion(modal,[{opacity:0,transform:'translateY(8px) scale(.99)'},{opacity:1,transform:'none'}],{duration:220});
+ const surface=host.querySelector('.figma-viewport,.stage');
+ if(!surface||state.modal||!['dialogue','chat','choice','momchat'].includes(scenes[screenName]?.kind))return;
+ const root=surface.querySelector('.figma-canvas')?.firstElementChild||surface;
+ const subject=[...root.querySelectorAll('[data-name^="char/"],.story-character,.story-other,.chat-kroli')];
+ const content=[...root.children].filter(node=>node.matches('.main,[data-name="dialogue"],[data-name="choice-block"],[data-name="Bubble"],[data-name="phone"],[data-name="notes"],[data-name="actions"],[data-name="hint" i],[data-name^="button/"]'));
+ if(!content.length)return;
+ const background=[...root.querySelectorAll('[data-name^="bg/"] img,.scene-art picture img')];
+ if(!background.length){const image=root.firstElementChild?.querySelector('img');if(image)background.push(image);}
+ if(background[0])background[0].fetchPriority='high';
+ revealSceneLayers(surface,subject,content,background);
 }
-function pressNovelControl(target){
- const control=target.closest('[data-exact-action],button[data-action]');if(!control)return;
- playNovelMotion(control,[{transform:'scale(1)'},{transform:'translateY(1px) scale(.985)',offset:.35},{transform:'scale(1.008)',offset:.75},{transform:'none'}],{duration:210});
-}
-document.addEventListener('pointerdown',e=>{if(e.button===0)pressNovelControl(e.target);},{passive:true});
-document.addEventListener('keydown',e=>{if(!e.repeat&&(e.key==='Enter'||e.key===' '))pressNovelControl(e.target);},{capture:true});
 
+novelMotionPreference.addEventListener('change',resetNovelParallax);
 
-const novelParallaxPointer=matchMedia('(any-hover: hover) and (any-pointer: fine)');
-const novelParallaxSurface='.figma-viewport:not([data-layout=document]),.stage';
+const novelParallaxPointer=matchMedia('(min-width: 1024px) and (hover: hover) and (pointer: fine)');
+const novelParallaxSurface='.figma-viewport[data-exact-device=desktop]:not([data-layout=document]),.stage';
 let novelParallaxImage=null;
 
 function resetNovelParallax(){

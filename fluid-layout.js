@@ -4,7 +4,7 @@ function applyFluidConstraints(host,template,device,screenName){
  fluidObserver?.disconnect();
  const viewport=host.querySelector('.figma-viewport'),canvas=host.querySelector('.figma-canvas');
  const root=canvas.firstElementChild,unit=n=>`calc(${n} * var(--frame-unit))`;
- const isDocument=(device!=='mobile'?['materials','help']:['info','resources','materials','help','supportPage']).includes(screenName);
+ const isDocument=(device!=='mobile'?['resources','materials','help']:['info','resources','materials','help','supportPage']).includes(screenName);
  viewport.dataset.layout=isDocument?'document':'scene';
  canvas.style.setProperty('--card-min',unit(device==='desktop'?704:device==='tablet'?352:342));
  canvas.style.setProperty('--layout-unit',`calc(100cqw / ${template.width})`);

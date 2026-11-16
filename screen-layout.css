@@ -11,31 +11,35 @@
 .figma-canvas [role=button]:focus-visible{outline:6px solid #217bc5;outline-offset:6px}
 @media(prefers-reduced-motion:reduce){.figma-canvas *{animation:none!important;transition:none!important}}
 
-/* ИИ: реакция исходных элементов управления без изменения их геометрии. */
-#app button,
-.figma-canvas [data-exact-action],
-.figma-canvas :is([data-name="Button"],[data-component="Button"],[data-social-network]) a[href]{
- transition:scale 140ms ease,opacity 120ms ease,transform 120ms ease,box-shadow 180ms ease,background 180ms ease
-}
-@media (prefers-reduced-motion:reduce){#app button{transition:none}}
-.figma-canvas [data-exact-action]:active{transform:translateY(2px)}
-
-/* ИИ: состояния выбора ответа, только ПК с мышью. Запись №20. */
+#app :is(button,[data-exact-action],a[href]){cursor:pointer}
 .figma-canvas .dialogue-choice{background-color:#fff9ed!important}
-.choice-hover-pointer{display:none;flex:none;width:calc(40 * var(--frame-unit));height:calc(40 * var(--frame-unit))}
-.choice-hover-pointer img{position:static!important;width:100%!important;height:100%!important}
-@media (hover:hover) and (pointer:fine){
- #app button:not(:disabled):hover,
- .figma-canvas [data-exact-action]:hover,
- .figma-canvas :is([data-name="Button"],[data-component="Button"],[data-social-network]) a[href]:not([data-exact-action] a):hover{scale:.97}
- #app button:not(:disabled):active,
- .figma-canvas [data-exact-action]:active,
- .figma-canvas :is([data-name="Button"],[data-component="Button"],[data-social-network]) a[href]:not([data-exact-action] a):active{scale:.94}
- .figma-canvas [data-exact-action]:not(.dialogue-choice):hover,
- .figma-canvas a[href]:not([data-exact-action] a):hover{opacity:.78}
- .figma-canvas .dialogue-choice:hover{background-color:#bce3ff!important}
- .figma-canvas .dialogue-choice:hover .choice-hover-pointer{display:block}
+.choice-hover-pointer{display:none}
+.figma-canvas .menu-item{
+ background:transparent!important;border-color:transparent!important;
+ filter:none!important;border-width:calc(3 * var(--frame-unit))!important;
+ border-radius:999px!important;white-space:nowrap;
 }
+.figma-canvas [data-name="menu-items"]{justify-content:space-evenly}
+.figma-canvas [data-social-network]{
+ border:0!important;background:none!important;box-shadow:none!important;filter:none!important;
+}
+.figma-canvas .social-link{display:block;position:absolute;inset:0}
+.figma-canvas .social-link img{width:100%;height:auto;max-width:none}
+@media(min-width:1024px) and (hover:hover) and (pointer:fine){
+ .figma-viewport[data-exact-device=desktop] :is([data-exact-action],a[href]),
+ #app:not(.figma-mode) :is(button:not(:disabled),a[href]),
+ #app .modal :is(button:not(:disabled),a[href]){transition:scale 140ms ease}
+ .figma-viewport[data-exact-device=desktop] :is([data-exact-action],a[href]:not([data-exact-action] a)):hover,
+ #app:not(.figma-mode) :is(button:not(:disabled),a[href]):hover,
+ #app .modal :is(button:not(:disabled),a[href]):hover{scale:.97}
+ .figma-viewport[data-exact-device=desktop] .menu-item:is(:hover,:focus-visible){
+  background:var(--menu-accent,#bce3ff)!important;border-color:#0d0f10!important;
+  box-shadow:calc(7 * var(--frame-unit)) calc(8 * var(--frame-unit)) #0d0f10;
+ }
+ .figma-canvas .menu-item:is([data-exact-action=restart],[data-exact-action=supportPage]){--menu-accent:#ff774e}
+}
+[data-scene-wait]{visibility:hidden}
+@media(prefers-reduced-motion:reduce){#app :is(button,[data-exact-action],a[href]){transition:none!important}}
 
 /* ИИ: поле занимает доступный viewport, содержимое задаёт нижний предел. №22. */
 #app.figma-mode{align-items:flex-start}
@@ -64,7 +68,7 @@ html,body{min-width:0}.figma-viewport[data-layout=document]{overflow-x:clip}
 .figma-viewport[data-exact-device=tablet][data-layout=scene]{height:100svh;min-height:0}
 
 
-@media (any-hover:hover) and (any-pointer:fine) and (prefers-reduced-motion:no-preference){
+@media (min-width:1024px) and (any-hover:hover) and (any-pointer:fine) and (prefers-reduced-motion:no-preference){
  .novel-parallax-image{
   transform:translate(var(--parallax-x,0px),var(--parallax-y,0px)) scale(1.05);
   transition:transform 220ms ease-out;
