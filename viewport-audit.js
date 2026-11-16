@@ -18,7 +18,7 @@ if(auditWidth>0&&auditHeight>0&&auditWidth<=1920&&auditHeight<=1440){
   for(const [name,variants] of screens){
    const count=device==='mobile'?variants.mobile.length:1;
    for(let step=0;step<count;step++){
-    const params=new URLSearchParams({screen:name,step:String(step)});
+    const params=new URLSearchParams({screen:name,step:String(step),release:auditParams.get('release')||'fit'});
     if(auditParams.has('device'))params.set('device',device);
     await new Promise(resolve=>{
      frame.addEventListener('load',resolve,{once:true});
