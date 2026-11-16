@@ -68,7 +68,7 @@ function exactDevice(){
  const forced=location.pathname.endsWith('/verify.html')?new URLSearchParams(location.search).get('device'):null;
  if(['desktop','tablet','mobile'].includes(forced))return forced;
  if(window.innerWidth<768)return 'mobile';
- return window.innerWidth<1200?'tablet':'desktop';
+ return window.innerWidth<=1280?'tablet':'desktop';
 }
 function exactScreenHTML(template,screenName,device){
  const markup=optimizedScreenHTML(template.html).replace(
@@ -358,6 +358,7 @@ document.addEventListener('click',e=>{
 document.addEventListener('keydown',e=>{
  if(!document.querySelector('.figma-viewport'))return;
  if((e.key==='Enter'||e.key===' ')&&e.target.matches('[data-exact-action]')){e.preventDefault();e.stopImmediatePropagation();e.target.click();return;}
+ if(document.querySelector('.figma-viewport[data-exact-device="mobile"][data-layout="document"]'))return;
  if(e.code==='Space'&&!document.querySelector('[data-scene-loading]')&&!state.modal&&!e.target.closest('input,textarea,button,a')){e.preventDefault();e.stopImmediatePropagation();if(['dialogue','chat','momchat'].includes(scenes[state.scene]?.kind))exactAdvance();}
 },{capture:true});
 window.addEventListener('resize',()=>{if(typeof state!=='undefined'&&exactDevice()!==exactVariant)render();});

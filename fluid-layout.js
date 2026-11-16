@@ -1,11 +1,14 @@
-/* В каждом адаптиве композиция вписывается в окно по обеим осям. */
+/* Сюжетные сцены вписываются в окно, мобильные страницы сохраняют масштаб по ширине. */
 function applyFluidConstraints(host,template,device,screenName){
  const viewport=host.querySelector('.figma-viewport'),canvas=host.querySelector('.figma-canvas');
  const root=canvas.firstElementChild;
  const unit=value=>`calc(${value} * var(--frame-unit))`;
  const isDocument=['resources','materials','help','supportPage'].includes(screenName);
  viewport.dataset.layout=isDocument?'document':'scene';
- canvas.style.setProperty('--frame-unit',`min(calc(100cqw / ${template.width}),calc(100dvh / ${template.height}))`);
+ const widthUnit=`calc(100cqw / ${template.width})`;
+ const scrollable=device==='mobile'&&isDocument;
+ canvas.style.setProperty('--frame-unit',scrollable?widthUnit:
+  `min(${widthUnit},calc(100dvh / ${template.height}))`);
  const darkBackground=root.querySelector('[data-name="bg/foyer-dark"] > img, :scope > img[src*="figma-13378e02"]');
  if(darkBackground)darkBackground.classList.add('dark-scene-background');
  const geometry=typeof figmaGeometry==='undefined'?{}:figmaGeometry;

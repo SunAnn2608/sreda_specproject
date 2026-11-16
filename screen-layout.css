@@ -21,9 +21,9 @@
 [data-exact-device="mobile"] .figma-canvas .choice-hover-pointer{width:calc(16 * var(--frame-unit));margin-inline-end:calc(10 * var(--frame-unit))}
 .figma-canvas .dialogue-choice:is(:active,:focus-visible){background:#bce3ff!important}
 .figma-canvas .dialogue-choice:is(:active,:focus-visible) .choice-hover-pointer{display:block}
-@media (min-width:1200px) and (hover:hover) and (pointer:fine){
- .figma-canvas .dialogue-choice:hover,#app .stage .choice:hover{background:#bce3ff!important}
- .figma-canvas .dialogue-choice:hover .choice-hover-pointer{display:block}
+@media (width > 1280px) and (hover:hover) and (pointer:fine){
+ [data-exact-device="desktop"] .dialogue-choice:hover,#app .stage .choice:hover{background:#bce3ff!important}
+ [data-exact-device="desktop"] .dialogue-choice:hover .choice-hover-pointer{display:block}
  #app .stage .choice:hover::before{
   content:"";display:inline-block;width:1em;height:1em;margin-inline-end:.6em;
   vertical-align:-.1em;background:url("./assets/figma/figma-026dbd30-a32a-477e-a354-2b64743ad0c7.svg") center/contain no-repeat;
@@ -72,6 +72,13 @@ html,body{width:100%;height:100%;min-width:0;overflow:hidden}
 }
 .figma-viewport,.figma-viewport[data-exact-device]{
  width:100%;height:100dvh;min-height:0;max-width:none;aspect-ratio:auto;
+}
+.figma-viewport[data-exact-device="mobile"][data-layout="document"]{
+ overflow-x:hidden;overflow-y:auto;scrollbar-width:none;
+}
+.figma-viewport[data-exact-device="mobile"][data-layout="document"]>.figma-canvas{
+ position:relative;min-height:100%;
+ height:calc(var(--frame-height) * var(--frame-unit));
 }
 .figma-canvas .dialogue-choice{height:auto!important;min-height:0!important;align-items:center}
 .figma-canvas .dialogue-choice p{overflow-wrap:break-word}
@@ -148,7 +155,7 @@ html,body{width:100%;height:100%;min-width:0;overflow:hidden}
 
 /* Единый логотип для шапок сцен, материалов и поддержки. */
 #app{--brand-logo-width:clamp(92px,7.68vw,197px)}
-@media (width < 1200px){#app{--brand-logo-width:clamp(72px,7.86vw,100px)}}
+@media (width <= 1280px){#app{--brand-logo-width:clamp(72px,7.86vw,100px)}}
 @media (width < 768px){#app{--brand-logo-width:clamp(70px,23.35vw,91px)}}
 #app .brand-logo{
  display:block;width:var(--brand-logo-width)!important;height:auto!important;
