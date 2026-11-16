@@ -1,5 +1,8 @@
 /* ИИ: короткие анимации интерфейса, без непрерывного движения. Запись №23. */
 const novelMotionPreference=matchMedia('(prefers-reduced-motion: reduce)');
+const sceneFadeTime=360;
+const scenePhaseInterval=210;
+
 function sceneImageReady(image){
  if(image.complete)return Promise.resolve();
  return new Promise(resolve=>{
@@ -12,21 +15,26 @@ function sceneImageReady(image){
 
 function revealSceneLayers(surface,subject,content,background,phone=[]){
  surface.setAttribute('data-scene-loading','');
- const phases=[subject,phone,content].filter(group=>group.length);
+ const phases=[background,subject,phone,content].filter(group=>group.length);
  const loads=phases.map(group=>Promise.all(group.flatMap(layer=>layer.matches('img')?[layer]:[...layer.querySelectorAll('img')]).map(sceneImageReady)));
  for(const phase of phases)for(const layer of phase){
   layer.setAttribute('data-scene-wait','');
   layer.inert=true;
  }
  const reveal=async()=>{
-  await Promise.all(background.map(sceneImageReady));
   for(const [index,phase] of phases.entries()){
-   if(!novelMotionPreference.matches)await new Promise(resolve=>setTimeout(resolve,index===0?45:120));
    await loads[index];
    if(!surface.isConnected)return;
    for(const layer of phase){
+    if(!novelMotionPreference.matches)layer.animate(
+     [{opacity:0,offset:0},{offset:1}],
+     {duration:sceneFadeTime,easing:'cubic-bezier(.22,.61,.36,1)'}
+    );
     layer.removeAttribute('data-scene-wait');
     layer.inert=false;
+   }
+   if(index<phases.length-1&&!novelMotionPreference.matches){
+    await new Promise(resolve=>setTimeout(resolve,scenePhaseInterval));
    }
   }
   surface.removeAttribute('data-scene-loading');
@@ -36,7 +44,12 @@ function revealSceneLayers(surface,subject,content,background,phone=[]){
 
 function animateNovelFrame(host,screenName){
  const surface=host.querySelector('.figma-viewport,.stage');
- if(!surface||state.modal||!scenes[screenName]||['resources','supportPage'].includes(screenName))return;
+ if(!surface)return;
+ if(state.modal||['resources','supportPage'].includes(screenName)){
+  if(!novelMotionPreference.matches)surface.animate([{opacity:0},{opacity:1}],{duration:sceneFadeTime,easing:'ease-out'});
+  return;
+ }
+ if(!scenes[screenName])return;
  const root=surface.querySelector('.figma-canvas')?.firstElementChild||surface;
  const artwork='[data-name^="char/"],[data-name^="aura/"],.story-character,.story-other,.chat-kroli,.chat-aura,.chat-shade';
  const chatArtwork='[data-node-id="1322:5053"],[data-node-id="1396:1254"],[data-node-id="1318:3729"],[data-node-id="1396:1271"],[data-node-id="1499:6013"],[data-node-id="1499:6036"],[data-node-id="1401:1548"],[data-node-id="1499:6016"],[data-node-id="1499:5935"],[data-node-id="1499:6019"]';

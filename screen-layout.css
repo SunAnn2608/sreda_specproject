@@ -62,6 +62,7 @@
  .figma-canvas .menu-item[data-exact-action=help]{--menu-accent:#ffb5dc}
 }
 [data-scene-wait]{visibility:hidden}
+.figma-viewport[data-layout="scene"]{background-color:#242329}
 @media(prefers-reduced-motion:reduce){#app :is(button,[data-exact-action],a[href]){transition:none!important}}
 
 /* Размер окна не зависит от длины исходного кадра. */

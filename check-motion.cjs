@@ -10,7 +10,7 @@ function layer(){
  const surface=layer(),subject=layer(),phone=layer(),dialogue=layer();
  surface.isConnected=true;
  function pendingImage(){
-  const image={complete:false,addEventListener:(event,cb)=>{if(event==='load')image.load=cb;},removeEventListener(){}};
+  const image={...layer(),matches:selector=>selector==='img',complete:false,addEventListener:(event,cb)=>{if(event==='load')image.load=cb;},removeEventListener(){}};
   return image;
  }
  const background=pendingImage(),character=pendingImage(),phoneImage=pendingImage();
