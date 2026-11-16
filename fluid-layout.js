@@ -6,6 +6,8 @@ function applyFluidConstraints(host,template,device,screenName){
  const isDocument=['resources','materials','help','supportPage'].includes(screenName);
  viewport.dataset.layout=isDocument?'document':'scene';
  canvas.style.setProperty('--frame-unit',`min(calc(100cqw / ${template.width}),calc(100dvh / ${template.height}))`);
+ const darkBackground=root.querySelector('[data-name="bg/foyer-dark"] > img, :scope > img[src*="figma-13378e02"]');
+ if(darkBackground)darkBackground.classList.add('dark-scene-background');
  const geometry=typeof figmaGeometry==='undefined'?{}:figmaGeometry;
  const primaryBackground=[...root.children].find(node=>geometry[node.dataset.geometryId||node.dataset.nodeId]?.n.startsWith('bg/'));
  for(const node of root.children){

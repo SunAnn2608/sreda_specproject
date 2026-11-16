@@ -84,9 +84,19 @@ html,body{width:100%;height:100%;min-width:0;overflow:hidden}
 .figma-viewport[data-exact-screen="prologue"] [data-name="panel"]{overflow:visible}
 .figma-viewport[data-exact-screen="prologue"] :is([data-name="actions"],[data-exact-action="start"]){z-index:2}
 
+.dark-scene-background,
+.stage:is([data-scene="info"],[data-scene="resources"],[data-scene="supportpage"]) .scene-art picture > img{
+ --background-zoom:1.07;
+ position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
+ max-width:none!important;object-fit:cover!important;object-position:center;
+ transform:scale(var(--background-zoom));
+}
+.figma-viewport:has(.dark-scene-background),
+.figma-canvas>div:has(.dark-scene-background){background-color:#252525!important}
+
 @media (min-width:1024px) and (any-hover:hover) and (any-pointer:fine) and (prefers-reduced-motion:no-preference){
  .novel-parallax-image{
-  transform:translate(var(--parallax-x,0px),var(--parallax-y,0px)) scale(1.05);
+  transform:translate(var(--parallax-x,0px),var(--parallax-y,0px)) scale(var(--background-zoom,1.05));
   transition:transform 220ms ease-out;
  }
 }

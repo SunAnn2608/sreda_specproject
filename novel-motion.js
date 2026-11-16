@@ -46,7 +46,7 @@ function animateNovelFrame(host,screenName){
 novelMotionPreference.addEventListener('change',resetNovelParallax);
 
 const novelParallaxPointer=matchMedia('(min-width: 1024px) and (hover: hover) and (pointer: fine)');
-const novelParallaxSurface='.figma-viewport[data-exact-device=desktop]:not([data-layout=document]),.stage';
+const novelParallaxSurface='.figma-viewport[data-exact-device=desktop],.stage';
 let novelParallaxImage=null;
 
 function resetNovelParallax(){
@@ -60,7 +60,7 @@ novelParallaxPointer.addEventListener('change',resetNovelParallax);
 document.addEventListener('pointermove',event=>{
  if(event.pointerType!=='mouse'||novelMotionPreference.matches||!novelParallaxPointer.matches)return;
  const surface=event.target.closest(novelParallaxSurface);
- const image=surface?.querySelector('.figma-canvas > div > [data-name^="bg/"] > img,.scene-art picture > img,.scene-art > img');
+ const image=surface?.querySelector('.dark-scene-background,.figma-canvas > div > [data-name^="bg/"] > img,.scene-art picture > img,.scene-art > img');
  if(image!==novelParallaxImage)resetNovelParallax();
  if(!image||surface.inert)return;
  const {left,top,width,height}=surface.getBoundingClientRect();
