@@ -33,6 +33,7 @@
  #app :is(button:not(:disabled),a.logo){transition:scale 140ms ease}
  .figma-viewport[data-exact-device=desktop] :is([data-exact-action]:not(.text-link),.button-link,.social-link):hover,
  #app :is(button:not(:disabled),a.logo):hover{scale:.97}
+  .figma-viewport[data-exact-screen="prologue"] [data-name="actions"] [data-exact-action]:hover{visibility:visible;opacity:1}
  .figma-viewport[data-exact-device=desktop] .text-link,
  #app .modal a[href]{transition:opacity 140ms ease}
  .figma-viewport[data-exact-device=desktop] .text-link:hover,
@@ -48,32 +49,25 @@
 [data-scene-wait]{visibility:hidden}
 @media(prefers-reduced-motion:reduce){#app :is(button,[data-exact-action],a[href]){transition:none!important}}
 
-/* ИИ: поле занимает доступный viewport, содержимое задаёт нижний предел. №22. */
-#app.figma-mode{align-items:flex-start}
-.figma-viewport{width:min(100%,2560px);height:max(100svh,var(--scene-min-height,0px));min-height:0;aspect-ratio:auto}
-.figma-viewport[data-exact-device=mobile]{width:min(100%,640px);--art-unit:min(var(--frame-unit),1.25px)}
-.figma-viewport[data-layout=document]{height:auto;min-height:100svh;overflow:clip}
-.figma-viewport[data-layout=document] .figma-canvas{position:relative;height:auto;min-height:100svh}
+/* Размер окна не зависит от длины исходного кадра. */
+html,body{width:100%;height:100%;min-width:0;overflow:hidden}
+#app,#app.figma-mode{
+ width:100%;height:100dvh;min-height:0;max-width:none;overflow:hidden;
+}
+.figma-viewport,.figma-viewport[data-exact-device]{
+ width:100%;height:100dvh;min-height:0;max-width:none;aspect-ratio:auto;
+}
 .figma-canvas .dialogue-choice{height:auto!important;min-height:0!important;align-items:center}
 .figma-canvas .dialogue-choice p{overflow-wrap:break-word}
-.figma-canvas [data-name=Bar]{z-index:5}
-.figma-viewport[data-exact-device=mobile] .figma-canvas{--art-unit:min(var(--frame-unit),1.25px)}
-
-.figma-viewport[data-layout=document]:not([data-exact-device=mobile]) .figma-canvas>div{height:auto!important;min-height:max(100svh,var(--document-min-height,0px))}
-.figma-viewport[data-layout=document] [data-name=cards-row],.figma-viewport[data-layout=document] [data-name=steps]{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(min(100%,var(--card-min)),1fr));align-items:start}.figma-viewport[data-layout=document] [data-name=cards-row]>[data-name=Card],.figma-viewport[data-layout=document] [data-name=steps]>[data-name=Card]{width:100%!important;min-width:0}
-html,body{min-width:0}.figma-viewport[data-layout=document]{overflow-x:clip}
-/* ИИ: декоративные слои не перехватывают клики по кнопкам. Запись №23. */
+.figma-canvas [data-name="Bar"]{z-index:5}
 .figma-canvas [data-name^="bg/"],.figma-canvas [data-name^="char/"],
-.figma-canvas [data-name="stitch" i],.figma-canvas [data-name="vignette"],.figma-canvas [data-name^="aura/"]{pointer-events:none}
-
-/* ИИ №28: ПК без внешних полей; прокрутка только у длинных документов. */
-.figma-viewport[data-exact-device=desktop]{width:100%;max-width:none}
-.figma-viewport[data-exact-device=desktop][data-layout=scene]{height:100svh;min-height:0}
-
-/* ИИ №32: обычные планшетные сцены вписаны в окно, документы сохраняют длину. */
-.figma-viewport[data-exact-device=tablet]{width:100%;max-width:none}
-.figma-viewport[data-exact-device=tablet][data-layout=scene]{height:100svh;min-height:0}
-
+.figma-canvas [data-name="stitch" i],.figma-canvas [data-name="vignette"],.figma-canvas [data-name^="aura/"],
+.figma-canvas [data-name="decor/doodle"],
+.figma-canvas :is([data-node-id="1318:4314"],[data-node-id="1396:1237"],[data-node-id="1413:1627"]){pointer-events:none}
+#app>.stage{height:100dvh;min-height:0!important}
+#app .modal{scrollbar-width:none}
+.figma-viewport[data-exact-screen="prologue"] [data-name="panel"]{overflow:visible}
+.figma-viewport[data-exact-screen="prologue"] :is([data-name="actions"],[data-exact-action="start"]){z-index:2}
 
 @media (min-width:1024px) and (any-hover:hover) and (any-pointer:fine) and (prefers-reduced-motion:no-preference){
  .novel-parallax-image{
@@ -113,9 +107,9 @@ html,body{min-width:0}.figma-viewport[data-layout=document]{overflow-x:clip}
 #app .brand-logo>div{display:contents}
 #app .brand-logo .brand-logo-image{display:block;width:100%;height:auto;aspect-ratio:199.505/109.561}
 .figma-viewport:not([data-exact-device="mobile"]) [data-name="Bar"]:has(.brand-logo){
- inset:0 0 auto!important;width:100%!important;height:6.25cqw!important;
+ inset:0 0 auto!important;width:100%!important;height:calc(var(--bar-height) * var(--frame-unit))!important;
  padding-inline:var(--brand-header-gutter)!important;
 }
-.figma-viewport[data-exact-device="desktop"]{--brand-header-gutter:6.25cqw}
-.figma-viewport[data-exact-device="tablet"]{--brand-header-gutter:2.5cqw;--brand-logo-width:clamp(72px,7.86cqw,100px)}
+.figma-viewport[data-exact-device="desktop"]{--brand-header-gutter:6.25cqw;--bar-height:160}
+.figma-viewport[data-exact-device="tablet"]{--brand-header-gutter:2.5cqw;--bar-height:80;--brand-logo-width:clamp(72px,7.86cqw,100px)}
 .figma-viewport[data-exact-device="mobile"]{--brand-logo-width:clamp(70px,23.35cqw,91px)}

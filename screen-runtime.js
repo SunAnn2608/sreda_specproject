@@ -130,7 +130,7 @@ function applyExactGeometry(host,rootId){
  }
  const unit=n=>'calc('+n+' * var(--frame-unit))';
  for(const node of nodes){const g=subset[mapped.get(node)];if(!g)continue;for(const tag of node.querySelectorAll('[data-name="Tag"]')){if(!tag.hasAttribute('data-node-id')&&g.n==='Tag'){tag.style.width=unit(g.w);tag.style.height=unit(g.h);tag.style.flex='none';}}}
- for(const node of nodes){const id=mapped.get(node),g=subset[id];if(!g)continue;node.dataset.geometryId=id;if(id===rootId)continue;
+ for(const node of nodes){const id=mapped.get(node),g=subset[id];if(!g)continue;node.dataset.geometryId=id;if(id===rootId||["1318:4314","1396:1237","1413:1627"].includes(id))continue;
   let parent=node.parentElement;while(parent&&parent!==host&&!mapped.has(parent))parent=parent.parentElement;
   if(!parent||mapped.get(parent)!==g.p)continue;
   const parentStyle=getComputedStyle(parent);
