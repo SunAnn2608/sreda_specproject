@@ -188,13 +188,16 @@ function wireLinkStyles(canvas){
 function wireExactScreen(host,name){
  const canvas=host.querySelector('.figma-canvas');
  // ИИ: макет показывает hover как пример; в покое все ответы нейтральные. Запись №20.
- const originalPointer=canvas.querySelector('[data-name="Choice"] [data-name="Pointer"] img');
+ const choicePointer=canvas.querySelector('[data-name="Choice"] [data-name="Pointer"] img')?.getAttribute('src')
+  ||'./assets/figma/figma-026dbd30-a32a-477e-a354-2b64743ad0c7.svg';
  for(const choice of canvas.querySelectorAll('[data-name="Choice"]')){
   choice.querySelectorAll('[data-name="Pointer"]').forEach(n=>n.remove());
   choice.classList.add('dialogue-choice');
   const label=choice.querySelector('p');
   if(label)Object.assign(label.style,{position:'relative',inset:'auto',width:'auto',height:'auto',maxWidth:'none',flex:'1 1 0',minWidth:'0'});
-  if(originalPointer){const pointer=document.createElement('span');pointer.className='choice-hover-pointer';pointer.setAttribute('aria-hidden','true');const image=originalPointer.cloneNode();image.removeAttribute('style');pointer.append(image);choice.prepend(pointer);}
+  const pointer=document.createElement('img');
+  pointer.className='choice-hover-pointer';pointer.alt='';pointer.src=choicePointer;
+  choice.prepend(pointer);
  }
 
  for(const social of canvas.querySelectorAll('[data-social-network]')){
@@ -265,24 +268,30 @@ function wireStoryGuidance(host,screenName,frameCount){
   }
   const notice=canvas.querySelector('[data-node-id="1500:1902"],[data-node-id="1500:1905"],[data-node-id="1500:1908"]');
   if(notice){
-   notice.classList.add('story-intro');
-   notice.textContent='Банни травят в школе. Ты решаешь, что сказать и как быть рядом. Помощь всегда наверху.';
+   notice.innerHTML='В истории есть сцены травли. Если тебе <strong>сейчас тяжело</strong>, кнопка <strong>«нужна поддержка»</strong> всегда наверху.';
+   const intro=document.createElement('p');
+   intro.className='story-intro';
+   intro.textContent='Банни травят в школе. Ты решаешь, что сказать и как быть рядом.';
+   (notice.closest('[data-name="Note"]')||notice.parentElement).before(intro);
   }
  }
- if(hint){
-  hint.textContent='Нажми, чтобы продолжить';
-  hint.classList.add('story-hint-label');
-  if(!state.modal&&(hasNextFrame||['dialogue','chat','momchat'].includes(scenes[screenName]?.kind)))assignExactAction(hint,'exact-next');
-  return;
- }
+ const hintBox=hint?.parentElement;
  const scene=scenes[screenName];
  if(state.modal||(!hasNextFrame&&!['dialogue','chat','momchat'].includes(scene?.kind))||
-    canvas.querySelector('[data-exact-action="exact-next"]'))return;
+    canvas.querySelector('[data-exact-action="exact-next"]')){
+  hintBox?.remove();return;
+ }
  const button=document.createElement('button');
  button.type='button';button.className='story-continue';
- button.textContent='дальше →';
+ button.textContent='дальше';
  button.dataset.exactAction='exact-next';
- canvas.firstElementChild.append(button);
+ if(hintBox){
+  button.classList.add('story-continue-inline');
+  if(hintBox.style.position==='absolute'){
+   hintBox.replaceChildren(button);
+   hintBox.classList.add('story-continue-slot');
+  }else hintBox.replaceWith(button);
+ }else canvas.firstElementChild.append(button);
 }
 function exactAdvance(){
  const key=state.modal&&figmaScreens[state.modal]?state.modal:state.scene;

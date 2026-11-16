@@ -39,13 +39,13 @@ function render(){
  const s=scenes[state.scene]||scenes.prologue;
  let inner="";
  if(s.kind==="prologue"){
-  inner=`<article class="panel stitched"><span class="tag">спецпроект о травле</span><p class="poem">Под дождем остался зайка.<br>Со скамейки слезть не мог,<br>Весь до ниточки промок.</p><div class="notice">Банни травят в школе. Ты решаешь, что сказать и как быть рядом. Помощь всегда наверху.</div><div class="actions">${btn("начать историю","start","action")}${btn("материалы","materials","action secondary")}</div></article>`;
+  inner=`<article class="panel stitched"><span class="tag">спецпроект о травле</span><p class="poem">Под дождем остался зайка.<br>Со скамейки слезть не мог,<br>Весь до ниточки промок.</p><p class="story-intro">Банни травят в школе. Ты решаешь, что сказать и как быть рядом.</p><div class="notice">В истории есть сцены травли. Если тебе <strong>сейчас тяжело</strong>, кнопка <strong>«нужна поддержка»</strong> всегда наверху.</div><div class="actions">${btn("начать историю","start","action")}${btn("материалы","materials","action secondary")}</div></article>`;
  }else{
   const dialogue=`<article class="panel bubble"><span class="speaker">${escapeHTML(s.speaker||"среда")}</span><p>${escapeHTML(s.text||"")}</p></article>`;
   const options=s.options?`<div class="prompt">${escapeHTML(s.prompt)}</div><div class="choices">${s.options.map((o,i)=>btn(o.label,"choice:"+i,"choice")).join("")}</div>`:"";
   inner=`<div class="dialogue-layout">${dialogue}${options}</div>`;
  }
- if(state.scene==="dialogue")inner=`<div class="story-dialogue"><button class="panel bubble" data-action="next"><span class="speaker">банни</span><span>${escapeHTML(s.text)}</span><img class="bubble-tail" src="./assets/tail.svg" alt=""><img class="bubble-arrow" src="./assets/arrow.svg" alt=""></button><div class="story-hint">Нажми, чтобы продолжить</div></div>`;
+ if(state.scene==="dialogue")inner=`<div class="story-dialogue"><button class="panel bubble" data-action="next"><span class="speaker">банни</span><span>${escapeHTML(s.text)}</span><img class="bubble-tail" src="./assets/tail.svg" alt=""><img class="bubble-arrow" src="./assets/arrow.svg" alt=""></button>${btn("дальше","next","story-continue")}</div>`;
  // ИИ: телефон и Кроли экрана 02-02 из Figma 1318:2561. Запись №6.
  if(state.scene==="chat")inner=`<img class="chat-aura" src="./assets/kroli-glow.svg" alt=""><img class="chat-kroli" src="./assets/kroli.png" alt="Кроли"><section class="chat-phone" aria-label="8 Б — общий чат"><h2>8 «Б» · общий чат</h2><div class="chat-messages"><p>смотрите,<br>кто опять в шапке</p><div class="chat-photo"><img src="./assets/chat-photo.png" alt="Фотография Банни, опубликованная без разрешения"></div><p>ахаха</p><p class="outgoing">Удалите, пожалуйста. Я не разрешал.</p><small>Прочитано: 24 · ответов нет</small></div></section><button class="panel bubble chat-reply" data-action="next"><span class="speaker">банни</span><span>Я просил удалить.<br>Никто не ответил.</span><img class="bubble-tail" src="./assets/tail.svg" alt=""><img class="bubble-arrow" src="./assets/arrow.svg" alt=""></button>`;
  if(s.kind==="info")inner=`<article class="panel stitched info-panel"><h1>${escapeHTML(s.title)}</h1><div class="info-content">${s.image?`<img class="info-image" src="./assets/${s.image}" alt="">`:""}<div><h2>${escapeHTML(s.text)}</h2>${s.points?`<ul>${s.points.map(p=>`<li>${escapeHTML(p)}</li>`).join("")}</ul>`:""}</div></div><div class="actions">${btn("читать", "article:"+({info:0,pauseA:1,pauseB:2,pauseC:3}[state.scene]??0),"action secondary")}${btn("дальше","next","action")}</div></article>`;
@@ -59,7 +59,7 @@ function render(){
   inner=state.scene==="adults"?inner.replace('</div>',reply+'</div>'):inner.replace('<div class="dialogue-layout">','<div class="dialogue-layout">'+reply);
  }
  const showContinue=['dialogue','chat','momchat'].includes(s.kind)&&!inner.includes('data-action="next"');
- if(showContinue)inner+=btn('дальше →','next','story-continue');
+ if(showContinue)inner+=btn('дальше','next','story-continue');
  const markup=`<div class="stage ${s.kind==="dialogue"?"story-screen":""}" data-screen="${state.scene}" data-scene="${escapeHTML(s.kind)}">${header(s)}<div class="scene-art" aria-hidden="true">${s.art?`<picture>${state.scene==="dialogue"?'<source media="(max-width:1023px)" srcset="./assets/corridor-mobile.png">':""}<img src="./assets/${s.art}" alt=""></picture>`:""}</div>${s.other?`<img class="story-other" src="./assets/${s.other}" alt="">`:""}${s.character?`<img class="story-character" src="./assets/${s.character}" alt="">`:""}<main class="main" id="main" tabindex="-1">${inner}</main></div>${modalHTML()}`;
  app.innerHTML=typeof optimizedScreenHTML==='function'?optimizedScreenHTML(markup):markup;
  if(state.scene==="adults"){
