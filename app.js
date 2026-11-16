@@ -1,7 +1,8 @@
 /* ИИ: интерфейс новеллы. Журнал и незавершённые расхождения — в README и FIGMA-AUDIT.md. */
 "use strict";
 // ИИ: оригинальные ассеты пролога из Figma. Запись №2 в README.
-const originalRenderHook = new MutationObserver(()=>{const stage=document.querySelector('[data-scene="prologue"]');if(!stage)return;const art=stage.querySelector('.scene-art');if(!art.querySelector('img'))art.innerHTML='<img src="./assets/prologue-park.png" alt="">';const logo=stage.querySelector('.logo');if(!logo.querySelector('img'))logo.innerHTML='<img src="./assets/logo.svg" alt="среда">';const panel=stage.querySelector('.panel');if(!panel.querySelector('.prologue-doodle'))panel.insertAdjacentHTML('afterbegin','<img class="prologue-doodle" src="./assets/doodle.svg" alt="среда">');});
+const brandLogoImage=()=>'<img class="brand-logo-image" src="./assets/logo.svg" width="199" height="110" alt="">';
+const originalRenderHook = new MutationObserver(()=>{const stage=document.querySelector('[data-scene="prologue"]');if(!stage)return;const art=stage.querySelector('.scene-art');if(!art.querySelector('img'))art.innerHTML='<img src="./assets/prologue-park.png" alt="">';const panel=stage.querySelector('.panel');if(!panel.querySelector('.prologue-doodle'))panel.insertAdjacentHTML('afterbegin','<img class="prologue-doodle" src="./assets/doodle.svg" alt="среда">');});
 originalRenderHook.observe(document.querySelector('#app'),{childList:true,subtree:true});
 const app=document.querySelector("#app");
 const figma="https://www.figma.com/design/Dh9CU2f4N47sWnTVCKPgVH/среда?node-id=400-688";
@@ -32,7 +33,7 @@ scenes.chat.next="afterChat";
 let state={scene:"prologue",history:[],answers:[],modal:null,branch:null,second:null};
 const escapeHTML=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const btn=(label,action,cls="")=>`<button type="button" class="${cls}" data-action="${action}">${escapeHTML(label)}</button>`;
-const header=(s)=>`<header class="topbar"><a href="#prologue" class="logo" aria-label="среда — в начало">среда</a><span class="pill chapter">${escapeHTML(s.chapter)}</span><nav class="header-actions" aria-label="Главное меню">${btn("нужна поддержка","help","pill help")}${btn("материалы","materials","pill materials")}${btn('<span></span>','menu','pill menu-button') .replace("&lt;span&gt;&lt;/span&gt;","<span></span><span></span><span></span>")}</nav></header>`;
+const header=(s)=>`<header class="topbar"><a href="#prologue" class="logo brand-logo" aria-label="среда — в начало">${brandLogoImage()}</a><span class="pill chapter">${escapeHTML(s.chapter)}</span><nav class="header-actions" aria-label="Главное меню">${btn("нужна поддержка","help","pill help")}${btn("материалы","materials","pill materials")}${btn('<span></span>','menu','pill menu-button') .replace("&lt;span&gt;&lt;/span&gt;","<span></span><span></span><span></span>")}</nav></header>`;
 function render(){
  if(typeof renderExactScreen==='function'&&renderExactScreen())return;
  const s=scenes[state.scene]||scenes.prologue;
@@ -61,7 +62,6 @@ function render(){
  if(showContinue)inner+=btn('дальше →','next','story-continue');
  const markup=`<div class="stage ${s.kind==="dialogue"?"story-screen":""}" data-screen="${state.scene}" data-scene="${escapeHTML(s.kind)}">${header(s)}<div class="scene-art" aria-hidden="true">${s.art?`<picture>${state.scene==="dialogue"?'<source media="(max-width:1023px)" srcset="./assets/corridor-mobile.png">':""}<img src="./assets/${s.art}" alt=""></picture>`:""}</div>${s.other?`<img class="story-other" src="./assets/${s.other}" alt="">`:""}${s.character?`<img class="story-character" src="./assets/${s.character}" alt="">`:""}<main class="main" id="main" tabindex="-1">${inner}</main></div>${modalHTML()}`;
  app.innerHTML=typeof optimizedScreenHTML==='function'?optimizedScreenHTML(markup):markup;
- document.querySelector('.logo').innerHTML='<img src="./assets/logo.svg" alt="среда">';
  if(state.scene==="adults"){
   document.querySelector('.scene-art').insertAdjacentHTML('beforeend','<img class="mom-warm-aura" src="./assets/mom-warm.svg" alt="">');
   const momBubble=document.querySelector('.dialogue-layout>.bubble:not(.player-reply)');

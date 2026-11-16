@@ -70,7 +70,10 @@ function exactDevice(){
  return window.innerWidth<1200?'tablet':'desktop';
 }
 function exactScreenHTML(template,screenName,device){
- const markup=optimizedScreenHTML(template.html);
+ const markup=optimizedScreenHTML(template.html).replace(
+  /(<div[^>]*data-name="Logo"[^>]*>\s*<div[^>]*>)<img[^>]*>/g,
+  (_,slot)=>slot+brandLogoImage()
+ );
  if(screenName!=='menu')return markup;
  const oldCover=device==='desktop'?'menu-background.webp':device==='tablet'
   ?'figma/figma-1e57ecd1-dfc0-46fb-85b6-398b81add6db.webp'
@@ -213,7 +216,7 @@ function wireExactScreen(host,name){
   if(kind==='Help')assignExactAction(node,'help');
   else if(kind==='Materials')assignExactAction(node,'materials');
   else if(kind==='Menu')assignExactAction(node,'menu','меню');
-  else if(kind==='Logo')assignExactAction(node,'restart','среда — в начало');
+  else if(kind==='Logo'){node.classList.add('brand-logo');assignExactAction(node,'restart','среда — в начало');}
   else if(kind==='Choice'){
    const choiceNodes=[...canvas.querySelectorAll('[data-name="Choice"]')];assignExactAction(node,'choice:'+choiceNodes.indexOf(node));
   }
