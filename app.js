@@ -135,7 +135,14 @@ while(typeof figmaScreens!=='undefined'&&!figmaScreens[id]){
 }
 if(!scenes[id])return;state.history.push(state.scene);state.scene=id;state.frameStep=0;state.modal=null;state.modalTrail=[];render();document.querySelector("#main")?.focus?.()}
 function handleAction(action){
- if(action==="frame-next"){state.frameStep=(state.frameStep||0)+1;render();return}
+ if(action==="frame-next"){
+  state.frameStep=(state.frameStep||0)+1;
+  if(document.startViewTransition&&document.querySelector('[data-exact-device="mobile"]')&&
+     !matchMedia('(prefers-reduced-motion: reduce)').matches){
+   document.startViewTransition(render);
+  }else render();
+  return;
+ }
  if(action==="start"){state.branch=null;state.second=null;state.answers=[];state.history=[];go("dialogue");return}
  if(action==="next"){if(state.scene==="chat"&&!document.querySelector(".figma-viewport")&&matchMedia('(max-width:1023px)').matches&&(state.chatStep||0)<2){state.chatStep=(state.chatStep||0)+1;render();return}state.chatStep=0;go(scenes[state.scene].next||"resources");return}
  if(action==="restart"){state={scene:"prologue",history:[],answers:[],modal:null};render();return}

@@ -226,3 +226,24 @@ html,body{width:100%;height:100%;min-width:0;overflow:hidden}
  max-width:calc(80 * var(--frame-unit));
 }
 .figma-viewport:has(.dark-scene-background) [data-name="Chapter"]{visibility:hidden}
+
+.figma-canvas img.mobile-chat-backdrop{
+ position:absolute;inset:0;width:100%;height:100%;max-width:none;
+ object-fit:cover;pointer-events:none;
+}
+.figma-viewport[data-exact-device="mobile"] [data-name^="aura/"]>img{
+ width:100%;height:100%;object-fit:contain;
+}
+.figma-viewport[data-exact-device="mobile"][data-exact-screen="prologue"][data-exact-step="1"]
+ [data-node-id="I1413:1626;1316:2222"],
+.figma-viewport[data-exact-device="mobile"][data-exact-screen="prologue"][data-exact-step="1"]
+ [data-node-id="I1413:1626;1316:2222"] [data-name="Tag"]{
+ width:max-content!important;
+}
+.figma-viewport[data-exact-device="mobile"][data-exact-screen="adults"] [data-name="char/mom"]{
+ translate:0 calc(-70 * var(--frame-unit))!important;
+}
+.figma-viewport[data-exact-device="mobile"][data-exact-screen="adults"] [data-name="char/bunny-default"]{
+ translate:0 calc(-112 * var(--frame-unit))!important;
+}
+::view-transition-group(root){animation-duration:420ms;animation-timing-function:ease-in-out}

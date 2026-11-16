@@ -120,10 +120,25 @@ function renderExactScreen(){
  wireExactScreen(host,screenName);
  wireStoryGuidance(host,screenName,steps.length);
  applyFluidConstraints(host,template,device,screenName);
+ if(device==='mobile'&&screenName==='chat')useMobileChatBackdrop(host,exactStep);
  separateBubbleContinue(host);
  if(typeof animateNovelFrame==='function')animateNovelFrame(host,screenName);
  document.title='среда · '+(scenes[state.scene]?.chapter||screenName);
  return true;
+}
+function useMobileChatBackdrop(host,step){
+ const root=host.querySelector('.figma-canvas').firstElementChild;
+ const bakedLayers=[
+  ':scope > img,:scope > [data-node-id="1499:6013"],:scope > [data-node-id="1499:6036"],:scope > [data-name^="aura/"]',
+  ':scope > [data-name="image 188"],:scope > [data-node-id="1499:6016"],:scope > [data-name^="aura/"],:scope > [data-node-id="1499:5922"]',
+  ':scope > [data-name="image 188"],:scope > [data-node-id="1499:6019"]'
+ ];
+ root.querySelectorAll(bakedLayers[step]).forEach(layer=>layer.remove());
+ const background=document.createElement('img');
+ background.className='mobile-chat-backdrop';
+ background.src=`./assets/chat-mobile-${step+1}.webp`;
+ background.alt='';
+ root.prepend(background);
 }
 function normalizedLabel(node){return node.textContent.replace(/\s+/g,' ').trim().toLowerCase();}
 function applyExactGeometry(host,rootId){
