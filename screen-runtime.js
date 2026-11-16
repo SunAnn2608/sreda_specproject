@@ -2,6 +2,27 @@
 "use strict";
 let exactStep=0,exactScene=null,exactVariant=null;
 const exactActions={};
+const optimizedBackgrounds=new Set([
+ "./assets/figma/figma-09ea8681-be9b-472e-8a79-2b2b30734550.png",
+ "./assets/figma/figma-0c5346b7-4354-465d-8cd0-6bd621d61053.png",
+ "./assets/figma/figma-14ebe20a-d04a-4676-b619-7913cbb47f05.png",
+ "./assets/figma/figma-1b62ae9a-4d0f-47b4-a962-06daa2e02491.png",
+ "./assets/figma/figma-1e57ecd1-dfc0-46fb-85b6-398b81add6db.png",
+ "./assets/figma/figma-214ffbf0-daa9-4655-90a4-6b3b8a518f98.png",
+ "./assets/figma/figma-2ce8633b-e7ae-42d3-91a3-ec6c3c6d58cd.png",
+ "./assets/figma/figma-33609187-4b11-437c-9986-af010003f06d.png",
+ "./assets/figma/figma-4ab1f1a1-444a-464a-a590-c496d68101ba.png",
+ "./assets/figma/figma-64e921c2-58f8-4b35-affe-ab5558d6f6a3.png",
+ "./assets/figma/figma-64ed97d7-30a0-487a-a95c-269629642056.png",
+ "./assets/figma/figma-687dce01-18d6-41da-a19e-427f529fd81f.png",
+ "./assets/figma/figma-790835f3-5ac7-4b77-9a7e-0485bb3b031e.png",
+ "./assets/figma/figma-826fb7d9-1c77-4d0a-8e38-59a8efe5431b.png",
+]);
+function optimizedScreenHTML(html){
+ return html.replace(/src="([^"]+\.png)"/g,(original,path)=>
+  optimizedBackgrounds.has(path)?'src="'+path.replace(/\.png$/,'.webp')+'"':original);
+}
+
 // ИИ №25: официальные ссылки, предоставленные автором 29.10.2026.
 const socialLinks=Object.freeze({
  vk:'https://m.vk.ru/sreda_acceptance?utm_source=taplink&utm_medium=referral&utm_campaign=sreda_media&utm_content=vk_group',
@@ -24,7 +45,7 @@ function renderExactScreen(){
  exactStep=Math.min(verification?Number(verification.get('step')||0):state.modal&&figmaScreens[state.modal]?0:Number(state.frameStep||0),steps.length-1);
  const template=steps[exactStep];
  const host=document.querySelector('#app');host.classList.add('figma-mode');
- host.innerHTML=`<div class="figma-viewport" data-exact-screen="${screenName}" data-exact-device="${device}" data-exact-step="${exactStep}" style="--frame-width:${template.width};--frame-height:${template.height};--frame-ratio:${template.width/template.height}"><div class="figma-canvas" style="--frame-unit:calc(100cqw / ${template.width})">${template.html}</div></div>`;
+ host.innerHTML=`<div class="figma-viewport" data-exact-screen="${screenName}" data-exact-device="${device}" data-exact-step="${exactStep}" style="--frame-width:${template.width};--frame-height:${template.height};--frame-ratio:${template.width/template.height}"><div class="figma-canvas" style="--frame-unit:calc(100cqw / ${template.width})">${optimizedScreenHTML(template.html)}</div></div>`;
  if(state.modal&&!figmaScreens[state.modal]){host.insertAdjacentHTML('beforeend',modalHTML());const background=host.querySelector('.figma-viewport');background.inert=true;background.setAttribute('aria-hidden','true');}
  applyExactGeometry(host,template.id);
  const textRuns=device==='mobile'&&typeof mobileTextRuns!=='undefined'?mobileTextRuns:device==='tablet'&&typeof tabletTextRuns!=='undefined'?tabletTextRuns:null;
@@ -36,6 +57,8 @@ function renderExactScreen(){
   }
  }
 
+ const hint=host.querySelector('[data-node-id="1324:803"],[data-node-id="1389:802"],[data-node-id="1389:804"]');
+ if(hint)hint.textContent=screenName==='prologue'?'Нажми, чтобы начать':'Нажми, чтобы продолжить';
  wireExactScreen(host,screenName);
  applyFluidConstraints(host,template,device,screenName);
  if(typeof animateNovelFrame==='function')animateNovelFrame(host,screenName);

@@ -4,7 +4,7 @@ let count=0,cancelled=0,preferenceChanged;
 const preference={matches:false,addEventListener(type,fn){preferenceChanged=fn;}};
 const node={animate(){count++;return {cancel(){cancelled++;},addEventListener(){}};}};
 const host={querySelector(selector){return selector==='.modal'?null:node;},querySelectorAll(){return [node];}};
-const c=vm.createContext({matchMedia:()=>preference,document:{addEventListener(){}},state:{scene:'dialogue',modal:null,frameStep:0},host});
+const c=vm.createContext({matchMedia:query=>query.includes("reduced-motion")?preference:{matches:false,addEventListener(){}},document:{addEventListener(){}},state:{scene:'dialogue',modal:null,frameStep:0},host});
 vm.runInContext(fs.readFileSync('novel-motion.js','utf8'),c);
 const run=s=>vm.runInContext(s,c);
 run('animateNovelFrame(host,"dialogue")');assert.equal(count,3);
