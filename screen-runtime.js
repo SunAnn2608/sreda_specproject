@@ -132,6 +132,43 @@ function applyExactGeometry(host,rootId){
  }
 }
 function assignExactAction(node,action,label){node.dataset.exactAction=action;node.setAttribute('role','button');node.setAttribute('tabindex','0');node.setAttribute('aria-label',label||normalizedLabel(node));node.style.cursor='pointer';}
+function wireHelpPhones(canvas){
+ const walker=document.createTreeWalker(canvas,NodeFilter.SHOW_TEXT);
+ const matches=[];
+ for(let node=walker.nextNode();node;node=walker.nextNode()){
+  const match=node.textContent.match(/звони\s+112|детский телефон доверия\s+8\s*800\s*2000[-–‑]122/i);
+  if(match&&!node.parentElement.closest('a'))matches.push({node,match});
+ }
+ for(const {node,match} of matches){
+  const link=document.createElement('a');
+  link.href=match[0].includes('112')?'tel:112':'tel:88002000122';
+  link.textContent=match[0];
+  const text=node.textContent;
+  node.replaceWith(text.slice(0,match.index),link,text.slice(match.index+match[0].length));
+ }
+}
+
+function wireLinkStyles(canvas){
+ for(const link of canvas.querySelectorAll('a[href]')){
+  const button=link.closest('[data-name="Button"],[data-component="Button"]');
+  if(button&&button!==link){
+   const wrapper=document.createElement('a');
+   for(const attribute of button.attributes)wrapper.setAttribute(attribute.name,attribute.value);
+   wrapper.href=link.href;
+   if(link.target){wrapper.target=link.target;wrapper.rel='noopener noreferrer';}
+   const label=document.createElement('span');
+   label.style.cssText=link.style.cssText;
+   label.textContent=link.textContent;
+   link.replaceWith(label);
+   wrapper.append(...button.childNodes);
+   button.replaceWith(wrapper);
+   wrapper.classList.add('button-link');
+  }else if(button)link.classList.add('button-link');
+  else if(!link.classList.contains('social-link'))link.classList.add('text-link');
+ }
+ for(const link of canvas.querySelectorAll('p[data-exact-action]'))link.classList.add('text-link');
+}
+
 function wireExactScreen(host,name){
  const canvas=host.querySelector('.figma-canvas');
  // ИИ: макет показывает hover как пример; в покое все ответы нейтральные. Запись №20.
@@ -146,7 +183,7 @@ function wireExactScreen(host,name){
 
  for(const social of canvas.querySelectorAll('[data-social-network]')){
   const net=social.dataset.socialNetwork;
-  social.innerHTML=`<a class="social-link" href="${socialLinks[net]}" target="_blank" rel="noopener noreferrer" aria-label="${net} — среда"><img alt="" src="./assets/social-${net}.svg" width="119" height="120"></a>`;
+  social.innerHTML=`<a class="social-link" href="${socialLinks[net]}" target="_blank" rel="noopener noreferrer" aria-label="${net} — среда"><img alt="" src="./assets/social-${net}.svg?v=41" width="119" height="120"></a>`;
  }
  if(name==='menu'){
   const actions={'начать историю':'restart','материалы':'materials','нужна поддержка':'help','поддержать':'supportPage'};
@@ -193,6 +230,8 @@ function wireExactScreen(host,name){
  for(const link of canvas.querySelectorAll('a[href*="dzen.ru/sreda_acceptance"]')){
   link.href=socialLinks.dzen;link.target='_blank';link.rel='noopener noreferrer';
  }
+ if(name==='help')wireHelpPhones(canvas);
+ wireLinkStyles(canvas);
  if(name==='menu'){
   const close=canvas.querySelector('[data-node-id="1500:1875"]');if(close)assignExactAction(close,'close','закрыть');
  }

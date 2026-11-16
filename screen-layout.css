@@ -15,9 +15,11 @@
 .figma-canvas .dialogue-choice{background-color:#fff9ed!important}
 .choice-hover-pointer{display:none}
 .figma-canvas .menu-item{
- background:transparent!important;border-color:transparent!important;
- filter:none!important;border-width:calc(3 * var(--frame-unit))!important;
- border-radius:999px!important;white-space:nowrap;
+ background:transparent!important;
+ border:0!important;
+ filter:none!important;
+ border-radius:999px!important;
+ white-space:nowrap;
 }
 .figma-canvas [data-name="menu-items"]{justify-content:space-evenly}
 .figma-canvas [data-social-network]{
@@ -25,18 +27,23 @@
 }
 .figma-canvas .social-link{display:block;position:absolute;inset:0}
 .figma-canvas .social-link img{width:100%;height:auto;max-width:none}
+.figma-canvas a.text-link{text-decoration:underline;text-underline-offset:.12em}
 @media(min-width:1024px) and (hover:hover) and (pointer:fine){
- .figma-viewport[data-exact-device=desktop] :is([data-exact-action],a[href]),
- #app:not(.figma-mode) :is(button:not(:disabled),a[href]),
- #app .modal :is(button:not(:disabled),a[href]){transition:scale 140ms ease}
- .figma-viewport[data-exact-device=desktop] :is([data-exact-action],a[href]:not([data-exact-action] a)):hover,
- #app:not(.figma-mode) :is(button:not(:disabled),a[href]):hover,
- #app .modal :is(button:not(:disabled),a[href]):hover{scale:.97}
+ .figma-viewport[data-exact-device=desktop] :is([data-exact-action]:not(.text-link),.button-link,.social-link),
+ #app :is(button:not(:disabled),a.logo){transition:scale 140ms ease}
+ .figma-viewport[data-exact-device=desktop] :is([data-exact-action]:not(.text-link),.button-link,.social-link):hover,
+ #app :is(button:not(:disabled),a.logo):hover{scale:.97}
+ .figma-viewport[data-exact-device=desktop] .text-link,
+ #app .modal a[href]{transition:opacity 140ms ease}
+ .figma-viewport[data-exact-device=desktop] .text-link:hover,
+ #app .modal a[href]:hover{opacity:.68}
  .figma-viewport[data-exact-device=desktop] .menu-item:is(:hover,:focus-visible){
-  background:var(--menu-accent,#bce3ff)!important;border-color:#0d0f10!important;
-  box-shadow:calc(7 * var(--frame-unit)) calc(8 * var(--frame-unit)) #0d0f10;
+  background:var(--menu-accent,#bce3ff)!important;
+  box-shadow:inset 0 0 0 calc(6 * var(--frame-unit)) #0d0f10,
+    calc(8 * var(--frame-unit)) calc(8 * var(--frame-unit)) #0d0f10;
  }
  .figma-canvas .menu-item:is([data-exact-action=restart],[data-exact-action=supportPage]){--menu-accent:#ff774e}
+ .figma-canvas .menu-item[data-exact-action=help]{--menu-accent:#ffb5dc}
 }
 [data-scene-wait]{visibility:hidden}
 @media(prefers-reduced-motion:reduce){#app :is(button,[data-exact-action],a[href]){transition:none!important}}
