@@ -266,7 +266,7 @@ function wireStoryGuidance(host,screenName,frameCount){
   const notice=canvas.querySelector('[data-node-id="1500:1902"],[data-node-id="1500:1905"],[data-node-id="1500:1908"]');
   if(notice){
    notice.classList.add('story-intro');
-   notice.textContent='Банни сталкивается с травлей в школе. Ты выбираешь, что сказать и как быть рядом. Если тебе тяжело, помощь всегда доступна вверху.';
+   notice.textContent='Банни травят в школе. Ты решаешь, что сказать и как быть рядом. Помощь всегда наверху.';
   }
  }
  if(hint){

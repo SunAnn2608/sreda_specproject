@@ -7,10 +7,11 @@ function applyFluidConstraints(host,template,device,screenName){
  viewport.dataset.layout=isDocument?'document':'scene';
  canvas.style.setProperty('--frame-unit',`min(calc(100cqw / ${template.width}),calc(100dvh / ${template.height}))`);
  const geometry=typeof figmaGeometry==='undefined'?{}:figmaGeometry;
+ const primaryBackground=[...root.children].find(node=>geometry[node.dataset.geometryId||node.dataset.nodeId]?.n.startsWith('bg/'));
  for(const node of root.children){
   const g=geometry[node.dataset.geometryId||node.dataset.nodeId];
   if(!g)continue;
-  if(g.n.startsWith('bg/')||g.n==='vignette'){
+  if(node===primaryBackground||g.n==='vignette'){
    Object.assign(node.style,{inset:'0',width:'100%',height:'100%',translate:'none'});
    if(g.n==='vignette'){node.style.backgroundSize='100% 100%';node.style.backgroundPosition='center';}
    continue;

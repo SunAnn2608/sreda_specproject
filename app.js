@@ -39,7 +39,7 @@ function render(){
  const s=scenes[state.scene]||scenes.prologue;
  let inner="";
  if(s.kind==="prologue"){
-  inner=`<article class="panel stitched"><span class="tag">спецпроект о травле</span><p class="poem">Под дождем остался зайка.<br>Со скамейки слезть не мог,<br>Весь до ниточки промок.</p><div class="notice">Банни сталкивается с травлей в школе. Ты выбираешь, что сказать и как быть рядом. Если тебе тяжело, помощь всегда доступна вверху.</div><div class="actions">${btn("начать историю","start","action")}${btn("материалы","materials","action secondary")}</div></article>`;
+  inner=`<article class="panel stitched"><span class="tag">спецпроект о травле</span><p class="poem">Под дождем остался зайка.<br>Со скамейки слезть не мог,<br>Весь до ниточки промок.</p><div class="notice">Банни травят в школе. Ты решаешь, что сказать и как быть рядом. Помощь всегда наверху.</div><div class="actions">${btn("начать историю","start","action")}${btn("материалы","materials","action secondary")}</div></article>`;
  }else{
   const dialogue=`<article class="panel bubble"><span class="speaker">${escapeHTML(s.speaker||"среда")}</span><p>${escapeHTML(s.text||"")}</p></article>`;
   const options=s.options?`<div class="prompt">${escapeHTML(s.prompt)}</div><div class="choices">${s.options.map((o,i)=>btn(o.label,"choice:"+i,"choice")).join("")}</div>`:"";
