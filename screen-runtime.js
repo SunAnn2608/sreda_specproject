@@ -119,6 +119,7 @@ function renderExactScreen(){
  wireExactScreen(host,screenName);
  wireStoryGuidance(host,screenName,steps.length);
  applyFluidConstraints(host,template,device,screenName);
+ separateBubbleContinue(host);
  if(typeof animateNovelFrame==='function')animateNovelFrame(host,screenName);
  document.title='среда · '+(scenes[state.scene]?.chapter||screenName);
  return true;
@@ -256,7 +257,7 @@ function wireExactScreen(host,name){
  }
  if(name==='chat')for(const line of canvas.querySelectorAll('[data-name="phone"] p')){
   if(!normalizedLabel(line).startsWith('удалите,'))continue;
-  line.textContent='Удалите, пожалуйста. Я не\u00a0разрешал.';
+  line.replaceChildren('Удалите, пожалуйста.',document.createElement('br'),'Я не\u00a0разрешал.');
   line.classList.add('chat-message-outgoing');
  }
  // ИИ №27: публичные ссылки петиции и фонда, предоставленные автором.
@@ -322,6 +323,19 @@ function wireStoryGuidance(host,screenName,frameCount){
    bubble.append(button);
   }else canvas.firstElementChild.append(button);
  }
+}
+function separateBubbleContinue(host){
+ const bubble=host.querySelector('.story-continue-anchor');
+ if(!bubble)return;
+ const button=bubble.querySelector('.story-continue');
+ const group=document.createElement('div');
+ group.className='story-continue-group';
+ Object.assign(group.style,{left:bubble.style.left,top:bubble.style.top,width:bubble.style.width});
+ bubble.before(group);
+ Object.assign(bubble.style,{position:'relative',inset:'auto',width:'100%',margin:'0'});
+ bubble.classList.remove('story-continue-anchor');
+ button.classList.add('story-continue-inline');
+ group.append(bubble,button);
 }
 function exactAdvance(){
  const key=state.modal&&figmaScreens[state.modal]?state.modal:state.scene;

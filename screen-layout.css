@@ -167,18 +167,26 @@ html,body{width:100%;height:100%;min-width:0;overflow:hidden}
  word-break:normal!important;overflow-wrap:normal!important;white-space:normal!important;
  max-width:100%!important;min-width:0!important;
 }
-.story-continue-anchor{overflow:visible!important}
-.story-continue-anchor>.story-continue{
- top:calc(100% + 28 * var(--frame-unit));right:0;bottom:auto;
+.story-continue-group{
+ position:absolute;display:flex;flex-direction:column;
+ gap:calc(var(--continue-gap,56) * var(--frame-unit));
 }
-.figma-viewport[data-exact-device="mobile"] .story-continue-anchor>.story-continue{
- top:calc(100% + 12 * var(--frame-unit));
+.figma-viewport [data-name="dialogue"]:has(>.story-continue-inline){
+ row-gap:calc(var(--continue-gap,56) * var(--frame-unit));
 }
 .story-continue-inline,.stage .story-continue{width:auto}
 
-.figma-viewport[data-exact-device="mobile"] .story-continue-anchor{
- translate:0 calc(-54 * var(--frame-unit))!important;
+[data-exact-screen="chat"] .story-continue-group{
+ translate:0 calc(-96 * var(--frame-unit));
+}
+[data-exact-device="tablet"],[data-exact-device="mobile"]{--continue-gap:28}
+[data-exact-device="tablet"][data-exact-screen="chat"] .story-continue-group{
+ translate:0 calc(-48 * var(--frame-unit));
+}
+[data-exact-device="mobile"] .story-continue-group{
+ translate:0 calc(-76 * var(--frame-unit));
 }
 .figma-viewport[data-exact-device="mobile"] [data-name="dialogue"]:has(>.story-continue-inline){
  translate:0 calc(-22 * var(--frame-unit))!important;
 }
+.figma-viewport:has(.dark-scene-background) [data-name="Chapter"]{visibility:hidden}

@@ -43,7 +43,7 @@ function animateNovelFrame(host,screenName){
  const subject=[...root.querySelectorAll(screenName==='chat'?artwork+','+chatArtwork:artwork)];
  const phone=[...root.querySelectorAll('[data-name="phone"],.chat-phone')];
  const content=[...root.children].flatMap(node=>node.matches('.main')&&[...phone,...subject].some(layer=>node.contains(layer))?[...node.children]:[node])
-  .filter(node=>node.matches('.story-continue,.main,.chat-reply,.mom-message,[data-exact-action],[data-name="dialogue"],[data-name="choice-block"],[data-name="Bubble"],[data-name="notes"],[data-name="panel"],[data-name="actions"],[data-name^="button/"]'));
+  .filter(node=>node.matches('.story-continue-group,.story-continue,.main,.chat-reply,.mom-message,[data-exact-action],[data-name="dialogue"],[data-name="choice-block"],[data-name="Bubble"],[data-name="notes"],[data-name="panel"],[data-name="actions"],[data-name^="button/"]'));
  if(!subject.length&&!phone.length&&!content.length)return;
  const background=root.querySelector(':scope > [data-name^="bg/"] img,:scope > [data-name="image 188"] img,:scope > img,.scene-art picture img')||root.firstElementChild?.querySelector('img');
  if(background)background.fetchPriority='high';
