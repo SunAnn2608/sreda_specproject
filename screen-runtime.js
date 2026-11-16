@@ -116,6 +116,7 @@ function renderExactScreen(){
    label.textContent=scene.options[index].label;
   });
  }
+ matchDocumentIntro(host,screenName,device);
  wireExactScreen(host,screenName);
  wireStoryGuidance(host,screenName,steps.length);
  applyFluidConstraints(host,template,device,screenName);
@@ -197,6 +198,48 @@ function wireLinkStyles(canvas){
  for(const link of canvas.querySelectorAll('p[data-exact-action]'))link.classList.add('text-link');
 }
 
+function matchDocumentIntro(host,name,device){
+ const sourceIds={
+  materials:['1318:2780','1320:2568'],
+  resources:['1368:872'],
+  supportPage:['1318:2752','1318:2753']
+ }[name];
+ if(!sourceIds||device==='desktop')return;
+ const desktop=document.createElement('template');
+ desktop.innerHTML=figmaScreens[name].desktop.html;
+ const sourceText=id=>desktop.content.querySelector(`[data-node-id="${id}"]`).textContent.trim();
+ if(device==='tablet'){
+  if(name==='materials')host.querySelector('[data-node-id="1396:1497"]').textContent=sourceText(sourceIds[1]);
+  return;
+ }
+ const root=host.querySelector('.figma-canvas').firstElementChild;
+ const header=document.createElement('header');
+ header.className='mobile-document-intro';
+ const title=document.createElement('h1');
+ title.textContent=sourceText(sourceIds[0]).toLowerCase();
+ header.append(title);
+ if(name==='resources'){
+  const desktopHeader=desktop.content.querySelector('[data-name="header"]');
+  const paragraphs=[...desktopHeader.querySelectorAll('p')].filter(p=>!p.closest('[data-name="Button"]'));
+  const description=document.createElement('p');
+  description.textContent=paragraphs.slice(1).map(p=>p.textContent.trim()).join(' ');
+  header.append(description);
+ }else{
+  const description=document.createElement('p');
+  description.textContent=sourceText(sourceIds[1]);
+  header.append(description);
+ }
+ if(name!=='supportPage'){
+  const start=document.createElement('button');
+  start.type='button';
+  start.className='action mobile-document-start';
+  start.dataset.exactAction='restart';
+  start.textContent='начать историю';
+  header.append(start);
+ }
+ root.prepend(header);
+}
+
 function wireExactScreen(host,name){
  const canvas=host.querySelector('.figma-canvas');
  // ИИ: макет показывает hover как пример; в покое все ответы нейтральные. Запись №20.
@@ -220,9 +263,10 @@ function wireExactScreen(host,name){
   const actions={'начать историю':'restart','материалы':'materials','нужна поддержка':'help','поддержать':'supportPage'};
   for(const node of canvas.querySelectorAll('[data-component="MenuItem"],[data-name^="menu/"]')){
    const label=normalizedLabel(node);
-   if(label==='о проекте'){node.remove();continue;}
    const action=actions[label];
-   if(action){node.classList.add('menu-item');assignExactAction(node,action,label);}
+   if(!action){node.remove();continue;}
+   node.classList.add('menu-item');
+   assignExactAction(node,action,label);
   }
  }
 
