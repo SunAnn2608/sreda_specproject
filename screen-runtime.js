@@ -2,7 +2,13 @@
 "use strict";
 let exactStep=0,exactScene=null,exactVariant=null;
 const exactActions={};
-const optimizedBackgrounds=new Set([
+const optimizedImages=new Set([
+ "./assets/menu-background.png",
+ "./assets/figma/figma-23f06a34-faa4-40bc-8154-5f06be957d44.png",
+ "./assets/figma/figma-13378e02-a69b-4e44-a2fb-c68699da766c.png",
+ "./assets/figma/figma-7ddb8bd5-7a20-4a76-aec9-d9e2553f615b.png",
+ "./assets/figma/figma-8bf1b13f-d0de-4d26-9342-1a8e372a0f18.png",
+
  "./assets/figma/figma-09ea8681-be9b-472e-8a79-2b2b30734550.png",
  "./assets/figma/figma-0c5346b7-4354-465d-8cd0-6bd621d61053.png",
  "./assets/figma/figma-14ebe20a-d04a-4676-b619-7913cbb47f05.png",
@@ -20,7 +26,7 @@ const optimizedBackgrounds=new Set([
 ]);
 function optimizedScreenHTML(html){
  return html.replace(/src="([^"]+\.png)"/g,(original,path)=>
-  optimizedBackgrounds.has(path)?'src="'+path.replace(/\.png$/,'.webp')+'"':original);
+  optimizedImages.has(path)?'src="'+path.replace(/\.png$/,'.webp')+'"':original);
 }
 
 // ИИ №25: официальные ссылки, предоставленные автором 29.10.2026.
