@@ -34,12 +34,25 @@ let state={scene:"prologue",history:[],answers:[],modal:null,branch:null,second:
 const escapeHTML=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const btn=(label,action,cls="")=>`<button type="button" class="${cls}" data-action="${action}">${escapeHTML(label)}</button>`;
 const header=(s)=>`<header class="topbar"><a href="#prologue" class="logo brand-logo" aria-label="среда — в начало">${brandLogoImage()}</a><span class="pill chapter">${escapeHTML(s.chapter)}</span><nav class="header-actions" aria-label="Главное меню">${btn("нужна поддержка","help","pill help")}${btn("материалы","materials","pill materials")}${btn('<span></span>','menu','pill menu-button') .replace("&lt;span&gt;&lt;/span&gt;","<span></span><span></span><span></span>")}</nav></header>`;
+const prologueNoticeMarkup=`<span class="prologue-note-message">Банни травят в школе.<br>Ты решаешь, что сказать и <strong>как быть рядом</strong>.</span><span class="prologue-note-message" aria-hidden="true" inert>В истории есть сцены травли. Если тебе тяжело, позвони на телефон доверия <a class="text-link" href="tel:88002000122">8 800 2000‑122</a>.</span>`;
+function showPrologueNotice(notice){
+ if(!notice)return;
+ const [intro,support]=notice.children;
+ notice.setAttribute('aria-live','polite');
+ window.setTimeout(()=>{
+  if(!notice.isConnected)return;
+  intro.setAttribute('aria-hidden','true');
+  intro.inert=true;
+  support.removeAttribute('aria-hidden');
+  support.inert=false;
+ },5000);
+}
 function render(){
  if(typeof renderExactScreen==='function'&&renderExactScreen())return;
  const s=scenes[state.scene]||scenes.prologue;
  let inner="";
  if(s.kind==="prologue"){
-  inner=`<article class="panel stitched"><span class="tag">спецпроект о травле</span><p class="poem">Под дождем остался зайка.<br>Со скамейки слезть не мог,<br>Весь до ниточки промок.</p><p class="story-intro">Банни травят в школе. Ты решаешь, что сказать и как быть рядом.</p><div class="notice">В истории есть сцены травли. Если тебе <strong>сейчас тяжело</strong>, кнопка <strong>«нужна поддержка»</strong> всегда наверху.</div><div class="actions">${btn("начать историю","start","action")}${btn("материалы","materials","action secondary")}</div></article>`;
+  inner=`<article class="panel stitched"><span class="tag">спецпроект о травле</span><p class="poem">Под дождем остался зайка.<br>Со скамейки слезть не мог,<br>Весь до ниточки промок.</p><div class="notice prologue-note">${prologueNoticeMarkup}</div><div class="actions">${btn("начать историю","start","action")}${btn("материалы","materials","action secondary")}</div></article>`;
  }else{
   const dialogue=`<article class="panel bubble"><span class="speaker">${escapeHTML(s.speaker||"среда")}</span><p>${escapeHTML(s.text||"")}</p></article>`;
   const options=s.options?`<div class="prompt">${escapeHTML(s.prompt)}</div><div class="choices">${s.options.map((o,i)=>btn(o.label,"choice:"+i,"choice")).join("")}</div>`:"";
@@ -62,6 +75,7 @@ function render(){
  if(showContinue)inner+=btn('дальше','next','story-continue');
  const markup=`<div class="stage ${s.kind==="dialogue"?"story-screen":""}" data-screen="${state.scene}" data-scene="${escapeHTML(s.kind)}">${header(s)}<div class="scene-art" aria-hidden="true">${s.art?`<picture>${state.scene==="dialogue"?'<source media="(max-width:1023px)" srcset="./assets/corridor-mobile.png">':""}<img src="./assets/${s.art}" alt=""></picture>`:""}</div>${s.other?`<img class="story-other" src="./assets/${s.other}" alt="">`:""}${s.character?`<img class="story-character" src="./assets/${s.character}" alt="">`:""}<main class="main" id="main" tabindex="-1">${inner}</main></div>${modalHTML()}`;
  app.innerHTML=typeof optimizedScreenHTML==='function'?optimizedScreenHTML(markup):markup;
+ if(state.scene==="prologue"&&app.querySelector)showPrologueNotice(app.querySelector(".prologue-note"));
  if(state.scene==="adults"){
   document.querySelector('.scene-art').insertAdjacentHTML('beforeend','<img class="mom-warm-aura" src="./assets/mom-warm.svg" alt="">');
   const momBubble=document.querySelector('.dialogue-layout>.bubble:not(.player-reply)');

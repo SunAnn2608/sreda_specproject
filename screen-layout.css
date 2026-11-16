@@ -110,18 +110,12 @@ html,body{width:100%;height:100%;min-width:0;overflow:hidden}
 }
 .figma-viewport[data-exact-screen="menu"] [data-name^="bg/key-visual"] img{object-position:left top}
 .figma-viewport[data-exact-screen="menu"][data-exact-device="mobile"] [data-name^="bg/key-visual"] img{object-position:center top}
-.figma-canvas .story-intro{
- color:#0d0f10;font-weight:400;align-self:stretch;
- font-size:calc(36 * var(--frame-unit));line-height:1.12;
- position:relative;z-index:2;
-}
- .figma-viewport:not([data-exact-device="mobile"]) .story-intro{
- width:48%;align-self:flex-end;
-}
-.figma-viewport:is([data-exact-device="mobile"],[data-exact-device="tablet"]) .story-intro{
- font-size:calc(18 * var(--frame-unit));
-}
-.figma-viewport[data-exact-screen="prologue"] :is([data-node-id="1500:1903"],[data-name="Note"]){z-index:2}
+/* Оба текста занимают одну и ту же область предупреждения. */
+#app .prologue-note{display:grid;height:auto!important;white-space:normal!important}
+.prologue-note-message{grid-area:1/1;min-width:0}
+.prologue-note-message[aria-hidden="true"]{visibility:hidden}
+.figma-viewport[data-exact-screen="prologue"] [data-component="Note"]{z-index:2}
+.prologue-note .text-link{white-space:nowrap;text-decoration:underline;text-underline-offset:.12em}
 .story-continue{
  position:absolute;bottom:clamp(12px,2vh,24px);right:6.25%;z-index:4;
  display:inline-flex;align-items:center;justify-content:center;

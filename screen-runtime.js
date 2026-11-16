@@ -268,11 +268,9 @@ function wireStoryGuidance(host,screenName,frameCount){
   }
   const notice=canvas.querySelector('[data-node-id="1500:1902"],[data-node-id="1500:1905"],[data-node-id="1500:1908"]');
   if(notice){
-   notice.innerHTML='В истории есть сцены травли. Если тебе <strong>сейчас тяжело</strong>, кнопка <strong>«нужна поддержка»</strong> всегда наверху.';
-   const intro=document.createElement('p');
-   intro.className='story-intro';
-   intro.textContent='Банни травят в школе. Ты решаешь, что сказать и как быть рядом.';
-   (notice.closest('[data-name="Note"]')||notice.parentElement).before(intro);
+   notice.classList.add('prologue-note');
+   notice.innerHTML=prologueNoticeMarkup;
+   showPrologueNotice(notice);
   }
  }
  const hintBox=hint?.parentElement;
