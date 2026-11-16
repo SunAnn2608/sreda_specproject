@@ -11,8 +11,9 @@ if(auditWidth>0&&auditHeight>0&&auditWidth<=1920&&auditHeight<=1440){
  document.body.replaceChildren(frame,report);
  const device=auditParams.get('device')||(auditWidth<768?'mobile':auditWidth<=1280?'tablet':'desktop');
  const scenesOnly=auditParams.get('audit')==='scenes';
- const screens=Object.entries(figmaScreens).filter(([name])=>!scenesOnly||!['resources','materials','help','supportPage'].includes(name));
+ const screens=Object.entries({...figmaScreens,B:figmaScreens.tellMom}).filter(([name])=>!scenesOnly||!['resources','materials','help','supportPage'].includes(name));
  const results=[];
+ let checked=0;
  async function auditViewport(){
   for(const [name,variants] of screens){
    const count=device==='mobile'?variants.mobile.length:1;
@@ -32,6 +33,7 @@ if(auditWidth>0&&auditHeight>0&&auditWidth<=1920&&auditHeight<=1440){
      results.push({name,step,error:'Композиция не загрузилась'});
      continue;
     }
+    checked++;
     const bounds=viewport.getBoundingClientRect();
     const outside=[...canvas.querySelectorAll('[data-exact-action],a[href],p')].flatMap(node=>{
      if(view.getComputedStyle(node).display==='none'||view.getComputedStyle(node).visibility==='hidden'&&!node.closest('[data-scene-wait]'))return [];
@@ -41,10 +43,11 @@ if(auditWidth>0&&auditHeight>0&&auditWidth<=1920&&auditHeight<=1440){
      if(!rect.width||!rect.height||rect.left>=-1&&rect.top>=-1&&rect.right<=view.innerWidth+1&&rect.bottom<=view.innerHeight+1)return [];
      return [{label:node.textContent.trim().slice(0,55),bounds:[rect.left,rect.top,rect.right,rect.bottom].map(Math.round)}];
     });
-    if(bounds.width!==view.innerWidth||bounds.height!==view.innerHeight||outside.length)results.push({name,step,viewport:[bounds.width,bounds.height],outside});
+    const scroll=view.getComputedStyle(viewport).overflowY;
+    if(bounds.width!==auditWidth||bounds.height!==auditHeight||viewport.dataset.exactDevice!==device||outside.length||!['clip','hidden'].includes(scroll))results.push({name,step,viewport:[bounds.width,bounds.height],scroll,outside});
    }
   }
-  report.textContent=JSON.stringify({width:auditWidth,height:auditHeight,device,issues:results},null,2);
+  report.textContent=JSON.stringify({width:auditWidth,height:auditHeight,device,checked,issues:results},null,2);
  }
  void auditViewport();
 }
