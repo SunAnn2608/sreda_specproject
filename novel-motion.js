@@ -35,7 +35,7 @@ function animateNovelFrame(host,screenName){
  if(!surface||state.modal||!['dialogue','chat','choice','momchat'].includes(scenes[screenName]?.kind))return;
  const root=surface.querySelector('.figma-canvas')?.firstElementChild||surface;
  const subject=[...root.querySelectorAll('[data-name^="char/"],.story-character,.story-other,.chat-kroli')];
- const content=[...root.children].filter(node=>node.matches('.main,[data-name="dialogue"],[data-name="choice-block"],[data-name="Bubble"],[data-name="phone"],[data-name="notes"],[data-name="actions"],[data-name="hint" i],[data-name^="button/"]'));
+ const content=[...root.children].filter(node=>node.matches('.story-continue,.main,[data-name="dialogue"],[data-name="choice-block"],[data-name="Bubble"],[data-name="phone"],[data-name="notes"],[data-name="actions"],[data-name="hint" i],[data-name^="button/"]'));
  if(!content.length)return;
  const background=[...root.querySelectorAll('[data-name^="bg/"] img,.scene-art picture img')];
  if(!background.length){const image=root.firstElementChild?.querySelector('img');if(image)background.push(image);}

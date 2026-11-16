@@ -63,7 +63,21 @@ const socialLinks=Object.freeze({
  vc:'https://vc.ru/id5658605?utm_source=taplink&utm_medium=referral&utm_campaign=sreda_media&utm_content=vc_ru',
  taplink:'https://sredaacceptance.taplink.ws/'
 });
-function exactDevice(){const forced=location.pathname.endsWith('/verify.html')?new URLSearchParams(location.search).get('device'):null;return ['desktop','tablet','mobile'].includes(forced)?forced:window.innerWidth<768?'mobile':matchMedia('(hover:hover) and (pointer:fine)').matches?(window.innerWidth<1024?'mobile':'desktop'):window.innerWidth<1440?'tablet':'desktop';}
+function exactDevice(){
+ const forced=location.pathname.endsWith('/verify.html')?new URLSearchParams(location.search).get('device'):null;
+ if(['desktop','tablet','mobile'].includes(forced))return forced;
+ if(window.innerWidth<768)return 'mobile';
+ return window.innerWidth<1200?'tablet':'desktop';
+}
+function exactScreenHTML(template,screenName,device){
+ const markup=optimizedScreenHTML(template.html);
+ if(screenName!=='menu')return markup;
+ const oldCover=device==='desktop'?'menu-background.webp':device==='tablet'
+  ?'figma/figma-1e57ecd1-dfc0-46fb-85b6-398b81add6db.webp'
+  :'figma/figma-790835f3-5ac7-4b77-9a7e-0485bb3b031e.webp';
+ return markup.replace('src="./assets/'+oldCover+'"',
+  'src="./assets/menu-cover-'+(device==='mobile'?'mobile':'wide')+'.webp"');
+}
 function renderExactScreen(){
  const verification=location.pathname.endsWith('/verify.html')?new URLSearchParams(location.search):null;
  const requested=verification?.get('screen');
@@ -76,7 +90,7 @@ function renderExactScreen(){
  exactStep=Math.min(verification?Number(verification.get('step')||0):state.modal&&figmaScreens[state.modal]?0:Number(state.frameStep||0),steps.length-1);
  const template=steps[exactStep];
  const host=document.querySelector('#app');host.classList.add('figma-mode');
- host.innerHTML=`<div class="figma-viewport" data-exact-screen="${screenName}" data-exact-device="${device}" data-exact-step="${exactStep}" style="--frame-width:${template.width};--frame-height:${template.height};--frame-ratio:${template.width/template.height}"><div class="figma-canvas" style="--frame-unit:calc(100cqw / ${template.width})">${optimizedScreenHTML(template.html)}</div></div>`;
+ host.innerHTML=`<div class="figma-viewport" data-exact-screen="${screenName}" data-exact-device="${device}" data-exact-step="${exactStep}" style="--frame-width:${template.width};--frame-height:${template.height};--frame-ratio:${template.width/template.height}"><div class="figma-canvas" style="--frame-unit:calc(100cqw / ${template.width})">${exactScreenHTML(template,screenName,device)}</div></div>`;
  if(state.modal&&!figmaScreens[state.modal]){host.insertAdjacentHTML('beforeend',modalHTML());const background=host.querySelector('.figma-viewport');background.inert=true;background.setAttribute('aria-hidden','true');}
  applyExactGeometry(host,template.id);
  const textRuns=device==='mobile'&&typeof mobileTextRuns!=='undefined'?mobileTextRuns:device==='tablet'&&typeof tabletTextRuns!=='undefined'?tabletTextRuns:null;
@@ -88,9 +102,8 @@ function renderExactScreen(){
   }
  }
 
- const hint=host.querySelector('[data-node-id="1324:803"],[data-node-id="1389:802"],[data-node-id="1389:804"]');
- if(hint)hint.textContent=screenName==='prologue'?'Нажми, чтобы начать':'Нажми, чтобы продолжить';
  wireExactScreen(host,screenName);
+ wireStoryGuidance(host,screenName,steps.length);
  applyFluidConstraints(host,template,device,screenName);
  if(typeof animateNovelFrame==='function')animateNovelFrame(host,screenName);
  document.title='среда · '+(scenes[state.scene]?.chapter||screenName);
@@ -235,6 +248,38 @@ function wireExactScreen(host,name){
  if(name==='menu'){
   const close=canvas.querySelector('[data-node-id="1500:1875"]');if(close)assignExactAction(close,'close','закрыть');
  }
+}
+function wireStoryGuidance(host,screenName,frameCount){
+ const canvas=host.querySelector('.figma-canvas');
+ const hint=canvas.querySelector('[data-node-id="1324:803"],[data-node-id="1389:802"],[data-node-id="1389:804"]');
+ const hasNextFrame=exactStep<frameCount-1;
+ if(screenName==='prologue'){
+  const entry=canvas.querySelector('[data-exact-action="start"]');
+  if(entry){
+   const label=entry.querySelector('p');
+   if(label)label.textContent='начать историю';
+   entry.setAttribute('aria-label','начать историю');
+  }
+  const notice=canvas.querySelector('[data-node-id="1500:1902"],[data-node-id="1500:1905"],[data-node-id="1500:1908"]');
+  if(notice){
+   notice.classList.add('story-intro');
+   notice.textContent='Банни сталкивается с травлей в школе. Ты выбираешь, что сказать и как быть рядом. Если тебе тяжело, помощь всегда доступна вверху.';
+  }
+ }
+ if(hint){
+  hint.textContent='Нажми, чтобы продолжить';
+  hint.classList.add('story-hint-label');
+  if(!state.modal&&(hasNextFrame||['dialogue','chat','momchat'].includes(scenes[screenName]?.kind)))assignExactAction(hint,'exact-next');
+  return;
+ }
+ const scene=scenes[screenName];
+ if(state.modal||(!hasNextFrame&&!['dialogue','chat','momchat'].includes(scene?.kind))||
+    canvas.querySelector('[data-exact-action="exact-next"]'))return;
+ const button=document.createElement('button');
+ button.type='button';button.className='story-continue';
+ button.textContent='дальше →';
+ button.dataset.exactAction='exact-next';
+ canvas.firstElementChild.append(button);
 }
 function exactAdvance(){
  const key=state.modal&&figmaScreens[state.modal]?state.modal:state.scene;
