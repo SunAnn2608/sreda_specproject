@@ -34,7 +34,7 @@ let state={scene:"prologue",history:[],answers:[],modal:null,branch:null,second:
 const escapeHTML=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const btn=(label,action,cls="")=>`<button type="button" class="${cls}" data-action="${action}">${escapeHTML(label)}</button>`;
 const header=(s)=>`<header class="topbar"><a href="#prologue" class="logo brand-logo" aria-label="среда — в начало">${brandLogoImage()}</a><span class="pill chapter">${escapeHTML(s.chapter)}</span><nav class="header-actions" aria-label="Главное меню">${btn("нужна поддержка","help","pill help")}${btn("материалы","materials","pill materials")}${btn('<span></span>','menu','pill menu-button') .replace("&lt;span&gt;&lt;/span&gt;","<span></span><span></span><span></span>")}</nav></header>`;
-const prologueNoticeMarkup=`<span class="prologue-note-message">Банни травят в школе.<br>Ты решаешь, что сказать и <strong>как быть рядом</strong>.</span><span class="prologue-note-message" aria-hidden="true" inert>В истории есть сцены травли. Если тебе тяжело, позвони на телефон доверия <a class="text-link" href="tel:88002000122">8 800 2000‑122</a>.</span>`;
+const prologueNoticeMarkup=`<span class="prologue-note-message">Банни травят в&nbsp;школе.<br>Ты решаешь, что&nbsp;сказать и&nbsp;<strong>как быть рядом</strong>.</span><span class="prologue-note-message" aria-hidden="true" inert>В&nbsp;истории есть сцены травли. Если тебе тяжело, позвони на&nbsp;телефон доверия&nbsp;<a class="text-link" href="tel:88002000122">8 800 2000‑122</a>.</span>`;
 function showPrologueNotice(notice){
  if(!notice)return;
  const [intro,support]=notice.children;
