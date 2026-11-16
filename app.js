@@ -37,15 +37,23 @@ const header=(s)=>`<header class="topbar"><a href="#prologue" class="logo brand-
 const prologueNoticeMarkup=`<span class="prologue-note-message">Банни травят в&nbsp;школе.<br>Ты решаешь, что&nbsp;сказать и&nbsp;<strong>как быть рядом</strong>.</span><span class="prologue-note-message" aria-hidden="true" inert>В&nbsp;истории есть сцены травли. Если тебе тяжело, позвони на&nbsp;телефон доверия&nbsp;<a class="text-link" href="tel:88002000122">8 800 2000‑122</a>.</span>`;
 function showPrologueNotice(notice){
  if(!notice)return;
- const [intro,support]=notice.children;
+ const messages=[...notice.children];
+ let active=0;
  notice.setAttribute('aria-live','polite');
- window.setTimeout(()=>{
+ function advance(){
   if(!notice.isConnected)return;
-  intro.setAttribute('aria-hidden','true');
-  intro.inert=true;
-  support.removeAttribute('aria-hidden');
-  support.inert=false;
- },5000);
+  if(!notice.contains(document.activeElement)){
+   const previous=messages[active];
+   previous.setAttribute('aria-hidden','true');
+   previous.inert=true;
+   active=(active+1)%messages.length;
+   const next=messages[active];
+   next.removeAttribute('aria-hidden');
+   next.inert=false;
+  }
+  window.setTimeout(advance,5000);
+ }
+ window.setTimeout(advance,5000);
 }
 function render(){
  if(typeof renderExactScreen==='function'&&renderExactScreen())return;
@@ -72,7 +80,11 @@ function render(){
   inner=state.scene==="adults"?inner.replace('</div>',reply+'</div>'):inner.replace('<div class="dialogue-layout">','<div class="dialogue-layout">'+reply);
  }
  const showContinue=['dialogue','chat','momchat'].includes(s.kind)&&!inner.includes('data-action="next"');
- if(showContinue)inner+=btn('дальше','next','story-continue');
+ if(showContinue){
+  const nextButton=btn('дальше','next','story-continue');
+  const anchor=inner.lastIndexOf('</div>');
+  inner=anchor<0?inner+nextButton:inner.slice(0,anchor)+nextButton+inner.slice(anchor);
+ }
  const markup=`<div class="stage ${s.kind==="dialogue"?"story-screen":""}" data-screen="${state.scene}" data-scene="${escapeHTML(s.kind)}">${header(s)}<div class="scene-art" aria-hidden="true">${s.art?`<picture>${state.scene==="dialogue"?'<source media="(max-width:1023px)" srcset="./assets/corridor-mobile.png">':""}<img src="./assets/${s.art}" alt=""></picture>`:""}</div>${s.other?`<img class="story-other" src="./assets/${s.other}" alt="">`:""}${s.character?`<img class="story-character" src="./assets/${s.character}" alt="">`:""}<main class="main" id="main" tabindex="-1">${inner}</main></div>${modalHTML()}`;
  app.innerHTML=typeof optimizedScreenHTML==='function'?optimizedScreenHTML(markup):markup;
  if(state.scene==="prologue"&&app.querySelector)showPrologueNotice(app.querySelector(".prologue-note"));

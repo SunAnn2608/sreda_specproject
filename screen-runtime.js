@@ -40,7 +40,8 @@ const optimizedImageAliases={
  "assets/bunny-no-hat.png": "assets/figma/figma-09473015-692e-437b-ac60-125159ec2727.webp",
  "assets/corridor-mobile.png": "assets/figma/figma-4ab1f1a1-444a-464a-a590-c496d68101ba.webp",
  "assets/corridor-bunny.png": "assets/figma/figma-64e921c2-58f8-4b35-affe-ab5558d6f6a3.webp",
- "assets/final.png": "assets/figma/figma-826fb7d9-1c77-4d0a-8e38-59a8efe5431b.webp",
+ "assets/final.png": "assets/final-scene.webp",
+ "assets/figma/figma-826fb7d9-1c77-4d0a-8e38-59a8efe5431b.png": "assets/final-scene.webp",
  "assets/classroom.png": "assets/figma/figma-2ce8633b-e7ae-42d3-91a3-ec6c3c6d58cd.webp",
  "assets/bunny-humiliated.png": "assets/figma/figma-3c85cdb7-bb5a-4daa-bbb6-5cbd81f9d143.webp",
  "assets/foyer-dark.png": "assets/figma/figma-1b62ae9a-4d0f-47b4-a962-06daa2e02491.webp",
@@ -84,8 +85,8 @@ function exactScreenHTML(template,screenName,device){
 function renderExactScreen(){
  const verification=location.pathname.endsWith('/verify.html')?new URLSearchParams(location.search):null;
  const requested=verification?.get('screen');
- const screenName=requested&&figmaScreens[requested]?requested:state.modal&&figmaScreens[state.modal]?state.modal:state.scene;
- const variants=figmaScreens[screenName];if(!variants){document.querySelector('#app').classList.remove('figma-mode');return false;}
+ const screenName=requested&&(figmaScreens[requested]||requested==='B')?requested:state.modal&&figmaScreens[state.modal]?state.modal:state.scene;
+ const variants=figmaScreens[screenName]||(screenName==='B'?figmaScreens.tellMom:null);if(!variants){document.querySelector('#app').classList.remove('figma-mode');return false;}
  const device=exactDevice();
  if(exactScene!==screenName){exactScene=screenName;}
  exactVariant=device;
@@ -105,6 +106,16 @@ function renderExactScreen(){
   }
  }
 
+ if(screenName==='B'){
+  const scene=scenes.B;
+  const bubble=host.querySelector('[data-name="Bubble"] p');
+  const chapter=host.querySelector('[data-name="Chapter"] p');
+  if(bubble)bubble.textContent=scene.text;
+  if(chapter)chapter.textContent=scene.chapter;
+  host.querySelectorAll('[data-name="Choice"] p').forEach((label,index)=>{
+   label.textContent=scene.options[index].label;
+  });
+ }
  wireExactScreen(host,screenName);
  wireStoryGuidance(host,screenName,steps.length);
  applyFluidConstraints(host,template,device,screenName);
@@ -231,11 +242,22 @@ function wireExactScreen(host,name){
    if(action)assignExactAction(node,action);
   }
  }
- // ИИ №33: ссылка в карточке «если травят тебя» открывает тот же HELP, что и шапка.
- if(name==='resources')for(const card of canvas.querySelectorAll('[data-name="Card"]')){
-  if(!normalizedLabel(card).includes('если травят тебя'))continue;
-  const link=[...card.querySelectorAll('p,a')].find(node=>normalizedLabel(node)==='нужна поддержка');
-  if(link)assignExactAction(link,'help','нужна поддержка');
+ if(name==='resources'){
+  for(const card of canvas.querySelectorAll('[data-name="Card"]')){
+   const links=[...card.querySelectorAll('p,a')];
+   const link=links.find(node=>normalizedLabel(node)==='нужна поддержка')||
+     links.find(node=>normalizedLabel(node)==='материалы'&&!node.closest('[data-name="Tag"]'));
+   if(link){
+    const label=normalizedLabel(link);
+    if(link.matches('a'))link.removeAttribute('href');
+    assignExactAction(link,label==='материалы'?'materials':'help',label);
+   }
+  }
+ }
+ if(name==='chat')for(const line of canvas.querySelectorAll('[data-name="phone"] p')){
+  if(!normalizedLabel(line).startsWith('удалите,'))continue;
+  line.textContent='Удалите, пожалуйста. Я не\u00a0разрешал.';
+  line.classList.add('chat-message-outgoing');
  }
  // ИИ №27: публичные ссылки петиции и фонда, предоставленные автором.
  for(const link of canvas.querySelectorAll('a[href="https://vk.cc/d3c6Ry"],a[href*="change.org/p/"]')){
@@ -289,7 +311,17 @@ function wireStoryGuidance(host,screenName,frameCount){
    hintBox.replaceChildren(button);
    hintBox.classList.add('story-continue-slot');
   }else hintBox.replaceWith(button);
- }else canvas.firstElementChild.append(button);
+ }else{
+  const dialogue=canvas.querySelector('[data-name="dialogue"]');
+  const bubble=canvas.querySelector(':scope > div > [data-name="Bubble"]');
+  if(dialogue){
+   button.classList.add('story-continue-inline');
+   dialogue.append(button);
+  }else if(bubble){
+   bubble.classList.add('story-continue-anchor');
+   bubble.append(button);
+  }else canvas.firstElementChild.append(button);
+ }
 }
 function exactAdvance(){
  const key=state.modal&&figmaScreens[state.modal]?state.modal:state.scene;

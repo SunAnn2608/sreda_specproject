@@ -10,21 +10,25 @@ function sceneImageReady(image){
  });
 }
 
-function revealSceneLayers(surface,subject,content,background){
+function revealSceneLayers(surface,subject,content,background,phone=[]){
  surface.setAttribute('data-scene-loading','');
- for(const layer of [...subject,...content])layer.setAttribute('data-scene-wait','');
- for(const group of content)group.inert=true;
- const ready=Promise.all(subject.flatMap(layer=>[...layer.querySelectorAll('img'),...(layer.matches('img')?[layer]:[])]).map(sceneImageReady));
+ const phases=[subject,phone,content].filter(group=>group.length);
+ const loads=phases.map(group=>Promise.all(group.flatMap(layer=>layer.matches('img')?[layer]:[...layer.querySelectorAll('img')]).map(sceneImageReady)));
+ for(const phase of phases)for(const layer of phase){
+  layer.setAttribute('data-scene-wait','');
+  layer.inert=true;
+ }
  const reveal=async()=>{
   await Promise.all(background.map(sceneImageReady));
-  if(!surface.isConnected)return;
-  if(subject.length&&!novelMotionPreference.matches)await new Promise(resolve=>setTimeout(resolve,34));
-  await ready;
-  if(!surface.isConnected)return;
-  for(const layer of subject)layer.removeAttribute('data-scene-wait');
-  if(subject.length&&!novelMotionPreference.matches)await new Promise(resolve=>setTimeout(resolve,90));
-  if(!surface.isConnected)return;
-  for(const group of content){group.removeAttribute('data-scene-wait');group.inert=false;}
+  for(const [index,phase] of phases.entries()){
+   if(!novelMotionPreference.matches)await new Promise(resolve=>setTimeout(resolve,index===0?45:120));
+   await loads[index];
+   if(!surface.isConnected)return;
+   for(const layer of phase){
+    layer.removeAttribute('data-scene-wait');
+    layer.inert=false;
+   }
+  }
   surface.removeAttribute('data-scene-loading');
  };
  void reveal();
@@ -32,15 +36,18 @@ function revealSceneLayers(surface,subject,content,background){
 
 function animateNovelFrame(host,screenName){
  const surface=host.querySelector('.figma-viewport,.stage');
- if(!surface||state.modal||!['dialogue','chat','choice','momchat'].includes(scenes[screenName]?.kind))return;
+ if(!surface||state.modal||!scenes[screenName]||['resources','supportPage'].includes(screenName))return;
  const root=surface.querySelector('.figma-canvas')?.firstElementChild||surface;
- const subject=[...root.querySelectorAll('[data-name^="char/"],.story-character,.story-other,.chat-kroli')];
- const content=[...root.children].filter(node=>node.matches('.story-continue,.main,[data-name="dialogue"],[data-name="choice-block"],[data-name="Bubble"],[data-name="phone"],[data-name="notes"],[data-name="actions"],[data-name="hint" i],[data-name^="button/"]'));
- if(!content.length)return;
- const background=[...root.querySelectorAll('[data-name^="bg/"] img,.scene-art picture img')];
- if(!background.length){const image=root.firstElementChild?.querySelector('img');if(image)background.push(image);}
- if(background[0])background[0].fetchPriority='high';
- revealSceneLayers(surface,subject,content,background);
+ const artwork='[data-name^="char/"],[data-name^="aura/"],.story-character,.story-other,.chat-kroli,.chat-aura,.chat-shade';
+ const chatArtwork='[data-node-id="1322:5053"],[data-node-id="1396:1254"],[data-node-id="1318:3729"],[data-node-id="1396:1271"],[data-node-id="1499:6013"],[data-node-id="1499:6036"],[data-node-id="1401:1548"],[data-node-id="1499:6016"],[data-node-id="1499:5935"],[data-node-id="1499:6019"]';
+ const subject=[...root.querySelectorAll(screenName==='chat'?artwork+','+chatArtwork:artwork)];
+ const phone=[...root.querySelectorAll('[data-name="phone"],.chat-phone')];
+ const content=[...root.children].flatMap(node=>node.matches('.main')&&[...phone,...subject].some(layer=>node.contains(layer))?[...node.children]:[node])
+  .filter(node=>node.matches('.story-continue,.main,.chat-reply,.mom-message,[data-exact-action],[data-name="dialogue"],[data-name="choice-block"],[data-name="Bubble"],[data-name="notes"],[data-name="panel"],[data-name="actions"],[data-name^="button/"]'));
+ if(!subject.length&&!phone.length&&!content.length)return;
+ const background=root.querySelector(':scope > [data-name^="bg/"] img,:scope > [data-name="image 188"] img,:scope > img,.scene-art picture img')||root.firstElementChild?.querySelector('img');
+ if(background)background.fetchPriority='high';
+ revealSceneLayers(surface,subject,content,background?[background]:[],phone);
 }
 
 novelMotionPreference.addEventListener('change',resetNovelParallax);

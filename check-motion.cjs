@@ -7,16 +7,26 @@ function layer(){
  return {attributes,setAttribute:k=>attributes.add(k),removeAttribute:k=>attributes.delete(k),querySelectorAll:()=>[],matches:()=>false};
 }
 (async()=>{
- const surface=layer(),subject=layer(),dialogue=layer();
+ const surface=layer(),subject=layer(),phone=layer(),dialogue=layer();
  surface.isConnected=true;
- let loadBackground;
- const background={complete:false,addEventListener:(event,cb)=>{if(event==='load')loadBackground=cb;},removeEventListener(){}};
- vm.runInContext('revealSceneLayers',context)(surface,[subject],[dialogue],[background]);
+ function pendingImage(){
+  const image={complete:false,addEventListener:(event,cb)=>{if(event==='load')image.load=cb;},removeEventListener(){}};
+  return image;
+ }
+ const background=pendingImage(),character=pendingImage(),phoneImage=pendingImage();
+ subject.querySelectorAll=()=>[character];phone.querySelectorAll=()=>[phoneImage];
+ const settle=()=>new Promise(resolve=>setImmediate(resolve));
+ vm.runInContext('revealSceneLayers',context)(surface,[subject],[dialogue],[background],[phone]);
  assert.ok(subject.attributes.has('data-scene-wait'));
  assert.ok(dialogue.inert);
- loadBackground();
- await new Promise(resolve=>setImmediate(resolve));
- assert.equal(subject.attributes.size,0);
+ background.load();await settle();
+ assert.ok(subject.inert);
+ character.load();await settle();
+ assert.equal(subject.inert,false);
+ assert.ok(phone.inert);
+ assert.ok(dialogue.inert);
+ phoneImage.load();await settle();
+ assert.equal(phone.inert,false);
  assert.equal(dialogue.attributes.size,0);
  assert.equal(dialogue.inert,false);
  assert.equal(surface.attributes.size,0);
