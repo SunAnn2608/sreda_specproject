@@ -72,6 +72,10 @@ function render(){
  if(s.kind==="info")inner=`<article class="panel stitched info-panel"><h1>${escapeHTML(s.title)}</h1><div class="info-content">${s.image?`<img class="info-image" src="./assets/${s.image}" alt="">`:""}<div><h2>${escapeHTML(s.text)}</h2>${s.points?`<ul>${s.points.map(p=>`<li>${escapeHTML(p)}</li>`).join("")}</ul>`:""}</div></div><div class="actions">${btn("читать", "article:"+({info:0,pauseA:1,pauseB:2,pauseC:3}[state.scene]??0),"action secondary")}${btn("дальше","next","action")}</div></article>`;
  if(s.kind==="ending")inner=`<article class="panel stitched"><span class="tag">сегодня</span><h1>${escapeHTML(s.title)}</h1><p>${escapeHTML(s.text)}</p><div class="actions">${btn("отмотать время","start","action")}${btn("получить поддержку","help","action secondary")}</div></article>`;
  if(s.kind==="silent")inner="";
+ if(s.kind==="cutscene"){
+  const context=typeof formatStoryContext==='function'?formatStoryContext(s.text):s.text;
+  inner=`<div class="story-context-footer story-cutscene-footer"><p class="scene-context">${escapeHTML(context)}</p></div>`;
+ }
  if(s.kind==="momchat")inner=`<div class="mom-message"><article class="panel bubble"><span class="speaker">банни</span><p>${escapeHTML(s.text)}</p></article><section class="chat-phone"><h2>мама</h2><div class="chat-messages"><p class="outgoing">Мам, можно поговорить? Это важно. Про школу.</p><small>печатает…</small></div></section><div class="actions">${btn("дальше","next","action")}</div></div>`;
  if(s.kind==="resources"||s.kind==="supportpage")inner=`<section class="resource-page"><h1>${escapeHTML(s.title)}</h1><div class="resource-grid">${s.kind==="resources"?[['если травят тебя','Как начать разговор и к кому обратиться','help'],['если ты видишь травлю','Как поддержать друга и не выгореть самому','materials'],['для взрослых','Если подросток рассказал вам о травле','materials'],['материалы','Шесть коротких статей: для себя, друзей и взрослых','materials']].map(([title,text,action])=>`<article class="panel"><h2>${title}</h2><p>${text}</p>${btn("открыть",action,"action secondary")}</article>`).join(""):'<article class="panel"><h2>фонд поддержки</h2><p>Напиши в фонд «Тебе поверят»</p><p>info@verimtebe.ru · t.me/tebepoveriat</p></article>'}</div><div class="actions">${btn("начать историю","start","action")}${s.next?btn("дальше","next","action secondary"):""}</div></section>`;
 
@@ -85,7 +89,7 @@ function render(){
   const anchor=inner.lastIndexOf('</div>');
   inner=anchor<0?inner+nextButton:inner.slice(0,anchor)+nextButton+inner.slice(anchor);
  }
- const markup=`<div class="stage ${s.kind==="dialogue"?"story-screen":""}" data-screen="${state.scene}" data-scene="${escapeHTML(s.kind)}">${header(s)}<div class="scene-art" aria-hidden="true">${s.art?`<picture>${state.scene==="dialogue"?'<source media="(max-width:1023px)" srcset="./assets/corridor-mobile.png">':""}<img src="./assets/${s.art}" alt=""></picture>`:""}</div>${s.other?`<img class="story-other" src="./assets/${s.other}" alt="">`:""}${s.character?`<img class="story-character" src="./assets/${s.character}" alt="">`:""}<main class="main" id="main" tabindex="-1">${inner}</main></div>${modalHTML()}`;
+ const markup=`<div class="stage ${s.kind==="dialogue"?"story-screen":""}" data-screen="${state.scene}" data-scene="${escapeHTML(s.kind)}">${s.kind==="cutscene"?"":header(s)}<div class="scene-art" aria-hidden="true">${s.art?`<picture>${state.scene==="dialogue"?'<source media="(max-width:1023px)" srcset="./assets/corridor-mobile.png">':""}<img src="./assets/${s.art}" alt=""></picture>`:""}</div>${s.other?`<img class="story-other" src="./assets/${s.other}" alt="">`:""}${s.character?`<img class="story-character" src="./assets/${s.character}" alt="">`:""}<main class="main" id="main" tabindex="-1">${inner}</main></div>${modalHTML()}`;
  app.innerHTML=typeof optimizedScreenHTML==='function'?optimizedScreenHTML(markup):markup;
  if(state.scene==="prologue"&&app.querySelector)showPrologueNotice(app.querySelector(".prologue-note"));
  if(state.scene==="adults"){
@@ -135,7 +139,7 @@ while(typeof figmaScreens!=='undefined'&&!figmaScreens[id]){
  if(visited.has(id)||!scenes[id])return;visited.add(id);
  const scene=scenes[id];
  // Нельзя молча выбирать ответ вместо игрока.
- if(scene.options||scene.interlude)break;
+ if(scene.options||scene.kind==='cutscene')break;
  id=storyDestination(scene.next);
 }
 if(!scenes[id])return;state.history.push(state.scene);state.scene=id;state.frameStep=0;state.modal=null;state.modalTrail=[];render();document.querySelector("#main")?.focus?.()}
@@ -160,7 +164,7 @@ function handleAction(action){
  if(action.startsWith("choice:")){const i=Number(action.split(":")[1]);const option=scenes[state.scene].options?.[i];if(option){if(state.scene==="choice")state.branch=["A","B","C"][i];if(["A","B","C"].includes(state.scene))state.second=i+1;state.answers.push({scene:state.scene,index:i});go(state.scene==="choice"?"hatCut":option.next)}}
 }
 // ИИ: диалоги листаются кликом по сцене, элементы управления не листают её. Запись №9.
-const canAdvanceScene=()=>!state.modal&&!document.querySelector(".stage")?.hasAttribute?.("data-scene-loading")&&(["dialogue","chat","momchat"].includes(scenes[state.scene].kind)||(typeof exactHasNextFrame==='function'&&exactHasNextFrame()));
+const canAdvanceScene=()=>!state.modal&&!document.querySelector(".stage")?.hasAttribute?.("data-scene-loading")&&(["dialogue","chat","momchat","cutscene"].includes(scenes[state.scene].kind)||(typeof exactHasNextFrame==='function'&&exactHasNextFrame()));
 // ИИ: история навигации восстанавливает ответы и мобильный подэкран. Запись №13.
 const navigationPast=[],navigationFuture=[];
 const navigationSnapshot=()=>JSON.parse(JSON.stringify(state));
