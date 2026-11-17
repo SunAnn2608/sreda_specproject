@@ -16,6 +16,18 @@ function applyFluidConstraints(host,template,device,screenName){
  for(const node of root.children){
   const g=geometry[node.dataset.geometryId||node.dataset.nodeId];
   if(!g)continue;
+  if(node===primaryBackground&&device!=='desktop'&&
+     g.x<=0&&g.y<=0&&g.x+g.w>=template.width-2&&g.y+g.h>=template.height-2){
+   // Сохраняем кадрирование из макета и закрываем края на других пропорциях окна.
+   const edge=(offset,half)=>`min(0px,calc(50% + ${unit(offset-half)}))`;
+   Object.assign(node.style,{
+    left:edge(g.x,template.width/2),top:edge(g.y,template.height/2),
+    right:edge(template.width-g.x-g.w,template.width/2),
+    bottom:edge(template.height-g.y-g.h,template.height/2),
+    width:'auto',height:'auto',translate:'none'
+   });
+   continue;
+  }
   if(node===primaryBackground||g.n==='vignette'){
    Object.assign(node.style,{inset:'0',width:'100%',height:'100%',translate:'none'});
    if(g.n==='vignette'){node.style.backgroundSize='100% 100%';node.style.backgroundPosition='center';}

@@ -125,6 +125,7 @@ function renderExactScreen(){
  applyFluidConstraints(host,template,device,screenName);
  if(device==='mobile'&&screenName==='chat')useMobileChatBackdrop(host,exactStep);
  separateBubbleContinue(host);
+ if(device==='mobile')adaptMobileContinue(host,screenName);
  const contextNote=addSceneContext(host,screenName);
  if(typeof animateNovelFrame==='function')animateNovelFrame(host,screenName,contextNote);
  document.title='среда · '+(scenes[state.scene]?.chapter||screenName);
@@ -141,6 +142,17 @@ function formatStoryContext(description){
   .replace(/([^\s]+)[ \t]+(?=[^\s]+[.!?…](?:[»”)]|$|\s))/gu,'$1\u00a0')
   .replace(/(?<![\p{L}\p{N}])((?:без|для|под|над|при|про|через|из-за|из-под|из|до|за|от|по|на|не|ни|обо|об|о|со|с|ко|к|во|в|у|а|и|но|да|или|либо|что|чтоб|чтобы|как|если|то|хотя|чем|тоже|—|–))[ \u00a0]+(?=\S)/giu,'$1\u00a0');
 }
+function adaptMobileContinue(host,screenName){
+ const next=host.querySelector('[data-exact-action="exact-next"]');
+ if(!next)return;
+ if(screenName==='prologue'&&exactStep===0){
+  const instruction='коснись экрана, чтобы продолжить';
+  (next.querySelector('p')||next).textContent=instruction;
+  next.setAttribute('aria-label',instruction);
+  return;
+ }
+ if(['dialogue','closeness','choice'].includes(screenName))next.classList.add('mobile-tap-continue');
+}
 function addSceneContext(host,screenName){
  const description=scenes[screenName]?.context||sceneContext.get(screenName);
  if(!description)return;
@@ -153,8 +165,16 @@ function addSceneContext(host,screenName){
  const note=document.createElement('div');
  note.className='scene-context '+(bubble?'dialogue-context':'final-scene-context');
  note.textContent=formatStoryContext(description);
- root.append(note);
- if(bubble){
+ const mobile=surface.dataset.exactDevice==='mobile';
+ const next=root.querySelector('[data-exact-action="exact-next"]');
+ if(mobile&&next&&!bubble){
+  const footer=document.createElement('div');
+  footer.className='mobile-scene-footer';
+  root.append(footer);
+  footer.append(note,next);
+ }else root.append(note);
+ if(mobile)note.classList.add('mobile-scene-context');
+ else if(bubble){
   const bounds=bubble.getBoundingClientRect();
   const frame=root.getBoundingClientRect();
   note.style.left=(bounds.left-frame.left)+'px';

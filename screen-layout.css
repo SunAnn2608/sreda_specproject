@@ -391,3 +391,34 @@ html,body{width:100%;height:100%;min-width:0;overflow:hidden}
 @media(max-width:767px){
  .final-scene-context{left:4%;bottom:max(18px,5dvh);max-width:62%}
 }
+
+/* Адаптивные сцены: контекст у нижнего края, затем управление. */
+[data-exact-device="mobile"] .mobile-scene-context,
+[data-exact-device="mobile"] .mobile-scene-footer{
+ position:absolute;inset:auto 6.15% max(calc(22 * var(--frame-unit)),env(safe-area-inset-bottom));
+ width:auto;max-width:none;transform:none;z-index:3;
+}
+[data-exact-device="mobile"] .mobile-scene-footer{
+ display:grid;justify-items:stretch;gap:calc(12 * var(--frame-unit));
+}
+[data-exact-device="mobile"] .mobile-scene-footer :is(.mobile-scene-context,[data-exact-action="exact-next"]){
+ position:relative!important;inset:auto!important;width:auto!important;max-width:none!important;
+}
+[data-exact-device="mobile"] .mobile-scene-footer :is(.mobile-scene-context,[data-exact-action="exact-next"]){margin:0!important}
+[data-exact-device="mobile"] .mobile-scene-footer [data-exact-action="exact-next"]{justify-self:end}
+[data-exact-device="mobile"] .mobile-tap-continue{
+ position:absolute!important;inset:auto 0 0 auto!important;
+}
+[data-exact-device="mobile"] .mobile-tap-continue:not(:focus-visible){
+ width:1px!important;height:1px!important;padding:0!important;border:0!important;
+ overflow:hidden;clip-path:inset(50%);white-space:nowrap;
+}
+[data-exact-device="mobile"][data-exact-screen="prologue"][data-exact-step="0"] .story-continue{
+ font-size:max(13px,calc(17 * var(--frame-unit)));
+}
+@media(max-width:767px){
+ .stage[data-scene="cutscene"] .story-cutscene-footer{
+  grid-template-columns:minmax(0,1fr);justify-items:stretch;
+ }
+ .stage[data-scene="cutscene"] .story-cutscene-footer .story-continue{justify-self:end}
+}
