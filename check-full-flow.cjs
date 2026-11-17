@@ -14,7 +14,7 @@ for(let first=0;first<3;first++)for(let second=0;second<2;second++)for(let last=
   const before=run('JSON.stringify([state.scene,state.answers,state.branch,state.second,state.frameStep])');
   for(const modal of ['menu','materials','help','article:0','article:1','article:2','article:3','article:4','article:5']){run('handleAction('+JSON.stringify(modal)+')');run('handleAction("close")');}
   assert.equal(run('JSON.stringify([state.scene,state.answers,state.branch,state.second,state.frameStep])'),before,'Справка изменила прохождение');
-  if(id==='closeness')assert.equal(run('firstChoiceReply()'),run('scenes.choice.options['+first+'].label'));
+  if(id==='closeness')assert.equal(run('scenes.closeness.reply'),'Они ведут себя ужасно. Никто такого не заслуживает.');
   if(run('scenes[state.scene].kind==="cutscene"')){
    assert(run(`app.innerHTML.includes("story-cutscene-copy") && app.innerHTML.includes("scene-context") && app.innerHTML.includes('data-action="next"')`));
   }

@@ -390,7 +390,10 @@ function updateStoryCopy(host,name){
  if(!replacement)return;
  for(const line of host.querySelectorAll('[data-name="Bubble"] p')){
   const label=normalizedLabel(line);
-  if(name==="closeness"&&label==="давай пока здесь посидим.")line.textContent=formatStoryContext(firstChoiceReply());
+  if(name==="closeness"&&label==="давай пока здесь посидим."){
+   line.textContent=formatStoryContext(scenes.closeness.reply);
+   line.closest('[data-name="Bubble"]').classList.add('closeness-player-reply');
+  }
   if(!label.startsWith(replacement))continue;
   line.textContent=name==='adults'?'Сегодня вместе поговорим со школой.':scenes[name].text;
   if(name==='closeness')line.closest('[data-name="Bubble"]').classList.add('closeness-response');

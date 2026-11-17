@@ -14,9 +14,9 @@ function sceneImageReady(image){
  });
 }
 
-function revealSceneLayers(surface,subject,content,background,phone=[],onFirstReveal,last=[],crossfading=false,lastDelay=0){
+function revealSceneLayers(surface,subject,content,background,phone=[],onFirstReveal,last=[],crossfading=false,lastDelay=0,after=[]){
  surface.setAttribute('data-scene-loading','');
- const phases=[background,subject,phone,content,last].filter(group=>group.length);
+ const phases=[background,subject,phone,content,last,after].filter(group=>group.length);
  const loads=phases.map(group=>Promise.all(group.flatMap(layer=>layer.matches('img')?[layer]:[...layer.querySelectorAll('img')]).map(sceneImageReady)));
  for(const phase of phases)for(const layer of phase){
   layer.setAttribute('data-scene-wait','');
@@ -70,9 +70,12 @@ function animateNovelFrame(host,screenName,startChatContext){
   chatFrameReady=revealSceneLayers(surface,together,[],[],[],startChatContext,[],host.hasAttribute("data-chat-crossfade"));
  }else{
   const delayed=screenName==='messageMom';
-  const last=screenName==='closeness'||delayed
-   ?[...root.querySelectorAll(delayed?'.story-continue':'.closeness-response,[data-exact-action="exact-next"]')]:[];
-  revealSceneLayers(surface,subject,content.filter(node=>!last.includes(node)),background?[background]:[],phone,undefined,last,false,delayed?2000:0);
+  const closeness=screenName==='closeness';
+  const last=delayed||closeness
+   ?[...root.querySelectorAll(delayed?'.story-continue':'.closeness-response')]:[];
+  const after=closeness?[...root.querySelectorAll('[data-exact-action="exact-next"]')]:[];
+  revealSceneLayers(surface,subject,content.filter(node=>!last.includes(node)&&!after.includes(node)),
+   background?[background]:[],phone,undefined,last,false,delayed?2000:0,after);
  }
 }
 

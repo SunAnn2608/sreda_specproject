@@ -85,7 +85,7 @@ function render(){
  if(s.kind==="resources"||s.kind==="supportpage")inner=`<section class="resource-page"><h1>${escapeHTML(s.title)}</h1><div class="resource-grid">${s.kind==="resources"?[['если травят тебя','Как начать разговор и к кому обратиться','help'],['если ты видишь травлю','Как поддержать друга и не выгореть самому','materials'],['для взрослых','Если подросток рассказал вам о травле','materials'],['материалы','Шесть коротких статей: для себя, друзей и взрослых','materials']].map(([title,text,action])=>`<article class="panel"><h2>${title}</h2><p>${text}</p>${btn("открыть",action,"action secondary")}</article>`).join(""):'<article class="panel"><h2>фонд поддержки</h2><p>Напиши в фонд «Тебе поверят»</p><p>info@verimtebe.ru · t.me/tebepoveriat</p></article>'}</div><div class="actions">${btn("начать историю","start","action")}${s.next?btn("дальше","next","action secondary"):""}</div></section>`;
 
  if(s.reply){
-  const reply=`<article class="panel bubble player-reply"><span class="speaker">ты</span><p>${escapeHTML(state.scene==="closeness"?firstChoiceReply():s.reply)}</p><img class="bubble-arrow" src="./assets/arrow.svg" alt=""></article>`;
+  const reply=`<article class="panel bubble player-reply"><span class="speaker">ты</span><p>${escapeHTML(s.reply)}</p><img class="bubble-arrow" src="./assets/arrow.svg" alt=""></article>`;
   inner=state.scene==="adults"?inner.replace('</div>',reply+'</div>'):inner.replace('<div class="dialogue-layout">','<div class="dialogue-layout">'+reply);
  }
  const showContinue=['dialogue','chat','momchat'].includes(s.kind)&&!inner.includes('data-action="next"');
@@ -129,10 +129,6 @@ function modalHTML(){
  else if(state.modal.startsWith("article:")){const a=articles[Number(state.modal.split(":")[1])];title=a[0];body=`<p class="article-preview-label">Коротко о главном</p><p>${a[1]}</p><p><a href="https://dzen.ru/sreda_acceptance" target="_blank" rel="noopener noreferrer">Канал проекта в Дзене</a></p>${({2:3,5:4}[Number(state.modal.split(":")[1])]!==undefined)?btn("следующий материал","article:"+({2:3,5:4}[Number(state.modal.split(":")[1])]),"action secondary"):""}${btn("все материалы","materials","action secondary")}`;}
  else {title="материалы";body=`<div class="modal-cards">${articles.map(([h,p],i)=>`<article><h3>${h}</h3><p>${p}</p>${btn("читать","article:"+i,"action secondary")}</article>`).join("")}</div>`;}
  return `<div class="modal-backdrop" data-overlay="true"><section class="modal" data-modal="${state.modal}" role="dialog" aria-modal="true" aria-labelledby="modal-title"><button class="pill modal-close" data-action="close" aria-label="Закрыть">×</button><h2 id="modal-title">${escapeHTML(title)}</h2>${body}<div class="actions">${btn("к истории","resume","action secondary")}${btn("начать сначала","restart","action")}</div></section></div>`;
-}
-function firstChoiceReply(){
- const answer=state.answers.findLast(({scene})=>scene==="choice");
- return scenes.choice.options[answer?.index]?.label??scenes.closeness.reply;
 }
 function storyDestination(id){
  if(id==="branch")return state.branch;

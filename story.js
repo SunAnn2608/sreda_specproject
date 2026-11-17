@@ -15,7 +15,7 @@ const storyRoutes={
  bench:storyScene("место занято","В школе ему отказывают в месте на лавке, хотя для своих оно находится.","hat","corridor.png","bunny-default.png","история"),
  hat:storyScene("в классе","Банни убирает любимую шапку в рюкзак, но нападки не прекращаются: дело не в том, как он выглядит.","choice","classroom.png","bunny-no-hat.png","история"),
  anger:storyScene("злость","Банни пишет злой ответ — но не отправляет.","witnessCut","corridor.png","bunny-humiliated.png","история"),
- closeness:{...storyScene("в классе","Ой, смотри. Его же тоже постоянно задирают.","witnessCut","classroom.png"),reply:"Давай пока здесь посидим.",other:"other-teen.png"},
+ closeness:{...storyScene("в классе","Ой, смотри. Его же тоже постоянно задирают.","witnessCut","classroom.png"),reply:"Они ведут себя ужасно. Никто такого не заслуживает.",other:"other-teen.png"},
  withdrawal:storyScene("у окна","Ты уходишь, банни остаётся один у окна.","witnessCut","corridor.png","bunny-default.png","история"),
  info:{chapter:"передышка",kind:"info",title:"Когда это не просто ссора",text:"«Мы же просто шутим»: когда это уже травля",art:"foyer-dark.png",image:"info-image.png",points:["Повторяется снова и снова, а не один раз","Один против нескольких — силы неравны","Обидно одному, смешно остальным","Просьбы прекратить не слышат или высмеивают"],next:"approachCut"},
  A:storyChoice("закипает","Нет, я всё ещё хочу им ответить.",[["Подойди. Пусть теперь выкручиваются.","A1"],["Я с тобой. Но мстить не пойду.","A2"]],"bunny-runs.png",null),
