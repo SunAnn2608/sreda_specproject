@@ -303,6 +303,8 @@ html,body{width:100%;height:100%;min-width:0;overflow:hidden}
 /* Плашка главы: кремовый фон, чёрный контур и внутренний пунктир. */
 .figma-canvas [data-name="Chapter"],.stage .topbar .chapter{
  --title-unit:var(--frame-unit,.5px);
+ --chapter-radius:calc(24 * var(--frame-unit,.65px));
+ --chapter-stitch-inset:calc(5 * var(--title-unit));
  position:relative;
  display:inline-flex;align-items:center;justify-content:center;
  box-sizing:border-box;filter:none!important;box-shadow:none!important;
@@ -310,7 +312,7 @@ html,body{width:100%;height:100%;min-width:0;overflow:hidden}
  max-width:100%;min-width:0;
  padding:calc(8 * var(--title-unit)) calc(24 * var(--title-unit))!important;
  border:max(1px,calc(6 * var(--title-unit))) solid #0d0f10!important;
- border-radius:calc(24 * var(--title-unit))!important;
+ border-radius:var(--chapter-radius)!important;
  background:#fff9ed!important;color:#0d0f10;
  font-size:calc(40 * var(--title-unit));font-weight:700;line-height:1.2;
  letter-spacing:-.02em;text-align:center;text-transform:lowercase;
@@ -322,10 +324,14 @@ html,body{width:100%;height:100%;min-width:0;overflow:hidden}
  white-space:normal!important;
 }
 .figma-canvas [data-name="Chapter"]::after,.stage .topbar .chapter::after{
- content:"";position:absolute;inset:calc(5 * var(--title-unit));pointer-events:none;
+ content:"";position:absolute;inset:var(--chapter-stitch-inset);pointer-events:none;
  border:max(1px,calc(2 * var(--title-unit))) dashed #707070;
- border-radius:calc(14 * var(--title-unit));
+ border-radius:max(0px,calc(var(--chapter-radius) - var(--chapter-stitch-inset)));
 }
+.figma-viewport:is([data-exact-device="tablet"],[data-exact-device="mobile"]) [data-name="Chapter"]{
+ --chapter-radius:calc(12 * var(--frame-unit));
+}
+@media(max-width:1280px){.stage .topbar .chapter{--chapter-radius:12px}}
 [data-exact-device="tablet"] [data-name="Chapter"]{--title-unit:calc(var(--frame-unit) / 2)}
 .figma-canvas .scene-title-mobile[data-name="Chapter"]{
  --title-unit:.32px;
@@ -341,8 +347,8 @@ html,body{width:100%;height:100%;min-width:0;overflow:hidden}
 .figma-viewport,.stage{--badge-radius:24px}
 .figma-viewport:is([data-exact-device="tablet"],[data-exact-device="mobile"]){--badge-radius:12px}
 @media(max-width:1280px){.stage{--badge-radius:12px}}
-.figma-canvas :is([data-name="Tag"],[data-name="Bubble"] [data-name="Name"],[data-name="Chapter"]),
-.stage :is(.tag,.speaker,.topbar .chapter){
+.figma-canvas :is([data-name="Tag"],[data-name="Bubble"] [data-name="Name"]),
+.stage :is(.tag,.speaker){
  border-radius:var(--badge-radius)!important;
  filter:none!important;
  box-shadow:none!important;
