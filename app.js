@@ -70,7 +70,11 @@ function render(){
  // ИИ: телефон и Кроли экрана 02-02 из Figma 1318:2561. Запись №6.
  if(state.scene==="chat")inner=`<img class="chat-aura" src="./assets/kroli-glow.svg" alt=""><img class="chat-kroli" src="./assets/kroli.png" alt="Кроли"><section class="chat-phone" aria-label="8 Б — общий чат"><h2>8 «Б» · общий чат</h2><div class="chat-messages"><p>смотрите,<br>кто опять в шапке</p><div class="chat-photo"><img src="./assets/chat-photo.png" alt="Фотография Банни, опубликованная без разрешения"></div><p>ахаха</p><p class="outgoing">Удалите, пожалуйста. Я не разрешал.</p><small>Прочитано: 24 · ответов нет</small></div></section><button class="panel bubble chat-reply" data-action="next"><span class="speaker">банни</span><span>Я просил удалить.<br>Никто не ответил.</span><img class="bubble-tail" src="./assets/tail.svg" alt=""><img class="bubble-arrow" src="./assets/arrow.svg" alt=""></button>`;
  if(s.kind==="info")inner=`<article class="panel stitched info-panel"><h1>${escapeHTML(s.title)}</h1><div class="info-content">${s.image?`<img class="info-image" src="./assets/${s.image}" alt="">`:""}<div><h2>${escapeHTML(s.text)}</h2>${s.points?`<ul>${s.points.map(p=>`<li>${escapeHTML(p)}</li>`).join("")}</ul>`:""}</div></div><div class="actions">${btn("читать", "article:"+({info:0,pauseA:1,pauseB:2,pauseC:3}[state.scene]??0),"action secondary")}${btn("дальше","next","action")}</div></article>`;
- if(s.kind==="ending")inner=`<article class="panel stitched"><span class="tag">сегодня</span><h1>${escapeHTML(s.title)}</h1><p>${escapeHTML(s.text)}</p><div class="actions">${btn("отмотать время","start","action")}${btn("получить поддержку","help","action secondary")}</div></article>`;
+ if(s.kind==="ending"){
+  const copy=escapeHTML(s.text);
+  const emphasis=escapeHTML("попросить о помощи.");
+  inner=`<article class="panel stitched"><span class="tag">сегодня</span><h1>${escapeHTML(s.title)}</h1><p>${state.scene==="openEnding"?copy.replace(emphasis,`<strong>${emphasis}</strong>`):copy}</p><div class="actions">${btn("отмотать время","start","action")}${btn("получить поддержку","help","action secondary")}</div></article>`;
+ }
  if(s.kind==="silent")inner="";
  if(s.kind==="cutscene"){
   const format=typeof formatStoryContext==="function"?formatStoryContext:text=>text;

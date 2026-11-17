@@ -364,7 +364,13 @@ function updateOpenEnding(host){
   const label=normalizedLabel(line);
   if(label==='сегодня рассказать')line.textContent='Сегодня помочь';
   else if(label.startsWith('закончилась эта версия'))line.textContent=formatStoryContext('Банни остался один на один с проблемой.');
-  else if(label.startsWith('у банни, как'))line.textContent=formatStoryContext('Но у него, как и у тебя, есть возможность попросить о помощи.');
+  else if(label.startsWith('у банни, как')){
+   const sentence=formatStoryContext('Но у него, как и у тебя, есть возможность попросить о помощи.');
+   const emphasis=document.createElement('strong');
+   const start=sentence.indexOf('попросить');
+   emphasis.textContent=sentence.slice(start);
+   line.replaceChildren(sentence.slice(0,start),emphasis);
+  }
  }
  const button=panel.querySelector('[data-exact-action="help"]');
  if(button){
