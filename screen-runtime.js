@@ -117,6 +117,7 @@ function renderExactScreen(){
   });
  }
  matchDocumentIntro(host,screenName,device);
+ updateStoryCopy(host,screenName);
  wireExactScreen(host,screenName);
  updateSupportLabels(host);
  wireStoryGuidance(host,screenName,steps.length);
@@ -131,7 +132,7 @@ function renderExactScreen(){
 }
 const sceneContext=new Map([
  ['chat','В общий чат класса выкладывают фото Банни без его согласия.'],
- ['momUnknown','День третий. Мама знает об одном случае. Банни ещё не рассказал ей, что это повторяется.'],
+ ['momUnknown','Мама знает об одном случае. Банни ещё не рассказал ей, что это повторяется.'],
  ['adults','После сообщения Банни рассказывает маме, что происходит в школе.']
 ]);
 function addSceneContext(host,screenName){
@@ -360,6 +361,21 @@ function matchDocumentIntro(host,name,device){
  root.prepend(header);
 }
 
+function updateStoryCopy(host,name){
+ const chapter=host.querySelector('[data-name="Chapter"] p');
+ if(chapter)chapter.textContent=chapter.textContent.replace(/^день\s+[123]\s*·\s*/iu,'');
+ const replacement=new Map([
+  ['closeness','можно его позвать?'],
+  ['A','я подойду к ним.'],
+  ['adults','завтра вместе поговорим']
+ ]).get(name);
+ if(!replacement)return;
+ for(const line of host.querySelectorAll('[data-name="Bubble"] p')){
+  if(!normalizedLabel(line).startsWith(replacement))continue;
+  line.textContent=name==='adults'?'Сегодня вместе поговорим со школой.':scenes[name].text;
+  if(name==='closeness')line.closest('[data-name="Bubble"]').classList.add('closeness-response');
+ }
+}
 function wireExactScreen(host,name){
  const canvas=host.querySelector('.figma-canvas');
  // ИИ: макет показывает hover как пример; в покое все ответы нейтральные. Запись №20.
@@ -399,7 +415,6 @@ function wireExactScreen(host,name){
   else if(kind==='Choice'){
    const choiceNodes=[...canvas.querySelectorAll('[data-name="Choice"]')];assignExactAction(node,'choice:'+choiceNodes.indexOf(node));
   }
-  else if((kind==='IconButton'||kind==='button/send')&&name==='messageMom')assignExactAction(node,'exact-next','отправить сообщение маме');
   else if(kind==='IconButton'&&name==='menu')assignExactAction(node,'close','закрыть');
   else if(kind==='Button'||kind==='MenuItem'||kind==='button/next'||kind==='button/close'){
    let action=kind==='button/close'?'close':kind==='button/next'?'exact-next':text.includes('отмотать')?'start':text.includes('начать истор')?'restart':text.includes('материал')?'materials':text.includes('нужна поддержка')?'help':text==='поддержать'?'supportPage':text.includes('о проекте')?'about':text.includes('пройти заново')?'restart':text==='дальше'?'exact-next':null;
@@ -470,6 +485,11 @@ function wireStoryGuidance(host,screenName,frameCount){
  button.type='button';button.className='story-continue';
  button.textContent='дальше';
  button.dataset.exactAction='exact-next';
+ if(screenName==='messageMom'){
+  hintBox?.remove();
+  canvas.firstElementChild.append(button);
+  return;
+ }
  if(hintBox){
   button.classList.add('story-continue-inline');
   if(hintBox.style.position==='absolute'){
@@ -518,7 +538,7 @@ document.addEventListener('click',e=>{
  if(host.hasAttribute('data-scene-loading')&&!e.target.closest('[data-name="Bar"]'))return;
  const control=e.target.closest('[data-exact-action]');
  if(control){e.preventDefault();e.stopImmediatePropagation();if(control.dataset.exactAction==='exact-next')exactAdvance();else handleAction(control.dataset.exactAction);return;}
- if(!state.modal&&(exactHasNextFrame()||['dialogue','chat','momchat'].includes(scenes[state.scene]?.kind))){e.preventDefault();e.stopImmediatePropagation();exactAdvance();}
+ if(state.scene!=='messageMom'&&!state.modal&&(exactHasNextFrame()||['dialogue','chat','momchat'].includes(scenes[state.scene]?.kind))){e.preventDefault();e.stopImmediatePropagation();exactAdvance();}
 },{capture:true});
 document.addEventListener('keydown',e=>{
  if(!document.querySelector('.figma-viewport'))return;

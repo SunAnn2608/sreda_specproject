@@ -2,7 +2,7 @@
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
 function runtime(){
  const element={innerHTML:'',dataset:{},insertAdjacentHTML(){},focus(){}};
- const c=vm.createContext({document:{querySelector:s=>s==='.figma-viewport'?null:element,addEventListener(){}},MutationObserver:class{observe(){}},matchMedia:()=>({matches:false}),Element:class{}});
+ const c=vm.createContext({document:{querySelector:s=>['.figma-viewport','[data-context-reading]'].includes(s)?null:element,addEventListener(){}},MutationObserver:class{observe(){}},matchMedia:()=>({matches:false}),Element:class{}});
  vm.runInContext(fs.readFileSync('story.js','utf8')+'\n'+fs.readFileSync('app.js','utf8'),c);
  return code=>vm.runInContext(code,c);
 }
@@ -21,8 +21,16 @@ for(let first=0;first<3;first++)for(let second=0;second<2;second++)for(let last=
  assert.equal(run('state.scene'),'resources');assert.equal(picks,3);assert.equal(run('state.answers.length'),3);
  assert.equal(run('state.branch'),['A','B','C'][first]);assert.equal(run('state.second'),second+1);
  assert(seen.includes(['anger','closeness','withdrawal'][first]));assert(seen.includes(['A','B','C'][first]+(second+1)));
- assert(seen.includes(last===0?'silent':'openEnding'));
- assert.equal(seen.includes('friendHelp'),first===1&&last===0);
+ const sequence=['choice','hatCut',['anger','closeness','withdrawal'][first],'witnessCut','confront','harassmentCut','info'];
+ if(last===0)sequence.push('messageMom','brightWalkCut','walkToMomCut','adults','schoolMeetingCut','silent');
+ else sequence.push('openEnding');
+ let previous=-1;
+ for(const id of sequence){
+  const index=seen.indexOf(id);
+  assert(index>previous,`Неверный порядок сцен: ${id}`);
+  previous=index;
+ }
+ assert.equal(seen.includes('brightWalkCut'),last===0);
  run('handleAction("restart")');assert.equal(run('state.scene'),'prologue');assert.equal(run('state.answers.length'),0);assert.equal(run('navigationPast.length'),0);
  routes++;
 }

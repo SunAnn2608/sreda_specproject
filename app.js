@@ -9,9 +9,9 @@ const figma="https://www.figma.com/design/Dh9CU2f4N47sWnTVCKPgVH/среда?node
 const scenes={
  prologue:{chapter:"пролог",kind:"prologue"},
  // ИИ: экран 02-01 по Desktop/Tablet/Mobile Figma. Запись №4 в README.
- dialogue:{chapter:"день 1 · коридор",kind:"dialogue",speaker:"банни",text:"Ты сделал алгебру? Я опять ничего не понял в этой теме.",next:"chat",art:"corridor.png",character:"bunny-default.png"},
- chat:{chapter:"день 1 · общий чат",kind:"chat",speaker:"банни",text:"Я просил удалить. Никто не ответил.",next:"choice",art:"corridor-bunny.png"},
- choice:{chapter:"день 2 · что скажешь?",kind:"choice",speaker:"банни",art:"corridor.png",character:"bunny-humiliated.png",text:"Опять чувствую себя ничтожеством. И все смотрят.",prompt:"что ты скажешь?",options:[
+ dialogue:{chapter:"коридор",kind:"dialogue",speaker:"банни",text:"Ты сделал алгебру? Я опять ничего не понял в этой теме.",next:"chat",art:"corridor.png",character:"bunny-default.png"},
+ chat:{chapter:"общий чат",kind:"chat",speaker:"банни",text:"Я просил удалить. Никто не ответил.",next:"choice",art:"corridor-bunny.png"},
+ choice:{chapter:"что скажешь?",kind:"choice",speaker:"банни",art:"corridor.png",character:"bunny-humiliated.png",text:"Опять чувствую себя ничтожеством. И все смотрят.",prompt:"что ты скажешь?",options:[
   {label:"Так оставлять нельзя.",next:"anger"},
   {label:"Давай пока здесь посидим.",next:"closeness"},
   {label:"Я не знаю. Мне надо идти.",next:"withdrawal"}
@@ -29,7 +29,7 @@ const scenes={
  end:{chapter:"продолжение следует",kind:"end",speaker:"среда",text:"Это первый технический прототип. Полная история: 3 выбора, 12 маршрутов и 2 финала. Они ещё не реализованы."}
 };
 Object.assign(scenes,storyRoutes);
-scenes.chat.next="hatCut";
+
 let state={scene:"prologue",history:[],answers:[],modal:null,branch:null,second:null};
 const escapeHTML=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const btn=(label,action,cls="")=>`<button type="button" class="${cls}" data-action="${action}">${escapeHTML(label)}</button>`;
@@ -125,13 +125,13 @@ function modalHTML(){
  else {title="материалы";body=`<div class="modal-cards">${articles.map(([h,p],i)=>`<article><h3>${h}</h3><p>${p}</p>${btn("читать","article:"+i,"action secondary")}</article>`).join("")}</div>`;}
  return `<div class="modal-backdrop" data-overlay="true"><section class="modal" data-modal="${state.modal}" role="dialog" aria-modal="true" aria-labelledby="modal-title"><button class="pill modal-close" data-action="close" aria-label="Закрыть">×</button><h2 id="modal-title">${escapeHTML(title)}</h2>${body}<div class="actions">${btn("к истории","resume","action secondary")}${btn("начать сначала","restart","action")}</div></section></div>`;
 }
-function go(id){if(id==="branch")id=state.branch;if(id==="hard")id="hard"+state.branch+state.second;if(id==="friendOrAdults")id=state.branch==="B"?"friendHelp":"adults";// ИИ №24: показываем только сцены с самостоятельным макетом Figma.
+function go(id){if(id==="firstReaction")id={A:"anger",B:"closeness",C:"withdrawal"}[state.branch];if(id==="branch")id=state.branch;if(id==="hard")id="hard"+state.branch+state.second;if(id==="friendOrAdults")id=state.branch==="B"?"friendHelp":"adults";// ИИ №24: показываем только сцены с самостоятельным макетом Figma.
 const visited=new Set();
 while(typeof figmaScreens!=='undefined'&&!figmaScreens[id]){
  if(visited.has(id)||!scenes[id])return;visited.add(id);
  const scene=scenes[id];
  // Нельзя молча выбирать ответ вместо игрока.
- if(scene.options||scene.kind==='cutscene')break;
+ if(scene.options||scene.kind==='cutscene'||scene.interlude)break;
  id=scene.next;
  if(id==="branch")id=state.branch;
  if(id==="hard")id="hard"+state.branch+state.second;
@@ -156,7 +156,7 @@ function handleAction(action){
  if(action==="resume"){state.modal=null;state.modalTrail=[];render();return}
  if(["help","materials","menu","about"].includes(action)||action.startsWith("article:")){if(state.modal!==action){if(!state.modal)state.modalTrail=[];else (state.modalTrail??=[]).push(state.modal);}state.modal=action;render();document.querySelector(".modal-close")?.focus();return}
  if(action==="close"){const closed=state.modal;state.modal=state.modalTrail?.pop()||null;render();document.querySelector(`[data-exact-action="${closed}"],[data-action="${closed}"]`)?.focus?.();return}
- if(action.startsWith("choice:")){const i=Number(action.split(":")[1]);const option=scenes[state.scene].options?.[i];if(option){if(state.scene==="choice")state.branch=["A","B","C"][i];if(["A","B","C"].includes(state.scene))state.second=i+1;state.answers.push({scene:state.scene,index:i});go(option.next)}}
+ if(action.startsWith("choice:")){const i=Number(action.split(":")[1]);const option=scenes[state.scene].options?.[i];if(option){if(state.scene==="choice")state.branch=["A","B","C"][i];if(["A","B","C"].includes(state.scene))state.second=i+1;state.answers.push({scene:state.scene,index:i});go(state.scene==="choice"?"hatCut":option.next)}}
 }
 // ИИ: диалоги листаются кликом по сцене, элементы управления не листают её. Запись №9.
 const canAdvanceScene=()=>!state.modal&&!document.querySelector(".stage")?.hasAttribute?.("data-scene-loading")&&(["dialogue","chat","momchat"].includes(scenes[state.scene].kind)||(typeof exactHasNextFrame==='function'&&exactHasNextFrame()));
@@ -172,7 +172,7 @@ const editableTarget=target=>target instanceof Element&&target.closest('input,te
 document.addEventListener("keydown",e=>{if(e.repeat||e.altKey||e.ctrlKey||e.metaKey||editableTarget(e.target))return;if(e.key==="ArrowLeft"){e.preventDefault();navigateBack();}else if(e.key==="ArrowRight"){e.preventDefault();navigateForward();}});
 function mouseNavigation(e){if(![3,4].includes(e.button)||editableTarget(e.target))return;e.preventDefault();e.stopPropagation();if(e.type==="mouseup"){if(e.button===3)navigateBack();else navigateForward();}}
 for(const eventName of ["mousedown","mouseup","auxclick"])document.addEventListener(eventName,mouseNavigation,{capture:true});
-document.addEventListener("click",e=>{const el=e.target.closest("[data-action]");if(e.target.closest("a.logo")){e.preventDefault();handleAction("restart");return}if(el){handleAction(el.dataset.action);return}if(e.target.matches("[data-overlay]")){handleAction("close");return}if(canAdvanceScene()&&e.target.closest(".stage")&&!e.target.closest("header,a,button,input,select,textarea"))handleAction("next")});
+document.addEventListener("click",e=>{const el=e.target.closest("[data-action]");if(e.target.closest("a.logo")){e.preventDefault();handleAction("restart");return}if(el){handleAction(el.dataset.action);return}if(e.target.matches("[data-overlay]")){handleAction("close");return}if(state.scene!=="messageMom"&&canAdvanceScene()&&e.target.closest(".stage")&&!e.target.closest("header,a,button,input,select,textarea"))handleAction("next")});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&state.modal)handleAction("close")});
 document.addEventListener("keydown",e=>{if(e.code==="Space"&&canAdvanceScene()&&!e.target.closest("a,button,input,select,textarea")){e.preventDefault();handleAction("next")}});
 render();

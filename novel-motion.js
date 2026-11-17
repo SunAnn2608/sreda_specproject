@@ -13,9 +13,9 @@ function sceneImageReady(image){
  });
 }
 
-function revealSceneLayers(surface,subject,content,background,phone=[],onFirstReveal){
+function revealSceneLayers(surface,subject,content,background,phone=[],onFirstReveal,last=[]){
  surface.setAttribute('data-scene-loading','');
- const phases=[background,subject,phone,content].filter(group=>group.length);
+ const phases=[background,subject,phone,content,last].filter(group=>group.length);
  const loads=phases.map(group=>Promise.all(group.flatMap(layer=>layer.matches('img')?[layer]:[...layer.querySelectorAll('img')]).map(sceneImageReady)));
  for(const phase of phases)for(const layer of phase){
   layer.setAttribute('data-scene-wait','');
@@ -35,7 +35,7 @@ function revealSceneLayers(surface,subject,content,background,phone=[],onFirstRe
    }
    if(index===0)onFirstReveal?.();
    if(index<phases.length-1&&!novelMotionPreference.matches){
-    await new Promise(resolve=>setTimeout(resolve,scenePhaseInterval));
+    await new Promise(resolve=>setTimeout(resolve,phases[index+1]===last?920:scenePhaseInterval));
    }
   }
   surface.removeAttribute('data-scene-loading');
@@ -65,7 +65,10 @@ function animateNovelFrame(host,screenName,startChatContext){
   const context=root.querySelector('.dialogue-context');
   const together=[...new Set([background,...subject,...phone,...content,context].filter(Boolean))];
   revealSceneLayers(surface,together,[],[],[],startChatContext);
- }else revealSceneLayers(surface,subject,content,background?[background]:[],phone);
+ }else{
+  const last=screenName==='closeness'?[...root.querySelectorAll('.closeness-response,[data-exact-action="exact-next"]')]:[];
+  revealSceneLayers(surface,subject,content.filter(node=>!last.includes(node)),background?[background]:[],phone,undefined,last);
+ }
 }
 
 novelMotionPreference.addEventListener('change',resetNovelParallax);
