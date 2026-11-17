@@ -247,3 +247,22 @@ html,body{width:100%;height:100%;min-width:0;overflow:hidden}
  translate:0 calc(-112 * var(--frame-unit))!important;
 }
 ::view-transition-group(root){animation-duration:420ms;animation-timing-function:ease-in-out}
+
+.figma-canvas .scene-context{
+ position:absolute;z-index:4;top:calc(var(--context-top,185) * var(--frame-unit));
+ left:calc(var(--context-left,160) * var(--frame-unit));
+ width:calc(var(--context-width,630) * var(--frame-unit));
+ padding:calc(var(--context-padding,16) * var(--frame-unit));
+ border:2px dotted #a63c65;border-radius:10px;background:#ffcee2;color:#26151c;
+ font-size:calc(var(--context-font,28) * var(--frame-unit));font-weight:600;line-height:1.3;
+ pointer-events:none;
+}
+[data-exact-device="tablet"]{
+ --context-top:88;--context-left:32;--context-width:345;--context-font:16;--context-padding:10;
+}
+[data-exact-device="mobile"]{
+ --context-top:74;--context-width:342;--context-font:14;--context-padding:9;
+}
+[data-exact-device="mobile"] .figma-canvas .scene-context{
+ left:50%;translate:-50% 0;
+}

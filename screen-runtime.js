@@ -122,9 +122,23 @@ function renderExactScreen(){
  applyFluidConstraints(host,template,device,screenName);
  if(device==='mobile'&&screenName==='chat')useMobileChatBackdrop(host,exactStep);
  separateBubbleContinue(host);
+ addSceneContext(host,screenName,device);
  if(typeof animateNovelFrame==='function')animateNovelFrame(host,screenName);
  document.title='среда · '+(scenes[state.scene]?.chapter||screenName);
  return true;
+}
+const sceneContext=new Map([
+ ['chat','В общий чат класса выкладывают фото Банни без его согласия.'],
+ ['momUnknown','День третий. Мама знает об одном случае. Банни ещё не рассказал ей, что это повторяется.'],
+ ['adults','После сообщения Банни рассказывает маме, что происходит в школе.']
+]);
+function addSceneContext(host,screenName,device){
+ const description=sceneContext.get(screenName);
+ if(!description||(screenName==='chat'&&device==='mobile'&&exactStep!==0))return;
+ const note=document.createElement('p');
+ note.className='scene-context';
+ note.textContent=description;
+ host.querySelector('.figma-canvas').firstElementChild.append(note);
 }
 function useMobileChatBackdrop(host,step){
  const root=host.querySelector('.figma-canvas').firstElementChild;
