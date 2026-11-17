@@ -123,8 +123,9 @@ function renderExactScreen(){
  applyFluidConstraints(host,template,device,screenName);
  if(device==='mobile'&&screenName==='chat')useMobileChatBackdrop(host,exactStep);
  separateBubbleContinue(host);
- addSceneContext(host,screenName);
- if(typeof animateNovelFrame==='function')animateNovelFrame(host,screenName);
+ const startChatContext=addSceneContext(host,screenName);
+ if(typeof animateNovelFrame==='function')animateNovelFrame(host,screenName,startChatContext);
+ else startChatContext?.();
  document.title='среда · '+(scenes[state.scene]?.chapter||screenName);
  return true;
 }
@@ -163,7 +164,7 @@ function addSceneContext(host,screenName){
  observer.observe(surface);
  observer.observe(bubble);
  // Пересобранная сцена завершает ожидание без изменения текущего кадра.
- waitForStoryContext(surface,description,null,()=>{
+ const startReading=()=>waitForStoryContext(surface,description,null,()=>{
   observer.disconnect();
   if(!surface.isConnected)return;
   note.classList.add('dialogue-context-exit');
@@ -176,6 +177,11 @@ function addSceneContext(host,screenName){
   if(matchMedia('(prefers-reduced-motion: reduce)').matches)finish();
   else window.setTimeout(finish,260);
  });
+ if(screenName==='chat'){
+  surface.setAttribute('data-context-reading','');
+  return startReading;
+ }
+ startReading();
 }
 function showStoryContext(surface,root,description){
  const footer=document.createElement('div');

@@ -13,7 +13,7 @@ function sceneImageReady(image){
  });
 }
 
-function revealSceneLayers(surface,subject,content,background,phone=[]){
+function revealSceneLayers(surface,subject,content,background,phone=[],onFirstReveal){
  surface.setAttribute('data-scene-loading','');
  const phases=[background,subject,phone,content].filter(group=>group.length);
  const loads=phases.map(group=>Promise.all(group.flatMap(layer=>layer.matches('img')?[layer]:[...layer.querySelectorAll('img')]).map(sceneImageReady)));
@@ -33,6 +33,7 @@ function revealSceneLayers(surface,subject,content,background,phone=[]){
     layer.removeAttribute('data-scene-wait');
     layer.inert=false;
    }
+   if(index===0)onFirstReveal?.();
    if(index<phases.length-1&&!novelMotionPreference.matches){
     await new Promise(resolve=>setTimeout(resolve,scenePhaseInterval));
    }
@@ -42,7 +43,7 @@ function revealSceneLayers(surface,subject,content,background,phone=[]){
  void reveal();
 }
 
-function animateNovelFrame(host,screenName){
+function animateNovelFrame(host,screenName,startChatContext){
  const surface=host.querySelector('.figma-viewport,.stage');
  if(!surface)return;
  if(state.modal||['resources','supportPage'].includes(screenName)){
@@ -57,10 +58,14 @@ function animateNovelFrame(host,screenName){
  const phone=[...root.querySelectorAll('[data-name="phone"],.chat-phone')];
  const content=[...root.children].flatMap(node=>node.matches('.main')&&[...phone,...subject].some(layer=>node.contains(layer))?[...node.children]:[node])
   .filter(node=>!node.matches('.context-reveal')&&node.matches('.story-continue-group,.story-continue,.main,.chat-reply,.mom-message,[data-exact-action],[data-name="dialogue"],[data-name="choice-block"],[data-name="Bubble"],[data-name="notes"],[data-name="panel"],[data-name="actions"],[data-name^="button/"]'));
- if(!subject.length&&!phone.length&&!content.length)return;
+ if(!subject.length&&!phone.length&&!content.length&&!startChatContext)return;
  const background=root.querySelector(':scope > [data-name^="bg/"] img,:scope > [data-name="image 188"] img,:scope > img,.scene-art picture img')||root.firstElementChild?.querySelector('img');
  if(background)background.fetchPriority='high';
- revealSceneLayers(surface,subject,content,background?[background]:[],phone);
+ if(screenName==='chat'){
+  const context=root.querySelector('.dialogue-context');
+  const together=[...new Set([background,...subject,...phone,...content,context].filter(Boolean))];
+  revealSceneLayers(surface,together,[],[],[],startChatContext);
+ }else revealSceneLayers(surface,subject,content,background?[background]:[],phone);
 }
 
 novelMotionPreference.addEventListener('change',resetNovelParallax);
