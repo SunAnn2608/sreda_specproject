@@ -70,8 +70,8 @@ function render(){
  // ИИ: телефон и Кроли экрана 02-02 из Figma 1318:2561. Запись №6.
  if(state.scene==="chat")inner=`<img class="chat-aura" src="./assets/kroli-glow.svg" alt=""><img class="chat-kroli" src="./assets/kroli.png" alt="Кроли"><section class="chat-phone" aria-label="8 Б — общий чат"><h2>8 «Б» · общий чат</h2><div class="chat-messages"><p>смотрите,<br>кто опять в шапке</p><div class="chat-photo"><img src="./assets/chat-photo.png" alt="Фотография Банни, опубликованная без разрешения"></div><p>ахаха</p><p class="outgoing">Удалите, пожалуйста. Я не разрешал.</p><small>Прочитано: 24 · ответов нет</small></div></section><button class="panel bubble chat-reply" data-action="next"><span class="speaker">банни</span><span>Я просил удалить.<br>Никто не ответил.</span><img class="bubble-tail" src="./assets/tail.svg" alt=""><img class="bubble-arrow" src="./assets/arrow.svg" alt=""></button>`;
  if(s.kind==="info")inner=`<article class="panel stitched info-panel"><h1>${escapeHTML(s.title)}</h1><div class="info-content">${s.image?`<img class="info-image" src="./assets/${s.image}" alt="">`:""}<div><h2>${escapeHTML(s.text)}</h2>${s.points?`<ul>${s.points.map(p=>`<li>${escapeHTML(p)}</li>`).join("")}</ul>`:""}</div></div><div class="actions">${btn("читать", "article:"+({info:0,pauseA:1,pauseB:2,pauseC:3}[state.scene]??0),"action secondary")}${btn("дальше","next","action")}</div></article>`;
- if(s.kind==="ending")inner=`<article class="panel stitched"><span class="tag">сегодня</span><h1>${escapeHTML(s.title)}</h1><p>${escapeHTML(s.text)}</p><div class="actions">${btn("отмотать время","start","action")}${btn("получить помощь","help","action secondary")}${btn("что дальше","next","action secondary")}</div></article>`;
- if(s.kind==="silent")inner=`<div class="silent-next">${btn("дальше","next","action")}</div>`;
+ if(s.kind==="ending")inner=`<article class="panel stitched"><span class="tag">сегодня</span><h1>${escapeHTML(s.title)}</h1><p>${escapeHTML(s.text)}</p><div class="actions">${btn("отмотать время","start","action")}${btn("получить поддержку","help","action secondary")}</div></article>`;
+ if(s.kind==="silent")inner="";
  if(s.kind==="momchat")inner=`<div class="mom-message"><article class="panel bubble"><span class="speaker">банни</span><p>${escapeHTML(s.text)}</p></article><section class="chat-phone"><h2>мама</h2><div class="chat-messages"><p class="outgoing">Мам, можно поговорить? Это важно. Про школу.</p><small>печатает…</small></div></section><div class="actions">${btn("дальше","next","action")}</div></div>`;
  if(s.kind==="resources"||s.kind==="supportpage")inner=`<section class="resource-page"><h1>${escapeHTML(s.title)}</h1><div class="resource-grid">${s.kind==="resources"?[['если травят тебя','Как начать разговор и к кому обратиться','help'],['если ты видишь травлю','Как поддержать друга и не выгореть самому','materials'],['для взрослых','Если подросток рассказал вам о травле','materials'],['материалы','Шесть коротких статей: для себя, друзей и взрослых','materials']].map(([title,text,action])=>`<article class="panel"><h2>${title}</h2><p>${text}</p>${btn("открыть",action,"action secondary")}</article>`).join(""):'<article class="panel"><h2>фонд поддержки</h2><p>Напиши в фонд «Тебе поверят»</p><p>info@verimtebe.ru · t.me/tebepoveriat</p></article>'}</div><div class="actions">${btn("начать историю","start","action")}${s.next?btn("дальше","next","action secondary"):""}</div></section>`;
 
@@ -87,10 +87,6 @@ function render(){
  }
  const markup=`<div class="stage ${s.kind==="dialogue"?"story-screen":""}" data-screen="${state.scene}" data-scene="${escapeHTML(s.kind)}">${header(s)}<div class="scene-art" aria-hidden="true">${s.art?`<picture>${state.scene==="dialogue"?'<source media="(max-width:1023px)" srcset="./assets/corridor-mobile.png">':""}<img src="./assets/${s.art}" alt=""></picture>`:""}</div>${s.other?`<img class="story-other" src="./assets/${s.other}" alt="">`:""}${s.character?`<img class="story-character" src="./assets/${s.character}" alt="">`:""}<main class="main" id="main" tabindex="-1">${inner}</main></div>${modalHTML()}`;
  app.innerHTML=typeof optimizedScreenHTML==='function'?optimizedScreenHTML(markup):markup;
- if(s.kind==="cutscene"&&typeof showStoryContext==='function'){
-  const stage=app.querySelector('.stage');
-  showStoryContext(stage,stage,s.text,null,true);
- }
  if(state.scene==="prologue"&&app.querySelector)showPrologueNotice(app.querySelector(".prologue-note"));
  if(state.scene==="adults"){
   document.querySelector('.scene-art').insertAdjacentHTML('beforeend','<img class="mom-warm-aura" src="./assets/mom-warm.svg" alt="">');
@@ -125,17 +121,22 @@ function modalHTML(){
  else {title="материалы";body=`<div class="modal-cards">${articles.map(([h,p],i)=>`<article><h3>${h}</h3><p>${p}</p>${btn("читать","article:"+i,"action secondary")}</article>`).join("")}</div>`;}
  return `<div class="modal-backdrop" data-overlay="true"><section class="modal" data-modal="${state.modal}" role="dialog" aria-modal="true" aria-labelledby="modal-title"><button class="pill modal-close" data-action="close" aria-label="Закрыть">×</button><h2 id="modal-title">${escapeHTML(title)}</h2>${body}<div class="actions">${btn("к истории","resume","action secondary")}${btn("начать сначала","restart","action")}</div></section></div>`;
 }
-function go(id){if(id==="firstReaction")id={A:"anger",B:"closeness",C:"withdrawal"}[state.branch];if(id==="branch")id=state.branch;if(id==="hard")id="hard"+state.branch+state.second;if(id==="friendOrAdults")id=state.branch==="B"?"friendHelp":"adults";// ИИ №24: показываем только сцены с самостоятельным макетом Figma.
+function storyDestination(id){
+ if(id==="firstReaction")return {A:"anger",B:"closeness",C:"withdrawal"}[state.branch];
+ if(id==="branch")return state.branch;
+ if(id==="hard")return "hard"+state.branch+state.second;
+ if(id==="friendOrAdults")return state.branch==="B"?"friendHelp":"adults";
+ return id;
+}
+function go(id){
+id=storyDestination(id);
 const visited=new Set();
 while(typeof figmaScreens!=='undefined'&&!figmaScreens[id]){
  if(visited.has(id)||!scenes[id])return;visited.add(id);
  const scene=scenes[id];
  // Нельзя молча выбирать ответ вместо игрока.
- if(scene.options||scene.kind==='cutscene'||scene.interlude)break;
- id=scene.next;
- if(id==="branch")id=state.branch;
- if(id==="hard")id="hard"+state.branch+state.second;
- if(id==="friendOrAdults")id=state.branch==="B"?"friendHelp":"adults";
+ if(scene.options||scene.interlude)break;
+ id=storyDestination(scene.next);
 }
 if(!scenes[id])return;state.history.push(state.scene);state.scene=id;state.frameStep=0;state.modal=null;state.modalTrail=[];render();document.querySelector("#main")?.focus?.()}
 function handleAction(action){

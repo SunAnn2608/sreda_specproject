@@ -120,7 +120,14 @@ function renderExactScreen(){
  updateStoryCopy(host,screenName);
  wireExactScreen(host,screenName);
  updateSupportLabels(host);
- wireStoryGuidance(host,screenName,steps.length);
+ if(screenName==='openEnding')updateOpenEnding(host);
+ if(screenName==='silent'){
+  host.querySelectorAll('[data-exact-action="exact-next"]').forEach(button=>button.remove());
+  const finalFrame=host.querySelector('.figma-viewport');
+  if(!verification&&!state.modal)window.setTimeout(()=>{
+   if(finalFrame.isConnected&&state.scene==='silent'&&!state.modal)handleAction('next');
+  },4200);
+ }else wireStoryGuidance(host,screenName,steps.length);
  applyFluidConstraints(host,template,device,screenName);
  if(device==='mobile'&&screenName==='chat')useMobileChatBackdrop(host,exactStep);
  separateBubbleContinue(host);
@@ -187,21 +194,6 @@ function addSceneContext(host,screenName){
   return startReading;
  }
  startReading();
-}
-function showStoryContext(surface,root,description){
- const footer=document.createElement('div');
- footer.className='story-context-footer story-cutscene-footer';
- const note=document.createElement('p');
- note.className='scene-context';
- note.textContent=formatStoryContext(description);
- const button=document.createElement('button');
- button.type='button';
- button.dataset.action='next';
- button.className='story-continue context-continue';
- button.textContent='далее';
- footer.append(note,button);
- root.append(footer);
- waitForStoryContext(surface,description,button);
 }
 function waitForStoryContext(surface,description,button,onRead){
  if(button)button.inert=true;
@@ -365,6 +357,22 @@ function matchDocumentIntro(host,name,device){
  root.prepend(header);
 }
 
+function updateOpenEnding(host){
+ const panel=host.querySelector('[data-name="panel"]');
+ if(!panel)return;
+ for(const line of panel.querySelectorAll('p')){
+  const label=normalizedLabel(line);
+  if(label==='сегодня рассказать')line.textContent='Сегодня помочь';
+  else if(label.startsWith('закончилась эта версия'))line.textContent=formatStoryContext('Банни остался один на один с проблемой.');
+  else if(label.startsWith('у банни, как'))line.textContent=formatStoryContext('Но у него, как и у тебя, есть возможность попросить о помощи.');
+ }
+ const button=panel.querySelector('[data-exact-action="help"]');
+ if(button){
+  const label=button.querySelector('p');
+  if(label)label.textContent='получить поддержку';
+  button.setAttribute('aria-label','получить поддержку');
+ }
+}
 function updateStoryCopy(host,name){
  const chapter=host.querySelector('[data-name="Chapter"] p');
  if(chapter)chapter.textContent=chapter.textContent.replace(/^день\s+[123]\s*·\s*/iu,'');
@@ -432,7 +440,6 @@ function wireExactScreen(host,name){
   else if(kind==='IconButton'&&name==='menu')assignExactAction(node,'close','закрыть');
   else if(kind==='Button'||kind==='MenuItem'||kind==='button/next'||kind==='button/close'){
    let action=kind==='button/close'?'close':kind==='button/next'?'exact-next':text.includes('отмотать')?'start':text.includes('начать истор')?'restart':text.includes('материал')?'materials':text.includes('нужна поддержка')?'help':text==='поддержать'?'supportPage':text.includes('о проекте')?'about':text.includes('пройти заново')?'restart':text==='дальше'?'exact-next':null;
-   if(name==='openEnding'&&action==='help')action='resources';
    if(action)assignExactAction(node,action);
   }
  }
