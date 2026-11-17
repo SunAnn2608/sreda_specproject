@@ -2,6 +2,10 @@
 const novelMotionPreference=matchMedia('(prefers-reduced-motion: reduce)');
 const sceneFadeTime=360;
 const scenePhaseInterval=210;
+const replyPause=920;
+const choicePause=520;
+const familyContextPause=1500;
+const familyReplyPause=520;
 let sceneEntryReady;
 const interactivePause=2500;
 
@@ -66,7 +70,8 @@ function animateNovelFrame(host,screenName,contextNote){
  const phone=[...root.querySelectorAll('[data-name="phone"],.chat-phone')];
  const background=root.querySelector(':scope > [data-name^="bg/"] img,:scope > [data-name="image 188"] img,:scope > img,.scene-art picture img')||root.firstElementChild?.querySelector('img');
  if(background){background.fetchPriority='high';background.loading='eager';}
- const next=[...root.querySelectorAll('[data-exact-action="exact-next"],button[data-action="next"]:not(.bubble)')];
+ const immediateContinue=scenes[screenName].kind==='info';
+ const next=immediateContinue?[]:[...root.querySelectorAll('[data-exact-action="exact-next"],button[data-action="next"]:not(.bubble)')];
  const replies=['adults','closeness'].includes(screenName)?
   [...root.querySelectorAll('[data-name="Bubble"],.dialogue-layout>.bubble')]:[];
  const prompt=[...root.querySelectorAll('[data-name="Prompt"],.dialogue-layout>.prompt')];
@@ -75,25 +80,22 @@ function animateNovelFrame(host,screenName,contextNote){
  const content=[...root.children].flatMap(node=>node.matches('.main')&&[...phone,...subject].some(layer=>node.contains(layer))?[...node.children]:[node])
   .filter(node=>!delayed.has(node)&&node.matches('.story-continue-group,.main,.chat-reply,.mom-message,[data-exact-action],[data-name="dialogue"],[data-name="choice-block"],[data-name="Bubble"],[data-name="notes"],[data-name="panel"],[data-name="actions"],[data-name^="button/"]'));
  const steps=[];
- const add=(layers,wait,finish)=>steps.push({layers:layers.filter(Boolean),wait,finish});
- const chat=screenName==='chat';
- if(chat)add([background,...subject,...phone,contextNote],contextNote?interactivePause:undefined,contextNote?()=>dismissSceneContext(contextNote):undefined);
- else{
-  add([background]);add(subject);add(phone);
-  if(contextNote)add([contextNote],interactivePause,
-   screenName==='silent'?undefined:()=>dismissSceneContext(contextNote));
- }
+ const add=(layers,wait,finish)=>steps.push({layers:[...new Set(layers.filter(Boolean))],wait,finish});
+ const family=['momUnknown','messageMom','adults'].includes(screenName);
+ const final=screenName==='silent';
  const revealContent=[...content];
  if(replies.length)revealContent.push(replies[0]);
  const hasLaterReply=replies.length>1;
- const contentHold=hasLaterReply?920:prompt.length?520:next.length&&revealContent.length?interactivePause:undefined;
- if(chat&&!revealContent.length&&next.length&&!contextNote&&steps.length)steps[0].wait=interactivePause;
- if(!chat&&!revealContent.length&&next.length&&screenName!=='silent'&&phone.length){
-  steps.find(step=>step.layers.some(layer=>phone.includes(layer))).wait=interactivePause;
- }
+ const leadInWait=contextNote?(family?familyContextPause:interactivePause):
+  (!revealContent.length&&next.length?interactivePause:undefined);
+ const clearContext=contextNote&&!final?()=>dismissSceneContext(contextNote):undefined;
+ // Кадр открывается только после загрузки всех его начальных слоёв.
+ add([background,...subject,...phone,contextNote],leadInWait,clearContext);
+ const contentHold=hasLaterReply?(family?familyReplyPause:replyPause):
+  prompt.length?choicePause:next.length&&revealContent.length?interactivePause:undefined;
  add(revealContent,contentHold);
  if(hasLaterReply)add(replies.slice(1),next.length?interactivePause:undefined);
- add(prompt,300);add(choices);add(next);
+ add(prompt,sceneFadeTime);add(choices);add(next);
  return revealSceneLayers(surface,steps,host.hasAttribute('data-scene-crossfade'));
 }
 

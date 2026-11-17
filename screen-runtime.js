@@ -147,7 +147,9 @@ function addSceneContext(host,screenName){
  const surface=host.querySelector('.figma-viewport');
  const root=surface.querySelector('.figma-canvas').firstElementChild;
  const bubble=root.querySelector('[data-name="Bubble"]');
- if(!bubble&&screenName!=='silent')return;
+ const mobileChat=screenName==='chat'&&surface.dataset.exactDevice==='mobile';
+ if(mobileChat&&exactStep!==0)return;
+ if(!bubble&&screenName!=='silent'&&!mobileChat)return;
  const note=document.createElement('div');
  note.className='scene-context '+(bubble?'dialogue-context':'final-scene-context');
  note.textContent=formatStoryContext(description);
@@ -164,7 +166,7 @@ function addSceneContext(host,screenName){
 async function dismissSceneContext(note){
  note.classList.add('dialogue-context-exit');
  if(!matchMedia('(prefers-reduced-motion: reduce)').matches)
-  await new Promise(resolve=>setTimeout(resolve,260));
+  await new Promise(resolve=>setTimeout(resolve,sceneFadeTime));
  note.remove();
 }
 

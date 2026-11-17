@@ -44,4 +44,34 @@ function layer(){
  assert.equal(next.inert,false);
  console.log('Кнопка сцены с мамой появляется через 2,5 секунды после реплики.');
  console.log('Сцена раскрывается после фона, затем доступны реплики.');
+ const backdrop=layer(),mother=layer(),player=layer(),button=layer(),note=layer(),panel=layer();
+ panel.matches=selector=>selector.includes('[data-name="panel"]');
+ const root={
+  firstElementChild:null,children:[panel,button],
+  querySelector:()=>backdrop,
+  querySelectorAll(selector){
+   if(selector.startsWith('[data-exact-action'))return [button];
+   if(selector.startsWith('[data-name="Bubble"]'))return [mother,player];
+   return [];
+  }
+ };
+ const surfaceFrame={querySelector:()=>({firstElementChild:root})};
+ const host={querySelector:()=>surfaceFrame,hasAttribute:()=>false};
+ context.state={};
+ context.scenes={info:{kind:'info'},adults:{kind:'dialogue'}};
+ let phases;
+ context.revealSceneLayers=(_,steps)=>{phases=steps.filter(step=>step.layers.length);};
+ const animate=vm.runInContext('animateNovelFrame',context);
+ animate(host,'info');
+ assert.equal(phases.length,2);
+ assert.equal(phases[1].layers[0],panel);
+ assert.equal(phases[1].wait,undefined);
+ animate(host,'adults',note);
+ assert.ok(phases[0].layers.includes(note));
+ assert.equal(phases[0].wait,1500);
+ assert.ok(phases[1].layers.includes(mother));
+ assert.equal(phases[1].wait,520);
+ assert.equal(phases[2].layers[0],player);
+ assert.equal(phases[2].wait,2500);
+ assert.equal(phases[3].layers[0],button);
 })().catch(error=>{console.error(error);process.exitCode=1;});

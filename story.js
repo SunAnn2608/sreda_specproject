@@ -44,7 +44,7 @@ const storyRoutes={
  adults:{...storyScene("взрослые рядом","Сохраним переписку. Сегодня вместе поговорим со школой.","silent","kitchen.png","bunny-default.png","мама"),reply:"Я тоже могу рассказать, что видел.",other:"mom.png"},
  newSchool:storyScene("после дождя","Семья вместе выбирает другую школу; перевод занимает время и не подаётся как универсальное решение.","weeksLater","kitchen.png","bunny-default.png","история"),
  weeksLater:storyScene("несколько недель спустя","Банни постепенно находит место за общим игровым столом.","silent","final.png",null,"история"),
- silent:{chapter:"после дождя",kind:"silent",art:"final.png",context:"Прошло несколько недель. Банни постепенно находит своё место за общим игровым столом.",next:"resources"},
+ silent:{chapter:"после дождя",kind:"silent",art:"final.png",context:"Мама перевела Банни в школу, где его приняли. На шапке синим блеснула звезда надежды.",next:"resources"},
  openEnding:{chapter:"открытый финал",kind:"ending",art:"prologue-park.png",title:"Сегодня помочь не получилось",text:"Банни остался один на один с проблемой. Но у него, как и у тебя, есть возможность попросить о помощи.",next:"resources"},
  resources:{chapter:"что дальше",kind:"resources",art:"foyer-dark.png",title:"Ты можешь быть рядом",next:"supportPage"},
  supportPage:{chapter:"поддержать проект",kind:"supportpage",art:"foyer-dark.png",title:"Сделай среду безопаснее"}
