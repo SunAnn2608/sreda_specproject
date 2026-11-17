@@ -29,7 +29,7 @@ const scenes={
  end:{chapter:"продолжение следует",kind:"end",speaker:"среда",text:"Это первый технический прототип. Полная история: 3 выбора, 12 маршрутов и 2 финала. Они ещё не реализованы."}
 };
 Object.assign(scenes,storyRoutes);
-scenes.chat.next="afterChat";
+scenes.chat.next="hatCut";
 let state={scene:"prologue",history:[],answers:[],modal:null,branch:null,second:null};
 const escapeHTML=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const btn=(label,action,cls="")=>`<button type="button" class="${cls}" data-action="${action}">${escapeHTML(label)}</button>`;
@@ -87,6 +87,10 @@ function render(){
  }
  const markup=`<div class="stage ${s.kind==="dialogue"?"story-screen":""}" data-screen="${state.scene}" data-scene="${escapeHTML(s.kind)}">${header(s)}<div class="scene-art" aria-hidden="true">${s.art?`<picture>${state.scene==="dialogue"?'<source media="(max-width:1023px)" srcset="./assets/corridor-mobile.png">':""}<img src="./assets/${s.art}" alt=""></picture>`:""}</div>${s.other?`<img class="story-other" src="./assets/${s.other}" alt="">`:""}${s.character?`<img class="story-character" src="./assets/${s.character}" alt="">`:""}<main class="main" id="main" tabindex="-1">${inner}</main></div>${modalHTML()}`;
  app.innerHTML=typeof optimizedScreenHTML==='function'?optimizedScreenHTML(markup):markup;
+ if(s.kind==="cutscene"&&typeof showStoryContext==='function'){
+  const stage=app.querySelector('.stage');
+  showStoryContext(stage,stage,s.text,null,true);
+ }
  if(state.scene==="prologue"&&app.querySelector)showPrologueNotice(app.querySelector(".prologue-note"));
  if(state.scene==="adults"){
   document.querySelector('.scene-art').insertAdjacentHTML('beforeend','<img class="mom-warm-aura" src="./assets/mom-warm.svg" alt="">');
@@ -100,7 +104,7 @@ function render(){
  }
  if(state.modal){const stage=document.querySelector('.stage');if(stage?.setAttribute){stage.inert=true;stage.setAttribute('aria-hidden','true');}}
  document.title=`среда · ${s.chapter}`;
- if(typeof animateNovelFrame==='function')animateNovelFrame(app,state.scene);
+ if(s.kind!=='cutscene'&&typeof animateNovelFrame==='function')animateNovelFrame(app,state.scene);
 }
 // ИИ: чтение и меню поверх истории с сохранением позиции. Запись №8.
 const articles=[
@@ -127,7 +131,7 @@ while(typeof figmaScreens!=='undefined'&&!figmaScreens[id]){
  if(visited.has(id)||!scenes[id])return;visited.add(id);
  const scene=scenes[id];
  // Нельзя молча выбирать ответ вместо игрока.
- if(scene.options)break;
+ if(scene.options||scene.kind==='cutscene')break;
  id=scene.next;
  if(id==="branch")id=state.branch;
  if(id==="hard")id="hard"+state.branch+state.second;
@@ -135,6 +139,7 @@ while(typeof figmaScreens!=='undefined'&&!figmaScreens[id]){
 }
 if(!scenes[id])return;state.history.push(state.scene);state.scene=id;state.frameStep=0;state.modal=null;state.modalTrail=[];render();document.querySelector("#main")?.focus?.()}
 function handleAction(action){
+ if((action==="next"||action==="frame-next")&&document.querySelector("[data-context-reading]"))return;
  if(action==="frame-next"){
   state.frameStep=(state.frameStep||0)+1;
   if(document.startViewTransition&&document.querySelector('[data-exact-device="mobile"]')&&
@@ -160,7 +165,7 @@ const navigationPast=[],navigationFuture=[];
 const navigationSnapshot=()=>JSON.parse(JSON.stringify(state));
 const navigationKey=s=>JSON.stringify([s.scene,s.chatStep||0,s.frameStep||0,s.answers,s.branch,s.second]);
 function navigateBack(){if(state.modal){handleAction("close");return;}if(!navigationPast.length)return;navigationFuture.push(navigationSnapshot());state=navigationPast.pop();state.modal=null;render();}
-function navigateForward(){if(state.modal)return;if(navigationFuture.length){navigationPast.push(navigationSnapshot());state=navigationFuture.pop();state.modal=null;render();return;}if(typeof exactHasNextFrame==='function'&&exactHasNextFrame()){handleAction('frame-next');return;}if(canAdvanceScene())handleAction("next");}
+function navigateForward(){if(state.modal||document.querySelector("[data-context-reading]"))return;if(navigationFuture.length){navigationPast.push(navigationSnapshot());state=navigationFuture.pop();state.modal=null;render();return;}if(typeof exactHasNextFrame==='function'&&exactHasNextFrame()){handleAction('frame-next');return;}if(canAdvanceScene())handleAction("next");}
 const originalHandleAction=handleAction;
 handleAction=function(action){const before=navigationSnapshot();originalHandleAction(action);if(action==="start"||action==="restart"){navigationPast.length=0;navigationFuture.length=0;return;}if(navigationKey(before)!==navigationKey(state)){navigationPast.push(before);navigationFuture.length=0;}};
 const editableTarget=target=>target instanceof Element&&target.closest('input,textarea,select,[contenteditable="true"]');

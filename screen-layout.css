@@ -248,21 +248,32 @@ html,body{width:100%;height:100%;min-width:0;overflow:hidden}
 }
 ::view-transition-group(root){animation-duration:420ms;animation-timing-function:ease-in-out}
 
-.figma-canvas .scene-context{
- position:absolute;z-index:4;top:calc(var(--context-top,185) * var(--frame-unit));
- left:calc(var(--context-left,160) * var(--frame-unit));
- width:calc(var(--context-width,630) * var(--frame-unit));
- padding:calc(var(--context-padding,16) * var(--frame-unit));
- border:2px dotted #a63c65;border-radius:10px;background:#ffcee2;color:#26151c;
- font-size:calc(var(--context-font,28) * var(--frame-unit));font-weight:600;line-height:1.3;
+.story-context-footer{
+ position:absolute;z-index:5;left:clamp(12px,4vw,64px);right:clamp(12px,4vw,64px);
+ bottom:clamp(18px,4dvh,48px);
+ display:grid;grid-template-columns:minmax(0,1fr);align-items:end;justify-items:end;
  pointer-events:none;
 }
-[data-exact-device="tablet"]{
- --context-top:88;--context-left:32;--context-width:345;--context-font:16;--context-padding:10;
+.story-context-footer>*{grid-area:1/1}
+.story-context-footer .scene-context{
+ width:min(100%,36rem);margin:0;padding:.65em .9em;border:2px dashed #0d0f10;
+ border-radius:.8em;background:#facdd8;color:#0d0f10;
+ font:500 clamp(13px,1.45vw,24px)/1.3 "Golos Text",sans-serif;
+ opacity:0;transition:opacity 260ms ease;
 }
-[data-exact-device="mobile"]{
- --context-top:74;--context-width:342;--context-font:14;--context-padding:9;
+[data-context-reading] .story-context-footer .scene-context,.story-cutscene-footer .scene-context{opacity:1}
+.story-context-footer .context-continue{
+ position:relative;inset:auto;justify-self:end;width:auto;opacity:1;pointer-events:auto;
+ transition:opacity 300ms ease;
+ --next-border:3;--next-shadow:5;--next-top:9;--next-bottom:11;--next-inline:21;--next-font:17;
+ font-size:clamp(14px,1.45vw,22px);padding:.55em 1.15em;
 }
-[data-exact-device="mobile"] .figma-canvas .scene-context{
- left:50%;translate:-50% 0;
+[data-context-reading] .story-context-footer .context-continue{opacity:0;pointer-events:none}
+.stage[data-screen] .story-cutscene-footer{
+ grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;justify-items:start;
+}
+.story-cutscene-footer .context-continue{grid-area:1/2}
+.stage[data-scene="cutscene"]{background:#212127;color:#fff9ed}
+@media(prefers-reduced-motion:reduce){
+ .story-context-footer .scene-context,.story-context-footer .context-continue{transition:none}
 }

@@ -4,7 +4,13 @@
 "use strict";
 const storyScene=(chapter,text,next,art="classroom-after.png",character="bunny-no-hat.png",speaker="банни")=>({chapter,kind:"dialogue",text,next,art,character,speaker});
 const storyChoice=(chapter,text,options,art="classroom-after.png",character="bunny-no-hat.png")=>({...storyScene(chapter,text,null,art,character),kind:"choice",prompt:"что ты скажешь?",options:options.map(([label,next])=>({label,next}))});
+const storyCutscene=(chapter,text,next)=>({chapter,kind:"cutscene",text,next});
 const storyRoutes={
+ hatCut:storyCutscene("день 2 · перед уроком","На следующий день Банни убирает любимую шапку в рюкзак. Смешки не прекращаются.","witnessCut"),
+ witnessCut:storyCutscene("день 2 · в коридоре","Банни видит, как несколько ребят окружают другого зайчика и толкают его.","choice"),
+ walkToMomCut:storyCutscene("день 3 · по дороге домой","Вы идёте к маме Банни вместе. У двери он просит тебя остаться рядом.","adults"),
+ schoolMeetingCut:storyCutscene("на следующий день · в школе","Банни и мама показывают переписку взрослому в школе и вместе обсуждают, как сделать школу безопаснее.","weeksLaterCut"),
+ weeksLaterCut:storyCutscene("несколько недель спустя","Банни приходит в новую школу.","silent"),
  afterChat:storyScene("день 1 · это уже было","Это не первый случай: одноклассники цепляются к его одежде, словам и реакции.","bench","corridor.png","bunny-default.png","история"),
  bench:storyScene("день 2 · место занято","В школе ему отказывают в месте на лавке, хотя для своих оно находится.","hat","corridor.png","bunny-default.png","история"),
  hat:storyScene("день 2 · в классе","Банни убирает любимую шапку в рюкзак, но нападки не прекращаются: дело не в том, как он выглядит.","choice","classroom.png","bunny-no-hat.png","история"),
@@ -32,10 +38,10 @@ const storyRoutes={
  hardC2:storyScene("день 3 · самый тяжёлый момент","Тихое «я рядом» сработало: банни благодарит и решается рассказать про школу.","momUnknown",undefined,undefined,"история"),
  momUnknown:storyScene("день 3 · мама не знает","Мама знает только про один раз. Если она пойдёт в школу, станет только хуже.","tellMom"),
  tellMom:storyChoice("день 3 · рассказать маме?","Я не хочу туда завтра. Совсем.",[["Да. Давай расскажем ей вместе.","messageMom"],["Давай пока не будем рассказывать.","openEnding"]]),
- messageMom:{...storyScene("день 3 · пишем маме","Я сам напишу. Только будь рядом.","momListens"),kind:"momchat"},
+ messageMom:{...storyScene("день 3 · пишем маме","Я сам напишу. Только будь рядом.","momListens"),kind:"momchat",next:"walkToMomCut"},
  momListens:storyScene("день 3 · разговор с мамой","Мама выслушивает Банни, обсуждает с ним дальнейшие действия и подключает школу к вопросам безопасности.","friendOrAdults","kitchen.png","bunny-default.png","история"),
  friendHelp:storyScene("день 3 · и про друга тоже","В ветке сближения помощь взрослых касается и другого подростка.","adults","kitchen.png","bunny-default.png","история"),
- adults:{...storyScene("день 3 · взрослые рядом","Сохраним переписку. Завтра вместе поговорим со школой.","newSchool","kitchen.png","bunny-default.png","мама"),reply:"Я тоже могу рассказать, что видел.",other:"mom.png"},
+ adults:{...storyScene("день 3 · взрослые рядом","Сохраним переписку. Завтра вместе поговорим со школой.","schoolMeetingCut","kitchen.png","bunny-default.png","мама"),reply:"Я тоже могу рассказать, что видел.",other:"mom.png"},
  newSchool:storyScene("после дождя","Семья вместе выбирает другую школу; перевод занимает время и не подаётся как универсальное решение.","weeksLater","kitchen.png","bunny-default.png","история"),
  weeksLater:storyScene("несколько недель спустя","Банни постепенно находит место за общим игровым столом.","silent","final.png",null,"история"),
  silent:{chapter:"после дождя",kind:"silent",art:"final.png",next:"resources"},

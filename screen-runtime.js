@@ -135,10 +135,38 @@ const sceneContext=new Map([
 function addSceneContext(host,screenName,device){
  const description=sceneContext.get(screenName);
  if(!description||(screenName==='chat'&&device==='mobile'&&exactStep!==0))return;
+ const surface=host.querySelector('.figma-viewport');
+ const root=surface.querySelector('.figma-canvas').firstElementChild;
+ showStoryContext(surface,root,description,root.querySelector('[data-exact-action="exact-next"]'));
+}
+function showStoryContext(surface,root,description,button,cutscene=false){
+ const footer=document.createElement('div');
+ footer.className='story-context-footer';
+ if(cutscene)footer.classList.add('story-cutscene-footer');
  const note=document.createElement('p');
  note.className='scene-context';
  note.textContent=description;
- host.querySelector('.figma-canvas').firstElementChild.append(note);
+ if(!button){
+  button=document.createElement('button');
+  button.type='button';
+  if(cutscene)button.dataset.action='next';
+  else button.dataset.exactAction='exact-next';
+ }
+ button.removeAttribute('style');
+ button.className='story-continue context-continue';
+ button.textContent='далее';
+ button.setAttribute('aria-label','далее');
+ button.inert=true;
+ footer.append(note,button);
+ root.append(footer);
+ surface.setAttribute('data-context-reading','');
+ const words=description.trim().split(/\s+/).length;
+ const delay=Math.max(1800,Math.ceil(words*60000/180));
+ window.setTimeout(()=>{
+  if(!surface.isConnected)return;
+  surface.removeAttribute('data-context-reading');
+  button.inert=false;
+ },delay);
 }
 function useMobileChatBackdrop(host,step){
  const root=host.querySelector('.figma-canvas').firstElementChild;
@@ -411,6 +439,7 @@ function separateBubbleContinue(host){
  group.append(bubble,button);
 }
 function exactAdvance(){
+ if(document.querySelector('[data-context-reading]'))return false;
  const key=state.modal&&figmaScreens[state.modal]?state.modal:state.scene;
  const variants=figmaScreens[key];
  if(variants&&exactDevice()==='mobile'&&exactStep<variants.mobile.length-1){handleAction('frame-next');return true;}
