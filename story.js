@@ -47,6 +47,6 @@ const storyRoutes={
  silent:{chapter:"после дождя",kind:"silent",art:"final.png",next:"resources"},
  openEnding:{chapter:"открытый финал",kind:"ending",art:"prologue-park.png",title:"Сегодня рассказать не получилось",text:"Закончилась эта версия — не история. У Банни, как и у тебя, есть возможность попросить о помощи.",next:"resources"},
  resources:{chapter:"что дальше",kind:"resources",art:"foyer-dark.png",title:"Ты можешь быть рядом",next:"supportPage"},
- supportPage:{chapter:"поддержать",kind:"supportpage",art:"foyer-dark.png",title:"Сделай среду безопаснее"}
+ supportPage:{chapter:"поддержать проект",kind:"supportpage",art:"foyer-dark.png",title:"Сделай среду безопаснее"}
 };
 if(typeof module!=="undefined")module.exports=storyRoutes;

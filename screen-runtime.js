@@ -118,6 +118,7 @@ function renderExactScreen(){
  }
  matchDocumentIntro(host,screenName,device);
  wireExactScreen(host,screenName);
+ updateSupportLabels(host);
  wireStoryGuidance(host,screenName,steps.length);
  applyFluidConstraints(host,template,device,screenName);
  if(device==='mobile'&&screenName==='chat')useMobileChatBackdrop(host,exactStep);
@@ -255,6 +256,27 @@ function wireLinkStyles(canvas){
  for(const link of canvas.querySelectorAll('p[data-exact-action]'))link.classList.add('text-link');
 }
 
+function updateSupportLabels(host){
+ const labels=new Map([
+  ['нужна поддержка','получить помощь'],
+  ['поддержать','поддержать проект']
+ ]);
+ const replacement=value=>labels.get(value.replace(/\s+/g,' ').trim().toLowerCase());
+ for(const element of host.querySelectorAll('p,h1,h2,h3,span,button,a')){
+  const label=replacement(element.textContent);
+  if(label&&!element.querySelector('p,button,a,[data-exact-action]'))element.textContent=label;
+ }
+ const walker=document.createTreeWalker(host,NodeFilter.SHOW_TEXT);
+ while(walker.nextNode()){
+  const node=walker.currentNode;
+  const label=replacement(node.nodeValue);
+  if(label)node.nodeValue=label;
+ }
+ for(const element of host.querySelectorAll('[aria-label]')){
+  const label=replacement(element.getAttribute('aria-label'));
+  if(label)element.setAttribute('aria-label',label);
+ }
+}
 function matchDocumentIntro(host,name,device){
  const sourceIds={
   materials:['1318:2780','1320:2568'],
