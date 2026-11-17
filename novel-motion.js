@@ -2,7 +2,8 @@
 const novelMotionPreference=matchMedia('(prefers-reduced-motion: reduce)');
 const sceneFadeTime=360;
 const scenePhaseInterval=210;
-let chatFrameReady;
+let sceneEntryReady;
+const interactivePause=2500;
 
 function sceneImageReady(image){
  if(image.complete)return Promise.resolve();
@@ -14,39 +15,43 @@ function sceneImageReady(image){
  });
 }
 
-function revealSceneLayers(surface,subject,content,background,phone=[],onFirstReveal,last=[],crossfading=false,lastDelay=0,after=[]){
+function revealSceneLayers(surface,steps,crossfading=false){
+ const phases=steps.filter(({layers})=>layers.length);
+ if(!phases.length)return;
  surface.setAttribute('data-scene-loading','');
- const phases=[background,subject,phone,content,last,after].filter(group=>group.length);
- const loads=phases.map(group=>Promise.all(group.flatMap(layer=>layer.matches('img')?[layer]:[...layer.querySelectorAll('img')]).map(sceneImageReady)));
- for(const phase of phases)for(const layer of phase){
+ const loads=phases.map(({layers})=>Promise.all(layers.flatMap(layer=>layer.matches('img')?[layer]:[...layer.querySelectorAll('img')]).map(sceneImageReady)));
+ let entryReady;
+ sceneEntryReady=new Promise(resolve=>{entryReady=resolve;});
+ for(const {layers} of phases)for(const layer of layers){
   layer.setAttribute('data-scene-wait','');
   layer.inert=true;
  }
  const reveal=async()=>{
-  for(const [index,phase] of phases.entries()){
+  for(const [index,{layers,wait,finish}] of phases.entries()){
    await loads[index];
    if(!surface.isConnected)return;
-   for(const layer of phase){
-    if(!crossfading&&!novelMotionPreference.matches)layer.animate(
-     [{opacity:0,offset:0},{offset:1}],
-     {duration:sceneFadeTime,easing:'cubic-bezier(.22,.61,.36,1)'}
-    );
+   const animated=!novelMotionPreference.matches&&!(crossfading&&index===0);
+   for(const layer of layers){
+    if(animated)layer.animate([{opacity:0,offset:0},{offset:1}],
+     {duration:sceneFadeTime,easing:'cubic-bezier(.22,.61,.36,1)'});
     layer.removeAttribute('data-scene-wait');
     layer.inert=false;
    }
-   if(index===0)onFirstReveal?.();
+   if(index===0)entryReady();
    if(index<phases.length-1){
-    const delay=phases[index+1]===last&&lastDelay?lastDelay:
-     novelMotionPreference.matches?0:phases[index+1]===last?920:scenePhaseInterval;
+    const delay=wait??(novelMotionPreference.matches?0:index===0&&crossfading?420:scenePhaseInterval);
     if(delay)await new Promise(resolve=>setTimeout(resolve,delay));
    }
+   await finish?.();
   }
-  surface.removeAttribute('data-scene-loading');
  };
- return reveal();
+ return reveal().finally(()=>{
+  entryReady();
+  surface.removeAttribute('data-scene-loading');
+ });
 }
 
-function animateNovelFrame(host,screenName,startChatContext){
+function animateNovelFrame(host,screenName,contextNote){
  const surface=host.querySelector('.figma-viewport,.stage');
  if(!surface)return;
  if(state.modal||['resources','supportPage'].includes(screenName)){
@@ -59,24 +64,37 @@ function animateNovelFrame(host,screenName,startChatContext){
  const chatArtwork='[data-node-id="1322:5053"],[data-node-id="1396:1254"],[data-node-id="1318:3729"],[data-node-id="1396:1271"],[data-node-id="1499:6013"],[data-node-id="1499:6036"],[data-node-id="1401:1548"],[data-node-id="1499:6016"],[data-node-id="1499:5935"],[data-node-id="1499:6019"]';
  const subject=[...root.querySelectorAll(screenName==='chat'?artwork+','+chatArtwork:artwork)];
  const phone=[...root.querySelectorAll('[data-name="phone"],.chat-phone')];
- const content=[...root.children].flatMap(node=>node.matches('.main')&&[...phone,...subject].some(layer=>node.contains(layer))?[...node.children]:[node])
-  .filter(node=>!node.matches('.context-reveal')&&node.matches('.story-continue-group,.story-continue,.main,.chat-reply,.mom-message,[data-exact-action],[data-name="dialogue"],[data-name="choice-block"],[data-name="Bubble"],[data-name="notes"],[data-name="panel"],[data-name="actions"],[data-name^="button/"]'));
- if(!subject.length&&!phone.length&&!content.length&&!startChatContext)return;
  const background=root.querySelector(':scope > [data-name^="bg/"] img,:scope > [data-name="image 188"] img,:scope > img,.scene-art picture img')||root.firstElementChild?.querySelector('img');
- if(background)background.fetchPriority='high';
- if(screenName==='chat'){
-  const context=root.querySelector('.dialogue-context');
-  const together=[...new Set([background,...subject,...phone,...content,context].filter(Boolean))];
-  chatFrameReady=revealSceneLayers(surface,together,[],[],[],startChatContext,[],host.hasAttribute("data-chat-crossfade"));
- }else{
-  const delayed=screenName==='messageMom';
-  const closeness=screenName==='closeness';
-  const last=delayed||closeness
-   ?[...root.querySelectorAll(delayed?'.story-continue':'.closeness-response')]:[];
-  const after=closeness?[...root.querySelectorAll('[data-exact-action="exact-next"]')]:[];
-  revealSceneLayers(surface,subject,content.filter(node=>!last.includes(node)&&!after.includes(node)),
-   background?[background]:[],phone,undefined,last,false,delayed?2000:0,after);
+ if(background){background.fetchPriority='high';background.loading='eager';}
+ const next=[...root.querySelectorAll('[data-exact-action="exact-next"],button[data-action="next"]:not(.bubble)')];
+ const replies=['adults','closeness'].includes(screenName)?
+  [...root.querySelectorAll('[data-name="Bubble"],.dialogue-layout>.bubble')]:[];
+ const prompt=[...root.querySelectorAll('[data-name="Prompt"],.dialogue-layout>.prompt')];
+ const choices=[...root.querySelectorAll('[data-name="choices"],.dialogue-layout>.choices')];
+ const delayed=new Set([...next,...replies,...prompt,...choices,contextNote]);
+ const content=[...root.children].flatMap(node=>node.matches('.main')&&[...phone,...subject].some(layer=>node.contains(layer))?[...node.children]:[node])
+  .filter(node=>!delayed.has(node)&&node.matches('.story-continue-group,.main,.chat-reply,.mom-message,[data-exact-action],[data-name="dialogue"],[data-name="choice-block"],[data-name="Bubble"],[data-name="notes"],[data-name="panel"],[data-name="actions"],[data-name^="button/"]'));
+ const steps=[];
+ const add=(layers,wait,finish)=>steps.push({layers:layers.filter(Boolean),wait,finish});
+ const chat=screenName==='chat';
+ if(chat)add([background,...subject,...phone,contextNote],contextNote?interactivePause:undefined,contextNote?()=>dismissSceneContext(contextNote):undefined);
+ else{
+  add([background]);add(subject);add(phone);
+  if(contextNote)add([contextNote],interactivePause,
+   screenName==='silent'?undefined:()=>dismissSceneContext(contextNote));
  }
+ const revealContent=[...content];
+ if(replies.length)revealContent.push(replies[0]);
+ const hasLaterReply=replies.length>1;
+ const contentHold=hasLaterReply?920:prompt.length?520:next.length&&revealContent.length?interactivePause:undefined;
+ if(chat&&!revealContent.length&&next.length&&!contextNote&&steps.length)steps[0].wait=interactivePause;
+ if(!chat&&!revealContent.length&&next.length&&screenName!=='silent'&&phone.length){
+  steps.find(step=>step.layers.some(layer=>phone.includes(layer))).wait=interactivePause;
+ }
+ add(revealContent,contentHold);
+ if(hasLaterReply)add(replies.slice(1),next.length?interactivePause:undefined);
+ add(prompt,300);add(choices);add(next);
+ return revealSceneLayers(surface,steps,host.hasAttribute('data-scene-crossfade'));
 }
 
 novelMotionPreference.addEventListener('change',resetNovelParallax);

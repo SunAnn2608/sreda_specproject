@@ -16,7 +16,7 @@ function layer(){
  const background=pendingImage(),character=pendingImage(),phoneImage=pendingImage();
  subject.querySelectorAll=()=>[character];phone.querySelectorAll=()=>[phoneImage];
  const settle=()=>new Promise(resolve=>setImmediate(resolve));
- vm.runInContext('revealSceneLayers',context)(surface,[subject],[dialogue],[background],[phone]);
+ vm.runInContext('revealSceneLayers',context)(surface,[background,subject,phone,dialogue].map(item=>({layers:[item]})));
  assert.ok(subject.attributes.has('data-scene-wait'));
  assert.ok(dialogue.inert);
  background.load();await settle();
@@ -33,8 +33,8 @@ function layer(){
  const messageScene=layer(),reply=layer(),next=layer();
  messageScene.isConnected=true;
  let release;
- context.setTimeout=(callback,delay)=>{assert.equal(delay,2000);release=callback;};
- const completion=vm.runInContext('revealSceneLayers',context)(messageScene,[],[reply],[],[],undefined,[next],false,2000);
+ context.setTimeout=(callback,delay)=>{assert.equal(delay,2500);release=callback;};
+ const completion=vm.runInContext('revealSceneLayers',context)(messageScene,[{layers:[reply],wait:2500},{layers:[next]}]);
  await settle();
  assert.equal(reply.inert,false);
  assert.equal(next.inert,true);
@@ -42,6 +42,6 @@ function layer(){
  release();
  await completion;
  assert.equal(next.inert,false);
- console.log('Кнопка сцены с мамой появляется через две секунды после реплики.');
+ console.log('Кнопка сцены с мамой появляется через 2,5 секунды после реплики.');
  console.log('Сцена раскрывается после фона, затем доступны реплики.');
 })().catch(error=>{console.error(error);process.exitCode=1;});

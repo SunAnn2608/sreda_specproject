@@ -34,7 +34,7 @@ let state={scene:"prologue",history:[],answers:[],modal:null,branch:null,second:
 const escapeHTML=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const btn=(label,action,cls="")=>`<button type="button" class="${cls}" data-action="${action}">${escapeHTML(label)}</button>`;
 const header=(s)=>`<header class="topbar"><a href="#prologue" class="logo brand-logo" aria-label="среда — в начало">${brandLogoImage()}</a><span class="pill chapter">${escapeHTML(s.chapter)}</span><nav class="header-actions" aria-label="Главное меню">${btn("получить помощь","help","pill help")}${btn("материалы","materials","pill materials")}${btn('<span></span>','menu','pill menu-button') .replace("&lt;span&gt;&lt;/span&gt;","<span></span><span></span><span></span>")}</nav></header>`;
-const prologueNoticeMarkup=`<span class="prologue-note-message">Банни травят в&nbsp;школе.<br>Ты решаешь, что&nbsp;сказать и&nbsp;<strong>как быть рядом</strong>.</span><span class="prologue-note-message" aria-hidden="true" inert>В&nbsp;истории есть сцены травли. Если тебе тяжело, позвони на&nbsp;телефон доверия&nbsp;<a class="text-link" href="tel:88002000122">8 800 2000‑122</a>.</span>`;
+const prologueNoticeMarkup=`<span class="prologue-note-message">Банни травят в&nbsp;школе.<br>Ты решаешь, что&nbsp;сказать и&nbsp;<strong>как быть рядом</strong>.</span><span class="prologue-note-message" aria-hidden="true" inert>В&nbsp;истории есть сцены травли. Если тебе тяжело,<br><strong class="prologue-call">позвони на&nbsp;телефон доверия&nbsp;<a class="text-link" href="tel:88002000122">8 800 2000‑122</a>.</strong></span>`;
 function showPrologueNotice(notice){
  if(!notice)return;
  const messages=[...notice.children];
@@ -75,7 +75,7 @@ function render(){
   const emphasis=escapeHTML("попросить о помощи.");
   inner=`<article class="panel stitched"><span class="tag">сегодня</span><h1>${escapeHTML(s.title)}</h1><p>${state.scene==="openEnding"?copy.replace(emphasis,`<strong>${emphasis}</strong>`):copy}</p><div class="actions">${btn("отмотать время","start","action")}${btn("получить поддержку","help","action secondary")}</div></article>`;
  }
- if(s.kind==="silent")inner="";
+ if(s.kind==="silent")inner=`<p class="scene-context final-scene-context">${escapeHTML(s.context)}</p>${btn("дальше","next","story-continue")}`;
  if(s.kind==="cutscene"){
   const format=typeof formatStoryContext==="function"?formatStoryContext:text=>text;
   inner=`<div class="story-cutscene-copy"><h1>катсцена:</h1><p>${escapeHTML(format(s.text))}</p></div>
@@ -147,25 +147,26 @@ while(typeof figmaScreens!=='undefined'&&!figmaScreens[id]){
  id=storyDestination(scene.next);
 }
 if(!scenes[id])return;state.history.push(state.scene);state.scene=id;state.frameStep=0;state.modal=null;state.modalTrail=[];
+ showStoryFrame();
+}
+function showStoryFrame(){
  const showFrame=()=>{render();document.querySelector("#main")?.focus?.();};
- if(id==="chat"&&document.startViewTransition&&typeof animateNovelFrame==="function"&&
+ if(document.startViewTransition&&typeof animateNovelFrame==="function"&&
     !matchMedia("(prefers-reduced-motion: reduce)").matches){
   document.startViewTransition(()=>{
-   app.setAttribute("data-chat-crossfade","");
-   try{showFrame();return chatFrameReady;}
-   finally{app.removeAttribute("data-chat-crossfade");}
+   sceneEntryReady=undefined;
+   app.setAttribute("data-scene-crossfade","");
+   try{showFrame();return sceneEntryReady;}
+   finally{app.removeAttribute("data-scene-crossfade");}
   });
  }else showFrame();
 }
 function handleAction(action){
- if((action==="next"||action==="frame-next")&&(document.querySelector("[data-context-reading]")||
-    (state.scene==="messageMom"&&document.querySelector('[data-exact-screen="messageMom"]')?.hasAttribute?.("data-scene-loading"))))return;
+ if((action==="next"||action==="frame-next")&&
+    document.querySelector(".figma-viewport,.stage")?.hasAttribute?.("data-scene-loading"))return;
  if(action==="frame-next"){
   state.frameStep=(state.frameStep||0)+1;
-  if(document.startViewTransition&&document.querySelector('[data-exact-device="mobile"]')&&
-     !matchMedia('(prefers-reduced-motion: reduce)').matches){
-   document.startViewTransition(render);
-  }else render();
+  showStoryFrame();
   return;
  }
  if(action==="start"){state.branch=null;state.second=null;state.answers=[];state.history=[];go("dialogue");return}

@@ -121,19 +121,12 @@ function renderExactScreen(){
  wireExactScreen(host,screenName);
  updateSupportLabels(host);
  if(screenName==='openEnding')updateOpenEnding(host);
- if(screenName==='silent'){
-  host.querySelectorAll('[data-exact-action="exact-next"]').forEach(button=>button.remove());
-  const finalFrame=host.querySelector('.figma-viewport');
-  if(!verification&&!state.modal)window.setTimeout(()=>{
-   if(finalFrame.isConnected&&state.scene==='silent'&&!state.modal)handleAction('next');
-  },4200);
- }else wireStoryGuidance(host,screenName,steps.length);
+ wireStoryGuidance(host,screenName,steps.length);
  applyFluidConstraints(host,template,device,screenName);
  if(device==='mobile'&&screenName==='chat')useMobileChatBackdrop(host,exactStep);
  separateBubbleContinue(host);
- const startChatContext=addSceneContext(host,screenName);
- if(typeof animateNovelFrame==='function')animateNovelFrame(host,screenName,startChatContext);
- else startChatContext?.();
+ const contextNote=addSceneContext(host,screenName);
+ if(typeof animateNovelFrame==='function')animateNovelFrame(host,screenName,contextNote);
  document.title='среда · '+(scenes[state.scene]?.chapter||screenName);
  return true;
 }
@@ -149,54 +142,32 @@ function formatStoryContext(description){
   .replace(/(?<![\p{L}\p{N}])((?:без|для|под|над|при|про|через|из-за|из-под|из|до|за|от|по|на|не|ни|обо|об|о|со|с|ко|к|во|в|у|а|и|но|да|или|либо|что|чтоб|чтобы|как|если|то|хотя|чем|тоже|—|–))[ \u00a0]+(?=\S)/giu,'$1\u00a0');
 }
 function addSceneContext(host,screenName){
- const description=sceneContext.get(screenName);
+ const description=scenes[screenName]?.context||sceneContext.get(screenName);
  if(!description)return;
  const surface=host.querySelector('.figma-viewport');
  const root=surface.querySelector('.figma-canvas').firstElementChild;
  const bubble=root.querySelector('[data-name="Bubble"]');
- if(!bubble)return;
+ if(!bubble&&screenName!=='silent')return;
  const note=document.createElement('div');
- note.className='scene-context dialogue-context';
+ note.className='scene-context '+(bubble?'dialogue-context':'final-scene-context');
  note.textContent=formatStoryContext(description);
- const dialogue=bubble.closest('.story-continue-group,[data-name="dialogue"]')||bubble;
- const button=root.querySelector('[data-exact-action="exact-next"]');
- const pending=[dialogue,button].filter(Boolean);
- for(const element of pending){
-  element.classList.add('context-reveal');
-  element.inert=true;
- }
  root.append(note);
- const placeNote=()=>{
+ if(bubble){
   const bounds=bubble.getBoundingClientRect();
   const frame=root.getBoundingClientRect();
   note.style.left=(bounds.left-frame.left)+'px';
   note.style.top=(bounds.top-frame.top)+'px';
   note.style.width=bounds.width+'px';
- };
- placeNote();
- const observer=new ResizeObserver(placeNote);
- observer.observe(surface);
- observer.observe(bubble);
- // Пересобранная сцена завершает ожидание без изменения текущего кадра.
- const startReading=()=>window.setTimeout(()=>{
-  observer.disconnect();
-  if(!surface.isConnected)return;
-  note.classList.add('dialogue-context-exit');
-  const finish=()=>{
-   if(!surface.isConnected)return;
-   note.remove();
-   surface.removeAttribute('data-context-reading');
-   for(const element of pending)element.inert=false;
-  };
-  if(matchMedia('(prefers-reduced-motion: reduce)').matches)finish();
-  else window.setTimeout(finish,260);
- },2500);
- surface.setAttribute('data-context-reading','');
- if(screenName==='chat'){
-  return startReading;
  }
- startReading();
+ return note;
 }
+async function dismissSceneContext(note){
+ note.classList.add('dialogue-context-exit');
+ if(!matchMedia('(prefers-reduced-motion: reduce)').matches)
+  await new Promise(resolve=>setTimeout(resolve,260));
+ note.remove();
+}
+
 function useMobileChatBackdrop(host,step){
  const root=host.querySelector('.figma-canvas').firstElementChild;
  const bakedLayers=[
@@ -499,7 +470,7 @@ function wireStoryGuidance(host,screenName,frameCount){
  }
  const hintBox=hint?.parentElement;
  const scene=scenes[screenName];
- if(state.modal||(!hasNextFrame&&!['dialogue','chat','momchat'].includes(scene?.kind))||
+ if(state.modal||(!hasNextFrame&&!['dialogue','chat','momchat','silent'].includes(scene?.kind))||
     canvas.querySelector('[data-exact-action="exact-next"]')){
   hintBox?.remove();return;
  }

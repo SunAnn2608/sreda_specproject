@@ -367,12 +367,12 @@ html,body{width:100%;height:100%;min-width:0;overflow:hidden}
 }
 
 /* Фильтр на родителе рисует тень и от выступающей плашки. */
-.figma-canvas :is([data-name="Bubble"]:has([data-name="Name"]),[data-name="Panel"]:has([data-name="Tag"])){
+.figma-canvas :is([data-name="Bubble"]:has([data-name="Name"]),[data-name="Panel"]:has([data-name="Tag"]),[data-name="Card"]:has([data-name="Tag"])){
  filter:none!important;
  box-shadow:calc(16 * var(--frame-unit)) calc(20 * var(--frame-unit)) #0d0f10;
 }
 .figma-viewport:not([data-exact-device="desktop"]) .figma-canvas
- :is([data-name="Bubble"]:has([data-name="Name"]),[data-name="Panel"]:has([data-name="Tag"])){
+ :is([data-name="Bubble"]:has([data-name="Name"]),[data-name="Panel"]:has([data-name="Tag"]),[data-name="Card"]:has([data-name="Tag"])){
  box-shadow:calc(8 * var(--frame-unit)) calc(10 * var(--frame-unit)) #0d0f10;
 }
 .figma-canvas [data-name="Bubble"] [data-name="Name"],.stage .speaker{
@@ -383,3 +383,11 @@ html,body{width:100%;height:100%;min-width:0;overflow:hidden}
 .figma-canvas .closeness-player-reply{translate:0 calc(-80 * var(--frame-unit))}
 [data-exact-device="tablet"] .closeness-player-reply{translate:0 calc(-40 * var(--frame-unit))}
 [data-exact-device="mobile"] .closeness-player-reply{translate:0 calc(-32 * var(--frame-unit))}
+
+.prologue-note .prologue-call,.prologue-note .prologue-call a{font-weight:600}
+.final-scene-context{
+ position:absolute;left:4%;bottom:max(18px,8dvh);max-width:min(50%,36rem);z-index:2;
+}
+@media(max-width:767px){
+ .final-scene-context{left:4%;bottom:max(18px,5dvh);max-width:62%}
+}
