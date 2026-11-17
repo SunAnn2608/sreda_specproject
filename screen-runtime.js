@@ -135,6 +135,10 @@ const sceneContext=new Map([
  ['momUnknown','Мама знает об одном случае. Банни ещё не рассказал ей, что это повторяется.'],
  ['adults','После сообщения Банни рассказывает маме, что происходит в школе.']
 ]);
+function formatStoryContext(description){
+ // Короткие служебные слова и тире переносятся вместе со следующим словом.
+ return description.replace(/(?<![\p{L}\p{N}])((?:без|для|под|над|при|про|через|из-за|из|до|за|от|по|на|не|ни|обо|об|о|со|с|ко|к|во|в|у|а|и|но|да|или|либо|что|чтобы|как|если|то|—|–))[ \u00a0]+(?=\S)/giu,'$1\u00a0');
+}
 function addSceneContext(host,screenName){
  const description=sceneContext.get(screenName);
  if(!description)return;
@@ -144,7 +148,7 @@ function addSceneContext(host,screenName){
  if(!bubble)return;
  const note=document.createElement('div');
  note.className='scene-context dialogue-context';
- note.textContent=description;
+ note.textContent=formatStoryContext(description);
  const dialogue=bubble.closest('.story-continue-group,[data-name="dialogue"]')||bubble;
  const button=root.querySelector('[data-exact-action="exact-next"]');
  const pending=[dialogue,button].filter(Boolean);
@@ -189,7 +193,7 @@ function showStoryContext(surface,root,description){
  footer.className='story-context-footer story-cutscene-footer';
  const note=document.createElement('p');
  note.className='scene-context';
- note.textContent=description;
+ note.textContent=formatStoryContext(description);
  const button=document.createElement('button');
  button.type='button';
  button.dataset.action='next';
@@ -364,6 +368,16 @@ function matchDocumentIntro(host,name,device){
 function updateStoryCopy(host,name){
  const chapter=host.querySelector('[data-name="Chapter"] p');
  if(chapter)chapter.textContent=chapter.textContent.replace(/^день\s+[123]\s*·\s*/iu,'');
+ else if(scenes[name]&&!['resources','supportPage'].includes(name)){
+  const bar=host.querySelector('[data-name="Bar"]');
+  if(bar){
+   const badge=document.createElement('span');
+   badge.dataset.name='Chapter';
+   badge.className='scene-title-mobile';
+   badge.textContent=scenes[name].chapter;
+   bar.append(badge);
+  }
+ }
  const replacement=new Map([
   ['closeness','можно его позвать?'],
   ['A','я подойду к ним.'],
