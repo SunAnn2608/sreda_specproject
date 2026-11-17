@@ -393,7 +393,9 @@ function updateStoryCopy(host,name){
  ]).get(name);
  if(!replacement)return;
  for(const line of host.querySelectorAll('[data-name="Bubble"] p')){
-  if(!normalizedLabel(line).startsWith(replacement))continue;
+  const label=normalizedLabel(line);
+  if(name==="closeness"&&label==="давай пока здесь посидим.")line.textContent=formatStoryContext(firstChoiceReply());
+  if(!label.startsWith(replacement))continue;
   line.textContent=name==='adults'?'Сегодня вместе поговорим со школой.':scenes[name].text;
   if(name==='closeness')line.closest('[data-name="Bubble"]').classList.add('closeness-response');
  }

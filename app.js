@@ -73,14 +73,15 @@ function render(){
  if(s.kind==="ending")inner=`<article class="panel stitched"><span class="tag">сегодня</span><h1>${escapeHTML(s.title)}</h1><p>${escapeHTML(s.text)}</p><div class="actions">${btn("отмотать время","start","action")}${btn("получить поддержку","help","action secondary")}</div></article>`;
  if(s.kind==="silent")inner="";
  if(s.kind==="cutscene"){
-  const context=typeof formatStoryContext==='function'?formatStoryContext(s.text):s.text;
-  inner=`<div class="story-context-footer story-cutscene-footer"><p class="scene-context">${escapeHTML(context)}</p></div>`;
+  const format=typeof formatStoryContext==="function"?formatStoryContext:text=>text;
+  inner=`<div class="story-cutscene-copy"><h1>катсцена:</h1><p>${escapeHTML(format(s.text))}</p></div>
+   <div class="story-context-footer story-cutscene-footer"><p class="scene-context">${escapeHTML(format(s.context))}</p>${btn("дальше","next","story-continue")}</div>`;
  }
  if(s.kind==="momchat")inner=`<div class="mom-message"><article class="panel bubble"><span class="speaker">банни</span><p>${escapeHTML(s.text)}</p></article><section class="chat-phone"><h2>мама</h2><div class="chat-messages"><p class="outgoing">Мам, можно поговорить? Это важно. Про школу.</p><small>печатает…</small></div></section><div class="actions">${btn("дальше","next","action")}</div></div>`;
  if(s.kind==="resources"||s.kind==="supportpage")inner=`<section class="resource-page"><h1>${escapeHTML(s.title)}</h1><div class="resource-grid">${s.kind==="resources"?[['если травят тебя','Как начать разговор и к кому обратиться','help'],['если ты видишь травлю','Как поддержать друга и не выгореть самому','materials'],['для взрослых','Если подросток рассказал вам о травле','materials'],['материалы','Шесть коротких статей: для себя, друзей и взрослых','materials']].map(([title,text,action])=>`<article class="panel"><h2>${title}</h2><p>${text}</p>${btn("открыть",action,"action secondary")}</article>`).join(""):'<article class="panel"><h2>фонд поддержки</h2><p>Напиши в фонд «Тебе поверят»</p><p>info@verimtebe.ru · t.me/tebepoveriat</p></article>'}</div><div class="actions">${btn("начать историю","start","action")}${s.next?btn("дальше","next","action secondary"):""}</div></section>`;
 
  if(s.reply){
-  const reply=`<article class="panel bubble player-reply"><span class="speaker">ты</span><p>${escapeHTML(s.reply)}</p><img class="bubble-arrow" src="./assets/arrow.svg" alt=""></article>`;
+  const reply=`<article class="panel bubble player-reply"><span class="speaker">ты</span><p>${escapeHTML(state.scene==="closeness"?firstChoiceReply():s.reply)}</p><img class="bubble-arrow" src="./assets/arrow.svg" alt=""></article>`;
   inner=state.scene==="adults"?inner.replace('</div>',reply+'</div>'):inner.replace('<div class="dialogue-layout">','<div class="dialogue-layout">'+reply);
  }
  const showContinue=['dialogue','chat','momchat'].includes(s.kind)&&!inner.includes('data-action="next"');
@@ -125,8 +126,11 @@ function modalHTML(){
  else {title="материалы";body=`<div class="modal-cards">${articles.map(([h,p],i)=>`<article><h3>${h}</h3><p>${p}</p>${btn("читать","article:"+i,"action secondary")}</article>`).join("")}</div>`;}
  return `<div class="modal-backdrop" data-overlay="true"><section class="modal" data-modal="${state.modal}" role="dialog" aria-modal="true" aria-labelledby="modal-title"><button class="pill modal-close" data-action="close" aria-label="Закрыть">×</button><h2 id="modal-title">${escapeHTML(title)}</h2>${body}<div class="actions">${btn("к истории","resume","action secondary")}${btn("начать сначала","restart","action")}</div></section></div>`;
 }
+function firstChoiceReply(){
+ const answer=state.answers.findLast(({scene})=>scene==="choice");
+ return scenes.choice.options[answer?.index]?.label??scenes.closeness.reply;
+}
 function storyDestination(id){
- if(id==="firstReaction")return {A:"anger",B:"closeness",C:"withdrawal"}[state.branch];
  if(id==="branch")return state.branch;
  if(id==="hard")return "hard"+state.branch+state.second;
  if(id==="friendOrAdults")return state.branch==="B"?"friendHelp":"adults";

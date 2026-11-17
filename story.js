@@ -4,13 +4,13 @@
 "use strict";
 const storyScene=(chapter,text,next,art="classroom-after.png",character="bunny-no-hat.png",speaker="банни")=>({chapter,kind:"dialogue",text,next,art,character,speaker});
 const storyChoice=(chapter,text,options,art="classroom-after.png",character="bunny-no-hat.png")=>({...storyScene(chapter,text,null,art,character),kind:"choice",prompt:"что ты скажешь?",options:options.map(([label,next])=>({label,next}))});
-const storyCutscene=(chapter,text,next)=>({chapter,kind:"cutscene",text,next});
+const storyCutscene=(chapter,text,next,context)=>({chapter,kind:"cutscene",text,next,context});
 const storyRoutes={
- hatCut:storyCutscene("перед уроком","Кролли становятся огромными и заполняют всё пространство. Банни со слезами убирает шапку.","firstReaction"),
- witnessCut:storyCutscene("в коридоре","Кролли дёргают белого зайца за серёжку.","info"),
- approachCut:storyCutscene("в коридоре","Банни видит, как Кролли дёргают белого зайца за серёжку, надевает шапку и идёт к ним.","branch"),
- harassmentCut:storyCutscene("снова в коридоре","Кролли становятся ещё больше. Они бросают шапку на пол. Испуганный Банни оказывается на полу.","momUnknown"),
- walkToMomCut:storyCutscene("по дороге домой","Вы идёте к маме Банни вместе.","adults"),
+ hatCut:storyCutscene("перед уроком","Кролли становятся огромными и заполняют всё пространство. Банни со слезами убирает шапку.","closeness","После фото в общем чате Банни пытается спрятать то, за что его высмеивают."),
+ witnessCut:storyCutscene("в коридоре","Белого зайца Кролли дёргают за серёжку.","info","Банни замечает, что Кролли цепляются и к другим."),
+ approachCut:storyCutscene("в коридоре","Банни видит, как Кролли дёргают белого зайца за серёжку, надевает шапку и идёт к ним.","branch","Банни решает вмешаться."),
+ harassmentCut:storyCutscene("снова в коридоре","Кролли становятся ещё больше. Они бросают шапку на пол. Испуганный Банни оказывается на полу.","momUnknown","Кролли снова переключаются на Банни."),
+ walkToMomCut:storyCutscene("по дороге домой","Вы идёте к маме Банни вместе.","adults","Сообщение уже отправлено. Теперь Банни сможет рассказать маме о том, что случилось."),
  afterChat:storyScene("это уже было","Это не первый случай: одноклассники цепляются к его одежде, словам и реакции.","bench","corridor.png","bunny-default.png","история"),
  bench:storyScene("место занято","В школе ему отказывают в месте на лавке, хотя для своих оно находится.","hat","corridor.png","bunny-default.png","история"),
  hat:storyScene("в классе","Банни убирает любимую шапку в рюкзак, но нападки не прекращаются: дело не в том, как он выглядит.","choice","classroom.png","bunny-no-hat.png","история"),
