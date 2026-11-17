@@ -279,10 +279,11 @@ html,body{width:100%;height:100%;min-width:0;overflow:hidden}
 }
 
 .figma-canvas .dialogue-context{
- position:absolute;z-index:3;inset:auto 0 calc(100% + 8px);width:100%;
+ position:absolute;z-index:3;transform:translateY(calc(-100% - 8px));
  opacity:1;pointer-events:none;
  font-size:clamp(12px,1.35vw,20px);
 }
+.figma-canvas .dialogue-context-exit{opacity:0}
 .context-reveal{transition:opacity 300ms ease}
 [data-context-reading] .context-reveal{opacity:0;pointer-events:none}
 @media(prefers-reduced-motion:reduce){.context-reveal{transition:none}}

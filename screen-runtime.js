@@ -143,11 +143,39 @@ function addSceneContext(host,screenName){
  const note=document.createElement('div');
  note.className='scene-context dialogue-context';
  note.textContent=description;
- const anchor=bubble.closest('.story-continue-group,[data-name="dialogue"]')||bubble;
- anchor.prepend(note);
+ const dialogue=bubble.closest('.story-continue-group,[data-name="dialogue"]')||bubble;
  const button=root.querySelector('[data-exact-action="exact-next"]');
- button?.classList.add('context-reveal');
- waitForStoryContext(surface,description,button);
+ const pending=[dialogue,button].filter(Boolean);
+ for(const element of pending){
+  element.classList.add('context-reveal');
+  element.inert=true;
+ }
+ root.append(note);
+ const placeNote=()=>{
+  const bounds=bubble.getBoundingClientRect();
+  const frame=root.getBoundingClientRect();
+  note.style.left=(bounds.left-frame.left)+'px';
+  note.style.top=(bounds.top-frame.top)+'px';
+  note.style.width=bounds.width+'px';
+ };
+ placeNote();
+ const observer=new ResizeObserver(placeNote);
+ observer.observe(surface);
+ observer.observe(bubble);
+ // Пересобранная сцена завершает ожидание без изменения текущего кадра.
+ waitForStoryContext(surface,description,null,()=>{
+  observer.disconnect();
+  if(!surface.isConnected)return;
+  note.classList.add('dialogue-context-exit');
+  const finish=()=>{
+   if(!surface.isConnected)return;
+   note.remove();
+   surface.removeAttribute('data-context-reading');
+   for(const element of pending)element.inert=false;
+  };
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)finish();
+  else window.setTimeout(finish,260);
+ });
 }
 function showStoryContext(surface,root,description){
  const footer=document.createElement('div');
@@ -164,12 +192,13 @@ function showStoryContext(surface,root,description){
  root.append(footer);
  waitForStoryContext(surface,description,button);
 }
-function waitForStoryContext(surface,description,button){
+function waitForStoryContext(surface,description,button,onRead){
  if(button)button.inert=true;
  surface.setAttribute('data-context-reading','');
  const words=description.trim().split(/\s+/).length;
  const delay=Math.max(1800,Math.ceil(words*60000/180));
  window.setTimeout(()=>{
+  if(onRead){onRead();return;}
   if(!surface.isConnected)return;
   surface.removeAttribute('data-context-reading');
   if(button)button.inert=false;
