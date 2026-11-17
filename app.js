@@ -162,7 +162,8 @@ if(!scenes[id])return;state.history.push(state.scene);state.scene=id;state.frame
  }else showFrame();
 }
 function handleAction(action){
- if((action==="next"||action==="frame-next")&&document.querySelector("[data-context-reading]"))return;
+ if((action==="next"||action==="frame-next")&&(document.querySelector("[data-context-reading]")||
+    (state.scene==="messageMom"&&document.querySelector('[data-exact-screen="messageMom"]')?.hasAttribute?.("data-scene-loading"))))return;
  if(action==="frame-next"){
   state.frameStep=(state.frameStep||0)+1;
   if(document.startViewTransition&&document.querySelector('[data-exact-device="mobile"]')&&

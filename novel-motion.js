@@ -14,7 +14,7 @@ function sceneImageReady(image){
  });
 }
 
-function revealSceneLayers(surface,subject,content,background,phone=[],onFirstReveal,last=[],crossfading=false){
+function revealSceneLayers(surface,subject,content,background,phone=[],onFirstReveal,last=[],crossfading=false,lastDelay=0){
  surface.setAttribute('data-scene-loading','');
  const phases=[background,subject,phone,content,last].filter(group=>group.length);
  const loads=phases.map(group=>Promise.all(group.flatMap(layer=>layer.matches('img')?[layer]:[...layer.querySelectorAll('img')]).map(sceneImageReady)));
@@ -35,8 +35,10 @@ function revealSceneLayers(surface,subject,content,background,phone=[],onFirstRe
     layer.inert=false;
    }
    if(index===0)onFirstReveal?.();
-   if(index<phases.length-1&&!novelMotionPreference.matches){
-    await new Promise(resolve=>setTimeout(resolve,phases[index+1]===last?920:scenePhaseInterval));
+   if(index<phases.length-1){
+    const delay=phases[index+1]===last&&lastDelay?lastDelay:
+     novelMotionPreference.matches?0:phases[index+1]===last?920:scenePhaseInterval;
+    if(delay)await new Promise(resolve=>setTimeout(resolve,delay));
    }
   }
   surface.removeAttribute('data-scene-loading');
@@ -67,8 +69,10 @@ function animateNovelFrame(host,screenName,startChatContext){
   const together=[...new Set([background,...subject,...phone,...content,context].filter(Boolean))];
   chatFrameReady=revealSceneLayers(surface,together,[],[],[],startChatContext,[],host.hasAttribute("data-chat-crossfade"));
  }else{
-  const last=screenName==='closeness'?[...root.querySelectorAll('.closeness-response,[data-exact-action="exact-next"]')]:[];
-  revealSceneLayers(surface,subject,content.filter(node=>!last.includes(node)),background?[background]:[],phone,undefined,last);
+  const delayed=screenName==='messageMom';
+  const last=screenName==='closeness'||delayed
+   ?[...root.querySelectorAll(delayed?'.story-continue':'.closeness-response,[data-exact-action="exact-next"]')]:[];
+  revealSceneLayers(surface,subject,content.filter(node=>!last.includes(node)),background?[background]:[],phone,undefined,last,false,delayed?2000:0);
  }
 }
 

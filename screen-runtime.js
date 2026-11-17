@@ -504,11 +504,6 @@ function wireStoryGuidance(host,screenName,frameCount){
  button.type='button';button.className='story-continue';
  button.textContent='дальше';
  button.dataset.exactAction='exact-next';
- if(screenName==='messageMom'){
-  hintBox?.remove();
-  canvas.firstElementChild.append(button);
-  return;
- }
  if(hintBox){
   button.classList.add('story-continue-inline');
   if(hintBox.style.position==='absolute'){
