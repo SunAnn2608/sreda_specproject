@@ -150,7 +150,17 @@ while(typeof figmaScreens!=='undefined'&&!figmaScreens[id]){
  if(scene.options||scene.kind==='cutscene')break;
  id=storyDestination(scene.next);
 }
-if(!scenes[id])return;state.history.push(state.scene);state.scene=id;state.frameStep=0;state.modal=null;state.modalTrail=[];render();document.querySelector("#main")?.focus?.()}
+if(!scenes[id])return;state.history.push(state.scene);state.scene=id;state.frameStep=0;state.modal=null;state.modalTrail=[];
+ const showFrame=()=>{render();document.querySelector("#main")?.focus?.();};
+ if(id==="chat"&&document.startViewTransition&&typeof animateNovelFrame==="function"&&
+    !matchMedia("(prefers-reduced-motion: reduce)").matches){
+  document.startViewTransition(()=>{
+   app.setAttribute("data-chat-crossfade","");
+   try{showFrame();return chatFrameReady;}
+   finally{app.removeAttribute("data-chat-crossfade");}
+  });
+ }else showFrame();
+}
 function handleAction(action){
  if((action==="next"||action==="frame-next")&&document.querySelector("[data-context-reading]"))return;
  if(action==="frame-next"){

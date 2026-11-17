@@ -252,10 +252,11 @@ html,body{width:100%;height:100%;min-width:0;overflow:hidden}
  position:absolute;left:clamp(12px,4vw,64px);right:clamp(12px,4vw,64px);
  bottom:clamp(18px,4dvh,48px);
 }
-.story-context-footer .scene-context,.figma-canvas .dialogue-context{
+.scene-context{
  margin:0;padding:.65em .9em;border:2px dashed #0d0f10;
  border-radius:.8em;background:#facdd8;color:#0d0f10;
  font:500 clamp(13px,1.45vw,24px)/1.3 "Golos Text",sans-serif;
+ text-wrap:pretty;overflow-wrap:break-word;
  transition:opacity 260ms ease;
 }
 .stage[data-scene="cutscene"]{background:#fff9ed;color:#3d3d3d;height:100dvh;min-height:0}
@@ -282,7 +283,7 @@ html,body{width:100%;height:100%;min-width:0;overflow:hidden}
 @media(max-width:600px){
  .story-cutscene-copy{width:86%}
  .story-cutscene-footer{bottom:max(24px,env(safe-area-inset-bottom))}
- .story-cutscene-footer .scene-context{padding:.55em .65em}
+ .scene-context{padding:.55em .65em}
 }
 @media(prefers-reduced-motion:reduce){
  .figma-canvas .dialogue-context{transition:none}
@@ -290,7 +291,6 @@ html,body{width:100%;height:100%;min-width:0;overflow:hidden}
 .figma-canvas .dialogue-context{
  position:absolute;z-index:3;transform:translateY(calc(-100% - 8px));
  opacity:1;pointer-events:none;
- font-size:clamp(12px,1.35vw,20px);
 }
 .figma-canvas .dialogue-context-exit{opacity:0}
 .context-reveal{transition:opacity 300ms ease}
@@ -358,4 +358,18 @@ html,body{width:100%;height:100%;min-width:0;overflow:hidden}
 }
 [data-exact-screen="openEnding"] [data-name="panel"] strong,.stage[data-screen="openEnding"] .panel strong{
  font-weight:600;
+}
+
+/* Фильтр на родителе рисует тень и от выступающей плашки. */
+.figma-canvas :is([data-name="Bubble"]:has([data-name="Name"]),[data-name="Panel"]:has([data-name="Tag"])){
+ filter:none!important;
+ box-shadow:calc(16 * var(--frame-unit)) calc(20 * var(--frame-unit)) #0d0f10;
+}
+.figma-viewport:not([data-exact-device="desktop"]) .figma-canvas
+ :is([data-name="Bubble"]:has([data-name="Name"]),[data-name="Panel"]:has([data-name="Tag"])){
+ box-shadow:calc(8 * var(--frame-unit)) calc(10 * var(--frame-unit)) #0d0f10;
+}
+.figma-canvas [data-name="Bubble"] [data-name="Name"],.stage .speaker{
+ rotate:-2deg!important;
+ transform-origin:center!important;
 }

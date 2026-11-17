@@ -2,6 +2,7 @@
 const novelMotionPreference=matchMedia('(prefers-reduced-motion: reduce)');
 const sceneFadeTime=360;
 const scenePhaseInterval=210;
+let chatFrameReady;
 
 function sceneImageReady(image){
  if(image.complete)return Promise.resolve();
@@ -13,7 +14,7 @@ function sceneImageReady(image){
  });
 }
 
-function revealSceneLayers(surface,subject,content,background,phone=[],onFirstReveal,last=[]){
+function revealSceneLayers(surface,subject,content,background,phone=[],onFirstReveal,last=[],crossfading=false){
  surface.setAttribute('data-scene-loading','');
  const phases=[background,subject,phone,content,last].filter(group=>group.length);
  const loads=phases.map(group=>Promise.all(group.flatMap(layer=>layer.matches('img')?[layer]:[...layer.querySelectorAll('img')]).map(sceneImageReady)));
@@ -26,7 +27,7 @@ function revealSceneLayers(surface,subject,content,background,phone=[],onFirstRe
    await loads[index];
    if(!surface.isConnected)return;
    for(const layer of phase){
-    if(!novelMotionPreference.matches)layer.animate(
+    if(!crossfading&&!novelMotionPreference.matches)layer.animate(
      [{opacity:0,offset:0},{offset:1}],
      {duration:sceneFadeTime,easing:'cubic-bezier(.22,.61,.36,1)'}
     );
@@ -40,7 +41,7 @@ function revealSceneLayers(surface,subject,content,background,phone=[],onFirstRe
   }
   surface.removeAttribute('data-scene-loading');
  };
- void reveal();
+ return reveal();
 }
 
 function animateNovelFrame(host,screenName,startChatContext){
@@ -64,7 +65,7 @@ function animateNovelFrame(host,screenName,startChatContext){
  if(screenName==='chat'){
   const context=root.querySelector('.dialogue-context');
   const together=[...new Set([background,...subject,...phone,...content,context].filter(Boolean))];
-  revealSceneLayers(surface,together,[],[],[],startChatContext);
+  chatFrameReady=revealSceneLayers(surface,together,[],[],[],startChatContext,[],host.hasAttribute("data-chat-crossfade"));
  }else{
   const last=screenName==='closeness'?[...root.querySelectorAll('.closeness-response,[data-exact-action="exact-next"]')]:[];
   revealSceneLayers(surface,subject,content.filter(node=>!last.includes(node)),background?[background]:[],phone,undefined,last);

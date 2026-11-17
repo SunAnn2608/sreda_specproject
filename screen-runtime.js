@@ -143,8 +143,10 @@ const sceneContext=new Map([
  ['adults','После сообщения Банни рассказывает маме, что происходит в школе.']
 ]);
 function formatStoryContext(description){
- // Короткие служебные слова и тире переносятся вместе со следующим словом.
- return description.replace(/(?<![\p{L}\p{N}])((?:без|для|под|над|при|про|через|из-за|из|до|за|от|по|на|не|ни|обо|об|о|со|с|ко|к|во|в|у|а|и|но|да|или|либо|что|чтобы|как|если|то|—|–))[ \u00a0]+(?=\S)/giu,'$1\u00a0');
+ // Связываем служебные слова со следующим словом и два последних слова предложения.
+ return description
+  .replace(/([^\s]+)[ \t]+(?=[^\s]+[.!?…](?:[»”)]|$|\s))/gu,'$1\u00a0')
+  .replace(/(?<![\p{L}\p{N}])((?:без|для|под|над|при|про|через|из-за|из-под|из|до|за|от|по|на|не|ни|обо|об|о|со|с|ко|к|во|в|у|а|и|но|да|или|либо|что|чтоб|чтобы|как|если|то|хотя|чем|тоже|—|–))[ \u00a0]+(?=\S)/giu,'$1\u00a0');
 }
 function addSceneContext(host,screenName){
  const description=sceneContext.get(screenName);
@@ -176,7 +178,7 @@ function addSceneContext(host,screenName){
  observer.observe(surface);
  observer.observe(bubble);
  // Пересобранная сцена завершает ожидание без изменения текущего кадра.
- const startReading=()=>waitForStoryContext(surface,description,null,()=>{
+ const startReading=()=>window.setTimeout(()=>{
   observer.disconnect();
   if(!surface.isConnected)return;
   note.classList.add('dialogue-context-exit');
@@ -188,24 +190,12 @@ function addSceneContext(host,screenName){
   };
   if(matchMedia('(prefers-reduced-motion: reduce)').matches)finish();
   else window.setTimeout(finish,260);
- });
+ },2500);
+ surface.setAttribute('data-context-reading','');
  if(screenName==='chat'){
-  surface.setAttribute('data-context-reading','');
   return startReading;
  }
  startReading();
-}
-function waitForStoryContext(surface,description,button,onRead){
- if(button)button.inert=true;
- surface.setAttribute('data-context-reading','');
- const words=description.trim().split(/\s+/).length;
- const delay=Math.max(1800,Math.ceil(words*60000/180));
- window.setTimeout(()=>{
-  if(onRead){onRead();return;}
-  if(!surface.isConnected)return;
-  surface.removeAttribute('data-context-reading');
-  if(button)button.inert=false;
- },delay);
 }
 function useMobileChatBackdrop(host,step){
  const root=host.querySelector('.figma-canvas').firstElementChild;
