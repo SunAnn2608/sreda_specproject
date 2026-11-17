@@ -123,7 +123,7 @@ function renderExactScreen(){
  applyFluidConstraints(host,template,device,screenName);
  if(device==='mobile'&&screenName==='chat')useMobileChatBackdrop(host,exactStep);
  separateBubbleContinue(host);
- addSceneContext(host,screenName,device);
+ addSceneContext(host,screenName);
  if(typeof animateNovelFrame==='function')animateNovelFrame(host,screenName);
  document.title='среда · '+(scenes[state.scene]?.chapter||screenName);
  return true;
@@ -133,40 +133,46 @@ const sceneContext=new Map([
  ['momUnknown','День третий. Мама знает об одном случае. Банни ещё не рассказал ей, что это повторяется.'],
  ['adults','После сообщения Банни рассказывает маме, что происходит в школе.']
 ]);
-function addSceneContext(host,screenName,device){
+function addSceneContext(host,screenName){
  const description=sceneContext.get(screenName);
- if(!description||(screenName==='chat'&&device==='mobile'&&exactStep!==0))return;
+ if(!description)return;
  const surface=host.querySelector('.figma-viewport');
  const root=surface.querySelector('.figma-canvas').firstElementChild;
- showStoryContext(surface,root,description,root.querySelector('[data-exact-action="exact-next"]'));
+ const bubble=root.querySelector('[data-name="Bubble"]');
+ if(!bubble)return;
+ const note=document.createElement('div');
+ note.className='scene-context dialogue-context';
+ note.textContent=description;
+ const anchor=bubble.closest('.story-continue-group,[data-name="dialogue"]')||bubble;
+ anchor.prepend(note);
+ const button=root.querySelector('[data-exact-action="exact-next"]');
+ button?.classList.add('context-reveal');
+ waitForStoryContext(surface,description,button);
 }
-function showStoryContext(surface,root,description,button,cutscene=false){
+function showStoryContext(surface,root,description){
  const footer=document.createElement('div');
- footer.className='story-context-footer';
- if(cutscene)footer.classList.add('story-cutscene-footer');
+ footer.className='story-context-footer story-cutscene-footer';
  const note=document.createElement('p');
  note.className='scene-context';
  note.textContent=description;
- if(!button){
-  button=document.createElement('button');
-  button.type='button';
-  if(cutscene)button.dataset.action='next';
-  else button.dataset.exactAction='exact-next';
- }
- button.removeAttribute('style');
+ const button=document.createElement('button');
+ button.type='button';
+ button.dataset.action='next';
  button.className='story-continue context-continue';
  button.textContent='далее';
- button.setAttribute('aria-label','далее');
- button.inert=true;
  footer.append(note,button);
  root.append(footer);
+ waitForStoryContext(surface,description,button);
+}
+function waitForStoryContext(surface,description,button){
+ if(button)button.inert=true;
  surface.setAttribute('data-context-reading','');
  const words=description.trim().split(/\s+/).length;
  const delay=Math.max(1800,Math.ceil(words*60000/180));
  window.setTimeout(()=>{
   if(!surface.isConnected)return;
   surface.removeAttribute('data-context-reading');
-  button.inert=false;
+  if(button)button.inert=false;
  },delay);
 }
 function useMobileChatBackdrop(host,step){
