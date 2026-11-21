@@ -481,6 +481,32 @@ function wireExactScreen(host,name){
  }
  if(name==='help')wireHelpPhones(canvas);
  wireLinkStyles(canvas);
+ if(name==='materials'){
+  for(const card of canvas.querySelectorAll('[data-name="Card"]')){
+   const read=card.querySelector('a[href]');
+   if(!read)continue;
+   const article=document.createElement('a');
+   for(const attribute of card.attributes)article.setAttribute(attribute.name,attribute.value);
+   article.classList.add('material-card-link');
+   article.href=read.href;
+   article.target=read.target;
+   article.rel=read.rel;
+   const title=card.querySelector('[data-name="Title"],h2,h3');
+   if(title)article.setAttribute('aria-label',title.textContent.trim());
+   const cue=document.createElement('span');
+   for(const attribute of read.attributes){
+    if(!['href','target','rel'].includes(attribute.name))cue.setAttribute(attribute.name,attribute.value);
+   }
+   cue.append(...read.childNodes);
+   cue.querySelectorAll('[role="link"],[tabindex]').forEach(node=>{
+    node.removeAttribute('role');
+    node.removeAttribute('tabindex');
+   });
+   read.replaceWith(cue);
+   article.append(...card.childNodes);
+   card.replaceWith(article);
+  }
+ }
  if(name==='menu'){
   const close=canvas.querySelector('[data-node-id="1500:1875"]');if(close)assignExactAction(close,'close','закрыть');
  }
