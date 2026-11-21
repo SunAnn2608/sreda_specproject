@@ -414,11 +414,17 @@ function wireExactScreen(host,name){
   choice.prepend(pointer);
  }
 
+ const socialDevice=exactVariant==='mobile'&&window.innerWidth>=768?'tablet':exactVariant;
  for(const social of canvas.querySelectorAll('[data-social-network]')){
   const net=social.dataset.socialNetwork;
-  social.innerHTML=`<a class="social-link" href="${socialLinks[net]}" target="_blank" rel="noopener noreferrer" aria-label="${net} — среда"><img alt="" src="./assets/social-${net}.svg?v=41" width="119" height="120"></a>`;
+  social.innerHTML=`<a class="social-link" href="${socialLinks[net]}" target="_blank" rel="noopener noreferrer" aria-label="${net} — среда"><img alt="" src="./assets/social-${net}-${socialDevice}.svg" width="119" height="120"></a>`;
  }
  if(name==='menu'){
+  if(exactVariant==='tablet'){
+   const panel=canvas.querySelector('[data-component="Menu"]');
+   const socials=canvas.querySelector('[data-name="menu-aside"] [data-name="socials"]');
+   if(panel&&socials)panel.append(socials);
+  }
   const actions={'начать историю':'restart','материалы':'materials','нужна поддержка':'help','поддержать':'supportPage'};
   for(const node of canvas.querySelectorAll('[data-component="MenuItem"],[data-name^="menu/"]')){
    const label=normalizedLabel(node);
