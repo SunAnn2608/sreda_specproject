@@ -134,12 +134,17 @@ html,body{width:100%;height:100%;min-width:0;overflow:hidden}
  }
 }
 
-/* Пунктир отсчитывается от границ плашки, включая изменение её размера. */
-.figma-viewport[data-exact-screen="menu"]:not([data-exact-device="mobile"]) [data-component="Menu"]>[data-name="stitch" i]{
- inset:calc(10 * var(--frame-unit))!important;
- width:auto!important;height:auto!important;
- translate:none!important;transform:none!important;
- border-radius:inherit;
+/* Общая внутренняя строчка панели меню для всех вариантов раскладки. */
+.figma-viewport[data-exact-screen="menu"] [data-component="Menu"]{
+ box-shadow:none!important;
+ filter:none!important;
+}
+.figma-viewport[data-exact-screen="menu"] [data-component="Menu"]>[data-name="stitch" i]{
+ display:none!important;
+}
+.figma-viewport[data-exact-screen="menu"] [data-component="Menu"]::after{
+ content:"";position:absolute;inset:clamp(5px,calc(10 * var(--frame-unit)),10px);
+ border:1.5px dashed #707070;border-radius:inherit;pointer-events:none;
 }
 .figma-viewport[data-exact-screen="menu"] [data-name^="bg/key-visual"] img{object-position:left top}
 .figma-viewport[data-exact-screen="menu"][data-exact-device="mobile"] [data-name^="bg/key-visual"] img{object-position:center top}

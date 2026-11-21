@@ -180,9 +180,6 @@
 .compact-ux .compact-notice a{display:inline}
 .compact-ux[data-layout="scene"]:not([data-exact-screen="menu"]){touch-action:pan-y pinch-zoom}
 .compact-ux .compact-menu-cover{touch-action:pan-x pinch-zoom;pointer-events:auto!important}
-.figma-viewport:is([data-exact-device="mobile"],[data-exact-device="tablet"]) .social-link{
- border:1px solid #0d0f10;border-radius:16%;overflow:hidden;
-}
 .figma-viewport:is([data-exact-device="tablet"],[data-exact-device="desktop"]) [data-name="Chapter"]::after{
  border:1px dashed #0d0f10;
 }
