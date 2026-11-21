@@ -56,6 +56,7 @@ function showPrologueNotice(notice){
  window.setTimeout(advance,5000);
 }
 function render(){
+ if(typeof writeNovelProgress==="function"&&typeof localStorage!=="undefined")writeNovelProgress();
  if(typeof renderExactScreen==='function'&&renderExactScreen())return;
  const s=scenes[state.scene]||scenes.prologue;
  let inner="";
@@ -196,6 +197,7 @@ for(const eventName of ["mousedown","mouseup","auxclick"])document.addEventListe
 document.addEventListener("click",e=>{const el=e.target.closest("[data-action]");if(e.target.closest("a.logo")){e.preventDefault();handleAction("restart");return}if(el){handleAction(el.dataset.action);return}if(e.target.matches("[data-overlay]")){handleAction("close");return}if(state.scene!=="messageMom"&&canAdvanceScene()&&e.target.closest(".stage")&&!e.target.closest("header,a,button,input,select,textarea"))handleAction("next")});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&state.modal)handleAction("close")});
 document.addEventListener("keydown",e=>{if(e.code==="Space"&&canAdvanceScene()&&!e.target.closest("a,button,input,select,textarea")){e.preventDefault();handleAction("next")}});
+if(typeof readNovelProgress==="function"&&typeof localStorage!=="undefined")state=readNovelProgress()||state;
 render();
 
 // ИИ: фокус остаётся внутри открытого окна чтения. Запись №23.

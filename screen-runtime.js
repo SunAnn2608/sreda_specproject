@@ -67,7 +67,7 @@ const socialLinks=Object.freeze({
 function exactDevice(){
  const forced=location.pathname.endsWith('/verify.html')?new URLSearchParams(location.search).get('device'):null;
  if(['desktop','tablet','mobile'].includes(forced))return forced;
- if(window.innerWidth<768)return 'mobile';
+ if(typeof compactNovelLayout==='function'?compactNovelLayout():window.innerWidth<768)return 'mobile';
  return window.innerWidth<=1280?'tablet':'desktop';
 }
 function exactScreenHTML(template,screenName,device){
@@ -127,6 +127,7 @@ function renderExactScreen(){
  separateBubbleContinue(host);
  if(device==='mobile')adaptMobileContinue(host,screenName);
  const contextNote=addSceneContext(host,screenName);
+ if(typeof applyAdaptiveUX==='function')applyAdaptiveUX(host,screenName,contextNote);
  if(typeof animateNovelFrame==='function')animateNovelFrame(host,screenName,contextNote);
  document.title='среда · '+(scenes[state.scene]?.chapter||screenName);
  return true;
@@ -548,7 +549,7 @@ document.addEventListener('click',e=>{
  if(host.hasAttribute('data-scene-loading')&&!e.target.closest('[data-name="Bar"]'))return;
  const control=e.target.closest('[data-exact-action]');
  if(control){e.preventDefault();e.stopImmediatePropagation();if(control.dataset.exactAction==='exact-next')exactAdvance();else handleAction(control.dataset.exactAction);return;}
- if(state.scene!=='messageMom'&&!state.modal&&(exactHasNextFrame()||['dialogue','chat','momchat'].includes(scenes[state.scene]?.kind))){e.preventDefault();e.stopImmediatePropagation();exactAdvance();}
+ if((state.scene!=='messageMom'||exactDevice()==='mobile')&&!state.modal&&(exactHasNextFrame()||['dialogue','chat','momchat','silent'].includes(scenes[state.scene]?.kind))){e.preventDefault();e.stopImmediatePropagation();exactAdvance();}
 },{capture:true});
 document.addEventListener('keydown',e=>{
  if(!document.querySelector('.figma-viewport'))return;

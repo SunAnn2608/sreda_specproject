@@ -90,7 +90,11 @@ function animateNovelFrame(host,screenName,contextNote){
   (!revealContent.length&&next.length?interactivePause:undefined);
  const clearContext=contextNote&&!final?()=>dismissSceneContext(contextNote):undefined;
  // Кадр открывается только после загрузки всех его начальных слоёв.
- add([background,...subject,...phone,contextNote],leadInWait,clearContext);
+ const compact=typeof compactNovelLayout==='function'&&compactNovelLayout();
+ if(compact&&screenName==='chat'&&contextNote){
+  add([background,contextNote],interactivePause,clearContext);
+  add([...subject,...phone]);
+ }else add([background,...subject,...phone,contextNote],leadInWait,clearContext);
  const contentHold=hasLaterReply?(family?familyReplyPause:replyPause):
   prompt.length?choicePause:next.length&&revealContent.length?interactivePause:undefined;
  add(revealContent,contentHold);
