@@ -17,7 +17,7 @@
 }
 .compact-ux [data-name="Prompt"]{
  height:auto!important;width:fit-content!important;padding:6px 16px!important;
- border:2px solid #0d0f10!important;background:#ffb5dc!important;rotate:-2deg;
+ border:2px solid #0d0f10!important;
  font-size:var(--compact-font)!important;line-height:1.15!important;
 }
 .compact-ux [data-name="Prompt"] p{font-size:inherit!important;line-height:inherit!important;position:relative!important;inset:auto!important}
@@ -135,12 +135,17 @@
 @media(max-width:767px),(max-width:1280px) and (orientation:portrait){
  .stage[data-scene="cutscene"] .story-continue{display:none!important}
 }
-/* Плашка вопроса использует те же углы, что и имя персонажа. */
-.figma-viewport[data-exact-device="desktop"] [data-name="Prompt"]{
- border-radius:calc(24 * var(--frame-unit))!important;filter:none!important;
+/* Вопрос оформляется как плашка имени персонажа. */
+.figma-viewport [data-name="Prompt"]{
+ --prompt-radius:24;
+ background:#bce3ff!important;
+ border-radius:calc(var(--prompt-radius) * var(--frame-unit))!important;
+ filter:none!important;
+ box-shadow:none!important;
+ rotate:none!important;
 }
-.figma-viewport[data-exact-device="tablet"] [data-name="Prompt"]{
- border-radius:calc(12 * var(--frame-unit))!important;filter:none!important;
+.figma-viewport:is([data-exact-device="tablet"],[data-exact-device="mobile"]) [data-name="Prompt"]{
+ --prompt-radius:12;
 }
 
 .compact-ux .compact-carousel{width:100%;margin-inline:0;padding-inline:0}
