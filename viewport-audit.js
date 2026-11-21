@@ -9,8 +9,12 @@ if(auditWidth>0&&auditHeight>0&&auditWidth<=1920&&auditHeight<=1440){
  const report=document.createElement('pre');
  report.textContent='Проверка…';
  document.body.replaceChildren(frame,report);
- const device=auditParams.get('device')||(auditWidth<768?'mobile':auditWidth<=1280?'tablet':'desktop');
+ const device=auditParams.get('device')||(auditWidth<768||auditWidth<=1280&&auditHeight>auditWidth?'mobile':auditWidth<=1280?'tablet':'desktop');
  const scenesOnly=auditParams.get('audit')==='scenes';
+ if(auditParams.get('view')==='single'){
+  const params=new URLSearchParams({screen:auditParams.get('screen')||'prologue',step:auditParams.get('step')||'0',release:auditParams.get('release')||'compact'});
+  frame.src='./verify.html?'+params;report.remove();
+ }
  const screens=Object.entries({...figmaScreens,B:figmaScreens.tellMom}).filter(([name])=>!scenesOnly||!['resources','materials','help','supportPage'].includes(name));
  const results=[];
  let checked=0;
@@ -49,5 +53,5 @@ if(auditWidth>0&&auditHeight>0&&auditWidth<=1920&&auditHeight<=1440){
   }
   report.textContent=JSON.stringify({width:auditWidth,height:auditHeight,device,checked,issues:results},null,2);
  }
- void auditViewport();
+ if(auditParams.get('view')!=='single')void auditViewport();
 }

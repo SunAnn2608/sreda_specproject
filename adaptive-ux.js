@@ -91,6 +91,7 @@ function adaptCompactDocument(root,name){
  root.classList.add('compact-document');
  const header=root.querySelector('.mobile-document-intro');
  if(name==='help'&&!header){
+  root.querySelectorAll(':scope > p').forEach(p=>p.remove());
   const intro=document.createElement('header');
   intro.className='mobile-document-intro';
   const h=document.createElement('h1');h.textContent='получить помощь';
