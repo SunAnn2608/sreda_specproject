@@ -51,6 +51,11 @@ function applyAdaptiveUX(host,name,context){
    if(bg)bg.classList.add('compact-prologue-crop');
   }
  }
+ if(name==='chat'&&exactStep===0){
+  const kroli=document.createElement('img');
+  kroli.src='./assets/kroli.png';kroli.alt='';kroli.className='chat-kroli compact-kroli';
+  root.append(kroli);
+ }
  if(name==='closeness')root.classList.add('compact-closeness');
  if(context)context.classList.add('compact-context');
  if(['resources','help','materials','supportPage'].includes(name))adaptCompactDocument(root,name);
