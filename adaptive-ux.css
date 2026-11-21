@@ -135,3 +135,23 @@
 @media(max-width:767px),(max-width:1280px) and (orientation:portrait){
  .stage[data-scene="cutscene"] .story-continue{display:none!important}
 }
+/* Плашка вопроса использует те же углы, что и имя персонажа. */
+.figma-viewport[data-exact-device="desktop"] [data-name="Prompt"]{
+ border-radius:calc(24 * var(--frame-unit))!important;filter:none!important;
+}
+.figma-viewport[data-exact-device="tablet"] [data-name="Prompt"]{
+ border-radius:calc(12 * var(--frame-unit))!important;filter:none!important;
+}
+
+.compact-ux .compact-carousel{width:100%;margin-inline:0;padding-inline:0}
+.compact-ux .compact-tail::before{left:42%}
+.compact-ux .compact-bubble [data-name="Arrow"]{
+ top:auto!important;left:auto!important;right:16px!important;bottom:12px!important;
+}
+.compact-ux :is(.compact-socials,[data-name="socials"]){
+ display:grid!important;grid-template-columns:repeat(3,minmax(44px,1fr));gap:12px!important;
+}
+.compact-ux [data-social-network]{width:44px!important;height:44px!important;justify-self:center}
+@media(min-width:360px){
+ .compact-ux :is(.compact-socials,[data-name="socials"]){grid-template-columns:repeat(6,minmax(40px,1fr));gap:4px!important}
+}

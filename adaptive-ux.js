@@ -111,7 +111,7 @@ function adaptCompactDocument(root,name){
   const p=document.createElement('p');
   p.append('Если опасно прямо сейчас — ');
   const a=document.createElement('a');a.href='tel:112';a.textContent='звони 112.';
-  const b=document.createElement('a');b.href='tel:88002000122';b.textContent='Детский телефон доверия 8 800 2000-122.';
+  const b=document.createElement('a');b.href='tel:88002000122';b.textContent='Детский телефон доверия 8 800 2000‑122.';
   p.append(a,document.createElement('br'),'Поговорить анонимно и бесплатно: ',b);emergency.append(p);
   emergency.classList.add('compact-emergency');
  }
@@ -143,6 +143,9 @@ function adaptCompactMenu(root){
   if(image){
    image.draggable=false;
    image.style.pointerEvents='auto';
+   const center=()=>{cover.scrollLeft=(cover.scrollWidth-cover.clientWidth)/2;};
+   if(image.complete)requestAnimationFrame(center);
+   else image.addEventListener('load',center,{once:true});
   }
  }
 }
