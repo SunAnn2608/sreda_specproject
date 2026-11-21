@@ -136,17 +136,20 @@
  .stage[data-scene="cutscene"] .story-continue{display:none!important}
 }
 /* Вопрос оформляется как плашка имени персонажа. */
-.figma-viewport [data-name="Prompt"]{
- --prompt-radius:24;
- background:#bce3ff!important;
- border-radius:calc(var(--prompt-radius) * var(--frame-unit))!important;
- filter:none!important;
- box-shadow:none!important;
- rotate:none!important;
+.figma-viewport :is([data-name="Prompt"],[data-component="Prompt"]){
+ --prompt-font:40;--prompt-inline:36;--prompt-top:10;--prompt-bottom:12;
+ background:#ffb5dc!important;border-radius:var(--badge-radius)!important;
+ padding:calc(var(--prompt-top) * var(--frame-unit)) calc(var(--prompt-inline) * var(--frame-unit)) calc(var(--prompt-bottom) * var(--frame-unit))!important;
+ width:max-content!important;height:auto!important;
+ filter:none!important;box-shadow:none!important;rotate:none!important;
 }
-.figma-viewport:is([data-exact-device="tablet"],[data-exact-device="mobile"]) [data-name="Prompt"]{
- --prompt-radius:12;
+.figma-viewport :is([data-name="Prompt"],[data-component="Prompt"]) p{
+ font-size:calc(var(--prompt-font) * var(--frame-unit))!important;line-height:1.2!important;
 }
+.figma-viewport:is([data-exact-device="mobile"],[data-exact-device="tablet"]) :is([data-name="Prompt"],[data-component="Prompt"]){
+ --prompt-font:20;--prompt-inline:18;--prompt-top:6;--prompt-bottom:6;
+}
+.stage .prompt{background:#ffb5dc;border-radius:var(--badge-radius);box-shadow:none;rotate:none}
 
 .compact-ux .compact-carousel{width:100%;margin-inline:0;padding-inline:0}
 .compact-ux .compact-tail::before{left:42%}
