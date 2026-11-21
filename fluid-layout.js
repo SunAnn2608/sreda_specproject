@@ -43,7 +43,10 @@ function applyFluidConstraints(host,template,device,screenName){
   }else{
    node.style.left=`calc(50% + ${unit(g.x-template.width/2)})`;
   }
-  node.style.top=`calc(50% + ${unit(g.y-template.height/2)})`;
+  // Учитываем плашки, которые выступают над первым рядом карточек.
+  const articleOffset=screenName==='materials'&&g.n==='articles'&&device!=='mobile'
+   ?(device==='desktop'?64:30):0;
+  node.style.top=`calc(50% + ${unit(g.y+articleOffset-template.height/2)})`;
   node.style.bottom='auto';
  }
 }
