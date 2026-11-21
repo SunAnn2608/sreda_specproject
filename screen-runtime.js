@@ -118,6 +118,7 @@ function renderExactScreen(){
  }
  matchDocumentIntro(host,screenName,device);
  updateStoryCopy(host,screenName);
+ if(screenName==='prologue')host.querySelectorAll('[data-name="Chapter"]').forEach(chapter=>chapter.remove());
  wireExactScreen(host,screenName);
  updateSupportLabels(host);
  if(screenName==='openEnding')updateOpenEnding(host);
@@ -485,7 +486,7 @@ function wireStoryGuidance(host,screenName,frameCount){
    entry.setAttribute('aria-label','начать историю');
   }
   const notice=canvas.querySelector('[data-node-id="1500:1902"],[data-node-id="1500:1905"],[data-node-id="1500:1908"]');
-  if(notice){
+  if(notice&&canvas.closest('.figma-viewport').dataset.exactDevice!=='mobile'){
    notice.classList.add('prologue-note');
    notice.innerHTML=prologueNoticeMarkup;
    showPrologueNotice(notice);
@@ -549,6 +550,7 @@ document.addEventListener('click',e=>{
  if(host.hasAttribute('data-scene-loading')&&!e.target.closest('[data-name="Bar"]'))return;
  const control=e.target.closest('[data-exact-action]');
  if(control){e.preventDefault();e.stopImmediatePropagation();if(control.dataset.exactAction==='exact-next')exactAdvance();else handleAction(control.dataset.exactAction);return;}
+ if(host.classList.contains('compact-ux')&&!state.modal&&!e.target.closest('[data-name="Bar"]')&&scenes[state.scene]?.kind==='info'){exactAdvance();return;}
  if((state.scene!=='messageMom'||exactDevice()==='mobile')&&!state.modal&&(exactHasNextFrame()||['dialogue','chat','momchat','silent'].includes(scenes[state.scene]?.kind))){e.preventDefault();e.stopImmediatePropagation();exactAdvance();}
 },{capture:true});
 document.addEventListener('keydown',e=>{

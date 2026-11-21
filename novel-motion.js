@@ -86,19 +86,20 @@ function animateNovelFrame(host,screenName,contextNote){
  const revealContent=[...content];
  if(replies.length)revealContent.push(replies[0]);
  const hasLaterReply=replies.length>1;
- const leadInWait=contextNote?(family?familyContextPause:interactivePause):
-  (!revealContent.length&&next.length?interactivePause:undefined);
+ const compact=typeof compactNovelLayout==='function'&&compactNovelLayout();
+ const continuePause=compact?650:interactivePause;
+ const leadInWait=contextNote?(family?(compact?950:familyContextPause):interactivePause):
+  (!revealContent.length&&next.length?continuePause:undefined);
  const clearContext=contextNote&&!final?()=>dismissSceneContext(contextNote):undefined;
  // Кадр открывается только после загрузки всех его начальных слоёв.
- const compact=typeof compactNovelLayout==='function'&&compactNovelLayout();
  if(compact&&screenName==='chat'&&contextNote){
   add([background,contextNote],interactivePause,clearContext);
   add([...subject,...phone]);
  }else add([background,...subject,...phone,contextNote],leadInWait,clearContext);
  const contentHold=hasLaterReply?(family?familyReplyPause:replyPause):
-  prompt.length?choicePause:next.length&&revealContent.length?interactivePause:undefined;
+  prompt.length?choicePause:next.length&&revealContent.length?continuePause:undefined;
  add(revealContent,contentHold);
- if(hasLaterReply)add(replies.slice(1),next.length?interactivePause:undefined);
+ if(hasLaterReply)add(replies.slice(1),next.length?continuePause:undefined);
  add(prompt,sceneFadeTime);add(choices);add(next);
  return revealSceneLayers(surface,steps,host.hasAttribute('data-scene-crossfade'));
 }
