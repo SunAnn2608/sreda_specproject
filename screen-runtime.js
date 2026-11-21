@@ -399,6 +399,52 @@ function updateStoryCopy(host,name){
   if(name==='closeness')line.closest('[data-name="Bubble"]').classList.add('closeness-response');
  }
 }
+function linkMaterialCard(card,read,url,accessibleLabel){
+ const article=document.createElement('a');
+ for(const attribute of card.attributes)article.setAttribute(attribute.name,attribute.value);
+ article.classList.add('material-card-link');
+ article.href=url;
+ article.target=read.target;
+ article.rel=read.rel;
+ article.setAttribute('aria-label',accessibleLabel);
+ const cue=document.createElement('span');
+ for(const attribute of read.attributes){
+  if(!['href','target','rel'].includes(attribute.name))cue.setAttribute(attribute.name,attribute.value);
+ }
+ cue.append(...read.childNodes);
+ cue.querySelectorAll('[role="link"],[tabindex]').forEach(node=>{
+  node.removeAttribute('role');
+  node.removeAttribute('tabindex');
+ });
+ read.replaceWith(cue);
+ article.append(...card.childNodes);
+ card.replaceWith(article);
+}
+function wireResourceCards(canvas){
+ const cards=[...canvas.querySelectorAll('[data-name="Card"]')];
+ const byTag=new Map(cards.map(card=>[normalizedLabel(card.querySelector('[data-name="Tag"]')),card]));
+ const materials=byTag.get('материалы');
+ const witness=byTag.get('если ты видишь травлю');
+ if(materials&&witness){
+  const slot=document.createComment('');
+  materials.replaceWith(slot);
+  witness.replaceWith(materials);
+  slot.replaceWith(witness);
+ }
+ for(const [tag,card] of byTag){
+  const read=card.querySelector('a[href]');
+  if(read){
+   const [, ,url,label]=articles[tag==='для взрослых'?5:2];
+   linkMaterialCard(card,read,url,label+': '+card.firstElementChild.textContent.trim());
+   continue;
+  }
+  const action=tag==='материалы'?'materials':'help';
+  const cue=card.querySelector(':scope > p:nth-child(2)');
+  cue.classList.add('text-link');
+  card.classList.add('material-card-link');
+  assignExactAction(card,action,cue.textContent.trim());
+ }
+}
 function wireExactScreen(host,name){
  const canvas=host.querySelector('.figma-canvas');
  // ИИ: макет показывает hover как пример; в покое все ответы нейтральные. Запись №20.
@@ -450,18 +496,6 @@ function wireExactScreen(host,name){
    if(action)assignExactAction(node,action);
   }
  }
- if(name==='resources'){
-  for(const card of canvas.querySelectorAll('[data-name="Card"]')){
-   const links=[...card.querySelectorAll('p,a')];
-   const link=links.find(node=>normalizedLabel(node)==='нужна поддержка')||
-     links.find(node=>normalizedLabel(node)==='материалы'&&!node.closest('[data-name="Tag"]'));
-   if(link){
-    const label=normalizedLabel(link);
-    if(link.matches('a'))link.removeAttribute('href');
-    assignExactAction(link,label==='материалы'?'materials':'help',label);
-   }
-  }
- }
  if(name==='chat')for(const line of canvas.querySelectorAll('[data-name="phone"] p')){
   if(!normalizedLabel(line).startsWith('удалите,'))continue;
   line.replaceChildren('Удалите, пожалуйста.',document.createElement('br'),'Я не\u00a0разрешал.');
@@ -481,6 +515,7 @@ function wireExactScreen(host,name){
  }
  if(name==='help')wireHelpPhones(canvas);
  wireLinkStyles(canvas);
+ if(name==='resources')wireResourceCards(canvas);
  if(name==='materials'){
   for(const [index,card] of [...canvas.querySelectorAll('[data-name="Card"]')].entries()){
    const read=card.querySelector('a[href]');
@@ -495,25 +530,7 @@ function wireExactScreen(host,name){
     card.querySelector(':scope > p').textContent=description;
     (read.querySelector('p')||read).textContent=label;
    }
-   const article=document.createElement('a');
-   for(const attribute of card.attributes)article.setAttribute(attribute.name,attribute.value);
-   article.classList.add('material-card-link');
-   article.href=url;
-   article.target=read.target;
-   article.rel=read.rel;
-   article.setAttribute('aria-label',label+': '+heading);
-   const cue=document.createElement('span');
-   for(const attribute of read.attributes){
-    if(!['href','target','rel'].includes(attribute.name))cue.setAttribute(attribute.name,attribute.value);
-   }
-   cue.append(...read.childNodes);
-   cue.querySelectorAll('[role="link"],[tabindex]').forEach(node=>{
-    node.removeAttribute('role');
-    node.removeAttribute('tabindex');
-   });
-   read.replaceWith(cue);
-   article.append(...card.childNodes);
-   card.replaceWith(article);
+   linkMaterialCard(card,read,url,label+': '+heading);
   }
  }
  if(name==='menu'){
