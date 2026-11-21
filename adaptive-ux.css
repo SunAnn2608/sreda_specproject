@@ -160,3 +160,8 @@
 .compact-ux[data-exact-screen="chat"][data-exact-step="0"] .mobile-chat-backdrop{display:none!important}
 .compact-ux .compact-kroli{position:absolute!important;width:108%!important;height:auto!important;max-width:none!important;left:auto!important;right:-12%!important;top:auto!important;bottom:-5%!important;pointer-events:none}
 .compact-ux[data-layout="scene"] .compact-frame{-webkit-user-select:none;user-select:none}
+.compact-ux[data-layout="document"]>.figma-canvas{height:auto!important;min-height:100dvh!important}
+.compact-ux .compact-document{min-height:100dvh!important}
+.compact-ux .compact-document>:not(img):not([data-name^="bg/"]):not([data-name="Bar"]){
+ position:relative!important;z-index:1;
+}
