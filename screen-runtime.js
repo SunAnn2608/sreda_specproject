@@ -475,24 +475,33 @@ function wireExactScreen(host,name){
  if(name==='supportPage')for(const link of canvas.querySelectorAll('a[href*="verimtebe.ru"]')){
   link.href='https://verimtebe.ru/';link.target='_blank';link.rel='noopener noreferrer';
  }
- // ИИ №24: до отдельных статей все материалы открывают канал автора.
+ // Ссылки на канал проекта вне карточек материалов.
  for(const link of canvas.querySelectorAll('a[href*="dzen.ru/sreda_acceptance"]')){
   link.href=socialLinks.dzen;link.target='_blank';link.rel='noopener noreferrer';
  }
  if(name==='help')wireHelpPhones(canvas);
  wireLinkStyles(canvas);
  if(name==='materials'){
-  for(const card of canvas.querySelectorAll('[data-name="Card"]')){
+  for(const [index,card] of [...canvas.querySelectorAll('[data-name="Card"]')].entries()){
    const read=card.querySelector('a[href]');
-   if(!read)continue;
+   const material=articles[index];
+   if(!read||!material)continue;
+   const [heading,description,url,label]=material;
+   if(label==='смотреть'){
+    const [firstLine,secondLine]=card.querySelectorAll(':scope > div:first-child > p');
+    const split=heading.indexOf(' и ');
+    firstLine.textContent=heading.slice(0,split);
+    secondLine.textContent=heading.slice(split+1);
+    card.querySelector(':scope > p').textContent=description;
+    (read.querySelector('p')||read).textContent=label;
+   }
    const article=document.createElement('a');
    for(const attribute of card.attributes)article.setAttribute(attribute.name,attribute.value);
    article.classList.add('material-card-link');
-   article.href=read.href;
+   article.href=url;
    article.target=read.target;
    article.rel=read.rel;
-   const title=card.querySelector('[data-name="Title"],h2,h3');
-   if(title)article.setAttribute('aria-label',title.textContent.trim());
+   article.setAttribute('aria-label',label+': '+heading);
    const cue=document.createElement('span');
    for(const attribute of read.attributes){
     if(!['href','target','rel'].includes(attribute.name))cue.setAttribute(attribute.name,attribute.value);
