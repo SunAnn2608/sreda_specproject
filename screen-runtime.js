@@ -75,6 +75,11 @@ function exactScreenHTML(template,screenName,device){
   /(<div[^>]*data-name="Logo"[^>]*>\s*<div[^>]*>)<img[^>]*>/g,
   (_,slot)=>slot+brandLogoImage()
  );
+ if(screenName==='silent'&&device==='mobile')
+  return markup.replace(/src="[^"]*figma-7ddb8bd5-7a20-4a76-aec9-d9e2553f615b\.(?:png|webp)"/,
+   'src="./assets/final-1302-mobile.webp"');
+ if(screenName==='silent'&&device==='tablet')
+  return markup.replace('src="./assets/final-scene.webp"','src="./assets/final-1302-tablet.webp"');
  if(screenName!=='menu')return markup;
  const oldCover=device==='desktop'?'menu-background.webp':device==='tablet'
   ?'figma/figma-1e57ecd1-dfc0-46fb-85b6-398b81add6db.webp'
