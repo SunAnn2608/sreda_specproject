@@ -121,7 +121,7 @@
  left:var(--compact-gutter)!important;right:var(--compact-gutter)!important;width:auto!important;
  top:auto!important;bottom:max(24px,env(safe-area-inset-bottom))!important;
 }
-.compact-ux [data-name="choice-block"]>[data-name="Prompt"]{margin-bottom:20px!important}
+.compact-ux [data-name="choice-block"]>:is([data-name="Prompt"],[data-component="Prompt"]){margin-bottom:20px!important}
 .compact-ux [data-name="Bubble"] [data-name="Arrow"]{pointer-events:none}
 .compact-ux .compact-prologue-panel{padding-top:clamp(230px,61cqw,480px)!important}
 .compact-ux .compact-prologue-panel [data-name="content"]{

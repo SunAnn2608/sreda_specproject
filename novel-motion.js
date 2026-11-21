@@ -74,7 +74,7 @@ function animateNovelFrame(host,screenName,contextNote){
  const next=immediateContinue?[]:[...root.querySelectorAll('[data-exact-action="exact-next"],button[data-action="next"]:not(.bubble)')];
  const replies=['adults','closeness'].includes(screenName)?
   [...root.querySelectorAll('[data-name="Bubble"],.dialogue-layout>.bubble')]:[];
- const prompt=[...root.querySelectorAll('[data-name="Prompt"],.dialogue-layout>.prompt')];
+ const prompt=[...root.querySelectorAll('[data-name="Prompt"],[data-component="Prompt"],.dialogue-layout>.prompt')];
  const choices=[...root.querySelectorAll('[data-name="choices"],.dialogue-layout>.choices')];
  const delayed=new Set([...next,...replies,...prompt,...choices,contextNote]);
  const content=[...root.children].flatMap(node=>node.matches('.main')&&[...phone,...subject].some(layer=>node.contains(layer))?[...node.children]:[node])
