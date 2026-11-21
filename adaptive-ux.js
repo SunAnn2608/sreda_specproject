@@ -12,7 +12,11 @@ function applyAdaptiveUX(host,name,context){
  root.classList.add('compact-frame');
  const bar=root.querySelector('[data-name="Bar"]');
  if(bar)bar.classList.add('compact-bar');
- root.querySelectorAll('[data-name="Chapter"]').forEach(chapter=>chapter.remove());
+ const chapter=root.querySelector('[data-name="Chapter"]');
+ if(chapter){
+  if(window.innerWidth<768)chapter.remove();
+  else chapter.classList.add('compact-chapter');
+ }
  root.querySelectorAll('[data-exact-action="exact-next"]').forEach(button=>button.classList.add('compact-next'));
  root.querySelectorAll('[data-name="Bubble"]').forEach(bubble=>{
   bubble.classList.add('compact-bubble');
@@ -32,7 +36,7 @@ function applyAdaptiveUX(host,name,context){
   const notice=root.querySelector('[data-component="Note"]');
   if(notice){
    notice.classList.add('compact-notice');
-   notice.innerHTML=`<p>В истории есть сцены травли.<br>Если тебе тяжело, <a href="tel:88002000122">позвони на телефон доверия 8 800 2000-122</a>.</p><p hidden>Банни травят в школе. Ты решаешь, что сказать и как быть рядом.</p><p hidden>Коснись экрана или свайпай, чтобы продолжить. Когда появятся ответы, выбери один.</p>`;
+   notice.innerHTML=`<p>В истории есть сцены травли.<br>Если&nbsp;тебе&nbsp;тяжело, <a href="tel:88002000122">позвони на телефон доверия 8 800 2000-122</a>.</p><p hidden>Банни травят в школе. Ты решаешь, что сказать и как быть рядом.</p><p hidden>Коснись экрана или свайпай, чтобы продолжить. Когда появятся ответы, выбери один.</p>`;
    const messages=[...notice.children];
    let current=0;
    const cycle=()=>{
@@ -126,11 +130,18 @@ function adaptCompactDocument(root,name){
   if(!empty.children.length)empty.remove();
  }
  if(actions){actions.classList.add('compact-document-actions');root.append(actions);}
- if(emergency)root.append(emergency);
+ if(emergency){
+  const intro=root.querySelector('.mobile-document-intro');
+  if(intro)intro.after(emergency);
+ }
  for(const social of socials){social.classList.add('compact-socials');root.append(social);}
  if(name==='resources'||name==='materials'){
   const start=root.querySelector('.mobile-document-start');
-  if(start){start.classList.add('compact-primary-start');root.append(start);}
+  if(start){
+   start.classList.add('compact-primary-start');
+   if(name==='resources')root.querySelector('.mobile-document-intro')?.after(start);
+   else root.append(start);
+  }
  }
  root.querySelectorAll('[data-name="contacts"]').forEach(n=>root.append(n));
 }
@@ -142,6 +153,8 @@ function adaptCompactMenu(root){
   const socials=panel.querySelector('[data-name="socials-block"]');
   if(socials){panel.append(socials);socials.classList.add('compact-menu-socials');}
  }
+ const close=root.querySelector('[data-component="IconButton"]');
+ if(close&&panel)panel.append(close);
  const cover=root.querySelector('[data-name^="bg/key-visual"]');
  if(cover){
   cover.classList.add('compact-menu-cover');
