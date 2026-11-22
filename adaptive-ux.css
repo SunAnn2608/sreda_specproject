@@ -1,14 +1,13 @@
-.compact-ux{--compact-gutter:clamp(14px,4.1cqw,40px);--compact-font:clamp(15px,4.1cqw,30px)}
+.compact-ux{--compact-gutter:clamp(14px,4.1cqw,40px);--compact-font:clamp(15px,4.1cqw,30px);--compact-header-top:max(12px,env(safe-area-inset-top));--compact-toggle-width:clamp(48px,12.7cqw,78px);--compact-toggle-height:clamp(44px,10cqw,64px);--compact-control-shadow:4px 4px 0 #0d0f10}
 .compact-ux .compact-bar{
  position:absolute!important;inset:0 0 auto!important;height:auto!important;width:100%!important;
- padding: max(12px,env(safe-area-inset-top)) var(--compact-gutter) 10px!important;overflow:visible!important;
+ padding:var(--compact-header-top) var(--compact-gutter) 10px!important;overflow:visible!important;
 }
-.compact-ux .compact-bar [data-name="Top"]{width:100%!important;height:auto!important;min-height:44px}
+.compact-ux .compact-bar [data-name="Top"]{width:100%!important;height:auto!important;min-height:var(--compact-toggle-height);justify-content:space-between!important}
 .compact-ux .compact-bar .brand-logo{width:clamp(80px,23cqw,165px)!important;flex-basis:clamp(80px,23cqw,165px)!important}
-.compact-ux .compact-bar [data-name="Actions"]{display:flex!important;align-items:center!important;gap:clamp(8px,2cqw,18px)!important}
-.compact-ux .compact-bar [data-name="Help"]{font-size:clamp(12px,3.5cqw,25px)!important;padding:6px 10px!important;white-space:nowrap}
+.compact-ux .compact-bar [data-name="Actions"]{display:flex!important;align-items:center!important;height:auto!important;overflow:visible!important;gap:clamp(8px,2cqw,18px)!important}
+.compact-ux .compact-bar [data-name="Help"]{font-size:clamp(12px,3.5cqw,25px)!important;padding:6px 10px!important;white-space:nowrap;filter:none!important;box-shadow:var(--compact-control-shadow)!important}
 .compact-ux .compact-bar [data-name="Help"] p{font-size:inherit!important;line-height:1.15!important}
-.compact-ux .compact-bar [data-name="Menu"]{overflow:visible!important;flex-shrink:0!important}
 .compact-ux .compact-chapter{position:relative!important;inset:auto!important;margin-top:8px!important;display:inline-flex!important;max-width:100%!important}
 .compact-ux .compact-next{display:none!important}
 .compact-ux .compact-frame{--compact-radius:12px}
@@ -119,7 +118,26 @@
  .compact-ux .compact-menu-cover img{animation:mobile-menu-dolly 14s ease-in-out infinite alternate}
 }
 @keyframes mobile-menu-dolly{from{scale:1}to{scale:1.13}}
-.compact-ux .compact-menu [data-component="IconButton"]{left:auto!important;right:var(--compact-gutter)!important;top:max(12px,env(safe-area-inset-top))!important;bottom:auto!important;z-index:8}
+.compact-ux :is(.compact-bar [data-name="Menu"],.compact-menu [data-component="IconButton"]){
+ box-sizing:border-box;width:var(--compact-toggle-width)!important;height:var(--compact-toggle-height)!important;
+ flex:none!important;overflow:visible!important;border:2px solid #0d0f10!important;border-radius:999px!important;
+ background:#fff9ed!important;box-shadow:var(--compact-control-shadow)!important;filter:none!important;
+}
+.compact-ux .compact-menu [data-component="IconButton"]{
+ left:auto!important;right:var(--compact-gutter)!important;top:var(--compact-header-top)!important;
+ bottom:auto!important;translate:none!important;z-index:8;
+}
+.compact-ux .compact-menu [data-component="IconButton"]>div{display:none}
+.compact-ux .compact-menu [data-component="IconButton"]::before,
+.compact-ux .compact-menu [data-component="IconButton"]::after{
+ content:"";position:absolute;left:50%;top:50%;width:17px;height:2px;
+ border-radius:2px;background:#0d0f10;transform:translate(-50%,-50%) rotate(45deg);
+}
+.compact-ux .compact-menu [data-component="IconButton"]::after{transform:translate(-50%,-50%) rotate(-45deg)}
+.compact-ux :is([data-node-id="1499:6036"],[data-node-id="1391:3943"]) [data-name="bg/bunny-runs"],
+.compact-ux :is([data-node-id="1499:6036"],[data-node-id="1391:3943"]) [data-name="bg/bunny-runs"]>div{
+ border-radius:0!important;
+}
 .compact-ux [data-name="choice-block"]{
  left:var(--compact-gutter)!important;right:var(--compact-gutter)!important;width:auto!important;
  top:auto!important;bottom:max(24px,env(safe-area-inset-bottom))!important;
@@ -173,7 +191,6 @@
 }
 
 .compact-ux .compact-bar [data-name="Top"]{align-items:center!important;overflow:visible!important}
-.compact-ux .compact-bar [data-name="Menu"]{margin-inline-end:4px}
 .compact-ux .compact-notice{display:grid!important;grid-template-columns:minmax(0,1fr);align-content:center;min-height:118px!important}
 .compact-ux .compact-notice p[hidden]{display:none!important}
 .compact-ux .compact-notice a{display:inline}
