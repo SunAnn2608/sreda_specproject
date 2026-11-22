@@ -67,33 +67,27 @@ function render(){
   const options=s.options?`<div class="prompt">${escapeHTML(s.prompt)}</div><div class="choices">${s.options.map((o,i)=>btn(o.label,"choice:"+i,"choice")).join("")}</div>`:"";
   inner=`<div class="dialogue-layout">${dialogue}${options}</div>`;
  }
- if(state.scene==="dialogue")inner=`<div class="story-dialogue"><button class="panel bubble" data-action="next"><span class="speaker">банни</span><span>${escapeHTML(s.text)}</span><img class="bubble-tail" src="./assets/tail.svg" alt=""><img class="bubble-arrow" src="./assets/arrow.svg" alt=""></button>${btn("дальше","next","story-continue")}</div>`;
+ if(state.scene==="dialogue")inner=`<div class="story-dialogue"><article class="panel bubble"><span class="speaker">банни</span><span>${escapeHTML(s.text)}</span><img class="bubble-tail" src="./assets/tail.svg" alt=""></article></div>`;
  // ИИ: телефон и Кроли экрана 02-02 из Figma 1318:2561. Запись №6.
- if(state.scene==="chat")inner=`<img class="chat-aura" src="./assets/kroli-glow.svg" alt=""><img class="chat-kroli" src="./assets/kroli.png" alt="Кроли"><section class="chat-phone" aria-label="8 Б — общий чат"><h2>8 «Б» · общий чат</h2><div class="chat-messages"><p>смотрите,<br>кто опять в шапке</p><div class="chat-photo"><img src="./assets/chat-photo.png" alt="Фотография Банни, опубликованная без разрешения"></div><p>ахаха</p><p class="outgoing">Удалите, пожалуйста. Я не разрешал.</p><small>Прочитано: 24 · ответов нет</small></div></section><button class="panel bubble chat-reply" data-action="next"><span class="speaker">банни</span><span>Я просил удалить.<br>Никто не ответил.</span><img class="bubble-tail" src="./assets/tail.svg" alt=""><img class="bubble-arrow" src="./assets/arrow.svg" alt=""></button>`;
- if(s.kind==="info")inner=`<article class="panel stitched info-panel"><h1>${escapeHTML(s.title)}</h1><div class="info-content">${s.image?`<img class="info-image" src="./assets/${s.image}" alt="">`:""}<div><h2>${escapeHTML(s.text)}</h2>${s.points?`<ul>${s.points.map(p=>`<li>${escapeHTML(p)}</li>`).join("")}</ul>`:""}</div></div><div class="actions">${btn("читать", "article:"+({info:0,pauseA:1,pauseB:2,pauseC:3}[state.scene]??0),"action secondary")}${btn("дальше","next","action")}</div></article>`;
+ if(state.scene==="chat")inner=`<img class="chat-aura" src="./assets/kroli-glow.svg" alt=""><img class="chat-kroli" src="./assets/kroli.png" alt="Кроли"><section class="chat-phone" aria-label="8 Б — общий чат"><h2>8 «Б» · общий чат</h2><div class="chat-messages"><p>смотрите,<br>кто опять в шапке</p><div class="chat-photo"><img src="./assets/chat-photo.png" alt="Фотография Банни, опубликованная без разрешения"></div><p>ахаха</p><p class="outgoing">Удалите, пожалуйста. Я не разрешал.</p><small>Прочитано: 24 · ответов нет</small></div></section><article class="panel bubble chat-reply"><span class="speaker">банни</span><span>Я просил удалить.<br>Никто не ответил.</span><img class="bubble-tail" src="./assets/tail.svg" alt=""></article>`;
+ if(s.kind==="info")inner=`<article class="panel stitched info-panel"><h1>${escapeHTML(s.title)}</h1><div class="info-content">${s.image?`<img class="info-image" src="./assets/${s.image}" alt="">`:""}<div><h2>${escapeHTML(s.text)}</h2>${s.points?`<ul>${s.points.map(p=>`<li>${escapeHTML(p)}</li>`).join("")}</ul>`:""}</div></div><div class="actions">${btn("читать", "article:"+({info:0,pauseA:1,pauseB:2,pauseC:3}[state.scene]??0),"action secondary")}</div></article>`;
  if(s.kind==="ending"){
   const copy=escapeHTML(s.text);
   const emphasis=escapeHTML("попросить о помощи.");
   inner=`<article class="panel stitched"><span class="tag">сегодня</span><h1>${escapeHTML(s.title)}</h1><p>${state.scene==="openEnding"?copy.replace(emphasis,`<strong>${emphasis}</strong>`):copy}</p><div class="actions">${btn("отмотать время","start","action")}${btn("получить поддержку","help","action secondary")}</div></article>`;
  }
- if(s.kind==="silent")inner=`<p class="scene-context final-scene-context">${escapeHTML(s.context)}</p>${btn("дальше","next","story-continue")}`;
+ if(s.kind==="silent")inner=`<p class="scene-context final-scene-context">${escapeHTML(s.context)}</p>`;
  if(s.kind==="cutscene"){
   const format=typeof formatStoryContext==="function"?formatStoryContext:text=>text;
   inner=`<div class="story-cutscene-copy"><h1>катсцена:</h1><p>${escapeHTML(format(s.text))}</p></div>
-   <div class="story-context-footer story-cutscene-footer"><p class="scene-context">${escapeHTML(format(s.context))}</p>${btn("дальше","next","story-continue")}</div>`;
+   <div class="story-context-footer story-cutscene-footer"><p class="scene-context">${escapeHTML(format(s.context))}</p></div>`;
  }
- if(s.kind==="momchat")inner=`<div class="mom-message"><article class="panel bubble"><span class="speaker">банни</span><p>${escapeHTML(s.text)}</p></article><section class="chat-phone"><h2>мама</h2><div class="chat-messages"><p class="outgoing">Мам, можно поговорить? Это важно. Про школу.</p><small>печатает…</small></div></section><div class="actions">${btn("дальше","next","action")}</div></div>`;
- if(s.kind==="resources"||s.kind==="supportpage")inner=`<section class="resource-page"><h1>${escapeHTML(s.title)}</h1><div class="resource-grid">${s.kind==="resources"?[['если травят тебя','Как начать разговор и к кому обратиться','help'],['если ты видишь травлю','Как поддержать друга и не выгореть самому','materials'],['для взрослых','Если подросток рассказал вам о травле','materials'],['материалы','Шесть коротких статей: для себя, друзей и взрослых','materials']].map(([title,text,action])=>`<article class="panel"><h2>${title}</h2><p>${text}</p>${btn("открыть",action,"action secondary")}</article>`).join(""):'<article class="panel"><h2>фонд поддержки</h2><p>Напиши в фонд «Тебе поверят»</p><p>info@verimtebe.ru · t.me/tebepoveriat</p></article>'}</div><div class="actions">${btn("начать историю","start","action")}${s.next?btn("дальше","next","action secondary"):""}</div></section>`;
+ if(s.kind==="momchat")inner=`<div class="mom-message"><article class="panel bubble"><span class="speaker">банни</span><p>${escapeHTML(s.text)}</p></article><section class="chat-phone"><h2>мама</h2><div class="chat-messages"><p class="outgoing">Мам, можно поговорить? Это важно. Про школу.</p><small>печатает…</small></div></section><div class="actions"></div></div>`;
+ if(s.kind==="resources"||s.kind==="supportpage")inner=`<section class="resource-page"><h1>${escapeHTML(s.title)}</h1><div class="resource-grid">${s.kind==="resources"?[['если травят тебя','Как начать разговор и к кому обратиться','help'],['если ты видишь травлю','Как поддержать друга и не выгореть самому','materials'],['для взрослых','Если подросток рассказал вам о травле','materials'],['материалы','Шесть коротких статей: для себя, друзей и взрослых','materials']].map(([title,text,action])=>`<article class="panel"><h2>${title}</h2><p>${text}</p>${btn("открыть",action,"action secondary")}</article>`).join(""):'<article class="panel"><h2>фонд поддержки</h2><p>Напиши в фонд «Тебе поверят»</p><p>info@verimtebe.ru · t.me/tebepoveriat</p></article>'}</div><div class="actions">${btn("начать историю","start","action")}</div></section>`;
 
  if(s.reply){
-  const reply=`<article class="panel bubble player-reply"><span class="speaker">ты</span><p>${escapeHTML(s.reply)}</p><img class="bubble-arrow" src="./assets/arrow.svg" alt=""></article>`;
+  const reply=`<article class="panel bubble player-reply"><span class="speaker">ты</span><p>${escapeHTML(s.reply)}</p></article>`;
   inner=state.scene==="adults"?inner.replace('</div>',reply+'</div>'):inner.replace('<div class="dialogue-layout">','<div class="dialogue-layout">'+reply);
- }
- const showContinue=['dialogue','chat','momchat'].includes(s.kind)&&!inner.includes('data-action="next"');
- if(showContinue){
-  const nextButton=btn('дальше','next','story-continue');
-  const anchor=inner.lastIndexOf('</div>');
-  inner=anchor<0?inner+nextButton:inner.slice(0,anchor)+nextButton+inner.slice(anchor);
  }
  const markup=`<div class="stage ${s.kind==="dialogue"?"story-screen":""}" data-screen="${state.scene}" data-scene="${escapeHTML(s.kind)}">${s.kind==="cutscene"?"":header(s)}<div class="scene-art" aria-hidden="true">${s.art?`<picture>${state.scene==="dialogue"?'<source media="(max-width:1023px)" srcset="./assets/corridor-mobile.png">':""}<img src="./assets/${s.art}" alt=""></picture>`:""}</div>${s.other?`<img class="story-other" src="./assets/${s.other}" alt="">`:""}${s.character?`<img class="story-character" src="./assets/${s.character}" alt="">`:""}<main class="main" id="main" tabindex="-1">${inner}</main></div>${modalHTML()}`;
  app.innerHTML=typeof optimizedScreenHTML==='function'?optimizedScreenHTML(markup):markup;
@@ -101,7 +95,7 @@ function render(){
  if(state.scene==="adults"){
   document.querySelector('.scene-art').insertAdjacentHTML('beforeend','<img class="mom-warm-aura" src="./assets/mom-warm.svg" alt="">');
   const momBubble=document.querySelector('.dialogue-layout>.bubble:not(.player-reply)');
-  momBubble?.insertAdjacentHTML('beforeend','<img class="mom-bubble-tail" src="./assets/mom-tail.svg" alt=""><img class="bubble-arrow" src="./assets/arrow.svg" alt="">');
+  momBubble?.insertAdjacentHTML('beforeend','<img class="mom-bubble-tail" src="./assets/mom-tail.svg" alt="">');
  }
  // ИИ: оригинальный размытый multiply-слой затемнения 02-02. Запись №17.
  if(state.scene==="chat")document.querySelector('.scene-art').insertAdjacentHTML('beforeend','<div class="chat-shade" aria-hidden="true"><div class="chat-shade-crop"><img src="./assets/chat-shade-source.png" alt=""></div></div>');
@@ -110,7 +104,10 @@ function render(){
  }
  if(state.modal){const stage=document.querySelector('.stage');if(stage?.setAttribute){stage.inert=true;stage.setAttribute('aria-hidden','true');}}
  document.title=`среда · ${s.chapter}`;
- if(s.kind!=='cutscene'&&typeof animateNovelFrame==='function')animateNovelFrame(app,state.scene);
+ if(typeof animateNovelFrame==='function'&&!state.modal){
+  const reveal=animateNovelFrame(app,state.scene);
+  if(s.next&&!s.options)queueStoryAdvance(app.querySelector('.stage'),reveal,'next');
+ }
 }
 // ИИ: чтение и меню поверх истории с сохранением позиции. Запись №8.
 const articles=[
@@ -194,9 +191,8 @@ const editableTarget=target=>target instanceof Element&&target.closest('input,te
 document.addEventListener("keydown",e=>{if(e.repeat||e.altKey||e.ctrlKey||e.metaKey||editableTarget(e.target))return;if(e.key==="ArrowLeft"){e.preventDefault();navigateBack();}else if(e.key==="ArrowRight"){e.preventDefault();navigateForward();}});
 function mouseNavigation(e){if(![3,4].includes(e.button)||editableTarget(e.target))return;e.preventDefault();e.stopPropagation();if(e.type==="mouseup"){if(e.button===3)navigateBack();else navigateForward();}}
 for(const eventName of ["mousedown","mouseup","auxclick"])document.addEventListener(eventName,mouseNavigation,{capture:true});
-document.addEventListener("click",e=>{const el=e.target.closest("[data-action]");if(e.target.closest("a.logo")){e.preventDefault();handleAction("restart");return}if(el){handleAction(el.dataset.action);return}if(e.target.matches("[data-overlay]")){handleAction("close");return}if(state.scene!=="messageMom"&&canAdvanceScene()&&e.target.closest(".stage")&&!e.target.closest("header,a,button,input,select,textarea"))handleAction("next")});
+document.addEventListener("click",e=>{const el=e.target.closest("[data-action]");if(e.target.closest("a.logo")){e.preventDefault();handleAction("restart");return}if(el){handleAction(el.dataset.action);return}if(e.target.matches("[data-overlay]"))handleAction("close")});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&state.modal)handleAction("close")});
-document.addEventListener("keydown",e=>{if(e.code==="Space"&&canAdvanceScene()&&!e.target.closest("a,button,input,select,textarea")){e.preventDefault();handleAction("next")}});
 if(typeof readNovelProgress==="function"&&typeof localStorage!=="undefined")state=readNovelProgress()||state;
 render();
 

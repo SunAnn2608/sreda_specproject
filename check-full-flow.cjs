@@ -16,7 +16,7 @@ for(let first=0;first<3;first++)for(let second=0;second<2;second++)for(let last=
   assert.equal(run('JSON.stringify([state.scene,state.answers,state.branch,state.second,state.frameStep])'),before,'Справка изменила прохождение');
   if(id==='closeness')assert.equal(run('scenes.closeness.reply'),'Они ведут себя ужасно. Никто такого не заслуживает.');
   if(run('scenes[state.scene].kind==="cutscene"')){
-   assert(run(`app.innerHTML.includes("story-cutscene-copy") && app.innerHTML.includes("scene-context") && app.innerHTML.includes('data-action="next"')`));
+   assert(run(`app.innerHTML.includes("story-cutscene-copy") && app.innerHTML.includes("scene-context") && !app.innerHTML.includes('data-action="next"')`));
   }
   if(run('!!scenes[state.scene].options')){const index=[first,second,last][picks++];run('handleAction("choice:'+index+'")');}
   else if(id==='openEnding')run('handleAction("resources")');

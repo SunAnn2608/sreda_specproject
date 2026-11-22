@@ -137,3 +137,18 @@ document.addEventListener('pointerout',event=>{
  const surface=event.target.closest(novelParallaxSurface);
  if(surface&&!surface.contains(event.relatedTarget))resetNovelParallax();
 },{passive:true});
+
+async function queueStoryAdvance(surface,reveal,action){
+ await reveal;
+ if(!surface?.isConnected||state.modal)return;
+ const content=[...surface.querySelectorAll('.scene-context,.main, .figma-canvas p')]
+  .filter(node=>!node.closest('[data-name="Bar"],header, [data-exact-action]')&&node.getClientRects().length);
+ const words=content.map(node=>node.innerText).join(' ').trim().split(/\s+/).filter(Boolean).length;
+ const duration=Math.max(3500,1000+words*320);
+ function advance(){
+  if(!surface.isConnected||state.modal)return;
+  if(document.hidden){setTimeout(advance,duration);return;}
+  handleAction(action);
+ }
+ setTimeout(advance,duration);
+}

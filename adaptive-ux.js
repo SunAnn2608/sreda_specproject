@@ -17,7 +17,6 @@ function applyAdaptiveUX(host,name,context){
   if(window.innerWidth<768)chapter.remove();
   else chapter.classList.add('compact-chapter');
  }
- root.querySelectorAll('[data-exact-action="exact-next"]').forEach(button=>button.classList.add('compact-next'));
  root.querySelectorAll('[data-name="Bubble"]').forEach(bubble=>{
   bubble.classList.add('compact-bubble');
   bubble.querySelectorAll('[data-name="Tail"]').forEach(tail=>tail.remove());
@@ -36,7 +35,7 @@ function applyAdaptiveUX(host,name,context){
   const notice=root.querySelector('[data-component="Note"]');
   if(notice){
    notice.classList.add('compact-notice');
-   notice.innerHTML=`<p>В истории есть сцены травли.<br>Если&nbsp;тебе&nbsp;тяжело, <a href="tel:88002000122">позвони на телефон доверия 8 800 2000-122</a>.</p><p hidden>Банни травят в школе. Ты решаешь, что сказать и как быть рядом.</p><p hidden>Коснись экрана или свайпай, чтобы продолжить. Когда появятся ответы, выбери один.</p>`;
+   notice.innerHTML=`<p>В истории есть сцены травли.<br>Если&nbsp;тебе&nbsp;тяжело, <a href="tel:88002000122">позвони на телефон доверия 8 800 2000-122</a>.</p><p hidden>Банни травят в школе. Ты решаешь, что сказать и как быть рядом.</p><p hidden>Сцены сменяются сами. Когда появятся ответы, выбери один.</p>`;
    const messages=[...notice.children];
    let current=0;
    const cycle=()=>{
@@ -180,53 +179,3 @@ function readNovelProgress(){
 function writeNovelProgress(){
  try{localStorage.setItem(novelProgressKey,JSON.stringify({...state,modal:null,modalTrail:[]}));}catch{}
 }
-
-// Жесты начинаются внутри кадра, за пределами системных зон по краям.
-let novelTouch;
-let skipTimer;
-let preventNovelClickUntil=0;
-document.addEventListener('touchstart',event=>{
- const target=event.target.closest('.compact-ux[data-layout="scene"],.stage[data-scene="cutscene"]');
- const point=event.touches[0];
- if(event.touches.length!==1||state.modal||!compactNovelLayout()||!target||
-    event.target.closest('a,button,[data-exact-action],input,[data-name="Bar"],.compact-menu,.compact-carousel')||
-    point.clientX<24||point.clientX>innerWidth-24)return;
- novelTouch={id:point.identifier,x:point.clientX,y:point.clientY,held:false};
- skipTimer=setTimeout(function repeat(){
-  if(!novelTouch||state.modal||scenes[state.scene]?.options)return;
-  const next=navigationFuture.at(-1);
-  if(!next)return;
-  novelTouch.held=true;
-  navigateForward();
-  skipTimer=setTimeout(repeat,450);
- },650);
-},{passive:true});
-document.addEventListener('touchmove',event=>{
- if(!novelTouch)return;
- const point=event.touches[0];
- if(event.touches.length!==1||Math.hypot(point.clientX-novelTouch.x,point.clientY-novelTouch.y)>14)clearTimeout(skipTimer);
-},{passive:true});
-document.addEventListener('touchcancel',()=>{novelTouch=null;clearTimeout(skipTimer);},{passive:true});
-document.addEventListener('touchend',event=>{
- if(!novelTouch)return;
- const start=novelTouch;
- novelTouch=null;
- clearTimeout(skipTimer);
- const point=[...event.changedTouches].find(touch=>touch.identifier===start.id);
- if(!point)return;
- const dx=point.clientX-start.x,dy=point.clientY-start.y;
- const swipe=Math.abs(dx)>=44&&Math.abs(dx)>Math.abs(dy)*1.4;
- if(!swipe&&!start.held)return;
- if(event.cancelable)event.preventDefault();
- preventNovelClickUntil=Date.now()+350;
- if(start.held||state.modal)return;
- if(dx>0){navigateBack();return;}
- if(document.querySelector('[data-scene-loading]'))return;
- if(document.querySelector('.compact-ux')&&(exactHasNextFrame()||['dialogue','chat','momchat','info','silent'].includes(scenes[state.scene]?.kind)))exactAdvance();
- else if(canAdvanceScene())handleAction('next');
-},{passive:false});
-window.addEventListener('click',event=>{
- if(Date.now()>=preventNovelClickUntil||event.detail===0)return;
- event.preventDefault();
- event.stopImmediatePropagation();
-},true);

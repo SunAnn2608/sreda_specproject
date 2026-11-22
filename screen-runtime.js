@@ -87,11 +87,14 @@ function exactScreenHTML(template,screenName,device){
  return markup.replace('src="./assets/'+oldCover+'"',
   'src="./assets/menu-cover-'+(device==='mobile'?'mobile':'wide')+'.webp"');
 }
+function storyScreenVariants(name){
+ return figmaScreens[name]||(name==='B'?figmaScreens.tellMom:name==='C'?figmaScreens.choice:null);
+}
 function renderExactScreen(){
  const verification=location.pathname.endsWith('/verify.html')?new URLSearchParams(location.search):null;
  const requested=verification?.get('screen');
- const screenName=requested&&(figmaScreens[requested]||requested==='B')?requested:state.modal&&figmaScreens[state.modal]?state.modal:state.scene;
- const variants=figmaScreens[screenName]||(screenName==='B'?figmaScreens.tellMom:null);if(!variants){document.querySelector('#app').classList.remove('figma-mode');return false;}
+ const screenName=requested&&storyScreenVariants(requested)?requested:state.modal&&figmaScreens[state.modal]?state.modal:state.scene;
+ const variants=storyScreenVariants(screenName);if(!variants){document.querySelector('#app').classList.remove('figma-mode');return false;}
  const device=exactDevice();
  if(exactScene!==screenName){exactScene=screenName;}
  exactVariant=device;
@@ -111,15 +114,21 @@ function renderExactScreen(){
   }
  }
 
- if(screenName==='B'){
-  const scene=scenes.B;
+ if(['B','C'].includes(screenName)){
+  const scene=scenes[screenName];
   const bubble=host.querySelector('[data-name="Bubble"] p');
   const chapter=host.querySelector('[data-name="Chapter"] p');
   if(bubble)bubble.textContent=scene.text;
   if(chapter)chapter.textContent=scene.chapter;
-  host.querySelectorAll('[data-name="Choice"] p').forEach((label,index)=>{
-   label.textContent=scene.options[index].label;
+  host.querySelectorAll('[data-name="Choice"]').forEach((choice,index)=>{
+   const option=scene.options[index];
+   if(option)choice.querySelector('p').textContent=option.label;
+   else choice.remove();
   });
+  if(screenName==='C'){
+   const character=host.querySelector('[data-name^="char/bunny"] img');
+   if(character)character.src='./assets/'+scene.character;
+  }
  }
  matchDocumentIntro(host,screenName,device);
  updateStoryCopy(host,screenName);
@@ -127,14 +136,18 @@ function renderExactScreen(){
  wireExactScreen(host,screenName);
  updateSupportLabels(host);
  if(screenName==='openEnding')updateOpenEnding(host);
- wireStoryGuidance(host,screenName,steps.length);
+ wireStoryGuidance(host,screenName);
  applyFluidConstraints(host,template,device,screenName);
  if(device==='mobile'&&screenName==='chat')useMobileChatBackdrop(host,exactStep);
- separateBubbleContinue(host);
- if(device==='mobile')adaptMobileContinue(host,screenName);
  const contextNote=addSceneContext(host,screenName);
  if(typeof applyAdaptiveUX==='function')applyAdaptiveUX(host,screenName,contextNote);
- if(typeof animateNovelFrame==='function')animateNovelFrame(host,screenName,contextNote);
+ if(typeof animateNovelFrame==='function'){
+  const reveal=animateNovelFrame(host,screenName,contextNote);
+  if(!verification&&!state.modal&&screenName===state.scene){
+   const action=exactStep<steps.length-1?'frame-next':scenes[screenName]?.next&&!scenes[screenName].options?'next':null;
+   if(action)queueStoryAdvance(host.querySelector('.figma-viewport'),reveal,action);
+  }
+ }
  document.title='среда · '+(scenes[state.scene]?.chapter||screenName);
  return true;
 }
@@ -149,17 +162,6 @@ function formatStoryContext(description){
   .replace(/([^\s]+)[ \t]+(?=[^\s]+[.!?…](?:[»”)]|$|\s))/gu,'$1\u00a0')
   .replace(/(?<![\p{L}\p{N}])((?:без|для|под|над|при|про|через|из-за|из-под|из|до|за|от|по|на|не|ни|обо|об|о|со|с|ко|к|во|в|у|а|и|но|да|или|либо|что|чтоб|чтобы|как|если|то|хотя|чем|тоже|—|–))[ \u00a0]+(?=\S)/giu,'$1\u00a0');
 }
-function adaptMobileContinue(host,screenName){
- const next=host.querySelector('[data-exact-action="exact-next"]');
- if(!next)return;
- if(screenName==='prologue'&&exactStep===0){
-  const instruction='коснись экрана, чтобы продолжить';
-  (next.querySelector('p')||next).textContent=instruction;
-  next.setAttribute('aria-label',instruction);
-  return;
- }
- if(['dialogue','closeness','choice'].includes(screenName))next.classList.add('mobile-tap-continue');
-}
 function addSceneContext(host,screenName){
  const description=scenes[screenName]?.context||sceneContext.get(screenName);
  if(!description)return;
@@ -173,13 +175,7 @@ function addSceneContext(host,screenName){
  note.className='scene-context '+(bubble?'dialogue-context':'final-scene-context');
  note.textContent=formatStoryContext(description);
  const mobile=surface.dataset.exactDevice==='mobile';
- const next=root.querySelector('[data-exact-action="exact-next"]');
- if(mobile&&next&&!bubble){
-  const footer=document.createElement('div');
-  footer.className='mobile-scene-footer';
-  root.append(footer);
-  footer.append(note,next);
- }else root.append(note);
+ root.append(note);
  if(mobile)note.classList.add('mobile-scene-context');
  else if(bubble){
   const bounds=bubble.getBoundingClientRect();
@@ -537,10 +533,10 @@ function wireExactScreen(host,name){
   const close=canvas.querySelector('[data-node-id="1500:1875"]');if(close)assignExactAction(close,'close','закрыть');
  }
 }
-function wireStoryGuidance(host,screenName,frameCount){
+function wireStoryGuidance(host,screenName){
  const canvas=host.querySelector('.figma-canvas');
  const hint=canvas.querySelector('[data-node-id="1324:803"],[data-node-id="1389:802"],[data-node-id="1389:804"]');
- const hasNextFrame=exactStep<frameCount-1;
+
  if(screenName==='prologue'){
   const entry=canvas.querySelector('[data-exact-action="start"]');
   if(entry){
@@ -555,71 +551,21 @@ function wireStoryGuidance(host,screenName,frameCount){
    showPrologueNotice(notice);
   }
  }
- const hintBox=hint?.parentElement;
- const scene=scenes[screenName];
- if(state.modal||(!hasNextFrame&&!['dialogue','chat','momchat','silent'].includes(scene?.kind))||
-    canvas.querySelector('[data-exact-action="exact-next"]')){
-  hintBox?.remove();return;
- }
- const button=document.createElement('button');
- button.type='button';button.className='story-continue';
- button.textContent='дальше';
- button.dataset.exactAction='exact-next';
- if(hintBox){
-  button.classList.add('story-continue-inline');
-  if(hintBox.style.position==='absolute'){
-   hintBox.replaceChildren(button);
-   hintBox.classList.add('story-continue-slot');
-  }else hintBox.replaceWith(button);
- }else{
-  const dialogue=canvas.querySelector('[data-name="dialogue"]');
-  const bubble=canvas.querySelector(':scope > div > [data-name="Bubble"]');
-  if(dialogue){
-   button.classList.add('story-continue-inline');
-   dialogue.append(button);
-  }else if(bubble){
-   bubble.classList.add('story-continue-anchor');
-   bubble.append(button);
-  }else canvas.firstElementChild.append(button);
- }
+ hint?.parentElement.remove();
+ canvas.querySelectorAll('[data-exact-action="exact-next"],[data-name="Bubble"] [data-name="Arrow"]').forEach(node=>node.remove());
 }
-function separateBubbleContinue(host){
- const bubble=host.querySelector('.story-continue-anchor');
- if(!bubble)return;
- const button=bubble.querySelector('.story-continue');
- const group=document.createElement('div');
- group.className='story-continue-group';
- Object.assign(group.style,{left:bubble.style.left,top:bubble.style.top,width:bubble.style.width});
- bubble.before(group);
- Object.assign(bubble.style,{position:'relative',inset:'auto',width:'100%',margin:'0'});
- bubble.classList.remove('story-continue-anchor');
- button.classList.add('story-continue-inline');
- group.append(bubble,button);
+function exactHasNextFrame(){
+ return !state.modal&&exactDevice()==='mobile'&&Number(state.frameStep||0)<(storyScreenVariants(state.scene)?.mobile.length??1)-1;
 }
-function exactAdvance(){
- if(document.querySelector('[data-context-reading]'))return false;
- const key=state.modal&&figmaScreens[state.modal]?state.modal:state.scene;
- const variants=figmaScreens[key];
- if(variants&&exactDevice()==='mobile'&&exactStep<variants.mobile.length-1){handleAction('frame-next');return true;}
- if(state.modal)return false;
- if(state.scene==='prologue'){handleAction('start');return true;}
- if(scenes[state.scene]?.options)return false;
- handleAction('next');return true;
-}
-function exactHasNextFrame(){return !state.modal&&exactDevice()==='mobile'&&figmaScreens[state.scene]&&Number(state.frameStep||0)<figmaScreens[state.scene].mobile.length-1;}
 document.addEventListener('click',e=>{
  const host=e.target.closest('.figma-viewport');if(!host)return;
  if(e.target.closest('a[href]'))return;
  if(host.hasAttribute('data-scene-loading')&&!e.target.closest('[data-name="Bar"]'))return;
  const control=e.target.closest('[data-exact-action]');
- if(control){e.preventDefault();e.stopImmediatePropagation();if(control.dataset.exactAction==='exact-next')exactAdvance();else handleAction(control.dataset.exactAction);return;}
- if(host.classList.contains('compact-ux')&&!state.modal&&!e.target.closest('[data-name="Bar"]')&&scenes[state.scene]?.kind==='info'){exactAdvance();return;}
- if((state.scene!=='messageMom'||exactDevice()==='mobile')&&!state.modal&&(exactHasNextFrame()||['dialogue','chat','momchat','silent'].includes(scenes[state.scene]?.kind))){e.preventDefault();e.stopImmediatePropagation();exactAdvance();}
+ if(control){e.preventDefault();e.stopImmediatePropagation();handleAction(control.dataset.exactAction);return;}
 },{capture:true});
 document.addEventListener('keydown',e=>{
  if(!document.querySelector('.figma-viewport'))return;
  if((e.key==='Enter'||e.key===' ')&&e.target.matches('[data-exact-action]')){e.preventDefault();e.stopImmediatePropagation();e.target.click();return;}
- if(document.querySelector('.figma-viewport[data-exact-device="mobile"][data-layout="document"]'))return;
- if(e.code==='Space'&&!document.querySelector('[data-scene-loading]')&&!state.modal&&!e.target.closest('input,textarea,button,a')){e.preventDefault();e.stopImmediatePropagation();if(['dialogue','chat','momchat'].includes(scenes[state.scene]?.kind))exactAdvance();}
 },{capture:true});
 window.addEventListener('resize',()=>{if(typeof state!=='undefined'&&exactDevice()!==exactVariant)render();});
