@@ -12,7 +12,12 @@ function applyFluidConstraints(host,template,device,screenName){
  const darkBackground=root.querySelector('[data-name="bg/foyer-dark"] > img, :scope > img[src*="figma-13378e02"]');
  if(darkBackground)darkBackground.classList.add('dark-scene-background');
  const geometry=typeof figmaGeometry==='undefined'?{}:figmaGeometry;
- const primaryBackground=[...root.children].find(node=>geometry[node.dataset.geometryId||node.dataset.nodeId]?.n.startsWith('bg/'));
+ const primaryBackground=[...root.children].find(node=>{
+  const layer=geometry[node.dataset.geometryId||node.dataset.nodeId];
+  if(!layer?.n.startsWith('bg/'))return false;
+  // A rotated overlay is positioned in scene coordinates, like the characters.
+  return device!=='mobile'||!layer.r;
+ });
  for(const node of root.children){
   const g=geometry[node.dataset.geometryId||node.dataset.nodeId];
   if(!g)continue;

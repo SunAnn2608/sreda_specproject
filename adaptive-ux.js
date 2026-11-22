@@ -51,16 +51,8 @@ function applyAdaptiveUX(host,name,context){
   }
   if(panel){
    panel.querySelectorAll('[data-name="actions"]').forEach(actions=>actions.classList.add('compact-actions'));
-   const bg=root.querySelector('[data-name^="bg/"]');
-   if(bg)bg.classList.add('compact-prologue-crop');
   }
  }
- if(name==='chat'&&exactStep===0){
-  const kroli=document.createElement('img');
-  kroli.src='./assets/kroli.png';kroli.alt='';kroli.className='chat-kroli compact-kroli';
-  root.append(kroli);
- }
- if(name==='closeness')root.classList.add('compact-closeness');
  if(context)context.classList.add('compact-context');
  if(['resources','help','materials','supportPage'].includes(name))adaptCompactDocument(root,name);
  if(name==='menu')adaptCompactMenu(root);
@@ -72,27 +64,39 @@ function createCompactCarousel(root,cards){
  carousel.setAttribute('aria-label','Карточки — листай горизонтально');
  for(const card of cards){card.classList.add('compact-slide');carousel.append(card);}
  let timer;
+ let inView=false;
+ let touching=false;
  const stop=()=>clearTimeout(timer);
  const schedule=()=>{
   stop();
-  if(matchMedia('(prefers-reduced-motion: reduce)').matches||cards.length<2)return;
+  if(!inView||touching||carousel.contains(document.activeElement)||
+     matchMedia('(prefers-reduced-motion: reduce)').matches||cards.length<2)return;
   timer=setTimeout(()=>{
-   if(!carousel.isConnected)return;
-   const width=carousel.clientWidth;
-   const current=Math.round(carousel.scrollLeft/width);
-   carousel.scrollTo({left:((current+1)%cards.length)*width,behavior:'smooth'});
+   if(!carousel.isConnected||!carousel.clientWidth)return;
+   if(document.hidden){schedule();return;}
+   const origin=cards[0].offsetLeft;
+   const offsets=cards.map(card=>card.offsetLeft-origin);
+   const current=offsets.reduce((closest,offset,index)=>
+    Math.abs(offset-carousel.scrollLeft)<Math.abs(offsets[closest]-carousel.scrollLeft)?index:closest,0);
+   carousel.scrollTo({left:offsets[(current+1)%cards.length],behavior:'smooth'});
    schedule();
   },6500);
  };
- carousel.addEventListener('pointerdown',stop,{passive:true});
- carousel.addEventListener('pointerup',schedule,{passive:true});
+ carousel.addEventListener('pointerdown',()=>{touching=true;stop();},{passive:true});
+ for(const event of ['pointerup','pointercancel','pointerleave']){
+  carousel.addEventListener(event,()=>{touching=false;schedule();},{passive:true});
+ }
  carousel.addEventListener('focusin',stop);
- carousel.addEventListener('focusout',schedule);
- carousel.addEventListener('scrollend',schedule,{passive:true});
- const observer=new IntersectionObserver(([entry])=>{if(entry.isIntersecting)schedule();else stop();});
+ carousel.addEventListener('focusout',event=>{
+  if(!carousel.contains(event.relatedTarget))queueMicrotask(schedule);
+ });
+ carousel.addEventListener('scroll',schedule,{passive:true});
+ const observer=new IntersectionObserver(([entry])=>{
+  inView=entry.isIntersecting;
+  schedule();
+ });
  observer.observe(carousel);
  root.append(carousel);
- schedule();
  return carousel;
 }
 
