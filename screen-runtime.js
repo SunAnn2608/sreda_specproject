@@ -519,11 +519,16 @@ function wireExactScreen(host,name){
    if(!read||!material)continue;
    const [heading,description,url,label]=material;
    if(label==='смотреть'){
-    const [firstLine,secondLine]=card.querySelectorAll(':scope > div:first-child > p');
+    const [firstLine,secondLine]=card.firstElementChild?.querySelectorAll('p')??[];
     const split=heading.indexOf(' и ');
-    firstLine.textContent=heading.slice(0,split);
-    secondLine.textContent=heading.slice(split+1);
-    card.querySelector(':scope > p').textContent=description;
+    if(firstLine&&secondLine&&split>=0){
+     firstLine.textContent=heading.slice(0,split);
+     secondLine.textContent=heading.slice(split+1);
+    }else if(firstLine){
+     firstLine.textContent=heading;
+    }
+    const summary=[...card.children].find(node=>node.tagName==='P');
+    if(summary)summary.textContent=description;
     (read.querySelector('p')||read).textContent=label;
    }
    linkMaterialCard(card,read,url,label+': '+heading);
