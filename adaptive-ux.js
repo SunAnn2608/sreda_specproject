@@ -58,7 +58,7 @@ function applyAdaptiveUX(host,name,context){
  if(name==='menu')adaptCompactMenu(root);
 }
 
-function createCompactCarousel(root,cards){
+function createCompactCarousel(root,cards,controls=false){
  const carousel=document.createElement('section');
  carousel.className='compact-carousel';
  carousel.setAttribute('aria-label','Карточки — листай горизонтально');
@@ -66,6 +66,14 @@ function createCompactCarousel(root,cards){
  let timer;
  let inView=false;
  let touching=false;
+ const offsets=()=>cards.map(card=>card.offsetLeft-cards[0].offsetLeft);
+ const currentSlide=positions=>positions.reduce((closest,offset,index)=>
+  Math.abs(offset-carousel.scrollLeft)<Math.abs(positions[closest]-carousel.scrollLeft)?index:closest,0);
+ const go=direction=>{
+  const positions=offsets();
+  const next=(currentSlide(positions)+direction+cards.length)%cards.length;
+  carousel.scrollTo({left:positions[next],behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+ };
  const stop=()=>clearTimeout(timer);
  const schedule=()=>{
   stop();
@@ -74,11 +82,7 @@ function createCompactCarousel(root,cards){
   timer=setTimeout(()=>{
    if(!carousel.isConnected||!carousel.clientWidth)return;
    if(document.hidden){schedule();return;}
-   const origin=cards[0].offsetLeft;
-   const offsets=cards.map(card=>card.offsetLeft-origin);
-   const current=offsets.reduce((closest,offset,index)=>
-    Math.abs(offset-carousel.scrollLeft)<Math.abs(offsets[closest]-carousel.scrollLeft)?index:closest,0);
-   carousel.scrollTo({left:offsets[(current+1)%cards.length],behavior:'smooth'});
+   go(1);
    schedule();
   },6500);
  };
@@ -97,6 +101,24 @@ function createCompactCarousel(root,cards){
  });
  observer.observe(carousel);
  root.append(carousel);
+ if(controls&&cards.length>1){
+  const navigation=document.createElement('div');
+  navigation.className='compact-carousel-nav';
+  const count=document.createElement('span');
+  for(const [direction,label,symbol] of [[-1,'предыдущий материал','←'],[1,'следующий материал','→']]){
+   const button=document.createElement('button');
+   button.type='button';
+   button.setAttribute('aria-label',label);
+   button.textContent=symbol;
+   button.addEventListener('click',()=>{go(direction);schedule();});
+   navigation.append(button);
+  }
+  navigation.insertBefore(count,navigation.lastChild);
+  const updateCount=()=>{count.textContent=(currentSlide(offsets())+1)+' / '+cards.length;};
+  root.append(navigation);
+  carousel.addEventListener('scroll',updateCount,{passive:true});
+  updateCount();
+ }
  return carousel;
 }
 
@@ -128,7 +150,7 @@ function adaptCompactDocument(root,name){
   p.append(a,document.createElement('br'),'Поговорить анонимно и бесплатно: ',b);emergency.append(p);
   emergency.classList.add('compact-emergency');
  }
- if(cards.length)createCompactCarousel(root,cards);
+ if(cards.length)createCompactCarousel(root,cards,name==='materials');
  for(const empty of root.querySelectorAll('[data-name="cards"],[data-name="steps"],[data-name="articles"]')){
   if(!empty.children.length)empty.remove();
  }

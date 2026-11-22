@@ -193,3 +193,7 @@
  border-radius:inherit;pointer-events:none;
 }
 .compact-ux[data-exact-screen="resources"] .compact-carousel{margin-top:clamp(4px,2cqw,16px)}
+
+.compact-ux[data-exact-screen="materials"] .compact-carousel{min-width:0;flex:none}
+.compact-ux .compact-carousel-nav{display:flex;align-items:center;justify-content:center;gap:16px;color:#fff9ed;margin-top:-16px}
+.compact-ux .compact-carousel-nav button{min-width:44px;min-height:44px;border:2px solid #0d0f10;border-radius:999px;background:#fff9ed;color:#0d0f10;font-size:22px}
