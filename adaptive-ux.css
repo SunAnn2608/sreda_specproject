@@ -67,7 +67,8 @@
 .compact-ux .mobile-scene-footer{inset:auto var(--compact-gutter) max(24px,env(safe-area-inset-bottom))!important}
 .compact-ux .mobile-scene-footer .compact-context{position:relative!important;inset:auto!important}
 .compact-ux .compact-document{
- display:flex!important;flex-direction:column!important;gap:clamp(28px,7cqw,54px)!important;
+ --document-gap:clamp(28px,7cqw,54px);
+ display:flex!important;flex-direction:column!important;gap:var(--document-gap)!important;
  padding:clamp(110px,28cqw,210px) var(--compact-gutter) max(28px,env(safe-area-inset-bottom))!important;height:auto!important;
 }
 .compact-ux .mobile-document-intro{gap:clamp(12px,3cqw,24px)!important}
@@ -192,25 +193,38 @@
 
 .compact-ux .compact-bar [data-name="Top"]{align-items:center!important;overflow:visible!important}
 .compact-ux .compact-notice{display:grid!important;grid-template-columns:minmax(0,1fr);align-content:center;min-height:118px!important}
-.compact-ux .compact-notice p[hidden]{display:none!important}
+.compact-ux .compact-notice p{grid-area:1/1;align-self:center}
+.compact-ux .compact-notice p[hidden]{display:block!important;visibility:hidden}
 .compact-ux .compact-notice a{display:inline}
 .compact-ux[data-layout="scene"]:not([data-exact-screen="menu"]){touch-action:pan-y pinch-zoom}
 .figma-viewport:is([data-exact-device="tablet"],[data-exact-device="desktop"]) [data-name="Chapter"]::after{
  border:1px dashed #0d0f10;
 }
 
-@keyframes prologue-drift{from{scale:1}to{scale:1.09}}
-@media(prefers-reduced-motion:no-preference){
- .compact-ux[data-exact-screen="prologue"] .compact-frame>img{animation:prologue-drift 16s ease-in-out infinite alternate}
-}
+
 
 .compact-ux .compact-chapter{filter:none!important}
 .compact-ux .compact-chapter::after{
  content:"";position:absolute;inset:2px;border:1px dashed #707070;
  border-radius:inherit;pointer-events:none;
 }
-.compact-ux[data-exact-screen="resources"] .compact-carousel{margin-top:clamp(4px,2cqw,16px)}
 
 .compact-ux[data-exact-screen="materials"] .compact-carousel{min-width:0;flex:none}
 .compact-ux[data-exact-screen="materials"] .compact-slide{touch-action:pan-x pan-y pinch-zoom}
 .compact-ux[data-exact-screen="materials"] .compact-primary-start{display:block;margin-top:auto}
+
+.compact-ux .compact-carousel{flex:none;min-width:0}
+.compact-ux .compact-support-slide{display:flex;flex-direction:column;gap:var(--document-gap);padding:0!important}
+.compact-ux .compact-support-slide>[data-name="panel"]{
+ position:relative!important;inset:auto!important;width:100%!important;height:auto!important;
+ padding:clamp(36px,10cqw,68px) clamp(22px,6cqw,44px) clamp(24px,6cqw,44px)!important;
+ flex:1;isolation:isolate;
+}
+.compact-ux .compact-support-slide>[data-name="panel"]>[data-name="Panel"]{z-index:-1}
+.compact-ux .compact-support-slide>.button-link{
+ position:relative!important;inset:auto!important;translate:none!important;
+ width:100%!important;height:auto!important;min-height:52px;align-self:stretch;
+ margin:0!important;
+}
+
+.compact-ux .compact-support-slide>[data-name="panel"]>p{position:relative!important;inset:auto!important;width:auto!important;height:auto!important;max-width:100%!important}

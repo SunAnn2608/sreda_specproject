@@ -36,18 +36,7 @@ function applyAdaptiveUX(host,name,context){
   if(notice){
    notice.classList.add('compact-notice');
    notice.innerHTML=`<p>В истории есть сцены травли.<br>Если&nbsp;тебе&nbsp;тяжело, <a href="tel:88002000122">позвони на телефон доверия 8 800 2000-122</a>.</p><p hidden>Банни травят в школе. Ты решаешь, что сказать и как быть рядом.</p><p hidden>Сцены сменяются сами. Когда появятся ответы, выбери один.</p>`;
-   const messages=[...notice.children];
-   let current=0;
-   const cycle=()=>{
-    if(!notice.isConnected)return;
-    if(!notice.contains(document.activeElement)){
-     messages[current].hidden=true;
-     current=(current+1)%messages.length;
-     messages[current].hidden=false;
-    }
-    setTimeout(cycle,5500);
-   };
-   setTimeout(cycle,5500);
+
   }
   if(panel){
    panel.querySelectorAll('[data-name="actions"]').forEach(actions=>actions.classList.add('compact-actions'));
@@ -131,6 +120,18 @@ function adaptCompactDocument(root,name){
   const b=document.createElement('a');b.href='tel:88002000122';b.textContent='Детский телефон доверия 8 800 2000‑122.';
   p.append(a,document.createElement('br'),'Поговорить анонимно и бесплатно: ',b);emergency.append(p);
   emergency.classList.add('compact-emergency');
+ }
+ if(name==='supportPage'){
+  root.querySelectorAll('[data-name="contacts"]').forEach(node=>node.remove());
+  for(const card of cards){
+   const button=card.querySelector(':scope > .button-link');
+   if(!button)continue;
+   const slide=document.createElement('div');
+   slide.className='compact-support-slide';
+   card.replaceWith(slide);
+   slide.append(card,button);
+   cards[cards.indexOf(card)]=slide;
+  }
  }
  if(cards.length)createCompactCarousel(root,cards);
  for(const empty of root.querySelectorAll('[data-name="cards"],[data-name="steps"],[data-name="articles"]')){

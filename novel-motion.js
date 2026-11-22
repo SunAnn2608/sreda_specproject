@@ -145,11 +145,41 @@ function storyReadingDelay(text=''){
 async function queueStoryAdvance(surface,reveal,action){
  await reveal;
  if(!surface?.isConnected||state.modal)return;
+ const wait=duration=>new Promise(resolve=>setTimeout(resolve,duration));
+ const ready=()=>surface.isConnected&&!state.modal;
+ const notice=surface.querySelector?.('.compact-notice');
+ if(notice&&action==='frame-next'){
+  const messages=[...notice.children];
+  const background=surface.querySelector('.compact-frame > img');
+  if(background&&!novelMotionPreference.matches){
+   const nextFrame=figmaScreens.prologue.mobile[1];
+   const crop=figmaGeometry['1413:1624'];
+   const width=surface.clientWidth,height=surface.clientHeight;
+   const unit=Math.min(width/nextFrame.width,height/nextFrame.height);
+   const left=Math.min(0,width/2+(crop.x-nextFrame.width/2)*unit);
+   const top=Math.min(0,height/2+(crop.y-nextFrame.height/2)*unit);
+   const right=Math.min(0,width/2+(nextFrame.width/2-crop.x-crop.w)*unit);
+   const bottom=Math.min(0,height/2+(nextFrame.height/2-crop.y-crop.h)*unit);
+   const duration=messages.reduce((total,message)=>total+storyReadingDelay(message.textContent),0);
+   background.animate([
+    {left:'0px',top:'0px',width:width+'px',height:height+'px'},
+    {left:left+'px',top:top+'px',width:(width-left-right)+'px',height:(height-top-bottom)+'px'}
+   ],{duration,easing:'ease-in-out',fill:'forwards'});
+  }
+  for(const message of messages){
+   if(!ready())return;
+   for(const item of messages)item.hidden=item!==message;
+   await wait(storyReadingDelay(message.textContent));
+   while(ready()&&(document.hidden||message.contains(document.activeElement)))await wait(1000);
+  }
+  if(ready())handleAction(action);
+  return;
+ }
  const content=[...surface.querySelectorAll('.main,.figma-canvas :is(p,h1,h2,li),.figma-canvas .scene-context')]
   .filter(node=>!node.closest('[data-name="Bar"],header, [data-exact-action]')&&node.getClientRects().length);
  const duration=storyReadingDelay(content.map(node=>node.innerText).join(' '));
  function advance(){
-  if(!surface.isConnected||state.modal)return;
+  if(!ready())return;
   if(document.hidden){setTimeout(advance,duration);return;}
   handleAction(action);
  }
