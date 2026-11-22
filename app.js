@@ -34,7 +34,7 @@ let state={scene:"prologue",history:[],answers:[],modal:null,branch:null,second:
 const escapeHTML=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const btn=(label,action,cls="")=>`<button type="button" class="${cls}" data-action="${action}">${escapeHTML(label)}</button>`;
 const header=(s)=>`<header class="topbar"><a href="#prologue" class="logo brand-logo" aria-label="среда — в начало">${brandLogoImage()}</a>${s.kind==="prologue"?"":`<span class="pill chapter">${escapeHTML(s.chapter)}</span>`}<nav class="header-actions" aria-label="Главное меню">${btn("получить помощь","help","pill help")}${btn("материалы","materials","pill materials")}${btn('<span></span>','menu','pill menu-button') .replace("&lt;span&gt;&lt;/span&gt;","<span></span><span></span><span></span>")}</nav></header>`;
-const prologueNoticeMarkup=`<span class="prologue-note-message">Банни травят в&nbsp;школе.<br>Ты решаешь, что&nbsp;сказать и&nbsp;<strong>как быть рядом</strong>.</span><span class="prologue-note-message" aria-hidden="true" inert>В&nbsp;истории есть сцены травли. Если тебе тяжело,<br><strong class="prologue-call">позвони на&nbsp;телефон доверия&nbsp;<a class="text-link" href="tel:88002000122">8 800 2000‑122</a>.</strong></span>`;
+const prologueNoticeMarkup=`<span class="prologue-note-message">Банни травят в&nbsp;школе.<br>Ты решаешь, что&nbsp;сказать и&nbsp;<strong>как быть рядом</strong>.<br>Сцены без выбора сменяются автоматически.</span><span class="prologue-note-message" aria-hidden="true" inert>В&nbsp;истории есть сцены травли. Если тебе тяжело,<br><strong class="prologue-call">позвони на&nbsp;телефон доверия&nbsp;<a class="text-link" href="tel:88002000122">8 800 2000‑122</a>.</strong></span>`;
 function showPrologueNotice(notice){
  if(!notice)return;
  const messages=[...notice.children];
@@ -91,6 +91,7 @@ function render(){
  }
  const markup=`<div class="stage ${s.kind==="dialogue"?"story-screen":""}" data-screen="${state.scene}" data-scene="${escapeHTML(s.kind)}">${s.kind==="cutscene"?"":header(s)}<div class="scene-art" aria-hidden="true">${s.art?`<picture>${state.scene==="dialogue"?'<source media="(max-width:1023px)" srcset="./assets/corridor-mobile.png">':""}<img src="./assets/${s.art}" alt=""></picture>`:""}</div>${s.other?`<img class="story-other" src="./assets/${s.other}" alt="">`:""}${s.character?`<img class="story-character" src="./assets/${s.character}" alt="">`:""}<main class="main" id="main" tabindex="-1">${inner}</main></div>${modalHTML()}`;
  app.innerHTML=typeof optimizedScreenHTML==='function'?optimizedScreenHTML(markup):markup;
+ if(typeof applyStoryTypography==='function')applyStoryTypography(app);
  if(state.scene==="prologue"&&app.querySelector)showPrologueNotice(app.querySelector(".prologue-note"));
  if(state.scene==="adults"){
   document.querySelector('.scene-art').insertAdjacentHTML('beforeend','<img class="mom-warm-aura" src="./assets/mom-warm.svg" alt="">');

@@ -149,6 +149,7 @@ function renderExactScreen(){
  if(device==='mobile'&&screenName==='chat'&&exactStep>0)useMobileChatBackdrop(host,exactStep);
  const contextNote=addSceneContext(host,screenName);
  if(typeof applyAdaptiveUX==='function')applyAdaptiveUX(host,screenName,contextNote);
+ applyStoryTypography(host);
  if(typeof animateNovelFrame==='function'){
   const reveal=animateNovelFrame(host,screenName,contextNote);
   if(!verification&&!state.modal&&screenName===state.scene){
@@ -167,8 +168,26 @@ const sceneContext=new Map([
 function formatStoryContext(description){
  // Связываем служебные слова со следующим словом и два последних слова предложения.
  return description
+  .replace(/([.!?…][»”)]* +[«„“(]?\p{L}[\p{L}\p{M}-]*) +(?=[«„“(]?\p{L})/gu,(match,start)=>start+'\u00a0'.repeat(match.length-start.length))
   .replace(/([^\s]+)[ \t]+(?=[^\s]+[.!?…](?:[»”)]|$|\s))/gu,'$1\u00a0')
   .replace(/(?<![\p{L}\p{N}])((?:без|для|под|над|при|про|через|из-за|из-под|из|до|за|от|по|на|не|ни|обо|об|о|со|с|ко|к|во|в|у|а|и|но|да|или|либо|что|чтоб|чтобы|как|если|то|хотя|чем|тоже|—|–))[ \u00a0]+(?=\S)/giu,'$1\u00a0');
+}
+function applyStoryTypography(root){
+ const selector='p,h1,h2,h3,li,.scene-context,.prologue-note-message';
+ for(const block of root.querySelectorAll(selector)){
+  if(block.querySelector(selector))continue;
+  const walker=document.createTreeWalker(block,NodeFilter.SHOW_TEXT);
+  const nodes=[];
+  while(walker.nextNode())nodes.push(walker.currentNode);
+  const text=nodes.map(node=>node.nodeValue).join('');
+  const formatted=formatStoryContext(text);
+  let offset=0;
+  for(const node of nodes){
+   const end=offset+node.nodeValue.length;
+   node.nodeValue=formatted.slice(offset,end);
+   offset=end;
+  }
+ }
 }
 function addSceneContext(host,screenName){
  const description=scenes[screenName]?.context||sceneContext.get(screenName);

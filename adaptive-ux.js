@@ -137,7 +137,11 @@ function adaptCompactDocument(root,name){
  for(const empty of root.querySelectorAll('[data-name="cards"],[data-name="steps"],[data-name="articles"]')){
   if(!empty.children.length)empty.remove();
  }
- if(actions){actions.classList.add('compact-document-actions');root.append(actions);}
+ if(actions){
+  if(name==='help')actions.querySelector('[data-exact-action="materials"]')?.remove();
+  actions.classList.add('compact-document-actions');
+  root.append(actions);
+ }
  if(emergency){
   const intro=root.querySelector('.mobile-document-intro');
   if(intro)intro.after(emergency);
@@ -164,7 +168,11 @@ function adaptCompactMenu(root){
   socials.classList.add('compact-menu-socials');
  }
  const cover=root.querySelector('[data-name^="bg/key-visual"]');
- if(cover)cover.classList.add('compact-menu-cover');
+ if(cover){
+  cover.classList.add('compact-menu-cover');
+  const image=cover.querySelector('img');
+  if(image)image.src='./assets/menu-figma-mobile.png';
+ }
 }
 
 const novelProgressKey='sreda-novel-progress-v1';
