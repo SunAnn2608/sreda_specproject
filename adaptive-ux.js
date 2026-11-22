@@ -128,8 +128,8 @@ function adaptCompactDocument(root,name){
   p.append(a,document.createElement('br'),'Поговорить анонимно и бесплатно: ',b);emergency.append(p);
   emergency.classList.add('compact-emergency');
  }
- if(name!=='materials'&&cards.length)createCompactCarousel(root,cards);
- for(const empty of root.querySelectorAll('[data-name="cards"],[data-name="steps"]')){
+ if(cards.length)createCompactCarousel(root,cards);
+ for(const empty of root.querySelectorAll('[data-name="cards"],[data-name="steps"],[data-name="articles"]')){
   if(!empty.children.length)empty.remove();
  }
  if(actions){actions.classList.add('compact-document-actions');root.append(actions);}
@@ -138,6 +138,7 @@ function adaptCompactDocument(root,name){
   if(intro)intro.after(emergency);
  }
  for(const social of socials){social.classList.add('compact-socials');root.append(social);}
+ root.querySelectorAll('[data-name="contacts"]').forEach(n=>root.append(n));
  if(name==='resources'||name==='materials'){
   const start=root.querySelector('.mobile-document-start');
   if(start){
@@ -146,30 +147,19 @@ function adaptCompactDocument(root,name){
    else root.append(start);
   }
  }
- root.querySelectorAll('[data-name="contacts"]').forEach(n=>root.append(n));
 }
 
 function adaptCompactMenu(root){
  root.classList.add('compact-menu');
  const panel=root.querySelector('[data-component="Menu"]');
- if(panel){
-  const socials=panel.querySelector('[data-name="socials-block"]');
-  if(socials){panel.append(socials);socials.classList.add('compact-menu-socials');}
+ const socials=panel?.querySelector('[data-name="socials-block"]');
+ if(socials){
+  socials.querySelector('[data-name="divider"]')?.remove();
+  panel.append(socials);
+  socials.classList.add('compact-menu-socials');
  }
- const close=root.querySelector('[data-component="IconButton"]');
- if(close&&panel)panel.append(close);
  const cover=root.querySelector('[data-name^="bg/key-visual"]');
- if(cover){
-  cover.classList.add('compact-menu-cover');
-  const image=cover.querySelector('img');
-  if(image){
-   image.draggable=false;
-   image.style.pointerEvents='auto';
-   const center=()=>{cover.scrollLeft=(cover.scrollWidth-cover.clientWidth)/2;};
-   if(image.complete)requestAnimationFrame(center);
-   else image.addEventListener('load',center,{once:true});
-  }
- }
+ if(cover)cover.classList.add('compact-menu-cover');
 }
 
 const novelProgressKey='sreda-novel-progress-v1';

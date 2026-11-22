@@ -67,7 +67,7 @@ function layer(){
  assert.equal(phases[1].wait,undefined);
  animate(host,'adults',note);
  assert.ok(phases[0].layers.includes(note));
- assert.equal(phases[0].wait,1500);
+ assert.equal(phases[0].wait,5000);
  assert.ok(phases[1].layers.includes(mother));
  assert.equal(phases[1].wait,520);
  assert.equal(phases[2].layers[0],player);
@@ -80,7 +80,7 @@ function layer(){
  context.handleAction=action=>actions.push(action);
  let timer;
  let reveal;
- context.setTimeout=(callback,delay)=>{assert.equal(delay,3500);timer=callback;};
+ context.setTimeout=(callback,delay)=>{assert.equal(delay,5000);timer=callback;};
  const ready=new Promise(resolve=>{reveal=resolve;});
  const queued=queue(frame,ready,'frame-next');
  assert.equal(timer,undefined);

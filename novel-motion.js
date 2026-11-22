@@ -4,7 +4,6 @@ const sceneFadeTime=360;
 const scenePhaseInterval=210;
 const replyPause=920;
 const choicePause=520;
-const familyContextPause=1500;
 const familyReplyPause=520;
 let sceneEntryReady;
 const interactivePause=2500;
@@ -88,12 +87,12 @@ function animateNovelFrame(host,screenName,contextNote){
  const hasLaterReply=replies.length>1;
  const compact=typeof compactNovelLayout==='function'&&compactNovelLayout();
  const continuePause=compact?650:interactivePause;
- const leadInWait=contextNote?(family?(compact?950:familyContextPause):interactivePause):
+ const leadInWait=contextNote?storyReadingDelay(contextNote.textContent):
   (!revealContent.length&&next.length?continuePause:undefined);
  const clearContext=contextNote&&!final?()=>dismissSceneContext(contextNote):undefined;
  // Кадр открывается только после загрузки всех его начальных слоёв.
  if(compact&&screenName==='chat'&&contextNote){
-  add([background,contextNote],interactivePause,clearContext);
+  add([background,contextNote],leadInWait,clearContext);
   add([...subject,...phone]);
  }else add([background,...subject,...phone,contextNote],leadInWait,clearContext);
  const contentHold=hasLaterReply?(family?familyReplyPause:replyPause):
@@ -138,13 +137,17 @@ document.addEventListener('pointerout',event=>{
  if(surface&&!surface.contains(event.relatedTarget))resetNovelParallax();
 },{passive:true});
 
+function storyReadingDelay(text=''){
+ const words=text.trim().split(/\s+/).filter(Boolean).length;
+ return Math.max(5000,1200+words*350);
+}
+
 async function queueStoryAdvance(surface,reveal,action){
  await reveal;
  if(!surface?.isConnected||state.modal)return;
- const content=[...surface.querySelectorAll('.scene-context,.main, .figma-canvas p')]
+ const content=[...surface.querySelectorAll('.main,.figma-canvas :is(p,h1,h2,li),.figma-canvas .scene-context')]
   .filter(node=>!node.closest('[data-name="Bar"],header, [data-exact-action]')&&node.getClientRects().length);
- const words=content.map(node=>node.innerText).join(' ').trim().split(/\s+/).filter(Boolean).length;
- const duration=Math.max(3500,1000+words*320);
+ const duration=storyReadingDelay(content.map(node=>node.innerText).join(' '));
  function advance(){
   if(!surface.isConnected||state.modal)return;
   if(document.hidden){setTimeout(advance,duration);return;}
