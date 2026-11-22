@@ -58,7 +58,7 @@ function applyAdaptiveUX(host,name,context){
  if(name==='menu')adaptCompactMenu(root);
 }
 
-function createCompactCarousel(root,cards,controls=false){
+function createCompactCarousel(root,cards){
  const carousel=document.createElement('section');
  carousel.className='compact-carousel';
  carousel.setAttribute('aria-label','Карточки — листай горизонтально');
@@ -101,24 +101,6 @@ function createCompactCarousel(root,cards,controls=false){
  });
  observer.observe(carousel);
  root.append(carousel);
- if(controls&&cards.length>1){
-  const navigation=document.createElement('div');
-  navigation.className='compact-carousel-nav';
-  const count=document.createElement('span');
-  for(const [direction,label,symbol] of [[-1,'предыдущий материал','←'],[1,'следующий материал','→']]){
-   const button=document.createElement('button');
-   button.type='button';
-   button.setAttribute('aria-label',label);
-   button.textContent=symbol;
-   button.addEventListener('click',()=>{go(direction);schedule();});
-   navigation.append(button);
-  }
-  navigation.insertBefore(count,navigation.lastChild);
-  const updateCount=()=>{count.textContent=(currentSlide(offsets())+1)+' / '+cards.length;};
-  root.append(navigation);
-  carousel.addEventListener('scroll',updateCount,{passive:true});
-  updateCount();
- }
  return carousel;
 }
 
@@ -150,7 +132,7 @@ function adaptCompactDocument(root,name){
   p.append(a,document.createElement('br'),'Поговорить анонимно и бесплатно: ',b);emergency.append(p);
   emergency.classList.add('compact-emergency');
  }
- if(cards.length)createCompactCarousel(root,cards,name==='materials');
+ if(cards.length)createCompactCarousel(root,cards);
  for(const empty of root.querySelectorAll('[data-name="cards"],[data-name="steps"],[data-name="articles"]')){
   if(!empty.children.length)empty.remove();
  }
