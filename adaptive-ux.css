@@ -195,3 +195,5 @@
 .compact-ux[data-exact-screen="resources"] .compact-carousel{margin-top:clamp(4px,2cqw,16px)}
 
 .compact-ux[data-exact-screen="materials"] .compact-carousel{min-width:0;flex:none}
+.compact-ux[data-exact-screen="materials"] .compact-slide{touch-action:pan-x pan-y pinch-zoom}
+.compact-ux[data-exact-screen="materials"] .compact-primary-start{display:block;margin-top:auto}

@@ -131,6 +131,13 @@ function renderExactScreen(){
    if(device==='mobile')host.querySelectorAll('[data-name="aura/kroli-glow"]').forEach(layer=>layer.remove());
   }
  }
+ if(device==='mobile'&&screenName==='materials'){
+  const sharedHeader=document.createElement('template');
+  sharedHeader.innerHTML=exactScreenHTML(figmaScreens.prologue.mobile[0],'prologue',device);
+  const bar=sharedHeader.content.querySelector('[data-name="Bar"]');
+  const currentBar=host.querySelector('[data-name="Bar"]');
+  if(bar&&currentBar)currentBar.replaceWith(bar);
+ }
  matchDocumentIntro(host,screenName,device);
  updateStoryCopy(host,screenName);
  if(screenName==='prologue')host.querySelectorAll('[data-name="Chapter"]').forEach(chapter=>chapter.remove());
@@ -336,7 +343,7 @@ function matchDocumentIntro(host,name,device){
   const start=document.createElement('button');
   start.type='button';
   start.className='action mobile-document-start';
-  start.dataset.exactAction='restart';
+  start.dataset.exactAction=name==='materials'?'start':'restart';
   start.textContent='начать историю';
   header.append(start);
  }
