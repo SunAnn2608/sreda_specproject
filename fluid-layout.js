@@ -3,7 +3,7 @@ function applyFluidConstraints(host,template,device,screenName){
  const viewport=host.querySelector('.figma-viewport'),canvas=host.querySelector('.figma-canvas');
  const root=canvas.firstElementChild;
  const unit=value=>`calc(${value} * var(--frame-unit))`;
- const isDocument=['resources','materials','help','supportPage'].includes(screenName);
+ const isDocument=['resources','materials','help','supportPage'].includes(screenName)||device==='mobile'&&screenName==='info';
  viewport.dataset.layout=isDocument?'document':'scene';
  const widthUnit=`calc(100cqw / ${template.width})`;
  const scrollable=device==='mobile'&&isDocument;
