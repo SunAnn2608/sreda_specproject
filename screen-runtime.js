@@ -128,6 +128,7 @@ function renderExactScreen(){
   if(screenName==='C'){
    const character=host.querySelector('[data-name^="char/bunny"] img');
    if(character)character.src='./assets/'+scene.character;
+   if(device==='mobile')host.querySelectorAll('[data-name="aura/kroli-glow"]').forEach(layer=>layer.remove());
   }
  }
  matchDocumentIntro(host,screenName,device);
