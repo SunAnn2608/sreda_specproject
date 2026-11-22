@@ -196,7 +196,7 @@ async function dismissSceneContext(note){
 function useMobileChatBackdrop(host,step){
  const root=host.querySelector('.figma-canvas').firstElementChild;
  const bakedLayers=[
-  ':scope > [data-name="image 188"],:scope > [data-node-id="1499:6016"],:scope > [data-name^="aura/"],:scope > [data-node-id="1499:5922"]',
+  ':scope > [data-name="image 188"],:scope > [data-node-id="1499:6016"],:scope > [data-name^="aura/"]',
   ':scope > [data-name="image 188"],:scope > [data-node-id="1499:6019"]'
  ];
  root.querySelectorAll(bakedLayers[step-1]).forEach(layer=>layer.remove());
