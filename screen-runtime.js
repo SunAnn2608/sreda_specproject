@@ -96,7 +96,7 @@ function alignPrologueLogo(host){
  const note=host.querySelector('.prologue-note');
  if(!logo||!note)return;
  const align=()=>{
-  const offset=note.getBoundingClientRect().top+3-logo.getBoundingClientRect().bottom;
+  const offset=note.getBoundingClientRect().top+12-logo.getBoundingClientRect().bottom;
   const previous=parseFloat(logo.style.translate.split(' ')[1])||0;
   logo.style.translate='0 '+(previous+offset)+'px';
  };

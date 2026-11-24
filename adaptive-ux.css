@@ -148,9 +148,9 @@
 }
 .compact-ux [data-name="choice-block"]>:is([data-name="Prompt"],[data-component="Prompt"]){margin-bottom:20px!important}
 .compact-ux [data-name="Bubble"] [data-name="Arrow"]{pointer-events:none}
-.compact-ux .compact-prologue-panel{padding-top:clamp(230px,61cqw,480px)!important}
+.compact-ux .compact-prologue-panel{padding-top:clamp(250px,65cqw,500px)!important}
 .compact-ux .compact-prologue-panel [data-name="content"]{
- left:30%!important;right:6%!important;width:auto!important;top:calc(186 * var(--frame-unit))!important;
+ left:30%!important;right:6%!important;width:auto!important;top:calc(208 * var(--frame-unit))!important;
 }
 .compact-ux .compact-prologue-panel [data-name="content"] p{width:auto!important;max-width:100%!important}
 .compact-ux .compact-slide [data-name="Panel"]{position:absolute!important;inset:0!important;width:100%!important;height:100%!important}
@@ -418,4 +418,15 @@
   height:auto!important;
   min-height:0!important;
  }
+}
+
+.compact-ux .compact-prologue-panel [data-node-id="1413:1627"]{
+ left:-4%!important;width:108%!important;height:auto!important;
+ aspect-ratio:407.326 / 277.754;
+}
+.compact-ux .compact-prologue-panel [data-node-id="1413:1627"]>div{
+ width:91.44%;
+}
+.compact-ux .compact-prologue-panel [data-node-id="1413:1627"] [data-name="decor/doodle"]{
+ width:100%!important;height:auto!important;aspect-ratio:372.463 / 202.014;
 }
