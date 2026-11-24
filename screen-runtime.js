@@ -505,7 +505,20 @@ function replaceResourcePetition(canvas){
  const trust=document.createElement('a');
  trust.href='tel:88002000122';
  trust.textContent='8 800 2000‑122';
- description.replaceChildren(emergency,'. Поговорить анонимно и бесплатно можно по детскому телефону доверия ',trust,'.');
+ const wideCard=exactVariant==='desktop'||(exactVariant==='tablet'&&matchMedia('(orientation: landscape)').matches);
+ if(wideCard){
+  card.classList.add('resource-emergency-note');
+  heading.replaceChildren('Если опасно прямо сейчас — ',emergency,'.');
+  trust.replaceChildren('Детский телефон доверия',document.createElement('br'),'8 800 2000‑122');
+  description.replaceChildren('Поговорить анонимно и бесплатно:',document.createElement('br'),trust,'.');
+  const sticker=document.createElement('img');
+  sticker.className='resource-emergency-sticker';
+  sticker.src='./assets/figma/figma-a0c29ecc-6a75-4b60-a757-0518c0996353.svg';
+  sticker.alt='';
+  card.append(sticker);
+ }else{
+  description.replaceChildren(emergency,'. Поговорить анонимно и бесплатно можно по детскому телефону доверия ',trust,'.');
+ }
  card.querySelectorAll(':scope > [data-name="Button"],:scope > .button-link').forEach(button=>button.remove());
 }
 function wireResourceCards(canvas){

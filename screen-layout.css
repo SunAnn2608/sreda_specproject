@@ -494,3 +494,32 @@ html,body{width:100%;height:100%;min-width:0;overflow:hidden}
 .figma-canvas .resource-emergency-card a{
  color:inherit;font-weight:700;text-decoration:underline;text-underline-offset:.12em;
 }
+
+.figma-canvas .resource-emergency-card.resource-emergency-note{
+ background:#fdd0db;
+ border:calc(4 * var(--frame-unit) * var(--emergency-note-scale,1)) dashed #0d0f10;
+ border-radius:calc(32 * var(--frame-unit) * var(--emergency-note-scale,1))!important;
+ padding:calc(28 * var(--frame-unit) * var(--emergency-note-scale,1)) calc(40 * var(--frame-unit) * var(--emergency-note-scale,1))!important;
+ justify-content:flex-start!important;
+ gap:calc(40 * var(--frame-unit) * var(--emergency-note-scale,1));
+ overflow:visible!important;
+}
+[data-exact-device="tablet"] .resource-emergency-note{--emergency-note-scale:.5}
+.figma-canvas .resource-emergency-note>[data-name="Panel"]{display:none}
+.figma-canvas .resource-emergency-note>p{
+ position:static!important;
+ width:100%!important;
+ font-size:calc(36 * var(--frame-unit) * var(--emergency-note-scale,1))!important;
+ line-height:calc(40 * var(--frame-unit) * var(--emergency-note-scale,1))!important;
+ font-weight:400!important;
+ letter-spacing:-.02em;
+ color:#0d0f10!important;
+}
+.figma-canvas .resource-emergency-sticker{
+ position:absolute;
+ top:calc(-32 * var(--frame-unit) * var(--emergency-note-scale,1));
+ right:calc(-20 * var(--frame-unit) * var(--emergency-note-scale,1));
+ width:calc(112 * var(--frame-unit) * var(--emergency-note-scale,1));
+ rotate:12deg;
+ pointer-events:none;
+}
