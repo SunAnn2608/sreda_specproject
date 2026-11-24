@@ -145,7 +145,10 @@ function adaptCompactDocument(root,name){
    cards[cards.indexOf(card)]=slide;
   }
  }
- if(cards.length)createCompactCarousel(root,cards);
+ const resourceGrid=name==='resources'&&window.innerWidth<768
+  ?root.querySelector('[data-name="cards"]'):null;
+ if(resourceGrid)resourceGrid.classList.add('compact-resource-grid');
+ else if(cards.length)createCompactCarousel(root,cards);
  for(const empty of root.querySelectorAll('[data-name="cards"],[data-name="steps"],[data-name="articles"]')){
   if(!empty.children.length)empty.remove();
  }
@@ -164,7 +167,14 @@ function adaptCompactDocument(root,name){
   const start=root.querySelector('.mobile-document-start');
   if(start){
    start.classList.add('compact-primary-start');
-   if(name==='resources')root.querySelector('.mobile-document-intro')?.after(start);
+   if(resourceGrid){
+    const petition=resourceGrid.querySelector('[data-name="panel/petition-mini"] .button-link');
+    const footer=document.createElement('div');
+    footer.className='compact-document-actions compact-resource-actions';
+    if(petition)footer.append(petition);
+    footer.append(start);
+    root.append(footer);
+   }else if(name==='resources')root.querySelector('.mobile-document-intro')?.after(start);
    else if(window.innerWidth<768){
     const footer=document.createElement('div');
     footer.className='compact-document-actions compact-materials-actions';
