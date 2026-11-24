@@ -208,39 +208,8 @@ html,body{width:100%;height:100%;min-width:0;overflow:hidden}
  inset:0 0 auto!important;width:100%!important;height:calc(var(--bar-height) * var(--frame-unit))!important;
  padding-inline:var(--brand-header-gutter)!important;
 }
-.figma-viewport[data-exact-device="desktop"]{
- --brand-header-gutter:6.25cqw;--bar-height:160;--menu-button-height:82;--menu-button-width:106.6;
-}
-.figma-viewport[data-exact-device="tablet"]{
- --brand-header-gutter:2.5cqw;--bar-height:80;--menu-button-height:42;--menu-button-width:54.6;
- --brand-logo-width:clamp(72px,7.86cqw,100px);
-}
-.figma-viewport:not([data-exact-device="mobile"]) :is([data-name="Bar"] [data-name="Menu"],.wide-menu-close){
- width:calc(var(--menu-button-width) * var(--frame-unit))!important;
- height:calc(var(--menu-button-height) * var(--frame-unit))!important;
-}
-.figma-viewport .wide-menu-controls{
- left:auto!important;
- right:var(--menu-controls-right,var(--brand-header-gutter));
- top:var(--menu-controls-top,calc((var(--bar-height) - var(--menu-button-height)) / 2 * var(--frame-unit)))!important;
- width:calc(var(--menu-button-width) * var(--frame-unit))!important;
- align-items:center!important;
- z-index:5;
-}
-.figma-viewport .wide-menu-controls [data-name="socials"]{align-items:center!important}
-.figma-viewport[data-exact-screen="menu"]:not([data-exact-device="mobile"]) [data-component="Menu"]{
- --menu-panel-extension:min(2cqw,calc(58 * var(--frame-unit)));
- background:transparent!important;border-color:transparent!important;
- overflow:visible!important;isolation:isolate;
-}
-.figma-viewport[data-exact-screen="menu"]:not([data-exact-device="mobile"]) [data-component="Menu"]::before{
- content:"";position:absolute;inset:0 calc(-1 * var(--menu-panel-extension));
- background:#fff9ed;border:calc(4 * var(--frame-unit)) solid #0d0f10;
- border-radius:inherit;z-index:-1;pointer-events:none;
-}
-.figma-viewport[data-exact-screen="menu"]:not([data-exact-device="mobile"]) [data-component="Menu"]::after{
- inset-inline:calc(14 * var(--frame-unit) - var(--menu-panel-extension));
-}
+.figma-viewport[data-exact-device="desktop"]{--brand-header-gutter:6.25cqw;--bar-height:160}
+.figma-viewport[data-exact-device="tablet"]{--brand-header-gutter:2.5cqw;--bar-height:80;--brand-logo-width:clamp(72px,7.86cqw,100px)}
 .figma-viewport[data-exact-device="mobile"]{--brand-logo-width:clamp(70px,23.35cqw,91px)}
 
 .figma-canvas [data-name="phone"] .chat-message-outgoing{
@@ -535,7 +504,3 @@ html,body{width:100%;height:100%;min-width:0;overflow:hidden}
  max-width:none!important;
 }
 .figma-canvas .resource-emergency-note>p:first-of-type{white-space:nowrap}
-.figma-viewport[data-exact-screen="menu"]:not([data-exact-device="mobile"]) [data-component="Menu"]::after{
- inset-inline:calc(var(--menu-stitch-inset,14 * var(--frame-unit)) - var(--menu-panel-extension));
-}
-.figma-viewport[data-exact-device="tablet"]{--menu-stitch-inset:calc(6 * var(--frame-unit))}
