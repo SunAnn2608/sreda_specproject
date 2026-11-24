@@ -247,6 +247,14 @@ html,body{width:100%;height:100%;min-width:0;overflow:hidden}
  position:absolute;inset:0;width:100%;height:100%;max-width:none;
  object-fit:cover;pointer-events:none;
 }
+.figma-viewport[data-exact-device="mobile"][data-exact-screen="chat"][data-exact-step="1"] .figma-canvas>div{
+ background-color:#191618!important;
+}
+.figma-viewport[data-exact-device="mobile"][data-exact-screen="chat"][data-exact-step="1"] .mobile-chat-backdrop{
+ inset:0 0 auto;
+ width:100%;height:auto;
+ object-fit:initial;
+}
 .figma-viewport[data-exact-device="mobile"] [data-name^="aura/"]>img{
  width:100%;height:100%;object-fit:contain;
 }
