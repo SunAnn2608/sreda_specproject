@@ -343,7 +343,18 @@
  .compact-ux:is([data-exact-screen="materials"],[data-exact-screen="help"],[data-exact-screen="resources"]) .compact-slide{
   padding:26px 20px 16px!important;
  }
- .compact-ux[data-exact-screen="materials"] .compact-document>.compact-materials-actions{gap:12px!important}
+ .compact-ux .compact-document>.compact-materials-actions,
+ .compact-ux[data-exact-screen="help"] .compact-document>.compact-document-actions{
+  gap:12px!important;
+ }
+ .compact-ux[data-exact-screen="help"] .compact-carousel{
+  padding-top:76px;
+ }
+ .compact-ux[data-exact-screen="help"] .compact-help-sticker{
+  position:absolute;left:16px;top:-71px;width:52px;height:52px;
+  object-fit:contain;object-position:left bottom;pointer-events:none;
+ }
+
  .compact-ux[data-exact-screen="materials"] .compact-materials-actions .compact-primary-start{margin:0}
  .compact-ux .compact-materials-actions .compact-foundation-link{
   display:grid;place-items:center;background:#ffb5dc;text-decoration:none;

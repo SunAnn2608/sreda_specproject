@@ -146,12 +146,26 @@ function adaptCompactDocument(root,name){
    cards[cards.indexOf(card)]=slide;
   }
  }
+ if(name==='help'){
+  const stickers=["./assets/figma/figma-a0c29ecc-6a75-4b60-a757-0518c0996353.svg","./assets/figma/figma-6b5cacef-7304-4e5c-ae27-0691bbce53ac.svg","./assets/figma/figma-d7fffecf-17ee-4025-b0ea-3acc5be7e451.svg"];
+  cards.forEach((card,index)=>{
+   if(!stickers[index])return;
+   const sticker=document.createElement('img');
+   sticker.className='compact-help-sticker';
+   sticker.src=stickers[index];
+   sticker.alt='';
+   card.append(sticker);
+  });
+ }
  if(cards.length)createCompactCarousel(root,cards);
  for(const empty of root.querySelectorAll('[data-name="cards"],[data-name="steps"],[data-name="articles"]')){
   if(!empty.children.length)empty.remove();
  }
  if(actions){
-  if(name==='help')actions.querySelector('[data-exact-action="materials"]')?.remove();
+  if(name==='help'){
+   const materials=actions.querySelector('[data-exact-action="materials"]');
+   if(materials)actions.prepend(materials);
+  }
   root.append(actions);
  }
  if(emergency){
