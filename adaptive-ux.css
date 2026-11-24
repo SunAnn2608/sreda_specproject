@@ -243,7 +243,7 @@
  .stage[data-scene="cutscene"] .story-cutscene-footer .scene-context{width:100%;max-width:none}
 }
 .compact-ux[data-exact-screen="info"] [data-node-id="1401:1480"]{
- top:calc(132 * var(--frame-unit))!important;width:calc(100% - 2 * var(--compact-gutter))!important;
+ top:calc(84 * var(--frame-unit))!important;width:calc(100% - 2 * var(--compact-gutter))!important;
  left:var(--compact-gutter)!important;
 }
 .compact-ux[data-exact-screen="messageMom"] [data-node-id="1413:1661"]{
