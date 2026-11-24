@@ -171,7 +171,7 @@ function adaptCompactMenu(root){
  if(cover){
   cover.classList.add('compact-menu-cover');
   const image=cover.querySelector('img');
-  if(image)image.src='./assets/menu-mobile-art.png';
+  if(image)image.src='./assets/menu-mobile-art-3x.jpg';
  }
 }
 
