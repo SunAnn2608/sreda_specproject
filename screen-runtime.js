@@ -260,10 +260,7 @@ function useMobileSceneBackdrop(host,scene,step){
   root.querySelectorAll(':scope > img,:scope > [data-node-id="1499:6013"],:scope > [data-node-id="1499:6036"],:scope > [data-node-id="1401:1548"],:scope > [data-name^="aura/"]').forEach(layer=>layer.remove());
   asset='mobile-kroli.webp';
  }else if(step===1){
-  const phone=root.querySelector(':scope > [data-node-id="1499:5994"]');
-  for(const layer of [...root.children]){
-   if(layer!==phone&&layer.dataset.name!=='Bar')layer.remove();
-  }
+  root.querySelector(':scope > [data-node-id="1499:5922"]')?.remove();
   return;
  }else{
   root.querySelectorAll(':scope > [data-name="image 188"],:scope > [data-node-id="1499:6019"]').forEach(layer=>layer.remove());
@@ -290,6 +287,12 @@ function applyExactGeometry(host,rootId){
   const texts=Object.keys(subset).filter(id=>subset[id].p===parentId&&subset[id].t==='TEXT'&&!used.has(id));
   const candidates=[...parent.children].filter(n=>!n.hasAttribute('data-node-id')&&n.textContent.trim()&&!n.querySelector('[data-node-id]'));
   if(texts.length&&texts.length===candidates.length)for(let i=0;i<texts.length;i++){mapped.set(candidates[i],texts[i]);candidates[i].dataset.nodeId=texts[i];nodes.push(candidates[i]);}
+ }
+ // The exported wrappers already place and rotate these two mobile chat layers.
+ if(rootId==='1499:5919'){
+  for(const node of nodes){
+   if(node.matches('[data-node-id="1499:6016"],[data-node-id="1499:5935"]'))mapped.delete(node);
+  }
  }
  const unit=n=>'calc('+n+' * var(--frame-unit))';
  for(const node of nodes){const g=subset[mapped.get(node)];if(!g)continue;for(const tag of node.querySelectorAll('[data-name="Tag"]')){if(!tag.hasAttribute('data-node-id')&&g.n==='Tag'){tag.style.width=unit(g.w);tag.style.height=unit(g.h);tag.style.flex='none';}}}
@@ -558,7 +561,7 @@ function wireExactScreen(host,name){
   social.innerHTML=`<a class="social-link" href="${socialLinks[net]}" target="_blank" rel="noopener noreferrer" aria-label="${net} — среда"><img alt="" src="./assets/social-${net}-${socialDevice}.svg${socialDevice==='mobile'?'?v=2':''}" width="119" height="120"></a>`;
  }
  if(name==='menu'){
-  if(exactVariant==='tablet'){
+  if(exactVariant!=='mobile'){
    const panel=canvas.querySelector('[data-component="Menu"]');
    const socials=canvas.querySelector('[data-name="menu-aside"] [data-name="socials"]');
    if(panel&&socials)panel.append(socials);

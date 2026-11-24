@@ -19,6 +19,7 @@ function applyFluidConstraints(host,template,device,screenName){
   return device!=='mobile'||!layer.r;
  });
  for(const node of root.children){
+  if(template.id==='1499:5919'&&node.matches('[data-node-id="1499:5992"],[data-node-id="1499:6016"],[data-node-id="1499:6017"],[data-node-id="1499:5935"]'))continue;
   const g=geometry[node.dataset.geometryId||node.dataset.nodeId];
   if(!g)continue;
   if(node===primaryBackground&&device!=='desktop'&&
