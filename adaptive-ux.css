@@ -217,7 +217,7 @@
 .compact-ux[data-exact-screen="materials"] .compact-primary-start{display:block;margin-top:auto}
 
 .compact-ux .compact-carousel{flex:none;min-width:0}
-.compact-ux .compact-support-slide{display:flex;flex-direction:column;gap:var(--document-gap);padding:0!important}
+.compact-ux .compact-support-slide{display:flex;flex-direction:column;gap:var(--document-gap);padding:0!important;min-height:0}
 .compact-ux .compact-support-slide>[data-name="panel"]{
  position:relative!important;inset:auto!important;width:100%!important;height:auto!important;
  padding:clamp(36px,10cqw,68px) clamp(22px,6cqw,44px) clamp(24px,6cqw,44px)!important;
@@ -329,7 +329,7 @@
  .compact-ux:is([data-exact-screen="materials"],[data-exact-screen="help"],[data-exact-screen="resources"],[data-exact-screen="supportPage"]) .compact-carousel{
   padding-top:24px;padding-bottom:6px;
  }
- .compact-ux:is([data-exact-screen="materials"],[data-exact-screen="help"],[data-exact-screen="resources"],[data-exact-screen="supportPage"]) .compact-slide{
+ .compact-ux:is([data-exact-screen="materials"],[data-exact-screen="help"],[data-exact-screen="resources"]) .compact-slide{
   padding:26px 20px 16px!important;
  }
  .compact-ux[data-exact-screen="materials"] .compact-materials-actions .compact-primary-start{margin:0}
@@ -344,4 +344,30 @@
 }
 .compact-ux[data-exact-screen="resources"] .compact-slide [data-name="Tag"] p{
  white-space:normal!important;
+}
+
+.compact-ux[data-exact-screen="supportPage"] .compact-support-slide{
+ width:100%!important;flex-basis:100%!important;box-sizing:border-box;
+}
+.compact-ux[data-exact-screen="supportPage"] .compact-support-slide>[data-name="panel"]{
+ box-sizing:border-box;
+}
+.compact-ux :is(.compact-bubble [data-name="Name"],.compact-support-slide [data-name="Tag"]){
+ width:max-content!important;height:auto!important;
+ min-height:0!important;padding:calc(4 * var(--frame-unit)) calc(14 * var(--frame-unit)) calc(6 * var(--frame-unit))!important;
+ border:calc(2 * var(--frame-unit)) solid #0d0f10!important;
+}
+.compact-ux :is(.compact-bubble [data-name="Name"],.compact-support-slide [data-name="Tag"]) p{
+ font-size:calc(18 * var(--frame-unit))!important;line-height:calc(24 * var(--frame-unit))!important;
+ white-space:nowrap!important;
+}
+.compact-ux[data-exact-screen="supportPage"] .compact-socials{
+ position:relative!important;inset:auto!important;z-index:2!important;
+ flex:none;pointer-events:auto!important;margin-bottom:max(16px,env(safe-area-inset-bottom));
+}
+.compact-ux[data-exact-screen="supportPage"] .compact-socials [data-social-network]{
+ position:relative!important;inset:auto!important;pointer-events:auto!important;
+}
+.compact-ux[data-exact-screen="supportPage"] .compact-socials .social-link{
+ pointer-events:auto!important;
 }

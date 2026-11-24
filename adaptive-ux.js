@@ -112,8 +112,7 @@ function adaptCompactDocument(root,name){
  const socials=[...root.querySelectorAll('[data-name="socials"]')];
  const actions=root.querySelector(':scope > [data-name="actions"]');
  const emergency=root.querySelector('[data-name="note/emergency"]');
- const footer=name==='supportPage'?document.createElement('div'):actions;
- if(footer)footer.classList.add('compact-document-actions');
+ if(actions)actions.classList.add('compact-document-actions');
  if(emergency){
   emergency.replaceChildren();
   const p=document.createElement('p');
@@ -143,9 +142,7 @@ function adaptCompactDocument(root,name){
    const slide=document.createElement('div');
    slide.className='compact-support-slide';
    card.replaceWith(slide);
-   slide.append(card);
-   if(window.innerWidth<768)footer.append(button);
-   else slide.append(button);
+   slide.append(card,button);
    cards[cards.indexOf(card)]=slide;
   }
  }
@@ -163,7 +160,6 @@ function adaptCompactDocument(root,name){
  }
  for(const social of socials){social.classList.add('compact-socials');root.append(social);}
  root.querySelectorAll('[data-name="contacts"]').forEach(n=>root.append(n));
- if(name==='supportPage'&&footer.childElementCount)root.append(footer);
  if(name==='materials'){
   const start=root.querySelector('.mobile-document-start');
   if(start){
