@@ -343,6 +343,7 @@
  .compact-ux:is([data-exact-screen="materials"],[data-exact-screen="help"],[data-exact-screen="resources"]) .compact-slide{
   padding:26px 20px 16px!important;
  }
+ .compact-ux[data-exact-screen="materials"] .compact-document>.compact-materials-actions{gap:12px!important}
  .compact-ux[data-exact-screen="materials"] .compact-materials-actions .compact-primary-start{margin:0}
  .compact-ux .compact-materials-actions .compact-foundation-link{
   display:grid;place-items:center;background:#ffb5dc;text-decoration:none;
