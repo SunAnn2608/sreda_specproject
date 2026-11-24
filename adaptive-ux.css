@@ -265,7 +265,7 @@
  padding-bottom:max(16px,env(safe-area-inset-bottom));
 }
 .compact-ux .compact-menu .compact-menu-cover{
- position:relative!important;inset:auto!important;min-height:0;grid-row:1;
+ position:relative!important;inset:auto!important;min-height:0;grid-area:1 / 1 / 3;pointer-events:none;
 }
 .compact-ux .compact-menu-cover img{height:auto!important;object-position:center top}
 .compact-ux .compact-menu [data-component="Menu"]{

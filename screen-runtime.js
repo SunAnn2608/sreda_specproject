@@ -485,7 +485,7 @@ function wireExactScreen(host,name){
  const socialDevice=exactVariant==='mobile'&&window.innerWidth>=768?'tablet':exactVariant;
  for(const social of canvas.querySelectorAll('[data-social-network]')){
   const net=social.dataset.socialNetwork;
-  social.innerHTML=`<a class="social-link" href="${socialLinks[net]}" target="_blank" rel="noopener noreferrer" aria-label="${net} — среда"><img alt="" src="./assets/social-${net}-${socialDevice}.svg" width="119" height="120"></a>`;
+  social.innerHTML=`<a class="social-link" href="${socialLinks[net]}" target="_blank" rel="noopener noreferrer" aria-label="${net} — среда"><img alt="" src="./assets/social-${net}-${socialDevice}.svg${socialDevice==='mobile'?'?v=2':''}" width="119" height="120"></a>`;
  }
  if(name==='menu'){
   if(exactVariant==='tablet'){
