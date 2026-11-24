@@ -165,7 +165,18 @@ function adaptCompactDocument(root,name){
   if(start){
    start.classList.add('compact-primary-start');
    if(name==='resources')root.querySelector('.mobile-document-intro')?.after(start);
-   else root.append(start);
+   else if(window.innerWidth<768){
+    const footer=document.createElement('div');
+    footer.className='compact-document-actions compact-materials-actions';
+    const foundation=document.createElement('a');
+    foundation.className='action mobile-document-start compact-foundation-link';
+    foundation.href='https://verimtebe.ru/get-psy-assistance/#anketa';
+    foundation.target='_blank';
+    foundation.rel='noopener noreferrer';
+    foundation.textContent='написать в фонд';
+    footer.append(foundation,start);
+    root.append(footer);
+   }else root.append(start);
   }
  }
 }
