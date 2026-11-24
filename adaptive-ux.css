@@ -421,7 +421,8 @@
 }
 
 .compact-ux .compact-prologue-panel [data-node-id="1413:1627"]{
- left:-4%!important;width:108%!important;height:auto!important;
+ left:-7%!important;top:calc(-54 * var(--frame-unit))!important;
+ width:114%!important;height:auto!important;
  aspect-ratio:407.326 / 277.754;
 }
 .compact-ux .compact-prologue-panel [data-node-id="1413:1627"]>div{

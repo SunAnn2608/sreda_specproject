@@ -96,7 +96,10 @@ function alignPrologueLogo(host){
  const note=host.querySelector('.prologue-note');
  if(!logo||!note)return;
  const align=()=>{
-  const offset=note.getBoundingClientRect().top+12-logo.getBoundingClientRect().bottom;
+  const bounds=logo.getBoundingClientRect();
+  const menu=host.querySelector('[data-name="Bar"] [data-name="Actions"]');
+  const menuBottom=menu?.getBoundingClientRect().bottom??-Infinity;
+  const offset=Math.max(note.getBoundingClientRect().top+23-bounds.bottom,menuBottom+12-bounds.top);
   const previous=parseFloat(logo.style.translate.split(' ')[1])||0;
   logo.style.translate='0 '+(previous+offset)+'px';
  };
