@@ -47,22 +47,49 @@ function applyAdaptiveUX(host,name,context){
  if(name==='menu')adaptCompactMenu(root);
 }
 
-function createCompactCarousel(root,cards,onComplete){
+function createCompactCarousel(root,cards,onComplete,loop=false){
  const carousel=document.createElement('section');
  carousel.className='compact-carousel';
  carousel.setAttribute('aria-label','Карточки — листай горизонтально');
  for(const card of cards){card.classList.add('compact-slide');carousel.append(card);}
+ const slides=[...cards];
+ if(loop&&cards.length>1){
+  const clone=card=>{
+   const copy=card.cloneNode(true);
+   copy.removeAttribute('id');
+   copy.querySelectorAll('[id]').forEach(node=>node.removeAttribute('id'));
+   copy.setAttribute('aria-hidden','true');
+   copy.inert=true;
+   return copy;
+  };
+  const before=clone(cards.at(-1));
+  const after=clone(cards[0]);
+  slides.unshift(before);
+  slides.push(after);
+  carousel.prepend(before);
+  carousel.append(after);
+ }
+ const looping=slides.length!==cards.length;
  let timer;
+ let settleTimer;
  let inView=false;
  let touching=false;
- const offsets=()=>cards.map(card=>card.offsetLeft-cards[0].offsetLeft);
+ const offsets=()=>slides.map(card=>card.offsetLeft-slides[0].offsetLeft);
  const currentSlide=positions=>positions.reduce((closest,offset,index)=>
   Math.abs(offset-carousel.scrollLeft)<Math.abs(positions[closest]-carousel.scrollLeft)?index:closest,0);
- const go=direction=>{
+ const normalizeLoop=()=>{
   const positions=offsets();
   const current=currentSlide(positions);
+  if(!looping||Math.abs(carousel.scrollLeft-positions[current])>2)return current;
+  const real=current===0?cards.length:current===slides.length-1?1:current;
+  if(real!==current)carousel.scrollTo({left:positions[real],behavior:'instant'});
+  return real;
+ };
+ const go=()=>{
+  const current=normalizeLoop();
+  const positions=offsets();
   if(onComplete&&current===cards.length-1){onComplete();return;}
-  const next=(current+direction+cards.length)%cards.length;
+  const next=(current+1)%slides.length;
   carousel.scrollTo({left:positions[next],behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
  };
  const stop=()=>clearTimeout(timer);
@@ -73,7 +100,7 @@ function createCompactCarousel(root,cards,onComplete){
   timer=setTimeout(()=>{
    if(!carousel.isConnected||!carousel.clientWidth)return;
    if(document.hidden){schedule();return;}
-   go(1);
+   go();
    schedule();
   },onComplete?Math.max(3300,storyReadingDelay(cards[currentSlide(offsets())].innerText)):6500);
  };
@@ -85,13 +112,22 @@ function createCompactCarousel(root,cards,onComplete){
  carousel.addEventListener('focusout',event=>{
   if(!carousel.contains(event.relatedTarget))queueMicrotask(schedule);
  });
- carousel.addEventListener('scroll',schedule,{passive:true});
+ carousel.addEventListener('scroll',()=>{
+  if(looping){
+   clearTimeout(settleTimer);
+   settleTimer=setTimeout(()=>{
+    if(carousel.isConnected&&!touching)normalizeLoop();
+   },150);
+  }
+  schedule();
+ },{passive:true});
  const observer=new IntersectionObserver(([entry])=>{
   inView=entry.isIntersecting;
   schedule();
  });
- observer.observe(carousel);
  root.append(carousel);
+ if(looping)carousel.scrollTo({left:offsets()[1],behavior:'instant'});
+ observer.observe(carousel);
  return carousel;
 }
 
@@ -185,7 +221,7 @@ function adaptCompactDocument(root,name){
  if(cards.length){
   const advance=emergencyCard&&cards.length>1&&!state.modal&&state.scene==='resources'
    ?()=>handleAction('supportPage'):undefined;
-  const carousel=createCompactCarousel(root,cards,advance);
+  const carousel=createCompactCarousel(root,cards,advance,window.innerWidth<768&&name!=='resources');
   if(advance)carousel.dataset.storyCarousel='';
  }
  if(emergencyCard&&emergency)root.append(emergency);

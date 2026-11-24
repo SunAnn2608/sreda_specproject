@@ -358,7 +358,7 @@
   width:clamp(46px,16cqw,64px);height:clamp(46px,16cqw,64px);
   object-fit:contain;object-position:center;rotate:-10deg;pointer-events:none;
  }
- .compact-ux[data-exact-screen="help"] .compact-slide:nth-child(2) .compact-help-sticker{
+ .compact-ux[data-exact-screen="help"] .compact-slide:nth-child(2 of .compact-slide:not([aria-hidden="true"])) .compact-help-sticker{
   rotate:8deg;
  }
 
