@@ -71,8 +71,11 @@ function animateNovelFrame(host,screenName,contextNote){
  if(background){background.fetchPriority='high';background.loading='eager';}
  const immediateContinue=scenes[screenName].kind==='info';
  const next=immediateContinue?[]:[...root.querySelectorAll('[data-exact-action="exact-next"],button[data-action="next"]:not(.bubble)')];
- const replies=['adults','closeness'].includes(screenName)?
+ const mobile=surface.dataset.exactDevice==='mobile'||
+  surface.matches('.stage')&&typeof compactNovelLayout==='function'&&compactNovelLayout();
+ const replies=mobile||['adults','closeness'].includes(screenName)?
   [...root.querySelectorAll('[data-name="Bubble"],.dialogue-layout>.bubble')]:[];
+ const sequential=mobile&&replies.length>1;
  const prompt=[...root.querySelectorAll('[data-name="Prompt"],[data-component="Prompt"],.dialogue-layout>.prompt')];
  const choices=[...root.querySelectorAll('[data-name="choices"],.dialogue-layout>.choices')];
  const delayed=new Set([...next,...replies,...prompt,...choices,contextNote]);
@@ -97,8 +100,26 @@ function animateNovelFrame(host,screenName,contextNote){
  }else add([background,...subject,...phone,contextNote],leadInWait,clearContext);
  const contentHold=hasLaterReply?(family?familyReplyPause:replyPause):
   prompt.length?choicePause:next.length&&revealContent.length?continuePause:undefined;
- add(revealContent,contentHold);
- if(hasLaterReply)add(replies.slice(1),next.length?continuePause:undefined);
+ if(sequential){
+  const retire=async reply=>{
+   if(!surface.isConnected)return;
+   if(!novelMotionPreference.matches){
+    await reply.animate([{opacity:1},{opacity:0}],{duration:sceneFadeTime,fill:'forwards'}).finished.catch(()=>{});
+   }
+   reply.inert=true;
+   reply.style.setProperty('display','none','important');
+  };
+  replies.at(-1).setAttribute('data-final-mobile-reply','');
+  replies.forEach((reply,index)=>{
+   const last=index===replies.length-1;
+   add(index===0?revealContent:[reply],
+    last?(next.length?continuePause:undefined):storyReadingDelay(reply.textContent),
+    last?undefined:()=>retire(reply));
+  });
+ }else{
+  add(revealContent,contentHold);
+  if(hasLaterReply)add(replies.slice(1),next.length?continuePause:undefined);
+ }
  add(prompt,sceneFadeTime);add(choices);add(next);
  return revealSceneLayers(surface,steps,host.hasAttribute('data-scene-crossfade'));
 }
@@ -177,7 +198,8 @@ async function queueStoryAdvance(surface,reveal,action){
  }
  const content=[...surface.querySelectorAll('.main,.figma-canvas :is(p,h1,h2,li),.figma-canvas .scene-context')]
   .filter(node=>!node.closest('[data-name="Bar"],header, [data-exact-action]')&&node.getClientRects().length);
- const duration=storyReadingDelay(content.map(node=>node.innerText).join(' '));
+ const lastReply=surface.querySelector('[data-final-mobile-reply]');
+ const duration=storyReadingDelay(lastReply?.innerText??content.map(node=>node.innerText).join(' '));
  function advance(){
   if(!ready())return;
   if(document.hidden){setTimeout(advance,duration);return;}
