@@ -113,7 +113,16 @@ function adaptCompactDocument(root,name){
  const cards=[...root.querySelectorAll('[data-name="Card"],:scope > [data-name="panel"],[data-name="note/emergency-card"]')];
  const socials=[...root.querySelectorAll('[data-name="socials"]')];
  const actions=root.querySelector(':scope > [data-name="actions"]');
- const emergency=root.querySelector('[data-name="note/emergency"]');
+ const emergencyCard=name==='resources'&&window.innerWidth<768
+  ?root.querySelector('[data-name="note/emergency-card"]'):null;
+ let emergency=root.querySelector('[data-name="note/emergency"]');
+ if(emergencyCard){
+  const template=document.createElement('template');
+  template.innerHTML=figmaScreens.help.mobile[0].html;
+  emergency=template.content.querySelector('[data-name="note/emergency"]');
+  cards.splice(cards.indexOf(emergencyCard),1);
+  emergencyCard.remove();
+ }
  if(actions)actions.classList.add('compact-document-actions');
  if(emergency){
   emergency.replaceChildren();
@@ -168,11 +177,8 @@ function adaptCompactDocument(root,name){
   });
   cards.splice(0,cards.length,...ordered,...remaining);
  }
- const emergencyCard=name==='resources'&&window.innerWidth<768
-  ?root.querySelector('[data-name="note/emergency-card"]'):null;
  if(emergencyCard){
-  cards.splice(cards.indexOf(emergencyCard),1);
-  const order=['если травят тебя','для взрослых','материалы','если ты видишь травлю'];
+  const order=['для себя','для взрослых','материалы','для друзей'];
   const rank=card=>order.indexOf(normalizedLabel(card.querySelector('[data-name="Tag"]')||card));
   cards.sort((left,right)=>rank(left)-rank(right));
  }
@@ -182,7 +188,7 @@ function adaptCompactDocument(root,name){
   const carousel=createCompactCarousel(root,cards,advance);
   if(advance)carousel.dataset.storyCarousel='';
  }
- if(emergencyCard)root.append(emergencyCard);
+ if(emergencyCard&&emergency)root.append(emergency);
  for(const empty of root.querySelectorAll('[data-name="cards"],[data-name="steps"],[data-name="articles"]')){
   if(!empty.children.length)empty.remove();
  }
@@ -193,7 +199,7 @@ function adaptCompactDocument(root,name){
   }
   root.append(actions);
  }
- if(emergency){
+ if(emergency&&!emergencyCard){
   const intro=root.querySelector('.mobile-document-intro');
   if(intro)intro.after(emergency);
  }

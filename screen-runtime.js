@@ -495,15 +495,22 @@ function wireResourceCards(canvas){
   witness.replaceWith(materials);
   slot.replaceWith(witness);
  }
+ const mobile=canvas.closest('[data-exact-device="mobile"]')&&window.innerWidth<768;
  for(const [tag,card] of byTag){
+  if(mobile){
+   const label={'если травят тебя':'для себя','если ты видишь травлю':'для друзей'}[tag];
+   if(label)card.querySelector('[data-name="Tag"] p').textContent=label;
+  }
   const read=card.querySelector('a[href]');
   if(read){
    const [, ,url,label]=articles[tag==='для взрослых'?5:2];
-   linkMaterialCard(card,read,url,label+': '+card.firstElementChild.textContent.trim());
+   if(mobile)read.textContent='читать';
+   linkMaterialCard(card,read,url,(mobile?'читать':label)+': '+card.firstElementChild.textContent.trim());
    continue;
   }
   const action=tag==='материалы'?'materials':'help';
   const cue=card.querySelector(':scope > p:nth-child(2)');
+  if(mobile)cue.textContent='открыть';
   cue.classList.add('text-link');
   card.classList.add('material-card-link');
   assignExactAction(card,action,cue.textContent.trim());
