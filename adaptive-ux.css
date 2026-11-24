@@ -125,7 +125,7 @@
  background:#fff9ed!important;box-shadow:var(--compact-control-shadow)!important;filter:none!important;
 }
 .compact-ux .compact-menu [data-component="IconButton"]{
- left:var(--compact-menu-left)!important;right:auto!important;top:var(--compact-header-top)!important;
+ left:auto!important;right:var(--compact-gutter)!important;top:var(--compact-header-top)!important;
  bottom:auto!important;translate:none!important;z-index:8;
 }
 .compact-ux .compact-menu [data-component="IconButton"]{
