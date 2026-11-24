@@ -369,11 +369,15 @@
 }
 
 
-.compact-ux[data-exact-screen="resources"] .compact-slide[data-name="Card"]>div:has([data-name="Tag"]){
- inset-inline:12px!important;width:auto!important;justify-content:flex-start!important;
-}
-.compact-ux[data-exact-screen="resources"] .compact-slide [data-name="Tag"] p{
- white-space:normal!important;
+@media (width < 768px){
+ .compact-ux:is([data-exact-screen="resources"],[data-exact-screen="materials"]) .compact-slide[data-name="Card"]>div:has([data-name="Tag"]){
+  left:calc(16 * var(--frame-unit))!important;right:auto!important;
+  width:max-content!important;justify-content:flex-start!important;
+ }
+ .compact-ux:is([data-exact-screen="resources"],[data-exact-screen="materials"]) .compact-slide [data-name="Tag"]{
+  width:max-content!important;height:auto!important;
+  padding:calc(4 * var(--frame-unit)) calc(14 * var(--frame-unit)) calc(6 * var(--frame-unit))!important;
+ }
 }
 
 .compact-ux[data-exact-screen="supportPage"] .compact-support-slide{
