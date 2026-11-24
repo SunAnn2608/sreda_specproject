@@ -243,12 +243,25 @@
  .stage[data-scene="cutscene"] .story-cutscene-footer .scene-context{width:100%;max-width:none}
 }
 .compact-ux[data-exact-screen="info"] [data-node-id="1401:1480"]{
- top:calc(134 * var(--frame-unit))!important;width:calc(100% - 2 * var(--compact-gutter))!important;
+ top:clamp(42px,10dvh,98px)!important;width:calc(100% - 2 * var(--compact-gutter))!important;
  left:var(--compact-gutter)!important;
 }
 .compact-ux[data-exact-screen="messageMom"] [data-node-id="1413:1661"]{
  left:var(--compact-gutter)!important;width:calc(100% - 2 * var(--compact-gutter))!important;
- height:calc(700 * var(--frame-unit))!important;
+ top:clamp(76px,13dvh,110px)!important;bottom:max(24px,env(safe-area-inset-bottom))!important;
+ height:auto!important;
+}
+.figma-viewport[data-exact-screen="messageMom"] [data-name="Phone"] [data-name="Header"]{
+ inset-inline:calc(-4 * var(--frame-unit))!important;width:auto!important;
+}
+.compact-ux[data-exact-screen="info"] [data-node-id="1401:1480"]{
+ padding:clamp(26px,5.5dvh,48px) clamp(20px,9cqw,44px) clamp(20px,4.2dvh,44px)!important;
+ gap:clamp(10px,2dvh,20px)!important;
+}
+.compact-ux[data-exact-screen="info"] [data-name="content"]{gap:clamp(10px,2.8dvh,28px)!important}
+.compact-ux[data-exact-screen="info"] [data-name="image"]{height:clamp(72px,18dvh,157px)!important}
+.compact-ux[data-exact-screen="info"] [data-name="theses"]{gap:clamp(8px,1.5dvh,14px)!important}
+.compact-ux[data-exact-screen="info"] [data-name="list"]{gap:clamp(6px,1.2dvh,12px)!important
 }
 .compact-ux [data-node-id="1471:4570"]>img{
  object-fit:fill;mask-image:radial-gradient(ellipse closest-side,#000 80%,transparent 100%);

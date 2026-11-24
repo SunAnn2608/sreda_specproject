@@ -535,6 +535,15 @@ function wireExactScreen(host,name){
  for(const link of canvas.querySelectorAll('a[href*="dzen.ru/sreda_acceptance"]')){
   link.href=socialLinks.dzen;link.target='_blank';link.rel='noopener noreferrer';
  }
+ if(name==='info'){
+  canvas.querySelector('[data-node-id="1318:2620"],[data-node-id="1396:1326"],[data-node-id="1401:1503"]')?.remove();
+  const read=canvas.querySelector('a[href*="dzen.ru"]');
+  if(read){
+   read.href=articles[0][2];
+   read.target='_blank';
+   read.rel='noopener noreferrer';
+  }
+ }
  if(name==='help')wireHelpPhones(canvas);
  wireLinkStyles(canvas);
  if(name==='resources')wireResourceCards(canvas);
