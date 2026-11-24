@@ -113,7 +113,7 @@
 .compact-ux .compact-menu-cover{overflow:hidden!important;inset:0!important;width:100%!important;height:100%!important;translate:none!important}
 .compact-ux .compact-menu-cover img{
  position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
- max-width:none!important;object-fit:cover!important;transform-origin:50% 38%;
+ max-width:none!important;object-fit:cover!important;transform-origin:center top;
 }
 @media(prefers-reduced-motion:no-preference){
  .compact-ux .compact-menu-cover img{animation:mobile-menu-dolly 14s ease-in-out infinite alternate}
