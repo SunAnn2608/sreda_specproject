@@ -150,7 +150,7 @@
 .compact-ux [data-name="Bubble"] [data-name="Arrow"]{pointer-events:none}
 .compact-ux .compact-prologue-panel{padding-top:clamp(270px,70cqw,520px)!important}
 .compact-ux .compact-prologue-panel [data-name="content"]{
- left:23%!important;right:6%!important;width:auto!important;top:calc(240 * var(--frame-unit))!important;
+ left:19%!important;right:6%!important;width:auto!important;top:calc(226 * var(--frame-unit))!important;
 }
 .compact-ux .compact-prologue-panel [data-name="content"] p{width:auto!important;max-width:100%!important}
 .compact-ux .compact-slide [data-name="Panel"]{position:absolute!important;inset:0!important;width:100%!important;height:100%!important}
