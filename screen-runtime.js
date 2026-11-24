@@ -146,7 +146,7 @@ function renderExactScreen(){
  if(screenName==='openEnding')updateOpenEnding(host);
  wireStoryGuidance(host,screenName);
  applyFluidConstraints(host,template,device,screenName);
- if(device==='mobile'&&screenName==='chat'&&exactStep>0)useMobileChatBackdrop(host,exactStep);
+ if(device==='mobile'&&screenName==='chat')useMobileChatBackdrop(host,exactStep);
  const contextNote=addSceneContext(host,screenName);
  if(typeof applyAdaptiveUX==='function')applyAdaptiveUX(host,screenName,contextNote);
  applyStoryTypography(host);
@@ -222,6 +222,11 @@ async function dismissSceneContext(note){
 
 function useMobileChatBackdrop(host,step){
  const root=host.querySelector('.figma-canvas').firstElementChild;
+ if(step===0){
+  const background=root.querySelector(':scope > img');
+  if(background)background.src='./assets/chat-mobile-1.webp';
+  return;
+ }
  const bakedLayers=[
   ':scope > [data-name="image 188"],:scope > [data-node-id="1499:6016"],:scope > [data-name^="aura/"]',
   ':scope > [data-name="image 188"],:scope > [data-node-id="1499:6019"]'
