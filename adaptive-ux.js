@@ -127,10 +127,14 @@ function adaptCompactDocument(root,name){
    if(window.innerWidth<768){
     const description=card.querySelector(':scope > p:last-of-type');
     const shortCopy={
-     '1402:1607':'Чем больше подписей, тем сложнее делать вид, что травли нет.',
+     '1402:1607':'Чем больше подписей,\nтем сложнее делать вид, что травли нет.',
      '1402:1622':'Бесплатные консультации психологов для подростков: онлайн или очно, до восьми встреч.'
     }[card.dataset.nodeId];
-    if(description&&shortCopy)description.textContent=shortCopy;
+    if(description&&shortCopy){
+     const [firstLine,secondLine]=shortCopy.split('\n');
+     description.textContent=firstLine;
+     if(secondLine)description.append(document.createElement('br'),secondLine);
+    }
    }
    const button=card.querySelector(':scope > .button-link');
    if(!button)continue;
