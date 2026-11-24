@@ -123,6 +123,11 @@ function renderExactScreen(){
  exactStep=Math.min(verification?Number(verification.get('step')||0):state.modal&&figmaScreens[state.modal]?0:Number(state.frameStep||0),steps.length-1);
  const template=steps[exactStep];
  const host=document.querySelector('#app');host.classList.add('figma-mode');
+ const previousViewport=host.querySelector('.figma-viewport');
+ const burger=screenName==='menu'&&device!=='mobile'&&previousViewport?.dataset.exactDevice===device
+  ?previousViewport.querySelector('[data-name="Bar"] [data-name="Menu"]'):null;
+ const burgerBounds=burger?.getBoundingClientRect();
+ const previousBounds=burger&&previousViewport.getBoundingClientRect();
  host.innerHTML=`<div class="figma-viewport" data-exact-screen="${screenName}" data-exact-device="${device}" data-exact-step="${exactStep}" style="--frame-width:${template.width};--frame-height:${template.height};--frame-ratio:${template.width/template.height}"><div class="figma-canvas" style="--frame-unit:calc(100cqw / ${template.width})">${exactScreenHTML(template,screenName,device)}</div></div>`;
  if(state.modal&&!figmaScreens[state.modal]){host.insertAdjacentHTML('beforeend',modalHTML());const background=host.querySelector('.figma-viewport');background.inert=true;background.setAttribute('aria-hidden','true');}
  applyExactGeometry(host,template.id);
@@ -167,6 +172,13 @@ function renderExactScreen(){
  if(screenName==='openEnding')updateOpenEnding(host);
  wireStoryGuidance(host,screenName);
  applyFluidConstraints(host,template,device,screenName);
+ if(burgerBounds?.width){
+  const aside=host.querySelector('.wide-menu-controls');
+  if(aside){
+   aside.style.setProperty('--menu-controls-top',(burgerBounds.top-previousBounds.top)+'px');
+   aside.style.setProperty('--menu-controls-right',(previousBounds.right-burgerBounds.right)+'px');
+  }
+ }
  if(device==='mobile'&&(screenName==='chat'||screenName==='choice'))useMobileSceneBackdrop(host,screenName,exactStep);
  const contextNote=addSceneContext(host,screenName);
  if(typeof applyAdaptiveUX==='function')applyAdaptiveUX(host,screenName,contextNote);
@@ -508,14 +520,9 @@ function replaceResourcePetition(canvas){
  const wideCard=exactVariant==='desktop'||(exactVariant==='tablet'&&matchMedia('(orientation: landscape)').matches);
  if(wideCard){
   card.classList.add('resource-emergency-note');
-  heading.replaceChildren('Если опасно прямо сейчас — ',emergency,'.');
+  heading.replaceChildren('Если опасно прямо сейчас —',document.createElement('br'),emergency,'.');
   trust.replaceChildren('Детский телефон доверия',document.createElement('br'),'8 800 2000‑122');
   description.replaceChildren('Поговорить анонимно и бесплатно:',document.createElement('br'),trust,'.');
-  const sticker=document.createElement('img');
-  sticker.className='resource-emergency-sticker';
-  sticker.src='./assets/figma/figma-a0c29ecc-6a75-4b60-a757-0518c0996353.svg';
-  sticker.alt='';
-  card.append(sticker);
  }else{
   description.replaceChildren(emergency,'. Поговорить анонимно и бесплатно можно по детскому телефону доверия ',trust,'.');
  }
@@ -574,11 +581,6 @@ function wireExactScreen(host,name){
   social.innerHTML=`<a class="social-link" href="${socialLinks[net]}" target="_blank" rel="noopener noreferrer" aria-label="${net} — среда"><img alt="" src="./assets/social-${net}-${socialDevice}.svg${socialDevice==='mobile'?'?v=2':''}" width="119" height="120"></a>`;
  }
  if(name==='menu'){
-  if(exactVariant==='tablet'){
-   const panel=canvas.querySelector('[data-component="Menu"]');
-   const socials=canvas.querySelector('[data-name="menu-aside"] [data-name="socials"]');
-   if(panel&&socials)panel.append(socials);
-  }
   const actions={'начать историю':'restart','материалы':'materials','нужна поддержка':'help','поддержать':'supportPage'};
   for(const node of canvas.querySelectorAll('[data-component="MenuItem"],[data-name^="menu/"]')){
    const label=normalizedLabel(node);
@@ -663,7 +665,7 @@ function wireExactScreen(host,name){
   if(close&&exactVariant!=='mobile'){
    assignExactAction(close,'close','закрыть');
    close.classList.add('wide-menu-close');
-   canvas.firstElementChild.append(close);
+   close.parentElement.classList.add('wide-menu-controls');
   }
  }
 }
