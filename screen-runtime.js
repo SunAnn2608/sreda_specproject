@@ -168,12 +168,12 @@ const sceneContext=new Map([
 function formatStoryContext(description){
  // Связываем служебные слова со следующим словом и два последних слова предложения.
  return description
-  .replace(/([.!?…][»”)]* +[«„“(]?\p{L}[\p{L}\p{M}-]*) +(?=[«„“(]?\p{L})/gu,(match,start)=>start+'\u00a0'.repeat(match.length-start.length))
-  .replace(/([^\s]+)[ \t]+(?=[^\s]+[.!?…](?:[»”)]|$|\s))/gu,'$1\u00a0')
-  .replace(/(?<![\p{L}\p{N}])((?:без|для|под|над|при|про|через|из-за|из-под|из|до|за|от|по|на|не|ни|обо|об|о|со|с|ко|к|во|в|у|а|и|но|да|или|либо|что|чтоб|чтобы|как|если|то|хотя|чем|тоже|—|–))[ \u00a0]+(?=\S)/giu,'$1\u00a0');
+  .replace(/([.!?…][»”)]*[ \u00a0\u202f]+[«„“(]?\p{L}[\p{L}\p{M}-]*)[ \u00a0\u202f]+(?=[«„“(]?\p{L})/gu,(match,start)=>start+'\u00a0'.repeat(match.length-start.length))
+  .replace(/([^\s]+)[ \t\u00a0\u202f]+(?=[^\s]+[.!?…](?:[»”)]|$|\s))/gu,'$1\u00a0')
+  .replace(/(?<![\p{L}\p{N}])((?:без|для|под|над|при|про|через|из-за|из-под|из|до|за|от|по|на|не|ни|обо|об|о|со|с|ко|к|во|в|у|а|и|но|да|или|либо|что|чтоб|чтобы|как|если|то|хотя|чем|тоже|где|куда|откуда|когда|пока|поскольку|зато|однако|словно|будто|между|около|вокруг|возле|вместо|кроме|после|перед|против|среди|сквозь|ради|вдоль|мимо|вне|—|–))[ \u00a0\u202f]+(?=\S)/giu,(match,word)=>word+'\u00a0'.repeat(match.length-word.length));
 }
 function applyStoryTypography(root){
- const selector='p,h1,h2,h3,li,button,a,.speaker,.scene-context,.prologue-note-message';
+ const selector='p,h1,h2,h3,li,button,a,.speaker,.scene-context,.prologue-note-message,.story-dialogue .bubble>span:not(.speaker)';
  for(const block of root.querySelectorAll(selector)){
   if(block.parentElement?.closest(selector))continue;
   const walker=document.createTreeWalker(block,NodeFilter.SHOW_TEXT|NodeFilter.SHOW_ELEMENT);
