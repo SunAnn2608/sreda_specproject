@@ -101,7 +101,7 @@ function alignPrologueLogo(host){
  const align=()=>{
   logo.style.translate='none';
   const overlap=panel.getBoundingClientRect().width*.018;
-  const offset=note.getBoundingClientRect().top+overlap-artwork.getBoundingClientRect().bottom;
+  const offset=note.getBoundingClientRect().top+overlap+48-artwork.getBoundingClientRect().bottom;
   logo.style.translate='0 '+offset+'px';
  };
  align();
