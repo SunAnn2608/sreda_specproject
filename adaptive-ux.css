@@ -125,7 +125,7 @@
  background:#fff9ed!important;box-shadow:var(--compact-control-shadow)!important;filter:none!important;
 }
 .compact-ux .compact-menu [data-component="IconButton"]{
- left:auto!important;right:var(--compact-gutter)!important;top:var(--compact-header-top)!important;
+ left:var(--compact-menu-left)!important;right:auto!important;top:var(--compact-header-top)!important;
  bottom:auto!important;translate:none!important;z-index:8;
 }
 .compact-ux .compact-menu [data-component="IconButton"]{
@@ -258,7 +258,10 @@
  margin-top:auto;padding-bottom:env(safe-area-inset-bottom);
 }
 .compact-ux .compact-menu{
- background:#000!important;display:grid;grid-template-rows:minmax(0,1fr) auto;align-content:stretch;
+ --compact-menu-left:max(var(--compact-gutter),env(safe-area-inset-left,0px));
+ --compact-menu-right:max(var(--compact-gutter),env(safe-area-inset-right,0px));
+ background:#000!important;display:grid;grid-template-columns:minmax(0,1fr);
+ grid-template-rows:minmax(0,1fr) auto;align-content:stretch;
  padding-bottom:max(16px,env(safe-area-inset-bottom));
 }
 .compact-ux .compact-menu .compact-menu-cover{
@@ -266,6 +269,8 @@
 }
 .compact-ux .compact-menu-cover img{height:auto!important;object-position:center top}
 .compact-ux .compact-menu [data-component="Menu"]{
- position:relative!important;inset:auto!important;grid-row:2;margin-inline:var(--compact-gutter);
+ position:relative!important;inset:auto!important;grid-area:2 / 1;
+ box-sizing:border-box;min-width:0;justify-self:stretch;
+ margin-left:var(--compact-menu-left)!important;margin-right:var(--compact-menu-right)!important;
  padding:clamp(12px,3.5cqw,24px)!important;gap:8px!important;
 }
