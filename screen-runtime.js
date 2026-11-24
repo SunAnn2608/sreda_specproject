@@ -90,7 +90,23 @@ function exactScreenHTML(template,screenName,device){
 function storyScreenVariants(name){
  return figmaScreens[name]||(name==='B'?figmaScreens.tellMom:name==='C'?figmaScreens.choice:null);
 }
+let prologueLogoObserver;
+function alignPrologueLogo(host){
+ const logo=host.querySelector('[data-node-id="1318:4314"],[data-node-id="1396:1237"]');
+ const note=host.querySelector('.prologue-note');
+ if(!logo||!note)return;
+ const align=()=>{
+  const offset=note.getBoundingClientRect().top+3-logo.getBoundingClientRect().bottom;
+  const previous=parseFloat(logo.style.translate.split(' ')[1])||0;
+  logo.style.translate='0 '+(previous+offset)+'px';
+ };
+ align();
+ prologueLogoObserver=new ResizeObserver(align);
+ prologueLogoObserver.observe(logo.parentElement);
+ prologueLogoObserver.observe(note);
+}
 function renderExactScreen(){
+ prologueLogoObserver?.disconnect();
  const verification=location.pathname.endsWith('/verify.html')?new URLSearchParams(location.search):null;
  const requested=verification?.get('screen');
  const screenName=requested&&storyScreenVariants(requested)?requested:state.modal&&figmaScreens[state.modal]?state.modal:state.scene;
@@ -150,6 +166,7 @@ function renderExactScreen(){
  const contextNote=addSceneContext(host,screenName);
  if(typeof applyAdaptiveUX==='function')applyAdaptiveUX(host,screenName,contextNote);
  applyStoryTypography(host);
+ if(screenName==='prologue'&&device!=='mobile')alignPrologueLogo(host);
  if(typeof animateNovelFrame==='function'){
   const reveal=animateNovelFrame(host,screenName,contextNote);
   if(!verification&&!state.modal&&screenName===state.scene){
