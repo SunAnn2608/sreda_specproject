@@ -124,6 +124,14 @@ function adaptCompactDocument(root,name){
  if(name==='supportPage'){
   root.querySelectorAll('[data-name="contacts"]').forEach(node=>node.remove());
   for(const card of cards){
+   if(window.innerWidth<768){
+    const description=card.querySelector(':scope > p:last-of-type');
+    const shortCopy={
+     '1402:1607':'Чем больше подписей, тем сложнее делать вид, что травли нет.',
+     '1402:1622':'Бесплатные консультации психологов для подростков: онлайн или очно, до восьми встреч.'
+    }[card.dataset.nodeId];
+    if(description&&shortCopy)description.textContent=shortCopy;
+   }
    const button=card.querySelector(':scope > .button-link');
    if(!button)continue;
    const slide=document.createElement('div');
