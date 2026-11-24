@@ -2,9 +2,7 @@
 const novelMotionPreference=matchMedia('(prefers-reduced-motion: reduce)');
 const sceneFadeTime=360;
 const scenePhaseInterval=210;
-const replyPause=920;
 const choicePause=520;
-const familyReplyPause=520;
 let sceneEntryReady;
 const interactivePause=2500;
 
@@ -83,7 +81,6 @@ function animateNovelFrame(host,screenName,contextNote){
   .filter(node=>!delayed.has(node)&&node.matches('.story-continue-group,.main,.chat-reply,.mom-message,[data-exact-action],[data-name="dialogue"],[data-name="choice-block"],[data-name="Bubble"],[data-name="notes"],[data-name="panel"],[data-name="actions"],[data-name^="button/"]'));
  const steps=[];
  const add=(layers,wait,finish)=>steps.push({layers:[...new Set(layers.filter(Boolean))],wait,finish});
- const family=['momUnknown','messageMom','adults'].includes(screenName);
  const final=screenName==='silent';
  const revealContent=[...content];
  if(replies.length)revealContent.push(replies[0]);
@@ -98,8 +95,9 @@ function animateNovelFrame(host,screenName,contextNote){
   add([background,contextNote],leadInWait,clearContext);
   add([...subject,...phone]);
  }else add([background,...subject,...phone,contextNote],leadInWait,clearContext);
- const contentHold=hasLaterReply?(family?familyReplyPause:replyPause):
+ const contentHold=hasLaterReply?storyReadingDelay(replies[0].textContent):
   prompt.length?choicePause:next.length&&revealContent.length?continuePause:undefined;
+ if(hasLaterReply)replies.at(-1).setAttribute('data-final-reply','');
  if(sequential){
   const retire=async reply=>{
    if(!surface.isConnected)return;
@@ -109,7 +107,6 @@ function animateNovelFrame(host,screenName,contextNote){
    reply.inert=true;
    reply.style.setProperty('display','none','important');
   };
-  replies.at(-1).setAttribute('data-final-mobile-reply','');
   replies.forEach((reply,index)=>{
    const last=index===replies.length-1;
    add(index===0?revealContent:[reply],
@@ -159,8 +156,10 @@ document.addEventListener('pointerout',event=>{
 },{passive:true});
 
 function storyReadingDelay(text=''){
- const words=text.trim().split(/\s+/).filter(Boolean).length;
- return Math.max(5000,1200+words*350);
+ const words=text.match(/[\p{L}\p{N}]+(?:[-‑’'][\p{L}\p{N}]+)*/gu)?.length??0;
+ if(!words)return 1800;
+ const sentencePauses=(text.match(/[!?….]+(?=\s|$)/g)?.length??0)*180;
+ return Math.max(2600,Math.ceil((950+words*320+sentencePauses)/100)*100);
 }
 
 async function queueStoryAdvance(surface,reveal,action){
@@ -196,13 +195,15 @@ async function queueStoryAdvance(surface,reveal,action){
   if(ready())handleAction(action);
   return;
  }
- const content=[...surface.querySelectorAll('.main,.figma-canvas :is(p,h1,h2,li),.figma-canvas .scene-context')]
-  .filter(node=>!node.closest('[data-name="Bar"],header, [data-exact-action]')&&node.getClientRects().length);
- const lastReply=surface.querySelector('[data-final-mobile-reply]');
- const duration=storyReadingDelay(lastReply?.innerText??content.map(node=>node.innerText).join(' '));
+ const content=[...surface.querySelectorAll('p,h1,h2,h3,li,.scene-context,.story-dialogue .bubble>span:not(.speaker)')]
+  .filter(node=>!node.closest('[data-name="Bar"],[data-name="Chapter"],header,[data-exact-action],[data-name="Name"],[data-name="Arrow"],[data-component="ChatInput"],[hidden]')&&
+   node.getClientRects().length&&getComputedStyle(node).visibility!=='hidden');
+ const lastReply=surface.querySelector('[data-final-reply]');
+ const bakedChat=surface.querySelector('.mobile-chat-backdrop[alt]:not([alt=""])');
+ const duration=storyReadingDelay(lastReply?.innerText??bakedChat?.alt??content.map(node=>node.innerText).join(' '));
  function advance(){
   if(!ready())return;
-  if(document.hidden){setTimeout(advance,duration);return;}
+  if(document.hidden){setTimeout(advance,500);return;}
   handleAction(action);
  }
  setTimeout(advance,duration);

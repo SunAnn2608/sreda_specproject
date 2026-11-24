@@ -75,7 +75,7 @@ function createCompactCarousel(root,cards,onComplete){
    if(document.hidden){schedule();return;}
    go(1);
    schedule();
-  },6500);
+  },onComplete?Math.max(3300,storyReadingDelay(cards[currentSlide(offsets())].innerText)):6500);
  };
  carousel.addEventListener('pointerdown',()=>{touching=true;stop();},{passive:true});
  for(const event of ['pointerup','pointercancel','pointerleave']){
