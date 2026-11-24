@@ -47,7 +47,7 @@ function applyAdaptiveUX(host,name,context){
  if(name==='menu')adaptCompactMenu(root);
 }
 
-function createCompactCarousel(root,cards){
+function createCompactCarousel(root,cards,onComplete){
  const carousel=document.createElement('section');
  carousel.className='compact-carousel';
  carousel.setAttribute('aria-label','Карточки — листай горизонтально');
@@ -60,14 +60,16 @@ function createCompactCarousel(root,cards){
   Math.abs(offset-carousel.scrollLeft)<Math.abs(positions[closest]-carousel.scrollLeft)?index:closest,0);
  const go=direction=>{
   const positions=offsets();
-  const next=(currentSlide(positions)+direction+cards.length)%cards.length;
+  const current=currentSlide(positions);
+  if(onComplete&&current===cards.length-1){onComplete();return;}
+  const next=(current+direction+cards.length)%cards.length;
   carousel.scrollTo({left:positions[next],behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
  };
  const stop=()=>clearTimeout(timer);
  const schedule=()=>{
   stop();
   if(!inView||touching||carousel.contains(document.activeElement)||
-     matchMedia('(prefers-reduced-motion: reduce)').matches||cards.length<2)return;
+     (!onComplete&&matchMedia('(prefers-reduced-motion: reduce)').matches)||cards.length<2)return;
   timer=setTimeout(()=>{
    if(!carousel.isConnected||!carousel.clientWidth)return;
    if(document.hidden){schedule();return;}
@@ -174,7 +176,12 @@ function adaptCompactDocument(root,name){
   const rank=card=>order.indexOf(normalizedLabel(card.querySelector('[data-name="Tag"]')||card));
   cards.sort((left,right)=>rank(left)-rank(right));
  }
- if(cards.length)createCompactCarousel(root,cards);
+ if(cards.length){
+  const advance=emergencyCard&&cards.length>1&&!state.modal&&state.scene==='resources'
+   ?()=>handleAction('supportPage'):undefined;
+  const carousel=createCompactCarousel(root,cards,advance);
+  if(advance)carousel.dataset.storyCarousel='';
+ }
  if(emergencyCard)root.append(emergencyCard);
  for(const empty of root.querySelectorAll('[data-name="cards"],[data-name="steps"],[data-name="articles"]')){
   if(!empty.children.length)empty.remove();

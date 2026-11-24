@@ -154,7 +154,7 @@ function renderExactScreen(){
   const reveal=animateNovelFrame(host,screenName,contextNote);
   if(!verification&&!state.modal&&screenName===state.scene){
    const action=exactStep<steps.length-1?'frame-next':scenes[screenName]?.next&&!scenes[screenName].options?'next':null;
-   if(action)queueStoryAdvance(host.querySelector('.figma-viewport'),reveal,action);
+   if(action&&!host.querySelector('[data-story-carousel]'))queueStoryAdvance(host.querySelector('.figma-viewport'),reveal,action);
   }
  }
  document.title='среда · '+(scenes[state.scene]?.chapter||screenName);
