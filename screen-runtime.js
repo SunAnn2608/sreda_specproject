@@ -102,7 +102,7 @@ function alignPrologueLogo(host){
   logo.style.transformOrigin='center bottom';
   const bounds=logo.getBoundingClientRect();
   if(!bounds.height)return;
-  const bottom=note.getBoundingClientRect().top+8;
+  const bottom=note.getBoundingClientRect().top+19;
   const top=(menu?.getBoundingClientRect().bottom??0)+14;
   const scale=Math.min(1,Math.max(0,(bottom-top)/bounds.height));
   if(!scale)return;
