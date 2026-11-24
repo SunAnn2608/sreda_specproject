@@ -231,7 +231,6 @@ async function dismissSceneContext(note){
 function useMobileSceneBackdrop(host,scene,step){
  const root=host.querySelector('.figma-canvas').firstElementChild;
  let asset;
- let description='';
  if(scene==='choice'){
   root.querySelectorAll(':scope > [data-name^="bg/"],:scope > [data-name^="aura/"],:scope > [data-name^="char/bunny"]').forEach(layer=>layer.remove());
   asset=step===0?'mobile-bunny-wide.webp':'mobile-bunny-close.webp';
@@ -239,11 +238,11 @@ function useMobileSceneBackdrop(host,scene,step){
   root.querySelectorAll(':scope > img,:scope > [data-node-id="1499:6013"],:scope > [data-node-id="1499:6036"],:scope > [data-node-id="1401:1548"],:scope > [data-name^="aura/"]').forEach(layer=>layer.remove());
   asset='mobile-kroli.webp';
  }else if(step===1){
+  const phone=root.querySelector(':scope > [data-node-id="1499:5994"]');
   for(const layer of [...root.children]){
-   if(layer.dataset.name!=='Bar')layer.remove();
+   if(layer!==phone&&layer.dataset.name!=='Bar')layer.remove();
   }
-  asset='mobile-chat.webp';
-  description='8 Б, общий чат. Одноклассники выложили фото Банни и смеются. Банни просит удалить фото: «Я не разрешал». Сообщение прочитали 24 человека. Ответов нет.';
+  return;
  }else{
   root.querySelectorAll(':scope > [data-name="image 188"],:scope > [data-node-id="1499:6019"]').forEach(layer=>layer.remove());
   asset='chat-mobile-3.webp';
@@ -251,7 +250,7 @@ function useMobileSceneBackdrop(host,scene,step){
  const background=document.createElement('img');
  background.className='mobile-chat-backdrop';
  background.src='./assets/'+asset;
- background.alt=description;
+ background.alt='';
  root.prepend(background);
 }
 function normalizedLabel(node){return node.textContent.replace(/\s+/g,' ').trim().toLowerCase();}

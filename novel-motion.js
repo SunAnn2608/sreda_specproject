@@ -199,8 +199,13 @@ async function queueStoryAdvance(surface,reveal,action){
   .filter(node=>!node.closest('[data-name="Bar"],[data-name="Chapter"],header,[data-exact-action],[data-name="Name"],[data-name="Arrow"],[data-component="ChatInput"],[hidden]')&&
    node.getClientRects().length&&getComputedStyle(node).visibility!=='hidden');
  const lastReply=surface.querySelector('[data-final-reply]');
- const bakedChat=surface.querySelector('.mobile-chat-backdrop[alt]:not([alt=""])');
- const duration=storyReadingDelay(lastReply?.innerText??bakedChat?.alt??content.map(node=>node.innerText).join(' '));
+ const duration=storyReadingDelay(lastReply?.innerText??content.map(node=>node.innerText).join(' '));
+ const cutsceneCopy=surface.querySelector('.story-cutscene-copy');
+ if(cutsceneCopy&&!novelMotionPreference.matches){
+  cutsceneCopy.animate([{scale:'.96'},{scale:'1.05'}],{
+   duration:Math.min(1800,duration),easing:'cubic-bezier(.22,.61,.36,1)',fill:'both'
+  });
+ }
  function advance(){
   if(!ready())return;
   if(document.hidden){setTimeout(advance,500);return;}

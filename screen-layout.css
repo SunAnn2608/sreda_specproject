@@ -250,10 +250,11 @@ html,body{width:100%;height:100%;min-width:0;overflow:hidden}
 .figma-viewport[data-exact-device="mobile"][data-exact-screen="chat"][data-exact-step="1"] .figma-canvas>div{
  background-color:#191618!important;
 }
-.figma-viewport[data-exact-device="mobile"][data-exact-screen="chat"][data-exact-step="1"] .mobile-chat-backdrop{
- inset:0;
- width:100%;height:100%;
- object-fit:fill;
+.figma-viewport[data-exact-device="mobile"][data-exact-screen="chat"][data-exact-step="1"] [data-node-id="1499:5994"]{
+ inset:calc(110 * var(--frame-unit)) auto auto 50%!important;
+ translate:-50% 0!important;
+ width:calc(358 * var(--frame-unit))!important;
+ height:calc(600 * var(--frame-unit))!important;
 }
 .figma-viewport[data-exact-device="mobile"] [data-name^="aura/"]>img{
  width:100%;height:100%;object-fit:contain;
