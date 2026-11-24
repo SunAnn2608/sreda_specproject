@@ -93,33 +93,23 @@ function storyScreenVariants(name){
 let prologueLogoObserver;
 function alignPrologueLogo(host){
  const logo=host.querySelector('[data-node-id="1318:4314"],[data-node-id="1396:1237"]');
- const note=host.querySelector('.prologue-note');
- if(!logo||!note)return;
- const menu=host.querySelector('[data-name="Bar"] [data-name="Actions"]');
+ if(!logo)return;
+ const panel=logo.parentElement;
+ const note=panel.querySelector('[data-component="Note"]');
+ if(!note)return;
+ const artwork=logo.querySelector('img')||logo;
  const align=()=>{
-  logo.style.scale='1';
   logo.style.translate='none';
-  logo.style.transformOrigin='center bottom';
-  const artwork=logo.querySelector('img')||logo;
-  const bounds=artwork.getBoundingClientRect();
-  if(!bounds.height)return;
-  const panel=logo.parentElement.getBoundingClientRect();
-  const bottom=note.getBoundingClientRect().top+panel.width*.018;
-  const top=(menu?.getBoundingClientRect().bottom??0)+14;
-  const scale=Math.min(panel.width*.98/bounds.width,Math.max(0,(bottom-top)/bounds.height));
-  if(!scale)return;
-  logo.style.scale=String(scale);
-  const scaled=artwork.getBoundingClientRect();
-  const x=panel.left-panel.width*.04-scaled.left;
-  const y=bottom-scaled.bottom;
-  logo.style.translate=x+'px '+y+'px';
+  const overlap=panel.getBoundingClientRect().width*.018;
+  const offset=note.getBoundingClientRect().top+overlap-artwork.getBoundingClientRect().bottom;
+  logo.style.translate='0 '+offset+'px';
  };
  align();
  prologueLogoObserver=new ResizeObserver(align);
- prologueLogoObserver.observe(logo.parentElement);
+ prologueLogoObserver.observe(panel);
  prologueLogoObserver.observe(note);
- if(menu)prologueLogoObserver.observe(menu);
 }
+
 function renderExactScreen(){
  prologueLogoObserver?.disconnect();
  const verification=location.pathname.endsWith('/verify.html')?new URLSearchParams(location.search):null;
