@@ -213,7 +213,7 @@
 }
 
 .compact-ux[data-exact-screen="materials"] .compact-carousel{min-width:0;flex:none}
-.compact-ux[data-exact-screen="materials"] .compact-slide{touch-action:pan-x pan-y pinch-zoom}
+.compact-ux .compact-slide{touch-action:pan-x pan-y pinch-zoom}
 .compact-ux[data-exact-screen="materials"] .compact-primary-start{display:block;margin-top:auto}
 
 .compact-ux .compact-carousel{flex:none;min-width:0}
@@ -305,66 +305,43 @@
  .compact-ux[data-exact-screen="supportPage"] .compact-socials{grid-template-columns:repeat(6,49px)}
 }
 @media(width < 768px){
- .compact-ux[data-exact-screen="supportPage"] .compact-document{
-  --document-gap:16px;
-  padding-top:88px!important;
-  padding-bottom:max(42px,env(safe-area-inset-bottom))!important;
- }
- .compact-ux[data-exact-screen="supportPage"] .compact-carousel{padding-bottom:6px}
- .compact-ux[data-exact-screen="supportPage"] .compact-socials{margin-top:14px}
  .compact-ux .compact-support-slide>[data-name="panel"]{
   gap:10px!important;padding:32px 20px 20px!important;
  }
 }
 
 @media(width < 768px){
- .compact-ux:is([data-exact-screen="materials"],[data-exact-screen="help"]) .compact-document{
-  --document-gap:12px;
-  padding-top:76px!important;
-  padding-bottom:max(16px,env(safe-area-inset-bottom))!important;
+ .compact-ux:is([data-exact-screen="materials"],[data-exact-screen="help"],[data-exact-screen="supportPage"]) .compact-document{
+  --document-gap:clamp(20px,5.6cqw,28px);
+  padding-top:max(96px,calc(env(safe-area-inset-top) + 78px))!important;
+  padding-bottom:0!important;
  }
- .compact-ux:is([data-exact-screen="materials"],[data-exact-screen="help"]) .compact-carousel{
+ .compact-ux .compact-document>.compact-document-actions{
+  position:sticky!important;bottom:0;z-index:5!important;
+  margin-top:auto;gap:var(--document-gap)!important;
+  padding:8px 0 max(16px,env(safe-area-inset-bottom))!important;
+  background:linear-gradient(to bottom,transparent,#20201f 14px);
+ }
+ .compact-ux .compact-document-actions>.button-link{
+  position:relative!important;inset:auto!important;translate:none!important;
+  height:auto!important;margin:0!important;
+ }
+ .compact-ux:is([data-exact-screen="materials"],[data-exact-screen="help"],[data-exact-screen="resources"],[data-exact-screen="supportPage"]) .compact-carousel{
   padding-top:24px;padding-bottom:6px;
  }
- .compact-ux:is([data-exact-screen="materials"],[data-exact-screen="help"]) .compact-slide{
+ .compact-ux:is([data-exact-screen="materials"],[data-exact-screen="help"],[data-exact-screen="resources"],[data-exact-screen="supportPage"]) .compact-slide{
   padding:26px 20px 16px!important;
  }
- .compact-ux[data-exact-screen="help"] .compact-document-actions{margin-top:0;padding-bottom:0}
- .compact-ux .compact-materials-actions{gap:10px!important}
  .compact-ux[data-exact-screen="materials"] .compact-materials-actions .compact-primary-start{margin:0}
  .compact-ux .compact-materials-actions .compact-foundation-link{
   display:grid;place-items:center;background:#ffb5dc;text-decoration:none;
  }
 }
 
-.compact-ux .compact-resource-grid{
- display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 12px!important;
- align-items:stretch!important;padding-top:10px;
-}
-.compact-ux .compact-resource-grid [data-name="Card"]{
- min-width:0!important;height:auto!important;padding:23px 12px 14px!important;
-}
-.compact-ux .compact-resource-grid [data-name="Card"]>p:first-child{
- font-size:clamp(14px,4cqw,18px)!important;line-height:1.25!important;
-}
-.compact-ux .compact-resource-grid [data-name="Card"]>div:has([data-name="Tag"]){
- left:8px!important;right:8px!important;width:auto!important;justify-content:flex-start!important;
-}
-.compact-ux .compact-resource-grid [data-name="Card"] [data-name="Tag"]{
- padding-inline:7px!important;
-}
-.compact-ux .compact-resource-grid [data-name="Card"] [data-name="Tag"] p{
- font-size:clamp(11px,3.2cqw,15px)!important;
-}
-.compact-ux .compact-resource-grid [data-name="panel/petition-mini"]{
- grid-column:1 / -1;height:auto!important;isolation:isolate;
-}
-.compact-ux .compact-resource-grid [data-name="panel/petition-mini"]>[data-name="Panel"]{z-index:-1}
-.compact-ux .compact-resource-actions{gap:12px!important}
-.compact-ux .compact-resource-actions>.button-link{
- position:relative!important;inset:auto!important;width:100%!important;height:auto!important;
-}
 
-.compact-ux .compact-resource-heading{display:flex;align-items:flex-start;gap:24px}
-.compact-ux .compact-resource-heading .mobile-document-intro{flex:1;min-width:0}
-.compact-ux .compact-resource-heading .compact-resource-actions{width:auto!important;flex:none}
+.compact-ux[data-exact-screen="resources"] .compact-slide[data-name="Card"]>div:has([data-name="Tag"]){
+ inset-inline:12px!important;width:auto!important;justify-content:flex-start!important;
+}
+.compact-ux[data-exact-screen="resources"] .compact-slide [data-name="Tag"] p{
+ white-space:normal!important;
+}

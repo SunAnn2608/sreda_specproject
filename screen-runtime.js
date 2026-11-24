@@ -173,20 +173,28 @@ function formatStoryContext(description){
   .replace(/(?<![\p{L}\p{N}])((?:без|для|под|над|при|про|через|из-за|из-под|из|до|за|от|по|на|не|ни|обо|об|о|со|с|ко|к|во|в|у|а|и|но|да|или|либо|что|чтоб|чтобы|как|если|то|хотя|чем|тоже|—|–))[ \u00a0]+(?=\S)/giu,'$1\u00a0');
 }
 function applyStoryTypography(root){
- const selector='p,h1,h2,h3,li,.scene-context,.prologue-note-message';
+ const selector='p,h1,h2,h3,li,button,a,.speaker,.scene-context,.prologue-note-message';
  for(const block of root.querySelectorAll(selector)){
-  if(block.querySelector(selector))continue;
-  const walker=document.createTreeWalker(block,NodeFilter.SHOW_TEXT);
-  const nodes=[];
-  while(walker.nextNode())nodes.push(walker.currentNode);
-  const text=nodes.map(node=>node.nodeValue).join('');
-  const formatted=formatStoryContext(text);
-  let offset=0;
-  for(const node of nodes){
-   const end=offset+node.nodeValue.length;
-   node.nodeValue=formatted.slice(offset,end);
-   offset=end;
+  if(block.parentElement?.closest(selector))continue;
+  const walker=document.createTreeWalker(block,NodeFilter.SHOW_TEXT|NodeFilter.SHOW_ELEMENT);
+  let nodes=[];
+  const formatLine=()=>{
+   const text=nodes.map(node=>node.nodeValue).join('');
+   const formatted=formatStoryContext(text);
+   let offset=0;
+   for(const node of nodes){
+    const end=offset+node.nodeValue.length;
+    node.nodeValue=formatted.slice(offset,end);
+    offset=end;
+   }
+   nodes=[];
+  };
+  while(walker.nextNode()){
+   const node=walker.currentNode;
+   if(node.nodeName==='BR')formatLine();
+   else if(node.nodeType===Node.TEXT_NODE)nodes.push(node);
   }
+  formatLine();
  }
 }
 function addSceneContext(host,screenName){
@@ -232,7 +240,7 @@ function useMobileSceneBackdrop(host,scene,step){
  }else if(step===1){
   root.querySelectorAll(':scope > [data-name="image 188"],:scope > [data-node-id="1499:6016"],:scope > [data-name^="aura/"]').forEach(layer=>layer.remove());
   const phone=root.querySelector(':scope > [data-name="phone"]');
-  if(phone)phone.style.clipPath='inset(50%)';
+  if(phone)phone.classList.add('scene-copy-only');
   asset='mobile-chat.webp';
  }else{
   root.querySelectorAll(':scope > [data-name="image 188"],:scope > [data-node-id="1499:6019"]').forEach(layer=>layer.remove());
@@ -453,6 +461,24 @@ function linkMaterialCard(card,read,url,accessibleLabel){
  article.append(...card.childNodes);
  card.replaceWith(article);
 }
+function replaceResourcePetition(canvas){
+ const card=canvas.querySelector('[data-name="panel/petition-mini"]');
+ if(!card)return;
+ card.dataset.name='note/emergency-card';
+ card.classList.add('resource-emergency-card');
+ const badge=card.querySelector('[data-name="Tag"] p');
+ if(badge)badge.textContent='срочно';
+ const [heading,description]=card.querySelectorAll(':scope > p');
+ heading.textContent='Если опасно прямо сейчас';
+ const emergency=document.createElement('a');
+ emergency.href='tel:112';
+ emergency.textContent='звони 112';
+ const trust=document.createElement('a');
+ trust.href='tel:88002000122';
+ trust.textContent='8 800 2000‑122';
+ description.replaceChildren(emergency,'. Поговорить анонимно и бесплатно можно по детскому телефону доверия ',trust,'.');
+ card.querySelectorAll(':scope > [data-name="Button"],:scope > .button-link').forEach(button=>button.remove());
+}
 function wireResourceCards(canvas){
  const cards=[...canvas.querySelectorAll('[data-name="Card"]')];
  const byTag=new Map(cards.map(card=>[normalizedLabel(card.querySelector('[data-name="Tag"]')),card]));
@@ -559,9 +585,7 @@ function wireExactScreen(host,name){
  wireLinkStyles(canvas);
  if(name==='resources'){
   wireResourceCards(canvas);
-  const restart=canvas.querySelector('[data-exact-action="restart"]:not(.brand-logo)');
-  const petition=canvas.querySelector('.button-link[href*="change.org/p/"]');
-  if(restart&&petition)restart.replaceWith(petition);
+  replaceResourcePetition(canvas);
  }
  if(name==='materials'){
   for(const [index,card] of [...canvas.querySelectorAll('[data-name="Card"]')].entries()){

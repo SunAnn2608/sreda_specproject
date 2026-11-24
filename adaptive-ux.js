@@ -108,10 +108,12 @@ function adaptCompactDocument(root,name){
   const h=root.querySelector('.mobile-document-intro h1');
   if(h)h.replaceChildren('сделай',document.createElement('br'),'среду безопаснее');
  }
- const cards=[...root.querySelectorAll('[data-name="Card"],:scope > [data-name="panel"],[data-name="panel/petition-mini"]')];
+ const cards=[...root.querySelectorAll('[data-name="Card"],:scope > [data-name="panel"],[data-name="note/emergency-card"]')];
  const socials=[...root.querySelectorAll('[data-name="socials"]')];
  const actions=root.querySelector(':scope > [data-name="actions"]');
  const emergency=root.querySelector('[data-name="note/emergency"]');
+ const footer=name==='supportPage'?document.createElement('div'):actions;
+ if(footer)footer.classList.add('compact-document-actions');
  if(emergency){
   emergency.replaceChildren();
   const p=document.createElement('p');
@@ -141,20 +143,18 @@ function adaptCompactDocument(root,name){
    const slide=document.createElement('div');
    slide.className='compact-support-slide';
    card.replaceWith(slide);
-   slide.append(card,button);
+   slide.append(card);
+   if(window.innerWidth<768)footer.append(button);
+   else slide.append(button);
    cards[cards.indexOf(card)]=slide;
   }
  }
- const resourceGrid=name==='resources'&&window.innerWidth<768
-  ?root.querySelector('[data-name="cards"]'):null;
- if(resourceGrid)resourceGrid.classList.add('compact-resource-grid');
- else if(cards.length)createCompactCarousel(root,cards);
+ if(cards.length)createCompactCarousel(root,cards);
  for(const empty of root.querySelectorAll('[data-name="cards"],[data-name="steps"],[data-name="articles"]')){
   if(!empty.children.length)empty.remove();
  }
  if(actions){
   if(name==='help')actions.querySelector('[data-exact-action="materials"]')?.remove();
-  actions.classList.add('compact-document-actions');
   root.append(actions);
  }
  if(emergency){
@@ -163,22 +163,7 @@ function adaptCompactDocument(root,name){
  }
  for(const social of socials){social.classList.add('compact-socials');root.append(social);}
  root.querySelectorAll('[data-name="contacts"]').forEach(n=>root.append(n));
- if(name==='resources'){
-  const petition=root.querySelector('.button-link[href*="change.org/p/"]');
-  if(petition){
-   const actions=document.createElement('div');
-   actions.className='compact-document-actions compact-resource-actions';
-   actions.append(petition);
-   if(resourceGrid)root.append(actions);
-   else{
-    const intro=root.querySelector('.mobile-document-intro');
-    const heading=document.createElement('div');
-    heading.className='compact-resource-heading';
-    intro.before(heading);
-    heading.append(intro,actions);
-   }
-  }
- }
+ if(name==='supportPage'&&footer.childElementCount)root.append(footer);
  if(name==='materials'){
   const start=root.querySelector('.mobile-document-start');
   if(start){
