@@ -95,18 +95,25 @@ function alignPrologueLogo(host){
  const logo=host.querySelector('[data-node-id="1318:4314"],[data-node-id="1396:1237"]');
  const note=host.querySelector('.prologue-note');
  if(!logo||!note)return;
+ const menu=host.querySelector('[data-name="Bar"] [data-name="Actions"]');
  const align=()=>{
+  logo.style.scale='1';
+  logo.style.translate='none';
+  logo.style.transformOrigin='center bottom';
   const bounds=logo.getBoundingClientRect();
-  const menu=host.querySelector('[data-name="Bar"] [data-name="Actions"]');
-  const menuBottom=menu?.getBoundingClientRect().bottom??-Infinity;
-  const offset=Math.max(note.getBoundingClientRect().top+23-bounds.bottom,menuBottom+12-bounds.top);
-  const previous=parseFloat(logo.style.translate.split(' ')[1])||0;
-  logo.style.translate='0 '+(previous+offset)+'px';
+  if(!bounds.height)return;
+  const bottom=note.getBoundingClientRect().top+8;
+  const top=(menu?.getBoundingClientRect().bottom??0)+14;
+  const scale=Math.min(1,Math.max(0,(bottom-top)/bounds.height));
+  if(!scale)return;
+  logo.style.scale=String(scale);
+  logo.style.translate='0 '+(bottom-bounds.bottom)+'px';
  };
  align();
  prologueLogoObserver=new ResizeObserver(align);
  prologueLogoObserver.observe(logo.parentElement);
  prologueLogoObserver.observe(note);
+ if(menu)prologueLogoObserver.observe(menu);
 }
 function renderExactScreen(){
  prologueLogoObserver?.disconnect();
