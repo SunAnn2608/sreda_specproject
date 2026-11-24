@@ -401,3 +401,17 @@
 .compact-ux[data-exact-screen="supportPage"] .compact-socials .social-link{
  pointer-events:auto!important;
 }
+
+@media (width < 768px){
+ .compact-ux[data-exact-screen="resources"] .compact-carousel{align-items:flex-start}
+ .compact-ux[data-exact-screen="resources"] .compact-slide[data-name="Card"]{
+  padding-bottom:14px!important;
+ }
+ .compact-ux[data-exact-screen="resources"] .resource-emergency-card{
+  margin-top:auto;
+  padding:24px 20px 16px!important;
+  flex:none;
+  height:auto!important;
+  min-height:0!important;
+ }
+}

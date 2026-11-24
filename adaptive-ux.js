@@ -166,7 +166,16 @@ function adaptCompactDocument(root,name){
   });
   cards.splice(0,cards.length,...ordered,...remaining);
  }
+ const emergencyCard=name==='resources'&&window.innerWidth<768
+  ?root.querySelector('[data-name="note/emergency-card"]'):null;
+ if(emergencyCard){
+  cards.splice(cards.indexOf(emergencyCard),1);
+  const order=['если травят тебя','для взрослых','материалы','если ты видишь травлю'];
+  const rank=card=>order.indexOf(normalizedLabel(card.querySelector('[data-name="Tag"]')||card));
+  cards.sort((left,right)=>rank(left)-rank(right));
+ }
  if(cards.length)createCompactCarousel(root,cards);
+ if(emergencyCard)root.append(emergencyCard);
  for(const empty of root.querySelectorAll('[data-name="cards"],[data-name="steps"],[data-name="articles"]')){
   if(!empty.children.length)empty.remove();
  }

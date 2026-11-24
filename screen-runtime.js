@@ -372,7 +372,10 @@ function matchDocumentIntro(host,name,device){
   const desktopHeader=desktop.content.querySelector('[data-name="header"]');
   const paragraphs=[...desktopHeader.querySelectorAll('p')].filter(p=>!p.closest('[data-name="Button"]'));
   const description=document.createElement('p');
-  description.textContent=paragraphs.slice(1).map(p=>p.textContent.trim()).join(' ');
+  const copy=paragraphs.slice(1).map(p=>p.textContent.trim()).join(' ');
+  const split=copy.match(/^(.*?)[ \u00a0]+(гарантировать(?=\s).*)$/su);
+  if(window.innerWidth<768&&split)description.append(split[1],document.createElement('br'),split[2]);
+  else description.textContent=copy;
   header.append(description);
  }else{
   const description=document.createElement('p');
