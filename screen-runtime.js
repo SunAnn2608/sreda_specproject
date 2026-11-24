@@ -103,9 +103,9 @@ function alignPrologueLogo(host){
   const artwork=logo.querySelector('img')||logo;
   const bounds=artwork.getBoundingClientRect();
   if(!bounds.height)return;
-  const bottom=note.getBoundingClientRect().top+7;
+  const bottom=note.getBoundingClientRect().top+17;
   const top=(menu?.getBoundingClientRect().bottom??0)+14;
-  const scale=Math.min(1.12,Math.max(0,(bottom-top)/bounds.height));
+  const scale=Math.min(1.18,Math.max(0,(bottom-top)/bounds.height));
   if(!scale)return;
   logo.style.scale=String(scale);
   logo.style.translate='0 '+(bottom-artwork.getBoundingClientRect().bottom)+'px';
