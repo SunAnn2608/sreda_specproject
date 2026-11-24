@@ -574,7 +574,7 @@ function wireExactScreen(host,name){
   social.innerHTML=`<a class="social-link" href="${socialLinks[net]}" target="_blank" rel="noopener noreferrer" aria-label="${net} — среда"><img alt="" src="./assets/social-${net}-${socialDevice}.svg${socialDevice==='mobile'?'?v=2':''}" width="119" height="120"></a>`;
  }
  if(name==='menu'){
-  if(exactVariant!=='mobile'){
+  if(exactVariant==='tablet'){
    const panel=canvas.querySelector('[data-component="Menu"]');
    const socials=canvas.querySelector('[data-name="menu-aside"] [data-name="socials"]');
    if(panel&&socials)panel.append(socials);
@@ -659,7 +659,12 @@ function wireExactScreen(host,name){
   }
  }
  if(name==='menu'){
-  const close=canvas.querySelector('[data-node-id="1500:1875"]');if(close)assignExactAction(close,'close','закрыть');
+  const close=canvas.querySelector('[data-name="menu-aside"] > [data-component="IconButton"]');
+  if(close&&exactVariant!=='mobile'){
+   assignExactAction(close,'close','закрыть');
+   close.classList.add('wide-menu-close');
+   canvas.firstElementChild.append(close);
+  }
  }
 }
 function wireStoryGuidance(host,screenName){
