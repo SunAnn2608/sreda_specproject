@@ -146,7 +146,7 @@ function renderExactScreen(){
  if(screenName==='openEnding')updateOpenEnding(host);
  wireStoryGuidance(host,screenName);
  applyFluidConstraints(host,template,device,screenName);
- if(device==='mobile'&&screenName==='chat')useMobileChatBackdrop(host,exactStep);
+ if(device==='mobile'&&(screenName==='chat'||screenName==='choice'))useMobileSceneBackdrop(host,screenName,exactStep);
  const contextNote=addSceneContext(host,screenName);
  if(typeof applyAdaptiveUX==='function')applyAdaptiveUX(host,screenName,contextNote);
  applyStoryTypography(host);
@@ -220,21 +220,27 @@ async function dismissSceneContext(note){
  note.remove();
 }
 
-function useMobileChatBackdrop(host,step){
+function useMobileSceneBackdrop(host,scene,step){
  const root=host.querySelector('.figma-canvas').firstElementChild;
- if(step===0){
-  const background=root.querySelector(':scope > img');
-  if(background)background.src='./assets/chat-mobile-1.webp';
-  return;
+ let asset;
+ if(scene==='choice'){
+  root.querySelectorAll(':scope > [data-name^="bg/"],:scope > [data-name^="aura/"],:scope > [data-name^="char/bunny"]').forEach(layer=>layer.remove());
+  asset=step===0?'mobile-bunny-wide.webp':'mobile-bunny-close.webp';
+ }else if(step===0){
+  root.querySelectorAll(':scope > img,:scope > [data-node-id="1499:6013"],:scope > [data-node-id="1499:6036"],:scope > [data-node-id="1401:1548"],:scope > [data-name^="aura/"]').forEach(layer=>layer.remove());
+  asset='mobile-kroli.webp';
+ }else if(step===1){
+  root.querySelectorAll(':scope > [data-name="image 188"],:scope > [data-node-id="1499:6016"],:scope > [data-name^="aura/"]').forEach(layer=>layer.remove());
+  const phone=root.querySelector(':scope > [data-name="phone"]');
+  if(phone)phone.style.clipPath='inset(50%)';
+  asset='mobile-chat.webp';
+ }else{
+  root.querySelectorAll(':scope > [data-name="image 188"],:scope > [data-node-id="1499:6019"]').forEach(layer=>layer.remove());
+  asset='chat-mobile-3.webp';
  }
- const bakedLayers=[
-  ':scope > [data-name="image 188"],:scope > [data-node-id="1499:6016"],:scope > [data-name^="aura/"]',
-  ':scope > [data-name="image 188"],:scope > [data-node-id="1499:6019"]'
- ];
- root.querySelectorAll(bakedLayers[step-1]).forEach(layer=>layer.remove());
  const background=document.createElement('img');
  background.className='mobile-chat-backdrop';
- background.src=`./assets/chat-mobile-${step+1}.webp`;
+ background.src='./assets/'+asset;
  background.alt='';
  root.prepend(background);
 }
