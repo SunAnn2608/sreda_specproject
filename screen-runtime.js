@@ -358,11 +358,11 @@ function matchDocumentIntro(host,name,device){
   description.textContent=sourceText(sourceIds[1]);
   header.append(description);
  }
- if(name!=='supportPage'){
+ if(name==='materials'){
   const start=document.createElement('button');
   start.type='button';
   start.className='action mobile-document-start';
-  start.dataset.exactAction=name==='materials'?'start':'restart';
+  start.dataset.exactAction='start';
   start.textContent='начать историю';
   header.append(start);
  }
@@ -546,7 +546,12 @@ function wireExactScreen(host,name){
  }
  if(name==='help')wireHelpPhones(canvas);
  wireLinkStyles(canvas);
- if(name==='resources')wireResourceCards(canvas);
+ if(name==='resources'){
+  wireResourceCards(canvas);
+  const restart=canvas.querySelector('[data-exact-action="restart"]:not(.brand-logo)');
+  const petition=canvas.querySelector('.button-link[href*="change.org/p/"]');
+  if(restart&&petition)restart.replaceWith(petition);
+ }
  if(name==='materials'){
   for(const [index,card] of [...canvas.querySelectorAll('[data-name="Card"]')].entries()){
    const read=card.querySelector('a[href]');

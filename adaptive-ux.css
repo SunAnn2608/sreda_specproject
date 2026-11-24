@@ -364,3 +364,7 @@
 .compact-ux .compact-resource-actions>.button-link{
  position:relative!important;inset:auto!important;width:100%!important;height:auto!important;
 }
+
+.compact-ux .compact-resource-heading{display:flex;align-items:flex-start;gap:24px}
+.compact-ux .compact-resource-heading .mobile-document-intro{flex:1;min-width:0}
+.compact-ux .compact-resource-heading .compact-resource-actions{width:auto!important;flex:none}

@@ -163,19 +163,27 @@ function adaptCompactDocument(root,name){
  }
  for(const social of socials){social.classList.add('compact-socials');root.append(social);}
  root.querySelectorAll('[data-name="contacts"]').forEach(n=>root.append(n));
- if(name==='resources'||name==='materials'){
+ if(name==='resources'){
+  const petition=root.querySelector('.button-link[href*="change.org/p/"]');
+  if(petition){
+   const actions=document.createElement('div');
+   actions.className='compact-document-actions compact-resource-actions';
+   actions.append(petition);
+   if(resourceGrid)root.append(actions);
+   else{
+    const intro=root.querySelector('.mobile-document-intro');
+    const heading=document.createElement('div');
+    heading.className='compact-resource-heading';
+    intro.before(heading);
+    heading.append(intro,actions);
+   }
+  }
+ }
+ if(name==='materials'){
   const start=root.querySelector('.mobile-document-start');
   if(start){
    start.classList.add('compact-primary-start');
-   if(resourceGrid){
-    const petition=resourceGrid.querySelector('[data-name="panel/petition-mini"] .button-link');
-    const footer=document.createElement('div');
-    footer.className='compact-document-actions compact-resource-actions';
-    if(petition)footer.append(petition);
-    footer.append(start);
-    root.append(footer);
-   }else if(name==='resources')root.querySelector('.mobile-document-intro')?.after(start);
-   else if(window.innerWidth<768){
+   if(window.innerWidth<768){
     const footer=document.createElement('div');
     footer.className='compact-document-actions compact-materials-actions';
     const foundation=document.createElement('a');
