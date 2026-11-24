@@ -295,10 +295,10 @@
  .compact-ux[data-exact-screen="supportPage"] .compact-document{
   --document-gap:16px;
   padding-top:88px!important;
-  padding-bottom:max(16px,env(safe-area-inset-bottom))!important;
+  padding-bottom:max(42px,env(safe-area-inset-bottom))!important;
  }
  .compact-ux[data-exact-screen="supportPage"] .compact-carousel{padding-bottom:6px}
- .compact-ux[data-exact-screen="supportPage"] .compact-socials{margin-top:8px}
+ .compact-ux[data-exact-screen="supportPage"] .compact-socials{margin-top:14px}
  .compact-ux .compact-support-slide>[data-name="panel"]{
   gap:10px!important;padding:32px 20px 20px!important;
  }
