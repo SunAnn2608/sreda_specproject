@@ -157,6 +157,15 @@ function adaptCompactDocument(root,name){
    card.append(sticker);
   });
  }
+ if(name==='materials'&&window.innerWidth<768){
+  const remaining=[...cards];
+  const order=['для себя','для друзей','для себя','для друзей','для взрослых'];
+  const ordered=order.flatMap(category=>{
+   const index=remaining.findIndex(card=>normalizedLabel(card.querySelector('[data-name="Tag"]')||card)===category);
+   return index<0?[]:remaining.splice(index,1);
+  });
+  cards.splice(0,cards.length,...ordered,...remaining);
+ }
  if(cards.length)createCompactCarousel(root,cards);
  for(const empty of root.querySelectorAll('[data-name="cards"],[data-name="steps"],[data-name="articles"]')){
   if(!empty.children.length)empty.remove();
