@@ -247,9 +247,20 @@
  left:var(--compact-gutter)!important;
 }
 .compact-ux[data-exact-screen="messageMom"] [data-node-id="1413:1661"]{
- left:var(--compact-gutter)!important;width:calc(100% - 2 * var(--compact-gutter))!important;
- top:clamp(76px,13dvh,110px)!important;bottom:max(24px,env(safe-area-inset-bottom))!important;
+ --frame-unit:calc(100cqw / 390);
+ left:calc(16 * var(--frame-unit))!important;
+ width:calc(358 * var(--frame-unit))!important;
+ top:min(13dvh,calc(110 * var(--frame-unit)))!important;
+ bottom:max(calc(34 * var(--frame-unit)),env(safe-area-inset-bottom))!important;
  height:auto!important;
+}
+.compact-ux[data-exact-screen="messageMom"] [data-name="phone"] > [data-component="ChatInput"]{
+ box-sizing:border-box;
+ width:calc(100% - 32 * var(--frame-unit))!important;
+}
+.compact-ux[data-exact-screen="messageMom"] [data-name="row/outgoing"] > [data-name="ChatMessage"]{
+ box-sizing:border-box;
+ width:min(100%,calc(262 * var(--frame-unit)))!important;
 }
 .figma-viewport[data-exact-screen="messageMom"] [data-name="Phone"] [data-name="Header"]{
  inset-inline:calc(-4 * var(--frame-unit))!important;width:auto!important;
