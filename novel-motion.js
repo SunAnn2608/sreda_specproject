@@ -70,12 +70,7 @@ function animateNovelFrame(host,screenName,contextNote){
  if(scenes[screenName].kind==='cutscene'){
   const copy=surface.querySelector('.story-cutscene-copy');
   const dolly=background||copy;
-  if(dolly&&!novelMotionPreference.matches){
-   dolly.animate([{scale:background?'1':'.96'},{scale:background?'1.12':'1.07'}],{
-    duration:Math.min(1800,storyReadingDelay(copy?.textContent||scenes[screenName].text)),
-    easing:'cubic-bezier(.22,.61,.36,1)',fill:'both'
-   });
-  }
+  animateCutsceneDolly(dolly,Boolean(background),copy?.textContent||scenes[screenName].text);
   return;
  }
  const immediateContinue=scenes[screenName].kind==='info';
@@ -129,7 +124,19 @@ function animateNovelFrame(host,screenName,contextNote){
   if(hasLaterReply)add(replies.slice(1),next.length?continuePause:undefined);
  }
  add(prompt,sceneFadeTime);add(choices);add(next);
- return revealSceneLayers(surface,steps,host.hasAttribute('data-scene-crossfade'));
+ const reveal=revealSceneLayers(surface,steps,host.hasAttribute('data-scene-crossfade'));
+ if(final)return Promise.resolve(reveal).then(()=>{
+  if(surface.isConnected)animateCutsceneDolly(background,true,contextNote?.textContent||scenes[screenName].context);
+ });
+ return reveal;
+}
+
+function animateCutsceneDolly(layer,isArtwork,text){
+ if(!layer||novelMotionPreference.matches)return;
+ layer.animate([{scale:isArtwork?'1':'.96'},{scale:isArtwork?'1.12':'1.07'}],{
+  duration:Math.min(1800,storyReadingDelay(text)),
+  easing:'cubic-bezier(.22,.61,.36,1)',fill:'both'
+ });
 }
 
 novelMotionPreference.addEventListener('change',resetNovelParallax);
