@@ -149,7 +149,7 @@ function adaptCompactDocument(root,name){
  const cards=[...root.querySelectorAll('[data-name="Card"],:scope > [data-name="panel"],[data-name="note/emergency-card"]')];
  const socials=[...root.querySelectorAll('[data-name="socials"]')];
  const actions=root.querySelector(':scope > [data-name="actions"]');
- const emergencyCard=name==='resources'&&window.innerWidth<768
+ const emergencyCard=name==='resources'
   ?root.querySelector('[data-name="note/emergency-card"]'):null;
  let emergency=root.querySelector('[data-name="note/emergency"]');
  if(emergencyCard){
@@ -160,7 +160,10 @@ function adaptCompactDocument(root,name){
   emergencyCard.remove();
  }
  if(actions)actions.classList.add('compact-document-actions');
- if(emergency){
+ if(emergencyCard&&emergency){
+  emergency.classList.add('compact-emergency');
+  fillResourceEmergencyNote(emergency);
+ }else if(emergency){
   emergency.replaceChildren();
   const p=document.createElement('p');
   p.append('Если опасно прямо сейчас — ');

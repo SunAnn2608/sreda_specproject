@@ -499,31 +499,31 @@ function linkMaterialCard(card,read,url,accessibleLabel){
  article.append(...card.childNodes);
  card.replaceWith(article);
 }
+function fillResourceEmergencyNote(card){
+ card.classList.add('resource-emergency-card','resource-emergency-note');
+ const emergency=document.createElement('a');
+ emergency.href='tel:112';
+ emergency.textContent='звони 112.';
+ const trust=document.createElement('a');
+ trust.href='tel:88002000122';
+ const number=document.createElement('strong');
+ number.textContent='8 800 2000-122.';
+ trust.append('Детский телефон доверия',document.createElement('br'),number);
+ const heading=document.createElement('p');
+ heading.append('Если опасно прямо сейчас —',document.createElement('br'),emergency);
+ const description=document.createElement('p');
+ description.append('Поговорить анонимно и бесплатно:',document.createElement('br'),trust);
+ const sticker=document.createElement('img');
+ sticker.className='resource-emergency-sticker';
+ sticker.src='./assets/figma/patch-approve.svg';
+ sticker.alt='';
+ card.replaceChildren(heading,description,sticker);
+}
 function replaceResourcePetition(canvas){
  const card=canvas.querySelector('[data-name="panel/petition-mini"]');
  if(!card)return;
  card.dataset.name='note/emergency-card';
- card.classList.add('resource-emergency-card');
- const badge=card.querySelector('[data-name="Tag"] p');
- if(badge)badge.textContent='срочно';
- const [heading,description]=card.querySelectorAll(':scope > p');
- heading.textContent='Если опасно прямо сейчас';
- const emergency=document.createElement('a');
- emergency.href='tel:112';
- emergency.textContent='звони 112';
- const trust=document.createElement('a');
- trust.href='tel:88002000122';
- trust.textContent='8 800 2000‑122';
- const wideCard=exactVariant==='desktop'||(exactVariant==='tablet'&&matchMedia('(orientation: landscape)').matches);
- if(wideCard){
-  card.classList.add('resource-emergency-note');
-  heading.replaceChildren('Если опасно прямо сейчас —',document.createElement('br'),emergency,'.');
-  trust.replaceChildren('Детский телефон доверия',document.createElement('br'),'8 800 2000‑122');
-  description.replaceChildren('Поговорить анонимно и бесплатно:',document.createElement('br'),trust,'.');
- }else{
-  description.replaceChildren(emergency,'. Поговорить анонимно и бесплатно можно по детскому телефону доверия ',trust,'.');
- }
- card.querySelectorAll(':scope > [data-name="Button"],:scope > .button-link').forEach(button=>button.remove());
+ fillResourceEmergencyNote(card);
 }
 function wireResourceCards(canvas){
  const cards=[...canvas.querySelectorAll('[data-name="Card"]')];
@@ -536,22 +536,19 @@ function wireResourceCards(canvas){
   witness.replaceWith(materials);
   slot.replaceWith(witness);
  }
- const mobile=canvas.closest('[data-exact-device="mobile"]')&&window.innerWidth<768;
  for(const [tag,card] of byTag){
-  if(mobile){
-   const label={'если травят тебя':'для себя','если ты видишь травлю':'для друзей'}[tag];
-   if(label)card.querySelector('[data-name="Tag"] p').textContent=label;
-  }
+  const label={'если травят тебя':'для себя','если ты видишь травлю':'для друзей'}[tag];
+  if(label)card.querySelector('[data-name="Tag"] p').textContent=label;
   const read=card.querySelector('a[href]');
   if(read){
-   const [, ,url,label]=articles[tag==='для взрослых'?5:2];
-   if(mobile)read.textContent='читать';
-   linkMaterialCard(card,read,url,(mobile?'читать':label)+': '+card.firstElementChild.textContent.trim());
+   const [, ,url]=articles[tag==='для взрослых'?5:2];
+   read.textContent='читать';
+   linkMaterialCard(card,read,url,'читать: '+card.firstElementChild.textContent.trim());
    continue;
   }
   const action=tag==='материалы'?'materials':'help';
   const cue=card.querySelector(':scope > p:nth-child(2)');
-  if(mobile)cue.textContent='открыть';
+  cue.textContent='открыть';
   cue.classList.add('text-link');
   card.classList.add('material-card-link');
   assignExactAction(card,action,cue.textContent.trim());

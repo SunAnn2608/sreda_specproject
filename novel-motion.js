@@ -67,6 +67,17 @@ function animateNovelFrame(host,screenName,contextNote){
  const phone=[...root.querySelectorAll('[data-name="phone"],.chat-phone')];
  const background=root.querySelector(':scope > [data-name^="bg/"] img,:scope > [data-name="image 188"] img,:scope > img,.scene-art picture img')||root.firstElementChild?.querySelector('img');
  if(background){background.fetchPriority='high';background.loading='eager';}
+ if(scenes[screenName].kind==='cutscene'){
+  const copy=surface.querySelector('.story-cutscene-copy');
+  const dolly=background||copy;
+  if(dolly&&!novelMotionPreference.matches){
+   dolly.animate([{scale:background?'1':'.96'},{scale:background?'1.12':'1.07'}],{
+    duration:Math.min(1800,storyReadingDelay(copy?.textContent||scenes[screenName].text)),
+    easing:'cubic-bezier(.22,.61,.36,1)',fill:'both'
+   });
+  }
+  return;
+ }
  const immediateContinue=scenes[screenName].kind==='info';
  const next=immediateContinue?[]:[...root.querySelectorAll('[data-exact-action="exact-next"],button[data-action="next"]:not(.bubble)')];
  const mobile=surface.dataset.exactDevice==='mobile'||
@@ -227,12 +238,6 @@ async function queueStoryAdvance(surface,reveal,action){
    node.getClientRects().length&&getComputedStyle(node).visibility!=='hidden');
  const lastReply=surface.querySelector('[data-final-reply]');
  const duration=storyReadingDelay(lastReply?.innerText??content.map(node=>node.innerText).join(' '));
- const cutsceneCopy=surface.querySelector('.story-cutscene-copy');
- if(cutsceneCopy&&!novelMotionPreference.matches){
-  cutsceneCopy.animate([{scale:'.96'},{scale:'1.05'}],{
-   duration:Math.min(1800,duration),easing:'cubic-bezier(.22,.61,.36,1)',fill:'both'
-  });
- }
  function advance(){
   if(!ready())return;
   if(document.hidden){setTimeout(advance,500);return;}
