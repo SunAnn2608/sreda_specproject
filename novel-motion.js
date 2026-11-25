@@ -162,9 +162,11 @@ function storyReadingDelay(text=''){
  return Math.max(2600,Math.ceil((950+words*320+sentencePauses)/100)*100);
 }
 
+const storyAdvanceControls=new WeakMap();
 async function queueStoryAdvance(surface,reveal,action){
- await reveal;
  if(!surface?.isConnected||state.modal)return;
+ let revealed=false;
+ let skipRequested=false;
  const wait=duration=>new Promise(resolve=>setTimeout(resolve,duration));
  let advanced=false;
  const ready=()=>!advanced&&surface.isConnected&&!state.modal;
@@ -172,16 +174,26 @@ async function queueStoryAdvance(surface,reveal,action){
   if(!ready())return;
   advanced=true;
   surface.removeEventListener('click',skip);
+  storyAdvanceControls.delete(surface);
   handleAction(action);
+ };
+ const requestSkip=()=>{
+  skipRequested=true;
+  if(revealed)goNext();
  };
  const skip=event=>{
   if(event.button!==0||event.defaultPrevented||event.target.closest(
    'a,button,input,textarea,select,label,[role="button"],[data-exact-action],[data-action],[data-name="Bar"],header'
   ))return;
-  if(!getSelection()?.isCollapsed)return;
-  goNext();
+  if(getSelection()?.isCollapsed===false)return;
+  requestSkip();
  };
  surface.addEventListener('click',skip);
+ storyAdvanceControls.set(surface,requestSkip);
+ await reveal;
+ if(!ready())return;
+ revealed=true;
+ if(skipRequested){goNext();return;}
  const notice=surface.querySelector?.('.compact-notice');
  if(notice&&action==='frame-next'){
   const messages=[...notice.children];
