@@ -166,7 +166,22 @@ async function queueStoryAdvance(surface,reveal,action){
  await reveal;
  if(!surface?.isConnected||state.modal)return;
  const wait=duration=>new Promise(resolve=>setTimeout(resolve,duration));
- const ready=()=>surface.isConnected&&!state.modal;
+ let advanced=false;
+ const ready=()=>!advanced&&surface.isConnected&&!state.modal;
+ const goNext=()=>{
+  if(!ready())return;
+  advanced=true;
+  surface.removeEventListener('click',skip);
+  handleAction(action);
+ };
+ const skip=event=>{
+  if(event.button!==0||event.defaultPrevented||event.target.closest(
+   'a,button,input,textarea,select,label,[role="button"],[data-exact-action],[data-action],[data-name="Bar"],header'
+  ))return;
+  if(!getSelection()?.isCollapsed)return;
+  goNext();
+ };
+ surface.addEventListener('click',skip);
  const notice=surface.querySelector?.('.compact-notice');
  if(notice&&action==='frame-next'){
   const messages=[...notice.children];
@@ -192,7 +207,7 @@ async function queueStoryAdvance(surface,reveal,action){
    await wait(storyReadingDelay(message.textContent));
    while(ready()&&(document.hidden||message.contains(document.activeElement)))await wait(1000);
   }
-  if(ready())handleAction(action);
+  goNext();
   return;
  }
  const content=[...surface.querySelectorAll('p,h1,h2,h3,li,.scene-context,.story-dialogue .bubble>span:not(.speaker)')]
@@ -209,7 +224,7 @@ async function queueStoryAdvance(surface,reveal,action){
  function advance(){
   if(!ready())return;
   if(document.hidden){setTimeout(advance,500);return;}
-  handleAction(action);
+  goNext();
  }
  setTimeout(advance,duration);
 }
