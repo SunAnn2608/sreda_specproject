@@ -123,6 +123,12 @@ function renderExactScreen(){
  exactStep=Math.min(verification?Number(verification.get('step')||0):state.modal&&figmaScreens[state.modal]?0:Number(state.frameStep||0),steps.length-1);
  const template=steps[exactStep];
  const host=document.querySelector('#app');host.classList.add('figma-mode');
+ const previousViewport=host.querySelector('.figma-viewport');
+ const burger=screenName==='menu'&&device!=='mobile'&&previousViewport?.dataset.exactDevice===device
+  ?previousViewport.querySelector('[data-name="Bar"] [data-name="Menu"]'):null;
+ const burgerRect=burger?.getBoundingClientRect();
+ const burgerCenterInset=burgerRect?.width
+  ?previousViewport.getBoundingClientRect().right-(burgerRect.left+burgerRect.width/2):null;
  host.innerHTML=`<div class="figma-viewport" data-exact-screen="${screenName}" data-exact-device="${device}" data-exact-step="${exactStep}" style="--frame-width:${template.width};--frame-height:${template.height};--frame-ratio:${template.width/template.height}"><div class="figma-canvas" style="--frame-unit:calc(100cqw / ${template.width})">${exactScreenHTML(template,screenName,device)}</div></div>`;
  if(state.modal&&!figmaScreens[state.modal]){host.insertAdjacentHTML('beforeend',modalHTML());const background=host.querySelector('.figma-viewport');background.inert=true;background.setAttribute('aria-hidden','true');}
  applyExactGeometry(host,template.id);
@@ -167,6 +173,9 @@ function renderExactScreen(){
  if(screenName==='openEnding')updateOpenEnding(host);
  wireStoryGuidance(host,screenName);
  applyFluidConstraints(host,template,device,screenName);
+ if(burgerCenterInset!==null){
+  host.querySelector('[data-name="menu-aside"]')?.style.setProperty('--menu-burger-center-inset',burgerCenterInset+'px');
+ }
  if(device==='mobile'&&(screenName==='chat'||screenName==='choice'))useMobileSceneBackdrop(host,screenName,exactStep);
  const contextNote=addSceneContext(host,screenName);
  if(typeof applyAdaptiveUX==='function')applyAdaptiveUX(host,screenName,contextNote);
