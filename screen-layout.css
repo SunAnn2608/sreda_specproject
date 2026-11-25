@@ -522,10 +522,10 @@ html,body{width:100%;height:100%;min-width:0;overflow:hidden}
  left:50%!important;
  width:calc(100% - 2 * var(--wide-menu-margin) * var(--frame-unit))!important;
  translate:-50% 0!important;
- padding-inline:calc(24 * var(--frame-unit))!important;
+ padding-inline:calc(32 * var(--frame-unit))!important;
 }
 
 .figma-viewport[data-exact-screen="menu"]:is([data-exact-device="desktop"],[data-exact-device="tablet"]) [data-name="menu-items"]{
- justify-content:center!important;
- gap:calc(12 * var(--frame-unit))!important;
+ justify-content:space-evenly!important;
+ gap:calc(16 * var(--frame-unit))!important;
 }
